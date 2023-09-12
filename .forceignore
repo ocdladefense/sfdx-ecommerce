@@ -1,0 +1,146 @@
+# List files or directories below to ignore them when running force:source:push, force:source:pull, and force:source:status
+# More information: https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_exclude_source.htm
+#
+# Sometimes, you make a change directly in a scratch org but you don’t want to pull that change into your local DX project. 
+# To exclude remote metadata changes, use the format <api name>.<metadata type> in .forceignore.
+package.xml
+
+# LWC configuration files
+**/jsconfig.json
+**/.eslintrc.json
+
+# LWC Jest
+**/__tests__/**
+
+**archived
+**examples
+**/debug.log
+**/README.md
+**/.git
+**/version.json
+
+
+# Ignore PHP modules.
+**/php-module/**
+
+
+# Ignore the Contact object meta definition.
+# sfdx-source/Modules/chapter/packages/src/main/Objects/Contact/Contact.object-meta.xml
+# sfdx-source/Modules/chapter/*Contact.object-meta.xml
+
+# sfdx-source/sfdx/main/default/profiles
+# sfdx-source/sfdx/main/default/layouts
+
+sfdx-source/sfdx/main/default/sites
+sfdx-source/sfdx/main/default/networks
+sfdx-source/sfdx/main/default/networkBranding
+sfdx-source/sfdx/main/default/siteDotComSites
+sfdx-source/sfdx/main/default/navigationMenus
+sfdx-source/sfdx/main/default/appMenus
+sfdx-source/sfdx/main/default/settings
+
+# Ignore standard Salesforce community pages
+# Format for ignoring remote changes differs from ignoring local changes.
+# You need only specify the API name and Metadata type.
+# For example, to ignore the default Salesforce Community password reset page do this:
+# 
+#   ForgotPassword.page
+#
+AnswersHome.page
+BandwidthExceeded.page  
+ChangePassword.page   
+CommunitiesLanding.page 
+CommunitiesLogin.page    
+CommunitiesSelfReg.page 
+CommunitiesSelfRegConfirm.page
+CommunitiesTemplate.page   
+Exception.page   
+FileNotFound.page   
+ForgotPassword.page       
+ForgotPasswordConfirm.page   
+IdeasHome.page  
+InMaintenance.page    
+MyProfilePage.page    
+SiteLogin.page     
+SiteRegister.page  
+SiteRegisterConfirm.page
+SiteTemplate.page
+StdExceptionTemplate.page
+Unauthorized.page        
+UnderConstruction.page
+
+
+
+# Ignore standard Salesforce classes
+ChangePasswordController.cls                 
+CommunitiesLandingController.cls             
+CommunitiesLandingControllerTest.cls         
+CommunitiesLoginController.cls               
+CommunitiesLoginControllerTest.cls           
+CommunitiesSelfRegConfirmController.cls      
+CommunitiesSelfRegConfirmControllerTest.cls  
+CommunitiesSelfRegController.cls             
+CommunitiesSelfRegControllerTest.cls                                                       
+ForgotPasswordController.cls                 
+ForgotPasswordControllerTest.cls             
+MyProfilePageController.cls                  
+MyProfilePageControllerTest.cls              
+SiteLoginController.cls                      
+SiteLoginControllerTest.cls                  
+SiteRegisterController.cls                   
+SiteRegisterControllerTest.cls               
+ChangePasswordControllerTest.cls
+
+
+LightningSelfRegisterController.cls
+LightningForgotPasswordController.cls
+LightningLoginFormController.cls
+LightningLoginFormControllerTest.cls
+LightningForgotPasswordControllerTest.cls
+LightningSelfRegisterControllerTest.cls
+
+
+# Ignore standard Salesforce components            
+SiteFooter.component
+SiteHeader.component
+SiteLogin.component
+SitePoweredBy.component
+
+
+# Ignore standard Salesforce staticresources
+SiteSamples.resource
+SiteSamples.staticresource
+sfdx-source/sfdx/main/default/staticresources/SiteSamples.resource-meta.xml
+
+
+
+
+sfdx-source/untracked
+sfdx-source/Chapters
+sfdx-source/orgs/iabc/IABC Chapters
+
+
+sfdx-source/orgs/iabc/IABC Rebates/fon
+sfdx-source/Core/packages/core/vendor/fon
+
+# temporary work around
+# uncomment to ignore profiles
+# but keep in mind this can interfere with
+#  your ability to view objects.
+**profiles/*
+**labels
+
+
+# ignore code from Nick and Trevor
+# sfdx-source/Communities/checkout
+# sfdx-source/Communities/profile
+# sfdx-source/Communities/shared
+# sfdx-source/Payments
+
+
+.gitignore
+**/.git/**
+*README.md*
+
+
+**/aura/**

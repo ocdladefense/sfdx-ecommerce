@@ -1,0 +1,47 @@
+{
+  "name": "Ecommerce",
+  "namespace": "",
+  "packageDirectories": [
+    {
+      "path": "sfdx-source",
+      "default": true
+    },
+    {
+      "path": "sfdx-source/unpackaged",
+      "default": false
+    },
+    {
+      "path": "sfdx-source/untracked",
+      "default": false
+    },
+    {
+      "path": "sfdx-source/Modules/checkout",
+      "package": "OCDLACheckout",
+      "versionName": "ver 0.1",
+      "versionNumber": "0.1.0.NEXT",
+      "default": false,
+      "versionDescription": ""
+    },
+    {
+      "path": "sfdx-source/Modules/payment",
+      "package": "EcommercePayment",
+      "versionName": "ver 0.1",
+      "versionNumber": "0.1.0.NEXT",
+      "default": false,
+      "versionDescription": ""
+    }
+  ],
+  "sfdcLoginUrl": "https://login.salesforce.com",
+  "sourceApiVersion": "58.0",
+  "packageAliases": {
+    "OCDLACheckout": "0Ho5b000000PAtkCAG",
+    "EcommercePayment": "0Ho3h000000GmkjCAC",
+    "EcommercePayment@0.1.0-1": "04t3h0000043we4AAA",
+    "EcommercePayment@0.1.0-2": "04t3h0000043we9AAA",
+    "EcommercePayment@0.1.0-3": "04t3h0000043weEAAQ",
+    "EcommercePayment@0.1.0-4": "04t3h0000043weJAAQ",
+    "EcommercePayment@0.1.0-5": "04t3h0000043wfqAAA",
+    "EcommercePayment@0.1.0-6": "04t3h0000043wfvAAA",
+    "EcommercePayment@0.1.0-7": "04t3h0000043wg0AAA"
+  }
+}

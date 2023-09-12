@@ -1,0 +1,33 @@
+{
+  "orgName": "Clickpdx Scratch Org",
+  "edition": "Developer",
+  "features": [
+    "EnableSetPasswordInApi",
+    "MultiCurrency",
+    "API",
+    "ProcessBuilder",
+    "SingleSignOn",
+    "LiveAgent",
+    "AuthorApex",
+    "DebugApex",
+    "TerritoryManagement",
+    "ServiceCloud",
+    "Knowledge",
+    "Communities",
+    "Sites"
+  ],
+  "settings": {
+    "liveAgentSettings": {
+      "enableLiveAgent": true
+    },
+    "communitiesSettings": {
+      "enableNetworksEnabled": true
+    },
+    "lightningExperienceSettings": {
+      "enableS1DesktopEnabled": true
+    },
+    "chatterSettings": {
+      "enableChatter": true
+    }
+  }
+}
