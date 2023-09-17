@@ -29,9 +29,17 @@
       "versionNumber": "0.1.0.NEXT",
       "default": false,
       "versionDescription": ""
+    },
+    {
+      "path": "sfdx-source/Modules/quickbooks",
+      "package": "AccountingQuickbooks",
+      "versionName": "ver 0.1",
+      "versionNumber": "0.1.0.NEXT",
+      "default": false,
+      "versionDescription": ""
     }
   ],
-  "sfdcLoginUrl": "https://login.salesforce.com",
+  "sfdcLoginUrl": "https://test.salesforce.com",
   "sourceApiVersion": "58.0",
   "packageAliases": {
     "OCDLACheckout": "0Ho5b000000PAtkCAG",
