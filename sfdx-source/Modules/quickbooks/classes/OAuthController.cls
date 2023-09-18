@@ -41,7 +41,7 @@ public class OAuthController {
         req.setHeader('Content-Type', 'application/x-www-form-urlencoded');
         req.setHeader('Host', 'oauth.platform.intuit.com');
         req.setHeader('Authorization',authorization);
-
+  
         
         Map<String,String> requestParams = new Map<String,String>();
         requestParams.put('grant_type', 'authorization_code');
