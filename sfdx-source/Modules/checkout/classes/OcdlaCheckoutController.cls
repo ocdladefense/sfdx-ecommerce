@@ -1,5 +1,7 @@
 global without sharing class OcdlaCheckoutController extends CommunityController {
 	
+    public static Id GUEST_CHECKOUT_ACCOUNT_ID;
+
     Opportunity opp {get; private set;}
     
     Order order {get; private set;}
@@ -16,7 +18,7 @@ global without sharing class OcdlaCheckoutController extends CommunityController
     
     public Boolean isFreeCart {get;private set;}
     
-    public Boolean hasShippableProducts {get {return ClickpdxShoppingCart.hasShippableProducts(this.cartId);}private set;}
+    public Boolean hasShippableProducts {get {return hasShippableProducts(this.cartId);}private set;}
     
     public Boolean renderPayment {get;private set;}
 
@@ -33,6 +35,8 @@ global without sharing class OcdlaCheckoutController extends CommunityController
     public Map<String, String> defaultCard {get;public set;}
     
     public List <SelectOption> cardValues {get;public set;}
+
+    public List<SelectOption> stateOptions {get; public set;}
     
     public string paymentProfileId {get;public set;}
         
@@ -60,6 +64,29 @@ global without sharing class OcdlaCheckoutController extends CommunityController
     public Boolean getIsPaid(){
         return this.IsPaid;
     }
+
+    private static Boolean hasShippableProducts(Id cartId){
+        List<OpportunityLineItem> lines = [SELECT Id, Product2.IsShippable__c FROM OpportunityLineItem WHERE OpportunityId = :cartId];
+        
+        for(OpportunityLineItem line :lines){
+            if(line.Product2.IsShippable__c) return True;
+        }
+        
+        return False;
+    }
+
+    private static Id getGuestCheckoutAccountId(){
+        if(null != GUEST_CHECKOUT_ACCOUNT_ID) return GUEST_CHECKOUT_ACCOUNT_ID;
+        Account a = [SELECT Id, Name FROM Account WHERE NAME LIKE '%Guest Checkout%' LIMIT 1];
+        GUEST_CHECKOUT_ACCOUNT_ID = a.Id;
+        return GUEST_CHECKOUT_ACCOUNT_ID;
+    }
+
+    private static Boolean isSandbox(){
+        Organization myOrg = [SELECT Id, IsSandbox FROM Organization WHERE Id = :UserInfo.getOrganizationId()];
+        
+        return myOrg.IsSandbox;
+    }
     
     
     public PageReference checkoutAsGuest() {
@@ -81,7 +108,7 @@ global without sharing class OcdlaCheckoutController extends CommunityController
         
         // Creates guest contact, attaches to opportunity, inserts contact, then updates opportunity all in one go
         // customer = ClickpdxCheckoutGuestController.generateGuestCheckoutContact(customer, this.cartId);
-        this.customer.AccountId = OrgOcdla.getGuestCheckoutAccountId();
+        this.customer.AccountId = getGuestCheckoutAccountId();
         upsert this.customer;
         
         // Guest customer now has an Id, which we want to associate with the underlying Opportunity.
@@ -99,6 +126,69 @@ global without sharing class OcdlaCheckoutController extends CommunityController
     public OcdlaCheckoutController(ApexPages.StandardController controller){}
     
     
+    private List<SelectOption> getStateOptions() {
+        List<SelectOption> stateOptions = new List<SelectOption>();
+
+        stateOptions.add(new SelectOption('OR', 'Oregon'));
+        stateOptions.add(new SelectOption('WA', 'Washington'));
+        stateOptions.add(new SelectOption('CA', 'California'));
+        stateOptions.add(new SelectOption('ID', 'Idaho'));
+        stateOptions.add(new SelectOption('HI', 'Hawaii'));
+        stateOptions.add(new SelectOption('XX', '--- ALL STATES ---', true)); // Note: 'itemDisabled' set to true
+        stateOptions.add(new SelectOption('AL', 'Alabama'));
+        stateOptions.add(new SelectOption('AK', 'Alaska'));
+        stateOptions.add(new SelectOption('AZ', 'Arizona'));
+        stateOptions.add(new SelectOption('AR', 'Arkansas'));
+        stateOptions.add(new SelectOption('CA', 'California'));
+        stateOptions.add(new SelectOption('CO', 'Colorado'));
+        stateOptions.add(new SelectOption('CT', 'Connecticut'));
+        stateOptions.add(new SelectOption('DE', 'Delaware'));
+        stateOptions.add(new SelectOption('FL', 'Florida'));
+        stateOptions.add(new SelectOption('GA', 'Georgia'));
+        stateOptions.add(new SelectOption('HI', 'Hawaii'));
+        stateOptions.add(new SelectOption('ID', 'Idaho'));
+        stateOptions.add(new SelectOption('IL', 'Illinois'));
+        stateOptions.add(new SelectOption('IN', 'Indiana'));
+        stateOptions.add(new SelectOption('IA', 'Iowa'));
+        stateOptions.add(new SelectOption('KS', 'Kansas'));
+        stateOptions.add(new SelectOption('KY', 'Kentucky'));
+        stateOptions.add(new SelectOption('LA', 'Louisiana'));
+        stateOptions.add(new SelectOption('ME', 'Maine'));
+        stateOptions.add(new SelectOption('MD', 'Maryland'));
+        stateOptions.add(new SelectOption('MA', 'Massachusetts'));
+        stateOptions.add(new SelectOption('MI', 'Michigan'));
+        stateOptions.add(new SelectOption('MN', 'Minnesota'));
+        stateOptions.add(new SelectOption('MS', 'Mississippi'));
+        stateOptions.add(new SelectOption('MO', 'Missouri'));
+        stateOptions.add(new SelectOption('MT', 'Montana'));
+        stateOptions.add(new SelectOption('NE', 'Nebraska'));
+        stateOptions.add(new SelectOption('NV', 'Nevada'));
+        stateOptions.add(new SelectOption('NH', 'New Hampshire'));
+        stateOptions.add(new SelectOption('NJ', 'New Jersey'));
+        stateOptions.add(new SelectOption('NM', 'New Mexico'));
+        stateOptions.add(new SelectOption('NY', 'New York'));
+        stateOptions.add(new SelectOption('NC', 'North Carolina'));
+        stateOptions.add(new SelectOption('ND', 'North Dakota'));
+        stateOptions.add(new SelectOption('OH', 'Ohio'));
+        stateOptions.add(new SelectOption('OK', 'Oklahoma'));
+        stateOptions.add(new SelectOption('OR', 'Oregon'));
+        stateOptions.add(new SelectOption('PA', 'Pennsylvania'));
+        stateOptions.add(new SelectOption('RI', 'Rhode Island'));
+        stateOptions.add(new SelectOption('SC', 'South Carolina'));
+        stateOptions.add(new SelectOption('SD', 'South Dakota'));
+        stateOptions.add(new SelectOption('TN', 'Tennessee'));
+        stateOptions.add(new SelectOption('TX', 'Texas'));
+        stateOptions.add(new SelectOption('UT', 'Utah'));
+        stateOptions.add(new SelectOption('VT', 'Vermont'));
+        stateOptions.add(new SelectOption('VA', 'Virginia'));
+        stateOptions.add(new SelectOption('WA', 'Washington'));
+        stateOptions.add(new SelectOption('WV', 'West Virginia'));
+        stateOptions.add(new SelectOption('WI', 'Wisconsin'));
+        stateOptions.add(new SelectOption('WY', 'Wyoming'));
+        stateOptions.add(new SelectOption('DC', 'Washington DC'));
+
+        return stateOptions;
+    }
 
     
     public OcdlaCheckoutController() {
@@ -119,12 +209,15 @@ global without sharing class OcdlaCheckoutController extends CommunityController
             }
         }
         this.cardValues.add(new SelectOption('newCard', 'Add New Card'));
+
+        this.stateOptions = getStateOptions();
+
         if (this.defaultCard == null) {
             this.defaultCard = new Map<string, string>();
         }
         this.billingData = new Map<String, String>();
-        this.billingData.put('FirstName', this.defaultCard.get('firstName'));
-        this.billingData.put('LastName', this.defaultCard.get('lastName'));
+        this.billingData.put('BillingFirstName', this.defaultCard.get('firstName'));
+        this.billingData.put('BillingLastName', this.defaultCard.get('lastName'));
         this.billingData.put('BillingStreet', this.defaultCard.get('address'));
         this.billingData.put('BillingCity', this.defaultCard.get('city'));
         this.billingData.put('BillingPostalCode', this.defaultCard.get('zip'));
@@ -147,7 +240,7 @@ global without sharing class OcdlaCheckoutController extends CommunityController
         // Fill the above data in at the setupCustomer() method
         
         // Why do we need to check if Sandbox.  Could be legit, but let's find out the *why!
-        this.isSandbox = OrgOcdla.isSandbox();
+        this.isSandbox = isSandbox();
         // Id cartId = params.get('cartId') != null ? params.get('cartId') : '0060500000CtjjBAAR';
         this.cartId = params.get('id');
         this.opp = Database.query('SELECT Id, Name, Amount, StageName, AccountId, Contact__c, Pricebook2Id FROM Opportunity WHERE Id = :cartId');
@@ -276,23 +369,33 @@ global without sharing class OcdlaCheckoutController extends CommunityController
     public PageReference submitPayment() {
         System.debug(this.billingData);
         
-        Order order = this.order;
+        TransactionRequest req = new TransactionRequest();
+        req.setAmount(this.opp.Amount);
+        req.setCreditCard(this.ccData);
+        req.setBillToAddress(this.billingData);
+        req.setShipToAddress(this.shippingData);
+
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient(AuthorizeDotNetClient.GATEWAY_SANDBOX_URL);
         
-        OcdlaCCTransaction transact = OcdlaCCTransaction.doPayment(this.opp.Amount, this.ccData, order.OrderNumber, this.billingData, this.shippingData);
+        TransactionResponse resp = client.send(req);
+
         
-        Map<String, String> newData = transact.getResponse();
         
-        if (!transact.Success()) {
+        //Map<String, String> newData = transact.getResponse();
+        
+        if (!resp.success()) {
             // do errors
             // noo
             System.debug(this.ccData);
-            System.debug(newData);
+            System.debug(resp.getBody());
             return null;
         }
         
+       
+        
         // if..else
         // success
-		order = this.finalizeOrder(order.Id, newData);    
+		order = this.finalizeOrder(order.Id, resp.getBody());    
         
         
         // 
@@ -375,7 +478,7 @@ global without sharing class OcdlaCheckoutController extends CommunityController
         
         
         
-        Contact guest = new Contact(AccountId = OrgOcdla.getGuestCheckoutAccountId(), 
+        Contact guest = new Contact(AccountId = getGuestCheckoutAccountId(), 
                                     FirstName = c.FirstName,
                                     LastName = c.LastName,
                                     Email = c.Email,

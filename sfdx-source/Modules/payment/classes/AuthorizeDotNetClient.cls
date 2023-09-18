@@ -1,4 +1,4 @@
-public class AuthorizeDotNetClient2 implements IPaymentGatewayClient {
+public class AuthorizeDotNetClient implements IPaymentGatewayClient {
       	
 
 	private static final Integer CALLOUT_TIMEOUT = 60000;
@@ -18,7 +18,7 @@ public class AuthorizeDotNetClient2 implements IPaymentGatewayClient {
 
     
     
-    public AuthorizeDotNetClient2(String url) {
+    public AuthorizeDotNetClient(String url) {
         this.url = url;
     }
     

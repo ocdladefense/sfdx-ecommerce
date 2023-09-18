@@ -52,7 +52,7 @@ public class TestAuthorizeDotNetTransactions {
         req.setBillToAddress(billto);
         req.setShipToAddress(billto);
 
-        AuthorizeDotNetClient2 client = new AuthorizeDotNetClient2(AuthorizeDotNetClient2.GATEWAY_SANDBOX_URL);
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient(AuthorizeDotNetClient.GATEWAY_SANDBOX_URL);
         
         TransactionResponse resp = client.send(req);
         
@@ -95,7 +95,7 @@ public class TestAuthorizeDotNetTransactions {
         TransactionRequest req = TransactionRequest.fromSalesforceData(100.00, card, billto, shipto, null);
 
 
-        AuthorizeDotNetClient2 client = new AuthorizeDotNetClient2(AuthorizeDotNetClient2.GATEWAY_SANDBOX_URL);
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient(AuthorizeDotNetClient.GATEWAY_SANDBOX_URL);
         
         TransactionResponse resp = client.send(req);
         
