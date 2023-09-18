@@ -40,9 +40,7 @@ public class TestAuthorizeDotNetTransactions {
             'ccExp' => '09/2030',
             'ccCode' => '123'
         };
-        card.put('ccNum', AuthorizeDotNetSandbox.AMERICAN_EXPRESS);
-        card.put('ccNum', AuthorizeDotNetSandbox.DISCOVER);
-        card.put('ccNum', AuthorizeDotNetSandbox.MASTERCARD);        
+      
         // Call method to test.
         // This causes a fake response to be sent
         // from the class that implements HttpCalloutMock. 
@@ -52,7 +50,7 @@ public class TestAuthorizeDotNetTransactions {
         req.setBillToAddress(billto);
         req.setShipToAddress(billto);
 
-        AuthorizeDotNetClient2 client = new AuthorizeDotNetClient2(AuthorizeDotNetClient2.GATEWAY_SANDBOX_URL);
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient(AuthorizeDotNetClient.GATEWAY_SANDBOX_URL);
         
         TransactionResponse resp = client.send(req);
         
@@ -86,16 +84,14 @@ public class TestAuthorizeDotNetTransactions {
             'ccExp' => '09/2030',
             'ccCode' => '123'
         };
-        card.put('ccNum', AuthorizeDotNetSandbox.AMERICAN_EXPRESS);
-        card.put('ccNum', AuthorizeDotNetSandbox.DISCOVER);
-        card.put('ccNum', AuthorizeDotNetSandbox.MASTERCARD);        
+       
         // Call method to test.
         // This causes a fake response to be sent
         // from the class that implements HttpCalloutMock. 
         TransactionRequest req = TransactionRequest.fromSalesforceData(100.00, card, billto, shipto, null);
 
 
-        AuthorizeDotNetClient2 client = new AuthorizeDotNetClient2(AuthorizeDotNetClient2.GATEWAY_SANDBOX_URL);
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient(AuthorizeDotNetClient.GATEWAY_SANDBOX_URL);
         
         TransactionResponse resp = client.send(req);
         

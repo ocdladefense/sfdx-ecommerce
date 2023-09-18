@@ -12,15 +12,15 @@ public class TransactionClient {
       
     
     // Customer has input all data fields.
-    public static TransactionResponse doPayment(Decimal amount, Map<String,String> ccData, String orderNumber, Map<String,String> billingData, Map<String,String> shippingData) {
+    public static TransactionResponse doPayment(Decimal amount, Map<String,String> ccData, Map<String,String> billingData, Map<String,String> shippingData, Map<String,String> otherData) {
         // create params map and merge all maps into it
 
 
-        TransactionRequest req = TransactionRequest.fromSalesforceData(amount, ccData, orderNumber, billingData, shippingData);
+        TransactionRequest req = TransactionRequest.fromSalesforceData(amount, ccData, billingData, shippingData, otherData);
           
         String domain = getDomain();
         
-        AuthorizeDotNetClient2 client = new AuthorizeDotNetClient2(domain);
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient(domain);
           
         return client.send(req);
     }  
@@ -37,13 +37,13 @@ public class TransactionClient {
     
     
     // Customer didn't input extra shipping data; exclude from doPayment.
-    public static TransactionResponse doPayment(Decimal amount, Map<String,String> ccData, String orderNumber, Map<String,String> billingData) {
-        return doPayment(amount, ccData, orderNumber, billingData, null);
+    public static TransactionResponse doPayment(Decimal amount, Map<String,String> ccData, Map<String,String> billingData) {
+        return doPayment(amount, ccData, billingData, null, null);
     }
     
     // Customer used saved cc; exclude billingData and shippingData.
     public static TransactionResponse doPayment(Decimal amount, Map<String,String> ccData, String orderNumber) {
-        return doPayment(amount, ccData, orderNumber, null, null);
+        return doPayment(amount, ccData, null, null, new Map<String,String>{'OrderNumber'=> orderNumber});
     }
     
     // Customer used saved cc; exclude billingData and shippingData, and no order to process.
