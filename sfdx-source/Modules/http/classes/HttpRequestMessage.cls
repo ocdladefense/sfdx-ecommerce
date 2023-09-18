@@ -49,5 +49,19 @@ public class HttpRequestMessage extends HttpMessage {
     }
 
 
+    public HttpRequest getAsHttpRequest() {
+        HttpRequest req = new HttpRequest();
+        req.setBody(this.body);
+        req.setEndpoint(this.endpoint);
+        
+        for(String key : this.headers.keySet()) {
+            req.setHeader(key, this.headers.get(key));
+        }
+
+        return req;
+    }
+
+
+
 
 }

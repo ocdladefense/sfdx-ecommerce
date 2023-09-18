@@ -10,7 +10,7 @@ public class Url {
         this.params = new Map<String,String>();
         this.url = url;
     }
-    
+      
     
     public void addParam(String key) {
         this.addParam(key, null);
@@ -52,7 +52,7 @@ public class Url {
     
     public PageReference getAsPageReference() {
         return new PageReference(this.toString());
-    }
+    }  
     
     public override String toString() {
         String query = this.getParamsAsQueryString();
