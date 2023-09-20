@@ -127,65 +127,7 @@ global without sharing class OcdlaCheckoutController extends CommunityController
     
     
     private List<SelectOption> getStateOptions() {
-        List<SelectOption> stateOptions = new List<SelectOption>();
-
-        stateOptions.add(new SelectOption('OR', 'Oregon'));
-        stateOptions.add(new SelectOption('WA', 'Washington'));
-        stateOptions.add(new SelectOption('CA', 'California'));
-        stateOptions.add(new SelectOption('ID', 'Idaho'));
-        stateOptions.add(new SelectOption('HI', 'Hawaii'));
-        stateOptions.add(new SelectOption('XX', '--- ALL STATES ---', true)); // Note: 'itemDisabled' set to true
-        stateOptions.add(new SelectOption('AL', 'Alabama'));
-        stateOptions.add(new SelectOption('AK', 'Alaska'));
-        stateOptions.add(new SelectOption('AZ', 'Arizona'));
-        stateOptions.add(new SelectOption('AR', 'Arkansas'));
-        stateOptions.add(new SelectOption('CA', 'California'));
-        stateOptions.add(new SelectOption('CO', 'Colorado'));
-        stateOptions.add(new SelectOption('CT', 'Connecticut'));
-        stateOptions.add(new SelectOption('DE', 'Delaware'));
-        stateOptions.add(new SelectOption('FL', 'Florida'));
-        stateOptions.add(new SelectOption('GA', 'Georgia'));
-        stateOptions.add(new SelectOption('HI', 'Hawaii'));
-        stateOptions.add(new SelectOption('ID', 'Idaho'));
-        stateOptions.add(new SelectOption('IL', 'Illinois'));
-        stateOptions.add(new SelectOption('IN', 'Indiana'));
-        stateOptions.add(new SelectOption('IA', 'Iowa'));
-        stateOptions.add(new SelectOption('KS', 'Kansas'));
-        stateOptions.add(new SelectOption('KY', 'Kentucky'));
-        stateOptions.add(new SelectOption('LA', 'Louisiana'));
-        stateOptions.add(new SelectOption('ME', 'Maine'));
-        stateOptions.add(new SelectOption('MD', 'Maryland'));
-        stateOptions.add(new SelectOption('MA', 'Massachusetts'));
-        stateOptions.add(new SelectOption('MI', 'Michigan'));
-        stateOptions.add(new SelectOption('MN', 'Minnesota'));
-        stateOptions.add(new SelectOption('MS', 'Mississippi'));
-        stateOptions.add(new SelectOption('MO', 'Missouri'));
-        stateOptions.add(new SelectOption('MT', 'Montana'));
-        stateOptions.add(new SelectOption('NE', 'Nebraska'));
-        stateOptions.add(new SelectOption('NV', 'Nevada'));
-        stateOptions.add(new SelectOption('NH', 'New Hampshire'));
-        stateOptions.add(new SelectOption('NJ', 'New Jersey'));
-        stateOptions.add(new SelectOption('NM', 'New Mexico'));
-        stateOptions.add(new SelectOption('NY', 'New York'));
-        stateOptions.add(new SelectOption('NC', 'North Carolina'));
-        stateOptions.add(new SelectOption('ND', 'North Dakota'));
-        stateOptions.add(new SelectOption('OH', 'Ohio'));
-        stateOptions.add(new SelectOption('OK', 'Oklahoma'));
-        stateOptions.add(new SelectOption('OR', 'Oregon'));
-        stateOptions.add(new SelectOption('PA', 'Pennsylvania'));
-        stateOptions.add(new SelectOption('RI', 'Rhode Island'));
-        stateOptions.add(new SelectOption('SC', 'South Carolina'));
-        stateOptions.add(new SelectOption('SD', 'South Dakota'));
-        stateOptions.add(new SelectOption('TN', 'Tennessee'));
-        stateOptions.add(new SelectOption('TX', 'Texas'));
-        stateOptions.add(new SelectOption('UT', 'Utah'));
-        stateOptions.add(new SelectOption('VT', 'Vermont'));
-        stateOptions.add(new SelectOption('VA', 'Virginia'));
-        stateOptions.add(new SelectOption('WA', 'Washington'));
-        stateOptions.add(new SelectOption('WV', 'West Virginia'));
-        stateOptions.add(new SelectOption('WI', 'Wisconsin'));
-        stateOptions.add(new SelectOption('WY', 'Wyoming'));
-        stateOptions.add(new SelectOption('DC', 'Washington DC'));
+        List<SelectOption> stateOptions = States.getAsSelectOptions();
 
         return stateOptions;
     }
