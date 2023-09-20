@@ -4,7 +4,20 @@
 //     SFDX: Execute Anonymous Apex with Currently Selected Text
 // You can also execute the entire file by running the command:
 //     SFDX: Execute Anonymous Apex with Editor Contents
+// https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_platform_cache_org_examples.htm  
+String accessToken = (String)Cache.Org.get('local.Default.accessToken');
 
-string tempvar = 'Enter_your_name_here';
-System.debug('Hello World!');
-System.debug('My name is ' + tempvar);
+        CreateCustomerRequest req = new CreateCustomerRequest();
+        
+        // HttpClient client = new QuickBooksSandboxClient();
+        /*req.setHeader('Authorization','bearer '+accessToken);
+        req.setHeader('Accept','application/json');
+        req.setMethod('POST');
+        */
+        // req = cust.getAsHttpRequest();
+        // HttpResponseMessage resp = client.send(req);
+        // System.debug(resp.getBody());  
+
+        String newAccessToken = OAuthController.getNewAccessToken();
+
+        System.debug(newAccessToken);

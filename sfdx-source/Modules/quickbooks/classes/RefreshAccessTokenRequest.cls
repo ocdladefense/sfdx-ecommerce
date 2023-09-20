@@ -1,5 +1,6 @@
-public class CreateCustomerRequest extends HttpRequestMessage {
-    public CreateCustomerRequest() {
+public class RefreshAccessTokenRequest extends HttpRequestMessage {
+    
+    public RefreshAccessTokenRequest(String accessToken, String refreshToken) {
 /*POST /v3/company/4620816365342587500/customer?minorversion=65
 
 Content type:application/json
@@ -7,15 +8,17 @@ Production Base URL:https://quickbooks.api.intuit.com
 Sandbox Base URL:https://sandbox-quickbooks.api.intuit.com
 */
         this.setMethod('POST');
-        this.setHeader('Content-Type','application/json');
+        this.setHeader('Content-Type','application/x-www-urlform-encoded');
         this.setEndpoint('https://sandbox-quickbooks.api.intuit.com/v3/company/4620816365342587500/customer?minorversion=65');
 
-        Map<String,String> params = new Map<String,String>();
-        params.put('GivenName','José');
-        params.put('FamilyName','Bernal');
+        this.setHeader('Authorization','Basic '+accessToken);
+        this.setHeader('Accept','application/json');
 
-        
-        String body = JSON.serialize(params);
+
+        Map<String,String> params = new Map<String,String>();
+        params.put('refresh_token', refreshToken);
+        // params.put('FamilyName','Bernal');
+
 
         this.setBody(body);
     }

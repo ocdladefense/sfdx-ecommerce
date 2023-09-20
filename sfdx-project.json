@@ -15,8 +15,8 @@
       "default": false
     },
     {
-      "path": "sfdx-source/Modules/checkout",
-      "package": "OCDLACheckout",
+      "path": "sfdx-source/Modules/http",
+      "package": "Http",
       "versionName": "ver 0.1",
       "versionNumber": "0.1.0.NEXT",
       "default": false,
@@ -28,15 +28,38 @@
       "versionName": "ver 0.1",
       "versionNumber": "0.1.0.NEXT",
       "default": false,
-      "versionDescription": ""
+      "versionDescription": "",
+      "dependencies": [
+        {
+            "package": "Http"
+        }
+      ]
     },
     {
       "path": "sfdx-source/Modules/quickbooks",
-      "package": "AccountingQuickbooks",
+      "package": "QuickBooks",
       "versionName": "ver 0.1",
       "versionNumber": "0.1.0.NEXT",
       "default": false,
-      "versionDescription": ""
+      "versionDescription": "",
+      "dependencies": [
+        {
+            "package": "Http"
+        }
+      ]
+    },
+    {
+      "path": "sfdx-source/Modules/checkout",
+      "package": "OCDLACheckout",
+      "versionName": "ver 0.1",
+      "versionNumber": "0.1.0.NEXT",
+      "default": false,
+      "versionDescription": "",
+      "dependencies": [
+        {
+            "package": "EcommercePayment"
+        }
+      ]
     }
   ],
   "sfdcLoginUrl": "https://test.salesforce.com",
@@ -50,6 +73,8 @@
     "EcommercePayment@0.1.0-4": "04t3h0000043weJAAQ",
     "EcommercePayment@0.1.0-5": "04t3h0000043wfqAAA",
     "EcommercePayment@0.1.0-6": "04t3h0000043wfvAAA",
-    "EcommercePayment@0.1.0-7": "04t3h0000043wg0AAA"
+    "EcommercePayment@0.1.0-7": "04t3h0000043wg0AAA",
+    "Http": "0Ho3h000000GmkoCAC",
+    "QuickBooks": "0Ho3h000000GmktCAC"
   }
 }

@@ -1,4 +1,4 @@
-public class QuickBooksProductionClient extends HttpClient {
+public class QuickBooksProduction {
 
 
     public static final Map<String,String> endpoints = new Map<String,String>{

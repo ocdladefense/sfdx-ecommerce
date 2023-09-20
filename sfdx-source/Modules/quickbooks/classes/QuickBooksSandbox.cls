@@ -1,4 +1,4 @@
-public class QuickBooksSandboxClient extends HttpClient {
+public class QuickBooksSandbox {
 
     public static final Map<String,String> endpoints = new Map<String,String>{
         'well_known_endpoint' => 'https://developer.api.intuit.com/.well-known/openid_sandbox_configuration',

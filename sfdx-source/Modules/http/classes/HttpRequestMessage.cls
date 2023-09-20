@@ -1,29 +1,43 @@
-public class HttpRequestMessage extends HttpMessage {
+public virtual class HttpRequestMessage extends HttpMessage {
 
-    private String endpoint;
+    protected String endpoint;
 
-    private String method;
+    protected String method;
 
-    private Map<String,String> params;
+    protected Map<String,String> params;
 
 
     public HttpRequestMessage() {
         super();
     }
 
-    public String getEndpoint() {
+    public void setBody(Map<String,String> body) {
+        String contentType = this.headers.get('Content-Type');
+        
+        if(null == contentType || contentType == 'application/javascript') {
+            this.body = JSON.serialize(body);
+        }
+        else if('application/x-www-form-urlencoded' == contentType) {
+
+            this.body = Url.encodeParams(body);
+        }
+        else throw new HttpException('PARSE_ERROR: Cannot convert body to the specified content-type.');
+    }
+
+
+    public virtual String getEndpoint() {
         return this.endpoint + (this.params != null ? this.getParamsAsQueryString() : '');
     }
 
-    public void setEndpoint(String endpoint) {
+    public virtual void setEndpoint(String endpoint) {
         this.endpoint = endpoint;
     }
 
-    public void setMethod(String httpVerb) {
+    public virtual void setMethod(String httpVerb) {
         this.method = httpVerb;
     }
 
-    public void addParam(String key) {
+    public virtual void addParam(String key) {
         this.addParam(key, null);
     }
 
@@ -51,9 +65,14 @@ public class HttpRequestMessage extends HttpMessage {
 
     public HttpRequest getAsHttpRequest() {
         HttpRequest req = new HttpRequest();
-        req.setBody(this.body);
-        req.setEndpoint(this.endpoint);
+        req.setMethod(this.method);
         
+        if(null != this.endpoint) {
+            req.setEndpoint(this.endpoint);
+        }
+
+        req.setBody(this.body);
+
         for(String key : this.headers.keySet()) {
             req.setHeader(key, this.headers.get(key));
         }
