@@ -1,0 +1,7 @@
+<apex:component layout="none" controller="OcdlaCheckoutController">
+  <apex:attribute name="data" type="String" description="data for form inputs." />
+  <apex:attribute name="fieldName" type="String" description="unique name for this util." />
+  <apex:selectList id="stateSelector" value="{!data}" size="1" label="{!fieldName} State Selection">
+    <apex:selectOptions value="{!stateOptions}" />
+</apex:selectList>
+</apex:component>

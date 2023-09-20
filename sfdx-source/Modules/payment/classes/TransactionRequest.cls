@@ -9,6 +9,8 @@ public class TransactionRequest {
     private Map<String,String> billto = null;
     
     private Map<String,String> creditCard = null;
+
+    private String orderNumber;
     
     private Decimal amount;
     
@@ -32,7 +34,12 @@ public class TransactionRequest {
         //Set HTTPRequest Method
         req.setMethod('POST');
 
-        
+        // merge previous maps into params<>
+        params.putAll(this.billto);
+        params.putAll(this.shipto);
+        params.putAll(this.creditCard);
+        params.put('amount', String.valueOf(this.amount));
+        // params.put('OrderNumber', this.orderNumber);
 
         req.setHeader('Content-Type','application/x-www-form-urlencoded');
         
@@ -100,19 +107,19 @@ public class TransactionRequest {
 		'authNetPaymentProfileId' => '',
 		'authNetCreatePaymentProfile' => 'false',
         
-		'BillingFirstName' => billingData.get('firstName'),
-		'BillingLastName' => billingData.get('lastName'),
-		'BillingStreet' => billingData.get('street'),
-		'BillingCity' => billingData.get('city'),
-		'BillingStateCode' => billingData.get('stateCode'),
-		'BillingPostalCode' => billingData.get('postalCode'),
+		'BillingFirstName' => billingData.get('FirstName'),
+		'BillingLastName' => billingData.get('LastName'),
+		'BillingStreet' => billingData.get('BillingStreet'),
+		'BillingCity' => billingData.get('BillingCity'),
+		'BillingStateCode' => billingData.get('BillingStateCode'),
+		'BillingPostalCode' => billingData.get('BillingPostalCode'),
 		'BillingEmail' => billingData.get('email'),
 		'BillingCountryCode' => billingData.get('countryCode'),
 		
-		'ShippingStreet' => shippingData.get('street'),
-		'ShippingCity' => shippingData.get('city'),
-		'ShippingStateCode' => shippingData.get('stateCode'),
-		'ShippingPostalCode' => shippingData.get('postalCode'),
+		'ShippingStreet' => shippingData.get('ShippingStreet'),
+		'ShippingCity' => shippingData.get('ShippingCity'),
+		'ShippingStateCode' => shippingData.get('ShippingStateCode'),
+		'ShippingPostalCode' => shippingData.get('ShippingPostalCode'),
 		'ShippingCountryCode' => shippingData.get('countryCode'),
 		
 		'ccNum' => ccData.get('ccNum'),

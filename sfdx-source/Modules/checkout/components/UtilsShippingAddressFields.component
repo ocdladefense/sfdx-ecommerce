@@ -1,0 +1,30 @@
+<apex:component layout="none" controller="OcdlaCheckoutController">
+	<apex:attribute name="data" type="Map" description="Shipping data for form inputs." />
+    
+    <div class="cc-data">
+        <label for="ShippingStreet">Shipping Street</label>
+        <input type="text" id="ShippingStreet" name="ShippingStreet" value="{!data['ShippingStreet']}" size="35" />
+    </div>
+    
+    <div class="cc-data">
+        <label for="ShippingCity">Shipping City</label>
+        <input type="text" id="ShippingCity" name="ShippingCity" value="{!data['ShippingCity']}" size="20" />
+    </div>
+    
+    <div class="cc-data">
+        <c:UtilStatesAsOptions data="{!data['ShippingStateCode']}" fieldName="Billing"/>
+        <!---<apex:selectList id="ShippingStateCode" value="{!data['ShippingStateCode']}" size="1" label="Shipping State">
+            <c:UtilStatesAsOptions/>
+        </apex:selectList>-->
+    </div>
+    
+    <div class="cc-data">
+        <label for="ShippingPostalCode">Shipping Zip</label>
+        <input type="text" id="ShippingPostalCode" name="ShippingPostalCode" value="{!data['ShippingPostalCode']}" size="20" />
+    </div>
+    
+    <!-- ShippingCountryCode  -->
+    
+    
+    
+</apex:component>

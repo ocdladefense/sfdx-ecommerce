@@ -1,0 +1,33 @@
+<apex:page controller="OrderConfirmationController" contentType="text/html; charset=UTF-8" readOnly="true"   showHeader="false" standardStylesheets="false" docType="html-5.0" cache="false" applyHtmlTag="false" applyBodyTag="false">
+    
+    <apex:composition template="{!template}">
+        
+        <apex:define name="styles">
+            
+        </apex:define>
+        
+        <apex:define name="body">
+            <div class="row one-column">
+                
+			<div class="main column">
+                
+
+            <apex:variable var="hello" value="world" rendered="{!hasError}">
+                <h2>
+                	There was an error processing your payment.
+            	</h2>
+            </apex:variable>
+            <apex:variable var="hello" value="world" rendered="{!!hasError}">
+                <h2>
+                    Thanks for your order!
+                    Your order number is #0001.
+                    Click here for more details.
+                </h2>
+            </apex:variable>
+            </div>
+                </div>
+        </apex:define>
+        
+    </apex:composition>
+    
+</apex:page>

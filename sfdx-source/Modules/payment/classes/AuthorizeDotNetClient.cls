@@ -12,7 +12,7 @@ public class AuthorizeDotNetClient implements IPaymentGatewayClient {
     public static final String GATEWAY_PRODUCTION_URL = 'members.ocdla.org';
     
     private String url;
-      
+
     
     
 
@@ -33,7 +33,7 @@ public class AuthorizeDotNetClient implements IPaymentGatewayClient {
     public String getProtocol(){
         return protocol;
     }
-  
+
     
     public static String getDomain(){
         Organization org = [SELECT Id, InstanceName, IsSandbox FROM Organization WHERE Id = :UserInfo.getOrganizationId()];
