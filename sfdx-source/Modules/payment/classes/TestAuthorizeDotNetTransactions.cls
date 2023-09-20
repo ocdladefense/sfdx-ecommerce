@@ -40,9 +40,7 @@ public class TestAuthorizeDotNetTransactions {
             'ccExp' => '09/2030',
             'ccCode' => '123'
         };
-        card.put('ccNum', AuthorizeDotNetSandbox.AMERICAN_EXPRESS);
-        card.put('ccNum', AuthorizeDotNetSandbox.DISCOVER);
-        card.put('ccNum', AuthorizeDotNetSandbox.MASTERCARD);        
+      
         // Call method to test.
         // This causes a fake response to be sent
         // from the class that implements HttpCalloutMock. 
@@ -86,9 +84,7 @@ public class TestAuthorizeDotNetTransactions {
             'ccExp' => '09/2030',
             'ccCode' => '123'
         };
-        card.put('ccNum', AuthorizeDotNetSandbox.AMERICAN_EXPRESS);
-        card.put('ccNum', AuthorizeDotNetSandbox.DISCOVER);
-        card.put('ccNum', AuthorizeDotNetSandbox.MASTERCARD);        
+       
         // Call method to test.
         // This causes a fake response to be sent
         // from the class that implements HttpCalloutMock. 
