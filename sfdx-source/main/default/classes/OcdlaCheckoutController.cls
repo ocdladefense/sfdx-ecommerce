@@ -60,6 +60,23 @@ global without sharing class OcdlaCheckoutController extends CommunityController
     public Boolean getRenderPayment(){
         return this.renderPayment;
     }
+
+    public String fetchUsersCards(){
+        Http client = new Http();
+
+        // Instantiate a new HTTP request, specify the method (GET) as well as the endpoint
+        HttpRequest req = new HttpRequest();
+        req.setEndpoint('https://appdev.ocdla.org/customer/905372692/cards');
+        req.setMethod('GET');
+
+        // Send the request, and return a response
+        HttpResponse res = client.send(req);
+        String body =  res.getBody();
+        System.debug(body);
+
+        // deserializes the JSON to a Map with strings before returning
+        Map<String,Map<String,String>> cards = (Map<String,Map<String,String>>)JSON.deserialize(body, Map<String,Map<String,String>>.class);
+    }
     
     public Boolean getIsPaid(){
         return this.IsPaid;
@@ -198,27 +215,46 @@ global without sharing class OcdlaCheckoutController extends CommunityController
     
     public static List<Map<String,String>> getSavedCreditCards() {
         //Mocking credit card info with most of the fields that you can get when getting a saved card. I added address fields so you can get the billing info from this method.
+
+        Http client = new Http();
+
+        // Instantiate a new HTTP request, specify the method (GET) as well as the endpoint
+        HttpRequest req = new HttpRequest();
+        req.setEndpoint('https://appdev.ocdla.org/customer/905372692/cards');
+        req.setMethod('GET');
+
+        // Send the request, and return a response
+        HttpResponse res = client.send(req);
+        String body =  res.getBody();
+        System.debug(body);
+
+        // deserializes the JSON to a Map with strings before returning
+        // Map<String,Map<String,String>> creditCards = (Map<String,Map<String,String>>)JSON.deserialize(body, Map<String,Map<String,String>>.class);
+        List <Map<string, string>> creditCards = (List<Map<string, string>>)JSON.deserialize(body, Map<String,Map<String,String>>.class);
+
+        /*
         List <Map<string, string>> creditCards = new List <Map<string, string>> {
             new Map<String, string>{'isDefault'=>'true', 'id'=>'905264262', 'cardNumber'=>'XXXX4532', 'expirationDate'=>'2024-08', 'cardType'=>'visa', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'},
                 new Map<String, string>{'isDefault'=>'false', 'id'=>'905264263', 'cardNumber'=>'XXXX4632', 'expirationDate'=>'2023-08', 'cardType'=>'mastercard', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'},
                     new Map<String, string>{'isDefault'=>'false', 'id'=>'905264264', 'cardNumber'=>'XXXX4786', 'expirationDate'=>'2043-08', 'cardType'=>'mastercard', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'},
                         new Map<String, string>{'isDefault'=>'false', 'id'=>'905264265', 'cardNumber'=>'XXXX4912', 'expirationDate'=>'2025-08', 'cardType'=>'mastercard', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'}
         };
+        */
             
-            for (Map<string,string> card : creditCards) {
-                String exp = card.get('expirationDate');
-                List<string> splitExp = exp.split('-');
-                String year = splitExp[0];
-                String month = splitExp[1];
-                card.put('expirationDate', month + '/' + year);
-                if(isExpired(card)) {
-                    string cardNumber = card.get('cardNumber');
-                    cardNumber = cardNumber + '(expired)';
-                    card.put('cardNumber', cardNumber);
-                }
-            }           
-            
-            return creditCards;
+        for (Map<string,string> card : creditCards) {
+            String exp = card.get('expirationDate');
+            List<string> splitExp = exp.split('-');
+            String year = splitExp[0];
+            String month = splitExp[1];
+            card.put('expirationDate', month + '/' + year);
+            if(isExpired(card)) {
+                string cardNumber = card.get('cardNumber');
+                cardNumber = cardNumber + '(expired)';
+                card.put('cardNumber', cardNumber);
+            }
+        }           
+        
+        return creditCards;
     }
     
     private static boolean isExpired(Map<string,string> card) {
