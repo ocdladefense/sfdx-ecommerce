@@ -84,7 +84,7 @@
                        
                     </div>
                      <div class="button next-step">
-                        <!--
+                        <!-- Old link
                             <a href="/apex/ocdlacheckoutguest?id={!cartId}" id="checkout-billing-info-done" style="margin-bottom: 8px;" class="cc-data cc-button">
                              Continue
                          </a>
