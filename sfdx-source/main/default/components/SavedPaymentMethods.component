@@ -1,0 +1,8 @@
+<apex:component >
+    <h3>Saved Payment Methods</h3>
+    <div id="saved-payment-methods" style="border:solid 1px;">
+        <label>Saved payment method #1</label><button style="margin-left:10;">Use It</button><br/>
+        <label>Saved payment method #2</label><button style="margin-left:10;">Use It</button><br/>
+        <label>Saved payment method #3</label><button style="margin-left:10;">Use It</button><br/>
+    </div>
+</apex:component>
