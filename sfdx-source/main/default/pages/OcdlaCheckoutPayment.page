@@ -28,6 +28,14 @@
             function newCard() {
                 document.getElementById("card-data").setAttribute("style", "display:block");
             }
+
+            function setBillingStateCode(event) {
+                console.log(event.target.value);
+            }
+
+            function setShippingStateCode(event) {
+                console.log(event.target.value);
+            }
             </script>
             
             <apex:variable rendered="{!isTest}" var="foo" value="True">

@@ -1,0 +1,278 @@
+<apex:page controller="ClickpdxCheckoutController" showHeader="false" standardStylesheets="false" docType="html-5.0" cache="false" applyHtmlTag="false" applyBodyTag="false">
+    
+    
+    <apex:composition template="{!template}">
+        
+        <apex:define name="title">
+            <title>OCDLA Checkout</title> 
+        </apex:define>
+        
+        <apex:define name="styles">
+            
+            <link rel="stylesheet" type="text/css" href="https://{!cdn}/sites/default/modules/checkout/css/checkout.css?{!cacheKey}" />
+            <!-- let's override some of these styles -->
+            <style type="text/css">
+            
+            .panel-closed {
+                max-height: 100%; 
+                }
+            </style>
+        </apex:define>
+        
+         
+        
+        <apex:define name="head-scripts">
+            <script type="text/javascript" src="//{!cdn}/sites/all/libraries/jquery-colorbox/jquery.colorbox-min.js">
+            </script>
+            <script type="text/javascript" src="https://{!cdn}/sites/default/modules/ccauthorize/js/app.settings.js?{!cacheKey}">
+            </script>
+            <script type="text/javascript" src="https://{!cdn}/sites/default/modules/ccauthorize/js/app.callouts.js?{!cacheKey}">
+            </script>
+            <!--<script type="text/javascript" src="http://localhost/salesforce/validate.js">
+            </script>-->
+            <script type="text/javascript" src="https://{!cdn}/sites/default/modules/ccauthorize/js/validate.js?{!cacheKey}">
+            </script>
+            <script type="text/javascript">
+            	var isFreeCart = {!isFreeCart};
+            </script>	
+        </apex:define>
+        
+        <apex:define name="body">
+            <apex:outputPanel rendered="False">
+                {!opp.AccountId}
+            </apex:outputPanel>
+            
+            <apex:pageMessages showDetail="True" id="myPageMessages" />
+            
+            <c:ClickpdxShoppingCart />
+            
+            
+            <div class="row two-columns">
+                <div id="checkout-app">
+                    
+                    <div class="column column-first">
+                        <form id="cc-payment">
+                            <div class="checkout-contact-panel">
+                                <div class="content">
+                                    
+                                    
+                                    <apex:outputPanel layout="none" rendered="{!isTest}">
+                                        <div class="button">
+                                            <a href="#" onclick="loadProfile('testProfile');return false;">Load Test Data</a>
+                                        </div>
+                                    </apex:outputPanel>
+                                    <div class="button">
+                                        Contact Info
+                                    </div>
+                                    <div id="ccAuthorizeMessages">
+                                        
+                                    </div>
+                                    
+                                    <apex:outputPanel layout="none" rendered="{!renderPayment}">
+                                        
+                                        <div class="cc-data-hidden">
+                                            <input type="hidden" id="OpportunityId" name="OpportunityId" value="{!cartId}" />
+                                            <input type="hidden" id="shoppingCartSummary" name="shoppingCartSummary" value="{!cartSummary}" />
+                                            <input type="hidden" id="AccountId" name="AccountId" value="" />
+                                            <input type="hidden" id="ContactId" name="ContactId" value="" />
+                                            <input type="hidden" id="authNetPaymentProfileId" value="" />
+                                            <input type="hidden" id="authNetPaymentProfileDescription" value="" />
+                                            <input type="hidden" id="amount" name="amount" value="{!cartTotal}" />
+                                        </div>
+                                        
+                                        <div class="cc-data">
+                                            <label for="FirstName">First Name</label>
+                                            <input type="text" id="FirstName" name="FirstName" value="" size="23" />
+                                        </div> 
+                                        
+                                        <div class="cc-data">
+                                            <label for="LastNight">Last Name</label>
+                                            <input type="text" id="LastName" name="LastName" value="" size="30" />
+                                        </div>
+                                        
+                                        <div id="cc-data-email" style="margin-top:10px;">
+                                            <label for="ccEmail">Email Address</label>
+                                            <input type="text" size="40" id="Email" name="Email" value="" />
+                                            <div class="hint">
+                                                OCDLA members and existing customers, please enter the email address you have on file with OCDLA. New customers, enter your email address.
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="button next-step">
+                                            <div data-action="validateContact" id="validateStep1" style="margin-bottom: 8px;" class="cc-data cc-button">
+                                                Next Step: Billing Info
+                                            </div>
+                                        </div>
+                                        
+                                        
+                                        <apex:outputPanel rendered="{!isFreeCart}" layout="none">
+                                            <div id="free-text" style="display:none;">
+                                                Your Order is free and you will not be charged. Click "Complete Transaction" below to complete this Order.
+                                            </div>
+                                        </apex:outputPanel>
+                                        
+                                        
+                                        
+                                        <apex:outputPanel layout="none">                         
+                                            <div data-action="completeTransaction" class="button cc-data cc-button" id="ccSubmit">
+                                                Pay $<apex:outputText value="{!cartTotal}" />
+                                            </div>
+                                        </apex:outputPanel>
+                                        
+                                        
+                                        <div class="cc-data cc-status">
+                                            
+                                        </div>
+                                        
+                                    </apex:outputPanel>
+                                    
+                                </div> 
+                            </div><!-- end .checkout-contact-panel -->
+                            
+                            <div class="checkout-panel panel-closed checkout-billing-panel">
+                                <div class="content">
+                                    
+                                    
+                                    <apex:outputPanel rendered="{!!isFreeCart}" layout="none">
+                                        <h2>
+                                            Billing Info
+                                        </h2>
+                                        <div id="cc-data-billing">
+                                            <c:UtilsBillingAddressFields />
+                                            
+                                            <apex:outputPanel layout="none" rendered="{!hasShippableProducts}">
+                                                <div class="cc-data">
+                                                    <label for="same-shipping-address">Use my billing address<br />as my shipping address</label>
+                                                    <input type="checkbox" data-action="evaluateShipping" name="sameShipping" id="sameShipping" checked="checked" />
+                                                </div>
+                                            </apex:outputPanel>
+                                            
+                                            <div class="button next-step">
+                                                <div data-action="validateBilling" id="checkout-billing-info-done" style="margin-bottom: 8px;" class="cc-data cc-button" onclick="return false;">
+                                                    Continue
+                                                </div>
+                                            </div>
+                                            
+                                            <div class="button previous-step">
+                                                <div data-action="backtostep1" id="backToStep1" class="cc-data button cc-button">
+                                                    Previous step: edit email
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </apex:outputPanel>
+                                </div>
+                            </div>
+                            
+                            <div class="checkout-panel panel-closed checkout-shipping-panel">  
+                                <div class="content">
+                                    <apex:outputPanel layout="none">
+                                        <h2>
+                                            Shipping Info
+                                        </h2>
+                                        <div id="cc-data-shipping">
+                                            <c:UtilsShippingAddressFields />
+                                        </div>
+                                        
+                                    </apex:outputPanel>
+                                </div>
+                                
+                            </div>
+                            
+                            
+                            <!---
+                            <div class="checkout-panel">
+                                
+                                
+                                <div class="button next-step">
+                                    <div data-action="validateShipping" id="checkout-shipping-info-done" style="margin-bottom: 8px;" class="cc-data cc-button">
+                                        Continue
+                                    </div>
+                                </div> 
+                                
+                            </div>
+							--->
+                            
+                        </form>                        
+                        
+                    </div>
+                    
+                    <div class="column main">
+                        <div id="orderSummary">
+                            
+                            
+                            <div class="order-banner">
+                                
+                                <h1 class="order-title">
+                                    {!cartName}
+                                </h1>
+                                
+                               
+                            </div>
+                            
+                            <div class="block">
+                                <h2>
+                                    Order Summary:
+                                </h2>
+                                <p>
+                                    {!cartSummary}
+                                </p>
+
+                                <div id="orderItems">
+                                    <apex:outputPanel rendered="{!isEmptyOrder}" layout="none">
+                                        There are no items in your Shopping Cart.
+                                    </apex:outputPanel>
+                                    <apex:outputPanel rendered="{!!isEmptyOrder}" layout="none">
+                                        <div id="checkout-summary">
+                                            
+                                            <ul class="table-row table-headings">
+                                                <li class="table-header">&nbsp;</li>
+                                                <li class="table-header">Contact</li>
+                                                <li class="table-header">Product</li>
+                                                <li class="table-header">Price</li>
+                                                <li class="table-header">Qty</li>
+                                                <li class="table-header">Subtotal</li>
+                                            </ul>
+
+                                            <div class="table-row-group">
+                                                <apex:repeat value="{!orderLines}" var="c">
+                                                    <c:ClickpdxCheckoutOrderSummary manageCart="{!allowManageCart}" domain="{!domain}" lineItems="{!orderLines[c]}"></c:ClickpdxCheckoutOrderSummary>
+                                                </apex:repeat>
+                                            </div>
+                                        </div> 
+                                    </apex:outputPanel>
+                                </div>
+                                
+                            </div>
+                            
+                            
+                        </div>
+                    </div>  <!-- end column right -->          
+                    
+
+                </div>
+            </div>
+            
+        </apex:define>
+        
+        <apex:define name="javascripts">
+        
+            <script type="text/javascript" src="//{!cdn}/sites/default/modules/checkout/js/app.js">
+            </script>
+            
+            <apex:variable rendered="{!isTest}" var="foo" value="True">
+                <script type="text/javascript">
+                $(function(){
+                    loadProfile('testProfile');
+                    window.isTest = true;
+                });
+                
+                
+                </script>
+            </apex:variable>
+            
+        </apex:define>
+        
+    </apex:composition>
+    
+    
+</apex:page>

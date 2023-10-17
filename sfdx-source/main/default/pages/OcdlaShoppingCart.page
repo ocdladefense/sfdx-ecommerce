@@ -1,0 +1,129 @@
+<apex:page controller="ClickpdxShoppingCartController" showHeader="false" standardStylesheets="false" docType="html-5.0" cache="false" applyHtmlTag="false" applyBodyTag="false">
+    
+    <apex:composition template="{!template}">
+        
+        <apex:define name="title">
+            <title>OCDLA Shopping Cart</title> 
+        </apex:define>
+        
+        <apex:define name="styles">
+            
+            <link rel="stylesheet" type="text/css" href="https://{!cdn}/sites/default/modules/checkout/css/checkout.css?{!cacheKey}" />
+        </apex:define>
+        
+        <apex:define name="head-scripts">
+            <script type="text/javascript" src="//{!cdn}/sites/all/libraries/jquery-colorbox/jquery.colorbox-min.js">
+            </script>
+            <script type="text/javascript" src="https://{!cdn}/sites/default/modules/ccauthorize/js/app.settings.js?{!cacheKey}">
+            </script>
+            <script type="text/javascript" src="https://{!cdn}/sites/default/modules/ccauthorize/js/app.callouts.js?{!cacheKey}">
+            </script>
+            <!--<script type="text/javascript" src="http://localhost/salesforce/validate.js">
+            </script>-->
+            <script type="text/javascript" src="https://{!cdn}/sites/default/modules/ccauthorize/js/validate.js?{!cacheKey}">
+            </script>
+            <script type="text/javascript">
+            	var isFreeCart = {!isFreeCart};
+            </script>	
+        </apex:define>
+        
+        <apex:define name="body">
+            <apex:outputPanel rendered="False">
+                {!opp.AccountId}
+            </apex:outputPanel>
+            
+            <apex:pageMessages showDetail="True" id="myPageMessages" />
+            
+            <c:ClickpdxShoppingCart />
+			
+			<div id="checkout-app">            
+                <div id="orderSummary">
+                    
+                    
+                    <div class="order-banner">
+                        
+                        <h1 class="order-title">
+                            {!cartName}
+                        </h1>
+                        
+                        <span class="order-total">Order Total: $<apex:outputText value="{!cartTotal}" /></span>
+                    </div>
+                    
+                    <div class="block">
+                        <h2>
+                            Order Summary:
+                        </h2>
+                        <p>
+                            {!cartSummary}
+                        </p>
+                        
+                        <div id="orderItems">
+                            <apex:outputPanel rendered="{!isEmptyOrder}" layout="none">
+                                There are no items in your Shopping Cart.
+                            </apex:outputPanel>
+                            <apex:outputPanel rendered="{!!isEmptyOrder}" layout="none">
+                                <div id="checkout-summary">
+                                    
+                                    <ul class="table-row table-headings">
+                                        <li class="table-header">&nbsp;</li>
+                                        <li class="table-header">Contact</li>
+                                        <li class="table-header">Product</li>
+                                        <li class="table-header">Price</li>
+                                        <li class="table-header">Qty</li>
+                                        <li class="table-header">Subtotal</li>
+                                    </ul>
+                                    
+                                    <div class="table-row-group">
+                                        <apex:repeat value="{!orderLines}" var="c">
+                                            <c:ClickpdxCheckoutOrderSummary manageCart="{!allowManageCart}" domain="{!domain}" lineItems="{!orderLines[c]}"></c:ClickpdxCheckoutOrderSummary>
+                                        </apex:repeat>
+                                    </div>
+                                </div> 
+                            </apex:outputPanel>
+                        </div>
+                       
+                    </div>
+                     <div class="button next-step">
+                        <!--
+                            <a href="/apex/ocdlacheckoutguest?id={!cartId}" id="checkout-billing-info-done" style="margin-bottom: 8px;" class="cc-data cc-button">
+                             Continue
+                         </a>
+                        -->
+                        <!-- Link for logged-in users -->
+                        <a href="/apex/ocdlacheckoutpayment?id={!cartId}" id="checkout-billing-info-done" style="margin-bottom: 8px;" class="cc-data cc-button" rendered="{!isLoggedIn}">
+                            Continue
+                        </a>
+
+                        <!-- Link for guest users -->
+                        <a href="/apex/ocdlacheckoutguest?id={!cartId}" id="checkout-billing-info-done" style="margin-bottom: 8px;" class="cc-data cc-button" rendered="{!!isLoggedIn}">
+                            Continue
+                        </a>
+                    </div>
+                    
+                </div>
+                
+            </div>
+            
+        </apex:define>
+        
+        <apex:define name="javascripts">
+        
+            <script type="text/javascript" src="//{!cdn}/sites/default/modules/checkout/js/app.js">
+            </script>
+            
+            <apex:variable rendered="{!isTest}" var="foo" value="True">
+                <script type="text/javascript">
+                $(function(){
+                    loadProfile('testProfile');
+                    window.isTest = true;
+                });
+                
+                
+                </script>
+            </apex:variable>
+            
+        </apex:define>
+        
+    </apex:composition>
+    
+</apex:page>

@@ -7,14 +7,6 @@
       "default": true
     },
     {
-      "path": "sfdx-source/unpackaged",
-      "default": false
-    },
-    {
-      "path": "sfdx-source/untracked",
-      "default": false
-    },
-    {
       "path": "sfdx-source/Modules/http",
       "package": "Http",
       "versionName": "ver 0.1",
