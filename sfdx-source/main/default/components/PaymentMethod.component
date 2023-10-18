@@ -1,0 +1,44 @@
+<apex:component Controller="PaymentMethodController" allowDML="true">
+    <div class="checkout-component">
+        <h3>Your saved payment methods</h3>
+        
+        <apex:define name="styles">
+            <apex:stylesheet value="{!URLFOR($Resource.PaymentMethodStyles)}"/>
+        </apex:define>
+        
+		<apex:form id="payment-method">
+            <apex:repeat var="card" value="{!methods}">
+                <div id="card" class="default-{!card['is_default__c']}">
+                    <apex:commandLink styleClass="card-list">{!card['Name'] + " Ending with: " + card['MaskedNumber__c']}
+                		<apex:param name="token" value="{!card['Token__c']}" assignTo="{!token}"/>
+                	</apex:commandLink><br/>
+                </div>
+            </apex:repeat><br/>
+            <a onClick="ShowAllCards()" href="#">Change Payment Method</a><br/>
+            <a onClick="ShowCreditCardForm()" href="#">Add A New Payment Method</a>
+        </apex:form><br/><br/>
+        <div id="cc-form">
+            <c:CreditCard ></c:CreditCard>
+        </div>
+        
+                    
+        
+        <script>
+        	function ShowCreditCardForm(){
+                var form = document.getElementById("cc-form");
+                form.style.display = "block";
+                console.log("hello");
+            }
+            function ShowAllCards(){
+                var cards = document.getElementsByClassName("default-false");
+                
+                for(i = 0; i < cards.length; i++){
+                    cards[i].style.display = "block";
+                }
+            }
+        </script>
+        
+
+        
+    </div>
+</apex:component>

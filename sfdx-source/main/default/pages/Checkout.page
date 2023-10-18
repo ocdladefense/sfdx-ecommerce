@@ -1,0 +1,50 @@
+<apex:page controller="CheckoutController" contentType="text/html; charset=UTF-8" readOnly="false" showHeader="false" standardStylesheets="false" docType="html-5.0" cache="false" applyHtmlTag="false" applyBodyTag="false">
+    
+
+    <apex:composition template="{!template}">
+        
+        <apex:define name="styles">
+            <apex:stylesheet value="{!URLFOR($Resource.CheckoutStyles)}"/>
+            <apex:stylesheet value="{!URLFOR($Resource.SideMenuStyles)}"/>
+        </apex:define>
+        
+        <apex:define name="scripts">
+            <apex:includeScript value="{!URLFOR($Resource.CheckoutApp)}" />
+            <apex:includeScript value="{!URLFOR($Resource.SideMenu)}" />
+        </apex:define>
+        
+        <apex:define name="body">
+            <div>
+                <p>
+                    {!errorMessage}
+                </p>
+            </div>
+            
+            <div class="container">
+                <div class="row">
+                    <div id="side-menu" class="left-side">
+                        <c:CheckoutMenu />
+                    </div>
+                    <div class="right-side">       
+                        <div id="order-summary" class="component show-component">
+                            <c:OrderSummary />
+                        </div>
+                        <div id="billing-address" class="component">
+                            <c:Billing />
+                        </div>
+                        <div id="shipping-address" class="component">
+                            <c:Shipping />
+                        </div>
+                        <div id="payment-method" class="component">
+                            <c:PaymentMethod />
+                        </div>
+
+                    </div>
+                </div>                
+            </div>
+            
+        </apex:define>
+        
+    </apex:composition>
+    
+</apex:page>

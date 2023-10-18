@@ -21,8 +21,8 @@
         
         <apex:define name="scripts">
         
-            <!---<script type="text/javascript" src="//{!cdn}/sites/default/modules/checkout/js/app.js">
-            </script>--->
+            <!--<script type="text/javascript" src="//{!cdn}/sites/default/modules/checkout/js/app.js">
+            </script>-->
             
             <script type="text/javascript">
             function newCard() {
@@ -45,7 +45,7 @@
         
          
         
-        <!---<apex:define name="head-scripts">
+        <!--<apex:define name="head-scripts">
             <script type="text/javascript" src="//{!cdn}/sites/all/libraries/jquery-colorbox/jquery.colorbox-min.js">
             </script>
             <script type="text/javascript" src="https://{!cdn}/sites/default/modules/ccauthorize/js/app.settings.js?{!cacheKey}">
@@ -57,7 +57,7 @@
             <script type="text/javascript">
             	var isFreeCart = {!isFreeCart};
             </script>	
-        </apex:define>--->
+        </apex:define>-->
         
         <apex:define name="body">
             
@@ -70,12 +70,12 @@
                             <div class="checkout-contact-panel">
                                 <div class="content">
                                     
-                                    <!---
+                                    <!--
                                     <apex:outputPanel layout="none" rendered="{!isTest}">
                                         <div class="button">
                                             <a href="#" onclick="loadProfile('testProfile');return false;">Load Test Data</a>
                                         </div>
-                                    </apex:outputPanel> --->
+                                    </apex:outputPanel> -->
                                      <span class="order-total">Order Total: $<apex:outputText value="{!cartTotal}" /></span>
                                     <div id="ccAuthorizeMessages">
                                         

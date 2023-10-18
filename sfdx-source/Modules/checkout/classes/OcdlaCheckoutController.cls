@@ -34,7 +34,7 @@ global without sharing class OcdlaCheckoutController extends CommunityController
     
     public Map<String, String> defaultCard {get;public set;}
     
-    public List <SelectOption> cardValues {get;public set;}
+    public List <SelectOption> cardOptions {get;public set;}
 
     public List<SelectOption> stateOptions {get; public set;}
     
@@ -61,6 +61,8 @@ global without sharing class OcdlaCheckoutController extends CommunityController
         return this.renderPayment;
     }
     
+    
+
     public Boolean getIsPaid(){
         return this.IsPaid;
     }
@@ -141,16 +143,9 @@ global without sharing class OcdlaCheckoutController extends CommunityController
 
         this.setupCustomer();
         
-        this.creditCards = OcdlaCheckoutController.getSavedCreditCards();
-        this.cardValues = new List<SelectOption>();
-        for (Map<string,string> card : creditCards) {
-            this.cardValues.add(new SelectOption(card.get('id'), card.get('cardNumber')));
-            if (card.get('isDefault') == 'true')
-            {
-                this.defaultCard = card;
-            }
-        }
-        this.cardValues.add(new SelectOption('newCard', 'Add New Card'));
+        this.creditCards = CreditCard.retrieveSavedCards(customerProfileId);
+        this.cardOptions = CreditCard.toSelectOptions(this.creditCards);
+        
 
         this.stateOptions = getStateOptions();
 
@@ -195,32 +190,7 @@ global without sharing class OcdlaCheckoutController extends CommunityController
         
         this.renderPayment = !this.isPaid ? True : False;
     }
-    
-    public static List<Map<String,String>> getSavedCreditCards() {
-        //Mocking credit card info with most of the fields that you can get when getting a saved card. I added address fields so you can get the billing info from this method.
-        List <Map<string, string>> creditCards = new List <Map<string, string>> {
-            new Map<String, string>{'isDefault'=>'true', 'id'=>'905264262', 'cardNumber'=>'XXXX4532', 'expirationDate'=>'2024-08', 'cardType'=>'visa', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'},
-                new Map<String, string>{'isDefault'=>'false', 'id'=>'905264263', 'cardNumber'=>'XXXX4632', 'expirationDate'=>'2023-08', 'cardType'=>'mastercard', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'},
-                    new Map<String, string>{'isDefault'=>'false', 'id'=>'905264264', 'cardNumber'=>'XXXX4786', 'expirationDate'=>'2043-08', 'cardType'=>'mastercard', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'},
-                        new Map<String, string>{'isDefault'=>'false', 'id'=>'905264265', 'cardNumber'=>'XXXX4912', 'expirationDate'=>'2025-08', 'cardType'=>'mastercard', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'}
-        };
             
-            for (Map<string,string> card : creditCards) {
-                String exp = card.get('expirationDate');
-                List<string> splitExp = exp.split('-');
-                String year = splitExp[0];
-                String month = splitExp[1];
-                card.put('expirationDate', month + '/' + year);
-                if(isExpired(card)) {
-                    string cardNumber = card.get('cardNumber');
-                    cardNumber = cardNumber + '(expired)';
-                    card.put('cardNumber', cardNumber);
-                }
-            }           
-            
-            return creditCards;
-    }
-    
     private static boolean isExpired(Map<string,string> card) {
         String exp = card.get('expirationDate');
         List<string> splitExp = exp.split('/');
