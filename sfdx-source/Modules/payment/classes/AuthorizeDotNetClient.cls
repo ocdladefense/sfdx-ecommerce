@@ -12,7 +12,7 @@ public class AuthorizeDotNetClient implements IPaymentGatewayClient {
     public static final String GATEWAY_PRODUCTION_URL = 'members.ocdla.org';
     
     private String url;
-
+    
     
     
 
