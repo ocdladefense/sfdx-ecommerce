@@ -28,7 +28,15 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
             'ApiEndpointName' => 'ApiEndpointSandbox'
     };
     
-
+    public static List <Map<String, string>> RetrieveMockedCards(){
+        List <Map<string, string>> mockedCards = new List <Map<string, string>> {
+            new Map<String, string>{'isDefault'=>'true', 'id'=>'905264262', 'cardNumber'=>'XXXX4532', 'expirationDate'=>'2024-08', 'cardType'=>'visa', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'},
+                new Map<String, string>{'isDefault'=>'false', 'id'=>'905264263', 'cardNumber'=>'XXXX4632', 'expirationDate'=>'2023-08', 'cardType'=>'mastercard', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'},
+                    new Map<String, string>{'isDefault'=>'false', 'id'=>'905264264', 'cardNumber'=>'XXXX4786', 'expirationDate'=>'2043-08', 'cardType'=>'mastercard', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'},
+                        new Map<String, string>{'isDefault'=>'false', 'id'=>'905264265', 'cardNumber'=>'XXXX4912', 'expirationDate'=>'2025-08', 'cardType'=>'mastercard', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'}
+        };
+        return mockedCards;
+    }
     
     public AuthorizeDotNetMockResponse(TransactionResponseCode code) {
         this.responseCode = code;
@@ -46,9 +54,12 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
         // System.assertEquals('GET', req.getMethod());
         
         HttpResponse res = new HttpResponse();
+        String cardsEndpoint = 'https://appdev.ocdla.org/customer/905372692/cards';
         res.setHeader('Content-Type', 'application/json');
         String body = JSON.serialize(this.responseCode == TransactionResponseCode.SUCCESS ? TRANSACTION_RESPONSE_SUCCESS : TRANSACTION_RESPONSE_FAILURE);
-	
+        
+        body = req.getEndpoint()==cardsEndpoint? RetrieveMockedCards() : body;
+
         res.setBody(body);
         res.setStatusCode(200);
         res.setStatus('Apex generated Mock HttpResponse.');
