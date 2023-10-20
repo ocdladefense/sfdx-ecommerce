@@ -93,12 +93,13 @@ public with sharing class CreditCardSteven {
         return cardValues;
     }
 
+    // profileId currently not used. Assume it is "905372692" in "https://appdev.ocdla.org/customer/905372692/cards"
     public static Map<String,Map<String,String>> fetchUsersCards(String profileId){
         Http client = new Http();
 
         // Instantiate a new HTTP request, specify the method (GET) as well as the endpoint
         HttpRequest req = new HttpRequest();
-        req.setEndpoint('https://appdev.ocdla.org/customer/905372692/cards');
+        req.setEndpoint('https://appdev.ocdla.org/customer/' + profileId + '/cards');
         req.setMethod('GET');
 
         // Send the request, and return a response

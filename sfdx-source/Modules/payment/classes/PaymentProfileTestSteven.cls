@@ -13,4 +13,9 @@ public with sharing class PaymentProfileTestSteven {
         System.assertEquals(firstName, card.getFirstName());
         System.assertEquals(lastName, card.getLastName());
     }
+
+    @isTest static void testFetchUsersCards() {
+        // will use fet
+        Map<String,Map<String,String>> creditCards =  fetchUsersCards('fillerId');
+    }
 }
