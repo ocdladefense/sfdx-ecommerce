@@ -11,10 +11,10 @@ public with sharing class CreditCardSteven {
     private string phone;
     private string fax;
     private string email;
-    private string address;
-    private string city;
-    private string state;
-    private string zip;
+    private string address { get; set; }
+    private string city { get; set; }
+    private string state { get; set; }
+    private string zip { get; set; }
     private string country;
     private Boolean dateIsMasked;
 
@@ -24,6 +24,10 @@ public with sharing class CreditCardSteven {
         this.firstName = firstName;
         this.lastName = lastName;
         this.id = id; // added to try and solve null value in select options
+    }
+
+    public CreditCardSteven(String cardNumber) {
+        this.cardNumber = cardNumber;
     }
 
     /*  */
@@ -78,7 +82,7 @@ public with sharing class CreditCardSteven {
         // updated loop to populate select options
         for (CreditCardSteven card : cards) {
             String viewableCardNum = card.getCardNumber();
-            if(isExpired(card)) {
+            if(card.isExpired()) {
                 viewableCardNum = viewableCardNum + '(expired)';
             }
             cardValues.add(new SelectOption(String.valueOf(card.getId()), viewableCardNum));
@@ -132,8 +136,21 @@ public with sharing class CreditCardSteven {
     */
 
     // updated isExpired function
-    public static boolean isExpired(CreditCardSteven card) {
-        return card.getExpirationDate() < Date.today();
+    public boolean isExpired() {
+        return this.getExpirationDate() < Date.today();
+    }
+
+    public String getType() {
+        if (cardNumber.startsWith('4')) {
+            return 'Visa';
+        }
+        else {
+            return 'Unknown';
+        }
+    }
+
+    public Boolean isValid() {
+        return cardNumber.length() == 16;
     }
 
     public Integer getId() {

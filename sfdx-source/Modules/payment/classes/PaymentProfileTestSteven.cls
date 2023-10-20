@@ -8,13 +8,30 @@ public with sharing class PaymentProfileTestSteven {
         String firstName = 'Kevin';
         String lastName = 'Striker';
 
-        CreditCardSteven card = new CreditCardSteven(cardNumber, expirationDate, firstName, lastName, id);
+        //CreditCardSteven card = new CreditCardSteven(cardNumber, expirationDate, firstName, lastName, id);
+        //CreditCardSteven card = new CreditCardSteven(cardNumber, expirationDate);
+        CreditCardSteven card = new CreditCardSteven('4444222211111111');
+        // should be able to pretend user has invalid credit card
+        CreditCardSteven invalidCard = new CreditCardSteven('21');
+        CreditCardSteven expiredCard = new CreditCardSteven('4444222211111111', Date.newInstance(2001, 4, 1));
+        CreditCardSteven validCVVCard = new CreditCardSteven('4444222211111111', Date.newInstance(2001, 4, 1), '123');
+
+        // call card.setFirstName and card.setLastName
+        // also need card billing address. street, city, state, zip
+
+
+
+        //String cardType = card.getType();
         Test.stopTest();
 
-        System.assertEquals(cardNumber, card.getCardNumber());
-        System.assertEquals(expirationDate, card.getExpirationDate());
-        System.assertEquals(firstName, card.getFirstName());
-        System.assertEquals(lastName, card.getLastName());
+        System.assertEquals('Visa', card.getType());
+        system.assert(card.isValid());
+        System.assert(expiredCard.isExpired());
+        System.assert(!invalidCard.isValid());
+        //System.assertEquals(cardNumber, card.getCardNumber());
+        //System.assertEquals(expirationDate, card.getExpirationDate());
+        //System.assertEquals(firstName, card.getFirstName());
+        //System.assertEquals(lastName, card.getLastName());
     }
 
     @isTest static void testFetchUsersCards() {
@@ -84,6 +101,6 @@ public with sharing class PaymentProfileTestSteven {
         
         Test.stopTest();
 
-        System.assertEquals(expectedOptions.size(), cardValues.size());
+        System.assertEquals(expectedOptions.size(), cardValues.size()); // currently does not work
     }
 }
