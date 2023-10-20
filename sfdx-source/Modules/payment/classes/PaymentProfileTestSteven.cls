@@ -64,4 +64,17 @@ public with sharing class PaymentProfileTestSteven {
         System.assertEquals(firstName, card.getFirstName());
         System.assertEquals(lastName, card.getLastName());
     }
+
+    @isTest static void testToSelectOptions() {
+        Test.startTest();
+        CreditCardFetchResponseMock mock = new CreditCardFetchResponseMock();
+
+        Test.setMock(HttpCalloutMock.class, mock);
+        
+        List<CreditCardSteven> creditCards =  CreditCardSteven.retrieveSavedCards(customerProfileId);
+        List<SelectOption> cardValues = new List<SelectOption>(CreditCardSteven.toSelectOptions(creditCards));
+        
+        CreditCardSteven card = creditCards[3]; // this card was added first but ended up at end of list of cards
+        Test.stopTest();
+    }
 }
