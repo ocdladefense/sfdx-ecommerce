@@ -54,7 +54,7 @@ public with sharing class PaymentProfileTestSteven {
         String lastName = 'Doe';
         
         List<CreditCardSteven> creditCards =  CreditCardSteven.retrieveSavedCards(customerProfileId);
-        CreditCardSteven card = creditCards[0];
+        CreditCardSteven card = creditCards[3]; // this card was added first but ended up at end of list of cards
         Test.stopTest();
 
         System.assertNotEquals(null, creditCards);
