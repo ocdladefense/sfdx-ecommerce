@@ -70,11 +70,19 @@ public with sharing class PaymentProfileTestSteven {
         CreditCardFetchResponseMock mock = new CreditCardFetchResponseMock();
 
         Test.setMock(HttpCalloutMock.class, mock);
-        
+
+        String customerProfileId = '905372692';
         List<CreditCardSteven> creditCards =  CreditCardSteven.retrieveSavedCards(customerProfileId);
         List<SelectOption> cardValues = new List<SelectOption>(CreditCardSteven.toSelectOptions(creditCards));
+        List<SelectOption> expectedOptions = new List<SelectOption>{
+            new SelectOption('XXXX4532', '2024-08'),
+            new SelectOption('XXXX4632', '2023-08(expired)'),
+            new SelectOption('XXXX4786', '2043-08'),
+            new SelectOption('XXXX4912', '2025-08')
+        };
         
-        CreditCardSteven card = creditCards[3]; // this card was added first but ended up at end of list of cards
         Test.stopTest();
+
+        System.assertEquals(expectedOptions.size(), cardValues.size());
     }
 }
