@@ -190,18 +190,7 @@ global without sharing class OcdlaCheckoutController extends CommunityController
         
         this.renderPayment = !this.isPaid ? True : False;
     }
-            
-    private static boolean isExpired(Map<string,string> card) {
-        String exp = card.get('expirationDate');
-        List<string> splitExp = exp.split('/');
-        String month = splitExp[0];
-        String year = splitExp[1];
-        String expirationDate = month + '/01/' + year;
-        Date realDate = Date.parse(expirationDate);
         
-        return realDate < Date.today();
-    }
-    
     public void setupCustomer() {
         // Remember, for guest users, this evaluates to the OCDLA Member Community User, which doesn't have an associated Contact.
         User u = [SELECT Id, ContactId FROM User WHERE Id = :UserInfo.getUserId()];

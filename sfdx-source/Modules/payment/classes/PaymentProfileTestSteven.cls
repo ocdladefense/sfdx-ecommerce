@@ -1,5 +1,5 @@
 @isTest
-public with sharing class PaymentProfileTest {
+public with sharing class PaymentProfileTestSteven {
     @isTest static void testCreditCardConstructor() {
         String cardNumber = '121223233434';
         Date expirationDate = Date.newInstance(2028, 4, 1);
