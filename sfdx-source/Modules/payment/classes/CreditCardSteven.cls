@@ -18,11 +18,12 @@ public with sharing class CreditCardSteven {
     private string country;
     private Boolean dateIsMasked;
 
-    public CreditCardSteven(string cardNumber, date expirationDate, string firstName, string lastName) {
+    public CreditCardSteven(string cardNumber, date expirationDate, string firstName, string lastName, Integer id) {
         this.cardNumber = cardNumber;
         this.expirationDate = expirationDate;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.id = id; // added to try and solve null value in select options
     }
 
     /*  */
@@ -32,6 +33,7 @@ public with sharing class CreditCardSteven {
             
         List<CreditCardSteven> savedCards = new List<CreditCardSteven> {};
         for (Map<string,string> card : creditCards.values()) {
+            Integer id = Integer.valueOf(card.get('id'));
             List<String> dateParts = card.get('expirationDate').split('-');
             Integer year = Integer.valueOf(dateParts[0]);
             Integer month = Integer.valueOf(dateParts[1]);
@@ -40,7 +42,7 @@ public with sharing class CreditCardSteven {
             String firstName = card.get('firstName');
             String lastName = card.get('lastName');
 
-            CreditCardSteven theCard = new CreditCardSteven(cardNum, expDate, firstName, lastName);
+            CreditCardSteven theCard = new CreditCardSteven(cardNum, expDate, firstName, lastName, id);
 
             savedCards.add(theCard);
         }
@@ -49,6 +51,7 @@ public with sharing class CreditCardSteven {
     }
 
     public static List<SelectOption> toSelectOptions(List<CreditCardSteven> cards) {
+        System.debug('Input Cards: ' + cards);
         List<SelectOption> cardValues = new List<SelectOption>();
 
         // original loop to populate select options
@@ -74,9 +77,8 @@ public with sharing class CreditCardSteven {
 
         // updated loop to populate select options
         for (CreditCardSteven card : cards) {
-            String viewableCardNum;
+            String viewableCardNum = card.getCardNumber();
             if(isExpired(card)) {
-                viewableCardNum = card.getCardNumber();
                 viewableCardNum = viewableCardNum + '(expired)';
             }
             cardValues.add(new SelectOption(String.valueOf(card.getId()), viewableCardNum));
@@ -93,6 +95,7 @@ public with sharing class CreditCardSteven {
         }
 
         cardValues.add(new SelectOption('newCard', 'Add New Card'));
+        System.debug('Output SelectOptions: ' + cardValues);
         return cardValues;
     }
 

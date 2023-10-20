@@ -2,12 +2,13 @@
 public with sharing class PaymentProfileTestSteven {
     @isTest static void testCreditCardStevenConstructor() {
         Test.startTest();
+        Integer id = 905263202;
         String cardNumber = '121223233434';
         Date expirationDate = Date.newInstance(2028, 4, 1);
         String firstName = 'Kevin';
         String lastName = 'Striker';
 
-        CreditCardSteven card = new CreditCardSteven(cardNumber, expirationDate, firstName, lastName);
+        CreditCardSteven card = new CreditCardSteven(cardNumber, expirationDate, firstName, lastName, id);
         Test.stopTest();
 
         System.assertEquals(cardNumber, card.getCardNumber());
