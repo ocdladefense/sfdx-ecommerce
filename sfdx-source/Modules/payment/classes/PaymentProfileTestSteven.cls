@@ -15,7 +15,17 @@ public with sharing class PaymentProfileTestSteven {
     }
 
     @isTest static void testFetchUsersCards() {
-        // will use fet
-        Map<String,Map<String,String>> creditCards =  fetchUsersCards('fillerId');
+        String cardNumber = 'XXXX0017';
+        Date expirationDate = Date.newInstance(2025, 10, 1);
+        String firstName = 'Trevor';
+        String lastName = 'Uehlin';
+        
+        Map<String,Map<String,String>> creditCards =  fetchUsersCards(customerProfileId);
+        Map<String,String> card = creditCards.get('905263202');
+
+        System.assertEquals(cardNumber, card.get('cardNumber'));
+        //System.assertEquals(expirationDate, card.get('expirationDate'));
+        System.assertEquals(firstName, card.get('firstName'));
+        System.assertEquals(lastName, card.get('lastName'));
     }
 }
