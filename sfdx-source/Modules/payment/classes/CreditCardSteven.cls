@@ -32,7 +32,7 @@ public with sharing class CreditCardSteven {
             
         List<CreditCardSteven> savedCards = new List<CreditCardSteven> {};
         for (Map<string,string> card : creditCards.values()) {
-            Date expDate = Date.parse(card.get('expirationDate'));
+            Date expDate = Date.parse(card.get('expirationDate') + '-1');
             String cardNum = card.get('cardNumber');
             String firstName = card.get('firstName');
             String lastName = card.get('lastName');
