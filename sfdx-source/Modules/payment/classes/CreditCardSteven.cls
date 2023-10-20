@@ -11,10 +11,10 @@ public with sharing class CreditCardSteven {
     private string phone;
     private string fax;
     private string email;
-    private string address { get; set; }
-    private string city { get; set; }
-    private string state { get; set; }
-    private string zip { get; set; }
+    private string address;
+    private string city;
+    private string state;
+    private string zip;
     private string country;
     private Boolean dateIsMasked;
 
