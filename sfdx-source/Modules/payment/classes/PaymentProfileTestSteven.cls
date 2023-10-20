@@ -57,6 +57,8 @@ public with sharing class PaymentProfileTestSteven {
         CreditCardSteven card = creditCards[0];
         Test.stopTest();
 
+        System.assertNotEquals(null, creditCards);
+        System.assert(!creditCards.isEmpty());
         System.assertEquals(cardNumber, card.getCardNumber());
         System.assertEquals(expirationDate, card.getExpirationDate());
         System.assertEquals(firstName, card.getFirstName());
