@@ -43,12 +43,6 @@ public with sharing class CreditCardSteven {
         }
         return savedCards;
 
-        
-        /*
-                
-        
-        return creditCards;
-        */
     }
 
     public static List<SelectOption> toSelectOptions(List<CreditCard> cards) {
@@ -56,11 +50,11 @@ public with sharing class CreditCardSteven {
 
         for (CreditCard card : cards) {
             String viewableCardNum;
-            String exp = card.getExpirationDate();
+            String expDate = card.getExpirationDate();
             List<string> splitExp = exp.split('-');
             String year = splitExp[0];
             String month = splitExp[1];
-            exp = month + '/' + year;
+            expDate = month + '/' + year;
             if(isExpired(card)) {
                 viewableCardNum = card.getCardNumber();
                 viewableCardNum = viewableCardNum + '(expired)';
@@ -76,7 +70,6 @@ public with sharing class CreditCardSteven {
         return cardValues;
     }
 
-    // From Alex's branch
     public static Map<String,Map<String,String>> fetchUsersCards(){
         Http client = new Http();
 

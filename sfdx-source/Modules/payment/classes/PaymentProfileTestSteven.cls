@@ -6,7 +6,7 @@ public with sharing class PaymentProfileTestSteven {
         String firstName = 'Kevin';
         String lastName = 'Striker';
 
-        CreditCard card = new CreditCard(cardNumber, expirationDate, firstName, lastName);
+        CreditCardSteven card = new CreditCardSteven(cardNumber, expirationDate, firstName, lastName);
 
         System.assertEquals(cardNumber, card.getCardNumber());
         System.assertEquals(expirationDate, card.getExpirationDate());
