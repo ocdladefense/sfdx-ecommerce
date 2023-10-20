@@ -23,7 +23,7 @@ public with sharing class PaymentProfileTestSteven {
         String customerProfileId = '905372692';
         String cardId = '905264262';
         String cardNumber = 'XXXX4532';
-        Date expirationDate = Date.newInstance(2024, 8, 1);
+        String expirationDate = '2024-08';
         String firstName = 'John';
         String lastName = 'Doe';
         
