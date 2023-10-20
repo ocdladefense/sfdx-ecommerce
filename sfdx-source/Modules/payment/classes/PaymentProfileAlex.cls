@@ -1,6 +1,6 @@
 // Alex's class for testing fetching and converting credit card information
 @isTest
-private class PaymentProfileTest {
+private class PaymentProfileAlex {
     // Tests the fetching of a users card(s)
     @isTest static void TestFetchCards() {
         Map<String,Map<String,String>> cards = CreditCard.fetchUsersCards();
