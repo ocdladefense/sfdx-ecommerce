@@ -3,7 +3,7 @@ public with sharing class CreditCardFetchResponseMock implements HttpCalloutMock
     public CreditCardFetchResponseMock() {
         
     }
-
+    
     public HttpResponse respond(HttpRequest req) {
         
         HttpResponse res = new HttpResponse();

@@ -21,20 +21,21 @@ public with sharing class PaymentProfileTestSteven {
         Test.setMock(HttpCalloutMock.class, mock);
 
         String customerProfileId = '905372692';
-        String cardNumber = 'XXXX0017';
-        Date expirationDate = Date.newInstance(2025, 10, 1);
-        String firstName = 'Trevor';
-        String lastName = 'Uehlin';
+        String cardId = '905264262';
+        String cardNumber = 'XXXX4532';
+        Date expirationDate = Date.newInstance(2024, 8, 1);
+        String firstName = 'John';
+        String lastName = 'Doe';
         
         Map<String,Map<String,String>> creditCards =  CreditCardSteven.fetchUsersCards(customerProfileId);
-        Map<String,String> card = creditCards.get('905263202');
+        Map<String,String> card = creditCards.get(cardId);
         Test.stopTest();
 
         System.assertNotEquals(null, creditCards);
         System.assert(!creditCards.isEmpty());
-        //System.assertEquals(cardNumber, card.get('cardNumber'));
+        System.assertEquals(cardNumber, card.get('cardNumber'));
         //System.assertEquals(expirationDate, card.get('expirationDate'));
-        //System.assertEquals(firstName, card.get('firstName'));
-        //System.assertEquals(lastName, card.get('lastName'));
+        System.assertEquals(firstName, card.get('firstName'));
+        System.assertEquals(lastName, card.get('lastName'));
     }
 }
