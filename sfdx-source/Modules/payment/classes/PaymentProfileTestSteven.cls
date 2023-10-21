@@ -98,7 +98,7 @@ public with sharing class PaymentProfileTestSteven {
 
     @isTest static void testRetrieveSavedCards() {
         Test.startTest();
-        CreditCardFetchResponseMock mock = new CreditCardFetchResponseMock();
+        AuthorizeDotNetMockResponse mock = new AuthorizeDotNetMockResponse();
 
         Test.setMock(HttpCalloutMock.class, mock);
 

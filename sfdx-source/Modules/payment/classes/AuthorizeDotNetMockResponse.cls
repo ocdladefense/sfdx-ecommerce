@@ -73,14 +73,7 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
         else if (requestType == PaymentGatewayRequestType.PUT_CUSTOMER_PAYMENT_PROFILE) {
             body = putCustomerPaymentProfile();
         }
-        
-        
-
-
-
-
-        
-	
+    
         res.setBody(body);
         res.setStatusCode(200);
         res.setStatus('Apex generated Mock HttpResponse.');
