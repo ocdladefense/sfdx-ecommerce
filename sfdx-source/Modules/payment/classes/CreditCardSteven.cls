@@ -11,26 +11,30 @@ public with sharing class CreditCardSteven {
     private string phone;
     private string fax;
     private string email;
-    private string address;
-    private string city;
-    private string state;
-    private string zip;
-    private string country;
+    private string billingAddress;
+    private string billingCity;
+    private string billingState;
+    private string billingZip;
+    private string billingCountry;
     private Boolean dateIsMasked;
 
-    public CreditCardSteven(string cardNumber, date expirationDate, string firstName, string lastName, Integer id) {
-        this.cardNumber = cardNumber;
-        this.expirationDate = expirationDate;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.id = id; // added to try and solve null value in select options
-    }
-
+//constructors
     public CreditCardSteven(String cardNumber) {
         this.cardNumber = cardNumber;
     }
 
-    /*  */
+    public CreditCardSteven(String cardNumber, date expirationDate) {
+        this.cardNumber = cardNumber;
+        this.expirationDate = expirationDate;
+    }
+
+    public CreditCardSteven(String cardNumber, date expirationDate, string cvv) {
+        this.cardNumber = cardNumber;
+        this.expirationDate = expirationDate;
+        this.cvv = cvv;
+    }
+
+    /* static methods */
     public static List<CreditCardSteven> retrieveSavedCards(string customerProfileId) {        
 
         Map<String,Map<String,String>> creditCards =  fetchUsersCards(customerProfileId);
@@ -144,14 +148,27 @@ public with sharing class CreditCardSteven {
         if (cardNumber.startsWith('4')) {
             return 'Visa';
         }
+        else if(cardNumber.startsWith('5')){
+            return 'Mastercard';
+        }
+        else if (cardNumber.startsWith('6')){
+            return 'Discover';
+        }
+        else if (cardNumber.startsWith('34') || cardNumber.startsWith('37')){
+            return 'American Express';
+        }
         else {
             return 'Unknown';
         }
     }
 
     public Boolean isValid() {
-        return cardNumber.length() == 16;
+        return cardNumber.length() == 16 && this.getType()!='Unknown';
     }
+
+
+
+#region getters
 
     public Integer getId() {
         return id;
@@ -177,6 +194,42 @@ public with sharing class CreditCardSteven {
         return lastName;
     }
 
+    public string getPhone() {
+        return phone;
+    }
+
+    public string getFax(){
+        return fax;
+    }
+
+    public string getEmail(){
+        return email;
+    }
+    
+
+#endregion
+
+#region setters
+//do not need setters for card number, card type, or id
+    
+    public void setIsDefault (Boolean isDefault){
+        this.isDefault=isDefault;
+    }
+    public void setExpirationDate (date expirationDate){
+        this.expirationDate=expirationDate;
+    }
+    public void setCvv(string cvv) {
+        this.cvv = cvv;
+    }
+    public void setPhone(string phone){
+        this.phone = phone;
+    }
+    public void setFax(string fax){
+        this.fax = fax;
+    }
+    public void setEmail (string email) {
+        this.email = email;
+    }
     public void setFirstName(String firstName) {
         this.firstName = firstName;
     }
@@ -184,4 +237,25 @@ public with sharing class CreditCardSteven {
     public void setLastName(String lastName) {
         this.lastName = lastName;
     }
+
+    public void setBillingAddress (string billingAddress){
+        this.billingAddress = billingAddress;
+    }
+
+    public void setBillingCity (string billingCity){
+        this.billingCity = billingCity;
+    }
+
+    public void setBillingState (string billingState){
+        this.billingState = billingState;
+    }
+
+    public void setBillingZip (string billingZip){
+        this.billingZip = billingZip;
+    }
+
+    public void setBillingCountry (string billingCountry){
+        this.billingCountry = billingCountry;
+    }
+#endregion
 }
