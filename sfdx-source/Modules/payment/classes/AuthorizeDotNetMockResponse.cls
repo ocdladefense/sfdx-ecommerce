@@ -95,16 +95,27 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
     public String savedPaymentProfileResponseBody(HttpRequest req) {
 
         // extract customer profile id from URL. 
+        String reqEndpoint = req.getEndpoint();
+        String customerProfileIdFromEndpoint = reqEndpoint.substringBetween('customer/','/cards');
+
         String hasSavePaymentProfiles = '905372692';
         String hasNoPaymentProfiles = 'abcd1234';
-        List <Map<string, string>> creditCards = new List <Map<string, string>> {
+
+        List <Map<string, string>> noPaymentProfiles = new List <Map<string, string>> {};
+
+        List <Map<string, string>> savedPaymentProfiles = new List <Map<string, string>> {
             new Map<String, string>{'isDefault'=>'true', 'id'=>'905264262', 'cardNumber'=>'XXXX4532', 'expirationDate'=>'2024-08', 'cardType'=>'visa', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'},
                 new Map<String, string>{'isDefault'=>'false', 'id'=>'905264263', 'cardNumber'=>'XXXX4632', 'expirationDate'=>'2023-08', 'cardType'=>'mastercard', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'},
                     new Map<String, string>{'isDefault'=>'false', 'id'=>'905264264', 'cardNumber'=>'XXXX4786', 'expirationDate'=>'2043-08', 'cardType'=>'mastercard', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'},
                         new Map<String, string>{'isDefault'=>'false', 'id'=>'905264265', 'cardNumber'=>'XXXX4912', 'expirationDate'=>'2025-08', 'cardType'=>'mastercard', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'}
         };
-
-        return JSON.serialize(creditCards);
+        if (customerProfileIdFromEndpoint==hasSavePaymentProfiles){
+            return JSON.serialize(savedPaymentProfiles);
+        }
+        else{
+            return '{}';
+        }
+    
     }
     
 
