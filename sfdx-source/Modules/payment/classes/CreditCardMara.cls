@@ -67,23 +67,7 @@ public with sharing class CreditCardMara {
 
         // original loop to populate select options
         /*
-        for (CreditCardMara card : cards) {
-            String viewableCardNum;
-            String expDate = card.getExpirationDate();
-            List<string> splitExp = exp.split('-');
-            String year = splitExp[0];
-            String month = splitExp[1];
-            expDate = month + '/' + year;
-            if(isExpired(card)) {
-                viewableCardNum = card.getCardNumber();
-                viewableCardNum = viewableCardNum + '(expired)';
-            }
-            cardValues.add(new SelectOption(card.getId(), viewableCardNum));
-            if (card.getIsDefault())
-            {
-                defaultCard = card;
-            }
-        }   
+ 
         */
 
         // updated loop to populate select options

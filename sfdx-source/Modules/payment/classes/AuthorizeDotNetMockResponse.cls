@@ -94,7 +94,7 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
         String hasSavePaymentProfiles = '905372692';
         String hasNoPaymentProfiles = 'abcd1234';
 
-        List <Map<string, string>> noPaymentProfiles = new List <Map<string, string>> {};
+        List <Map<string, string>> noPaymentProfiles = new List <Map<string, string>>();
 
         List <Map<string, string>> savedPaymentProfiles = new List <Map<string, string>> {
             new Map<String, string>{'isDefault'=>'true', 'id'=>'905264262', 'cardNumber'=>'XXXX4532', 'expirationDate'=>'2024-08', 'cardType'=>'visa', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'},
@@ -103,7 +103,7 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
                         new Map<String, string>{'isDefault'=>'false', 'id'=>'905264265', 'cardNumber'=>'XXXX4912', 'expirationDate'=>'2025-08', 'cardType'=>'mastercard', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'}
         };
         if (customerProfileIdFromEndpoint==hasSavePaymentProfiles){
-            return JSON.serialize(savedPaymentProfiles);
+            return savedPaymentProfiles;
         }
         else{
             return '{}';
