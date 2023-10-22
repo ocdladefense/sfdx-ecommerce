@@ -105,7 +105,8 @@ public with sharing class TesPaymentProfilesMW {
 
     @isTest static void testRetrieveSavedCards() {
         Test.startTest();
-        AuthorizeDotNetMockResponse mock = new AuthorizeDotNetMockResponse();
+        
+        AuthorizeDotNetMockResponse mock = new AuthorizeDotNetMockResponse(PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES);
 
         Test.setMock(HttpCalloutMock.class, mock);
 
@@ -147,7 +148,7 @@ public with sharing class TesPaymentProfilesMW {
 
         System.assertEquals(expectedOptions.size(), cardValues.size()); // currently does not work
     }
-}
+
     @isTest static void testCreditCardContructors() {
 
     }
@@ -180,3 +181,4 @@ public with sharing class TesPaymentProfilesMW {
     @isTest static void testRemoveCardFromPaymentProfile() {
 
     }
+}

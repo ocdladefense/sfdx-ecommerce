@@ -61,14 +61,14 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
         HttpResponse res = new HttpResponse();
         String cardsEndpoint = 'https://appdev.ocdla.org/customer/905372692/cards';
         res.setHeader('Content-Type', 'application/json');
-        String cardsEndpoint = 'https://appdev.ocdla.org/customer/905372692/cards';
+        //String cardsEndpoint = 'https://appdev.ocdla.org/customer/905372692/cards';
 
         String body;
         if (requestType == PaymentGatewayRequestType.SUBMIT_TRANSACTION) {
             body = JSON.serialize(this.responseCode == TransactionResponseCode.SUCCESS ? TRANSACTION_RESPONSE_SUCCESS : TRANSACTION_RESPONSE_FAILURE);
         }
         else if (requestType == PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES) {
-            body = savedPaymentProfileResponseBody();
+            body = savedPaymentProfileResponseBody(req);
         }
         else if (requestType == PaymentGatewayRequestType.PUT_CUSTOMER_PAYMENT_PROFILE) {
             body = putCustomerPaymentProfile();

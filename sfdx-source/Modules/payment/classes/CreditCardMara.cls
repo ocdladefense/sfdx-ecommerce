@@ -53,7 +53,7 @@ public with sharing class CreditCardMara {
             String firstName = card.get('firstName');
             String lastName = card.get('lastName');
 
-            CreditCardMara theCard = new CreditCardMara(cardNum, expDate, firstName, lastName, id);
+            CreditCardMara theCard = new CreditCardMara(cardNum, expDate);
 
             savedCards.add(theCard);
         }
@@ -171,8 +171,6 @@ public with sharing class CreditCardMara {
 
 
 
-#region getters
-
     public Integer getId() {
         return id;
     }
@@ -210,9 +208,6 @@ public with sharing class CreditCardMara {
     }
     
 
-#endregion
-
-#region setters
 //do not need setters for card number, card type, or id
     
     public void setIsDefault (Boolean isDefault){
@@ -260,5 +255,5 @@ public with sharing class CreditCardMara {
     public void setBillingCountry (string billingCountry){
         this.billingCountry = billingCountry;
     }
-#endregion
+
 }
