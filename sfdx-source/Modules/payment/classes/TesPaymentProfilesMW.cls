@@ -3,9 +3,11 @@ public with sharing class TesPaymentProfilesMW {
     public TesPaymentProfilesMW() {
     //each test begins with isTest annotation
     //each test needs to use AuthorizeDotNetMockResponse to get testable data without calling a server
+    //copied from Steven's Payment profile Test to different class while I have shared sandbox
+    //TO DO - delete named versions and replace with single version
     }
     //copied from work done on paymentprofile test Steven
-    @isTest static void testCreditCardStevenConstructor() {
+    @isTest static void testCreditCardMaraConstructor() {
         Test.startTest();
         Integer id = 905263202;
         String cardNumber = '121223233434';
@@ -13,13 +15,13 @@ public with sharing class TesPaymentProfilesMW {
         String firstName = 'Kevin';
         String lastName = 'Striker';
 
-        //CreditCardSteven card = new CreditCardSteven(cardNumber, expirationDate, firstName, lastName, id);
-        //CreditCardSteven card = new CreditCardSteven(cardNumber, expirationDate);
-        CreditCardSteven card = new CreditCardSteven('4444222211111111');
+        //CreditCardMara card = new CreditCardMara(cardNumber, expirationDate, firstName, lastName, id);
+        //CreditCardMara card = new CreditCardMara(cardNumber, expirationDate);
+        CreditCardMara card = new CreditCardMara('4444222211111111');
         // should be able to pretend user has invalid credit card
-        CreditCardSteven invalidCard = new CreditCardSteven('21');
-        CreditCardSteven expiredCard = new CreditCardSteven('4444222211111111', Date.newInstance(2001, 4, 1));
-        CreditCardSteven validCVVCard = new CreditCardSteven('4444222211111111', Date.newInstance(2001, 4, 1), '123');
+        CreditCardMara invalidCard = new CreditCardMara('21');
+        CreditCardMara expiredCard = new CreditCardMara('4444222211111111', Date.newInstance(2001, 4, 1));
+        CreditCardMara validCVVCard = new CreditCardMara('4444222211111111', Date.newInstance(2001, 4, 1), '123');
 
         // call card.setFirstName and card.setLastName
         card.setFirstName('Bob');
@@ -48,13 +50,13 @@ public with sharing class TesPaymentProfilesMW {
         String firstName = 'Kevin';
         String lastName = 'Striker';
 
-        //CreditCardSteven card = new CreditCardSteven(cardNumber, expirationDate, firstName, lastName, id);
-        //CreditCardSteven card = new CreditCardSteven(cardNumber, expirationDate);
-        CreditCardSteven card = new CreditCardSteven('4444222211111111');
+        //CreditCardMara card = new CreditCardMara(cardNumber, expirationDate, firstName, lastName, id);
+        //CreditCardMara card = new CreditCardMara(cardNumber, expirationDate);
+        CreditCardMara card = new CreditCardMara('4444222211111111');
         // should be able to pretend user has invalid credit card
-        CreditCardSteven invalidCard = new CreditCardSteven('21');
-        CreditCardSteven expiredCard = new CreditCardSteven('4444222211111111', Date.newInstance(2001, 4, 1));
-        CreditCardSteven validCVVCard = new CreditCardSteven('4444222211111111', Date.newInstance(2001, 4, 1), '123');
+        CreditCardMara invalidCard = new CreditCardMara('21');
+        CreditCardMara expiredCard = new CreditCardMara('4444222211111111', Date.newInstance(2001, 4, 1));
+        CreditCardMara validCVVCard = new CreditCardMara('4444222211111111', Date.newInstance(2001, 4, 1), '123');
 
         // call card.setFirstName and card.setLastName
         card.setFirstName('Bob');
@@ -89,7 +91,7 @@ public with sharing class TesPaymentProfilesMW {
         String firstName = 'John';
         String lastName = 'Doe';
         
-        Map<String,Map<String,String>> creditCards =  CreditCardSteven.fetchUsersCards(customerProfileId);
+        Map<String,Map<String,String>> creditCards =  CreditCardMara.fetchUsersCards(customerProfileId);
         Map<String,String> card = creditCards.get(cardId);
         Test.stopTest();
 
@@ -113,8 +115,8 @@ public with sharing class TesPaymentProfilesMW {
         String firstName = 'John';
         String lastName = 'Doe';
         
-        List<CreditCardSteven> creditCards =  CreditCardSteven.retrieveSavedCards(customerProfileId);
-        CreditCardSteven card = creditCards[3]; // this card was added first but ended up at end of list of cards
+        List<CreditCardMara> creditCards =  CreditCardMara.retrieveSavedCards(customerProfileId);
+        CreditCardMara card = creditCards[3]; // this card was added first but ended up at end of list of cards
         Test.stopTest();
 
         System.assertNotEquals(null, creditCards);
@@ -132,8 +134,8 @@ public with sharing class TesPaymentProfilesMW {
         Test.setMock(HttpCalloutMock.class, mock);
 
         String customerProfileId = '905372692';
-        List<CreditCardSteven> creditCards =  CreditCardSteven.retrieveSavedCards(customerProfileId);
-        List<SelectOption> cardValues = new List<SelectOption>(CreditCardSteven.toSelectOptions(creditCards));
+        List<CreditCardMara> creditCards =  CreditCardMara.retrieveSavedCards(customerProfileId);
+        List<SelectOption> cardValues = new List<SelectOption>(CreditCardMara.toSelectOptions(creditCards));
         List<SelectOption> expectedOptions = new List<SelectOption>{
             new SelectOption('XXXX4532', '2024-08'),
             new SelectOption('XXXX4632', '2023-08(expired)'),
