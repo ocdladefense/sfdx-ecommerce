@@ -146,3 +146,35 @@ public with sharing class TesPaymentProfilesMW {
         System.assertEquals(expectedOptions.size(), cardValues.size()); // currently does not work
     }
 }
+    @isTest static void testCreditCardContructors() {
+
+    }
+
+    @isTest static void testAddValidNewCardToPaymentProfile() {
+
+    }
+
+    @isTest static void testAddInvalidCardTypeToPaymentProfile() {
+
+    }
+
+    @isTest static void testAddExpiredCardToPaymentProfile() {
+
+    }
+
+
+    @isTest static void testAddExistingCardAsNewToPaymentProfile() {
+
+    }
+
+    @isTest static void testUpdateExistingCardToPaymentProfile() {
+
+    }
+
+    @isTest static void testChangeDefaultCard() {
+
+    }
+
+    @isTest static void testRemoveCardFromPaymentProfile() {
+
+    }
