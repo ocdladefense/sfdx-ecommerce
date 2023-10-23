@@ -42,7 +42,7 @@ public with sharing class PaymentProfileTest {
 
         String customerWithSavedCards = '905372692';
 
-        Map<String,Map<String,String>> paymentProfileWithCards =  CreditCard.fetchUsersCards(customerWithSavedCards);
+       List<Map<String,String>> paymentProfileWithCards =  CreditCard.fetchUsersCards(customerWithSavedCards);
         Test.stopTest();
         //assert list is not empty and has count of 4 for customer with saved cards
         System.assert(!paymentProfileWithCards.isEmpty());
@@ -57,7 +57,7 @@ public with sharing class PaymentProfileTest {
 
         String customerNoSavedCards = 'abcd1234';
 
-        Map<String,Map<String,String>> paymentProfileNoCards =  CreditCard.fetchUsersCards(customerNoSavedCards);
+        List<Map<String,String>> paymentProfileNoCards =  CreditCard.fetchUsersCards(customerNoSavedCards);
         Test.stopTest();
 
         //assert list is empty and has count of 0 for customer with no saved cards
