@@ -1,6 +1,6 @@
-public class CreditCard {
+public with sharing class CreditCard {
+    //copied from Credit Card Steven to named class until I have access to independent sandbox
 
-    public final String TEST_CREDIT_CARD_NUMBER = '4111111111111111';
 
     private Boolean isDefault;
     private integer id;
@@ -14,78 +14,109 @@ public class CreditCard {
     private string phone;
     private string fax;
     private string email;
-    private string address;
-    private string city;
-    private string state;
-    private string zip;
-    private string country;
+    private string billingAddress;
+    private string billingCity;
+    private string billingState;
+    private string billingZip;
+    private string billingCountry;
     private Boolean dateIsMasked;
 
-    public CreditCard(string cardNumber, date expirationDate, string firstName, string lastName) {
+//constructors
+    public CreditCard(String cardNumber) {
         this.cardNumber = cardNumber;
-        this.expirationDate = expirationDate;
-        this.firstName = firstName;
-        this.lastName = lastName;
     }
 
-    /*  */
+    public CreditCard(String cardNumber, date expirationDate) {
+        this.cardNumber = cardNumber;
+        this.expirationDate = expirationDate;
+    }
+
+    public CreditCard(String cardNumber, Date expDate, string cvv) {
+        this.cardNumber = cardNumber;
+        this.expirationDate = expDate;
+        this.cvv = cvv;
+    }
+
+    /* static methods */
     public static List<CreditCard> retrieveSavedCards(string customerProfileId) {        
 
-        Map<String,Map<String,String>> creditCards =  fetchUsersCards(customerProfileId);
-            
+        //Map<String,Map<String, String>> fetchedCards =  fetchUsersCards(customerProfileId);
+        List<Map<String, String>> fetchedCardList =  new List<Map<String, String>>();
+
         List<CreditCard> savedCards = new List<CreditCard> {};
-        for (Map<string,string> card : creditCards.values()) {
-            String expDate = card.get('expirationDate');
+
+        for (Map<string,string> card : fetchedCardList){
+            Integer id = Integer.valueOf(card.get('id'));
+            List<String> dateParts = card.get('expirationDate').split('-');
+            Integer year = Integer.valueOf(dateParts[0]);
+            Integer month = Integer.valueOf(dateParts[1]);
+            Date expDate = Date.newInstance(year, month, 1);
             String cardNum = card.get('cardNumber');
             String firstName = card.get('firstName');
             String lastName = card.get('lastName');
 
-            CreditCard theCard = new CreditCard(cardNum, expDate, firstName, lastName);
+            CreditCard theCard = new CreditCard(cardNum, expDate);
 
             savedCards.add(theCard);
         }
+        /*for (Map<string,string> card : fetchedCards.values()) {
+            Integer id = Integer.valueOf(card.get('id'));
+            List<String> dateParts = card.get('expirationDate').split('-');
+            Integer year = Integer.valueOf(dateParts[0]);
+            Integer month = Integer.valueOf(dateParts[1]);
+            Date expDate = Date.newInstance(year, month, 1);
+            String cardNum = card.get('cardNumber');
+            String firstName = card.get('firstName');
+            String lastName = card.get('lastName');
+
+            CreditCard theCard = new CreditCard(cardNum, expDate);
+
+            savedCards.add(theCard);
+        }*/
         return savedCards;
 
-        
-        /*
-                
-        
-        return creditCards;
-        */
     }
 
     public static List<SelectOption> toSelectOptions(List<CreditCard> cards) {
+        System.debug('Input Cards: ' + cards);
         List<SelectOption> cardValues = new List<SelectOption>();
 
+        // original loop to populate select options
+        /*
+ 
+        */
+
+        // updated loop to populate select options
         for (CreditCard card : cards) {
-            String viewableCardNum;
-            String exp = card.getExpirationDate();
-            List<string> splitExp = exp.split('-');
-            String year = splitExp[0];
-            String month = splitExp[1];
-            exp = month + '/' + year;
-            if(isExpired(card)) {
-                viewableCardNum = card.getCardNumber();
+            String viewableCardNum = card.getCardNumber();
+            if(card.isExpired()) {
                 viewableCardNum = viewableCardNum + '(expired)';
             }
-            cardValues.add(new SelectOption(card.getId(), viewableCardNum));
+            cardValues.add(new SelectOption(String.valueOf(card.getId()), viewableCardNum));
+            
+            // ---TODO---
+            // fix later after defaultCard is fully investigated in OcdlaCheckoutController
+            // currently not needed for testing
+            /*
             if (card.getIsDefault())
             {
                 defaultCard = card;
             }
-        }   
+            */
+        }
 
         cardValues.add(new SelectOption('newCard', 'Add New Card'));
+        System.debug('Output SelectOptions: ' + cardValues);
         return cardValues;
     }
 
-    // From Alex's branch
-    public static Map<String,Map<String,String>> fetchUsersCards(){
+    // profileId currently not used. Assume it is "905372692" in "https://appdev.ocdla.org/customer/905372692/cards"
+    public static List<Map<String,String>> fetchUsersCards(String profileId){
         Http client = new Http();
 
         // Instantiate a new HTTP request, specify the method (GET) as well as the endpoint
         HttpRequest req = new HttpRequest();
-        req.setEndpoint('https://appdev.ocdla.org/customer/905372692/cards');
+        req.setEndpoint('https://appdev.ocdla.org/customer/' + profileId + '/cards');
         req.setMethod('GET');
 
         // Send the request, and return a response
@@ -94,9 +125,11 @@ public class CreditCard {
         System.debug(body);
 
         // deserializes the JSON to a Map with strings before returning
-        return (Map<String,Map<String,String>>)JSON.deserialize(body, Map<String,Map<String,String>>.class);
+        return (List<Map<String,String>>)JSON.deserialize(body, List<Map<String,String>>.class);
     }
-            
+    
+    // original isExpired function
+    /*
     private static boolean isExpired(Map<string,string> card) {
         String exp = card.get('expirationDate');
         List<string> splitExp = exp.split('/');
@@ -107,6 +140,36 @@ public class CreditCard {
         
         return realDate < Date.today();
     }
+    */
+
+    // updated isExpired function
+    public boolean isExpired() {
+        return this.getExpirationDate() < Date.today();
+    }
+
+    public String getType() {
+        if (cardNumber.startsWith('4')) {
+            return 'Visa';
+        }
+        else if(cardNumber.startsWith('5')){
+            return 'Mastercard';
+        }
+        else if (cardNumber.startsWith('6')){
+            return 'Discover';
+        }
+        else if (cardNumber.startsWith('34') || cardNumber.startsWith('37')){
+            return 'American Express';
+        }
+        else {
+            return 'Unknown';
+        }
+    }
+
+    public Boolean isValid() {
+        return cardNumber.length() == 16 && this.getType()!='Unknown';
+    }
+
+
 
     public Integer getId() {
         return id;
@@ -131,5 +194,66 @@ public class CreditCard {
     public String getLastName() {
         return lastName;
     }
+
+    public string getPhone() {
+        return phone;
+    }
+
+    public string getFax(){
+        return fax;
+    }
+
+    public string getEmail(){
+        return email;
+    }
     
+
+//do not need setters for card number, card type, or id
+    
+    public void setIsDefault (Boolean isDefault){
+        this.isDefault=isDefault;
+    }
+    public void setExpirationDate (date expirationDate){
+        this.expirationDate=expirationDate;
+    }
+    public void setCvv(string cvv) {
+        this.cvv = cvv;
+    }
+    public void setPhone(string phone){
+        this.phone = phone;
+    }
+    public void setFax(string fax){
+        this.fax = fax;
+    }
+    public void setEmail (string email) {
+        this.email = email;
+    }
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public void setBillingAddress (string billingAddress){
+        this.billingAddress = billingAddress;
+    }
+
+    public void setBillingCity (string billingCity){
+        this.billingCity = billingCity;
+    }
+
+    public void setBillingState (string billingState){
+        this.billingState = billingState;
+    }
+
+    public void setBillingZip (string billingZip){
+        this.billingZip = billingZip;
+    }
+
+    public void setBillingCountry (string billingCountry){
+        this.billingCountry = billingCountry;
+    }
+
 }
