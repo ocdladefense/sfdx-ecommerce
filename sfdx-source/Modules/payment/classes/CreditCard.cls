@@ -1,4 +1,4 @@
-public with sharing class CreditCard {
+public class CreditCard {
     private Boolean isDefault;
     private integer id;
     private string cardType;
@@ -18,18 +18,20 @@ public with sharing class CreditCard {
     private string country;
     private Boolean dateIsMasked;
 
-
-    public CreditCard(String cardNumber, Date expDate) {
-        
+    public CreditCard(string cardNumber, date expirationDate, string firstName, string lastName, Integer id) {
+        this.cardNumber = cardNumber;
+        this.expirationDate = expirationDate;
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.id = id; // added to try and solve null value in select options
     }
 
-    
-    
-    public Boolean isExpired() {
-        return True;
+    public CreditCard(String cardNumber) {
+        this.cardNumber = cardNumber;
     }
+
     /*  */
-    public static List<CreditCard> retrieveSavedCards(String customerProfileId) {        
+    public static List<CreditCard> retrieveSavedCards(string customerProfileId) {        
 
         Map<String,Map<String,String>> creditCards =  fetchUsersCards(customerProfileId);
             
@@ -44,39 +46,13 @@ public with sharing class CreditCard {
             String firstName = card.get('firstName');
             String lastName = card.get('lastName');
 
-            CreditCard theCard = new CreditCard(cardNum, expDate);
-            // card.setFirstName(firstName);
-            // card.setLastName(lastName);
-            // card.setId(id);
+            CreditCard theCard = new CreditCard(cardNum, expDate, firstName, lastName, id);
 
             savedCards.add(theCard);
         }
-        
         return savedCards;
+
     }
-    
-    
-    
-    // profileId currently not used. Assume it is "905372692" in "https://appdev.ocdla.org/customer/905372692/cards"
-    public static Map<String,Map<String,String>> fetchUsersCards(String profileId){
-        Http client = new Http();
-
-        // Instantiate a new HTTP request, specify the method (GET) as well as the endpoint
-        HttpRequest req = new HttpRequest();
-        req.setEndpoint('https://appdev.ocdla.org/customer/905372692/cards');
-        req.setMethod('GET');
-
-        // Send the request, and return a response
-        HttpResponse res = client.send(req);
-        String body =  res.getBody();
-        System.debug(body);
-
-        // deserializes the JSON to a Map with strings before returning
-        return (Map<String,Map<String,String>>)JSON.deserialize(body, Map<String,Map<String,String>>.class);
-    }
-    
-    
-    
 
     public static List<SelectOption> toSelectOptions(List<CreditCard> cards) {
         System.debug('Input Cards: ' + cards);
@@ -84,7 +60,7 @@ public with sharing class CreditCard {
 
         // original loop to populate select options
         /*
-        for (CreditCardSteven card : cards) {
+        for (CreditCard card : cards) {
             String viewableCardNum;
             String expDate = card.getExpirationDate();
             List<string> splitExp = exp.split('-');
@@ -106,7 +82,7 @@ public with sharing class CreditCard {
         // updated loop to populate select options
         for (CreditCard card : cards) {
             String viewableCardNum = card.getCardNumber();
-            if(isExpired(card)) {
+            if(card.isExpired()) {
                 viewableCardNum = viewableCardNum + '(expired)';
             }
             cardValues.add(new SelectOption(String.valueOf(card.getId()), viewableCardNum));
@@ -127,7 +103,23 @@ public with sharing class CreditCard {
         return cardValues;
     }
 
+    // profileId currently not used. Assume it is "905372692" in "https://appdev.ocdla.org/customer/905372692/cards"
+    public static Map<String,Map<String,String>> fetchUsersCards(String profileId){
+        Http client = new Http();
 
+        // Instantiate a new HTTP request, specify the method (GET) as well as the endpoint
+        HttpRequest req = new HttpRequest();
+        req.setEndpoint('https://appdev.ocdla.org/customer/' + profileId + '/cards');
+        req.setMethod('GET');
+
+        // Send the request, and return a response
+        HttpResponse res = client.send(req);
+        String body =  res.getBody();
+        System.debug(body);
+
+        // deserializes the JSON to a Map with strings before returning
+        return (Map<String,Map<String,String>>)JSON.deserialize(body, Map<String,Map<String,String>>.class);
+    }
     
     // original isExpired function
     /*
@@ -144,8 +136,21 @@ public with sharing class CreditCard {
     */
 
     // updated isExpired function
-    public static boolean isExpired(CreditCard card) {
-        return card.getExpirationDate() < Date.today();
+    public boolean isExpired() {
+        return this.getExpirationDate() < Date.today();
+    }
+
+    public String getType() {
+        if (cardNumber.startsWith('4')) {
+            return 'Visa';
+        }
+        else {
+            return 'Unknown';
+        }
+    }
+
+    public Boolean isValid() {
+        return cardNumber.length() == 16;
     }
 
     public Integer getId() {
@@ -170,5 +175,13 @@ public with sharing class CreditCard {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }
