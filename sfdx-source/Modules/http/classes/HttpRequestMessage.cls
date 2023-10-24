@@ -19,7 +19,7 @@ public virtual class HttpRequestMessage extends HttpMessage {
         }
         else if('application/x-www-form-urlencoded' == contentType) {
 
-            this.body = Url.encodeParams(body);
+            this.body = HttpUrl.encodeParams(body);
         }
         else throw new HttpException('PARSE_ERROR: Cannot convert body to the specified content-type.');
     }
@@ -67,12 +67,13 @@ public virtual class HttpRequestMessage extends HttpMessage {
         HttpRequest req = new HttpRequest();
         req.setMethod(this.method);
         
-        if(null != this.endpoint) {
-            req.setEndpoint(this.endpoint);
+
+        req.setEndpoint(this.getEndpoint());
+
+        if(null != this.body) {
+       	 req.setBody(this.body);
         }
-
-        req.setBody(this.body);
-
+        
         for(String key : this.headers.keySet()) {
             req.setHeader(key, this.headers.get(key));
         }

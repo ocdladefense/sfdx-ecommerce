@@ -1,4 +1,4 @@
-public class Url {
+public class HttpUrl {
 
     
     private Map<String,String> params;
@@ -6,7 +6,7 @@ public class Url {
     private String url;
     
     
-    public Url(String url) {
+    public HttpUrl(String url) {
         this.params = new Map<String,String>();
         this.url = url;
     }

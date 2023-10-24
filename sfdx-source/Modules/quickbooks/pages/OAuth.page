@@ -1,6 +1,17 @@
-<apex:page controller="OAuthController" action="{!init}">
+<apex:page controller="OAuthController" action="{!onBrowserLoad}" contentType="text/html; charset=UTF-8" readOnly="true" 
+    docType="html-5.0" cache="false" setup="True">
+<!--- <apex:page controller="OAuthController" contentType="text/html; charset=UTF-8" readOnly="true" showHeader="false" standardStylesheets="false" docType="html-5.0" cache="false" applyHtmlTag="false" applyBodyTag="false"> --->
 <!-- Begin Default Content REMOVE THIS -->
-<h1>Congratulations</h1>
-This is your new Page
-<!-- End Default Content REMOVE THIS -->
+<h1>OAuth 2.0 Authorization Start</h1>
+<p>Use this page to authorize the Salesforce-to-Quickbooks integrator.</p>
+  
+<ul>
+    <li><a href="https://sandbox.qbo.intuit.com/login">QuickBooks Sandbox login</a></li>
+    <li><a href="https://developer.intuit.com/app/developer/dashboard">My Apps Dashboard</a></li>
+    </ul>
+    <apex:form >
+        <apex:commandButton value="Authorize in QuickBooks" action="{!init}" />
+        <apex:commandButton value="Get new Access Token" action="{!refreshAccessToken}" />
+        <br /><textarea cols="40" rows="20"></textarea>
+    </apex:form>
 </apex:page>
