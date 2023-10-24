@@ -1,5 +1,5 @@
 @isTest
-public with sharing class PaymentProfileTest {
+public class PaymentProfileTest {
     /*@isTest static void testForTest(){
         Test.startTest();
         Integer i = 1;
@@ -78,11 +78,22 @@ public with sharing class PaymentProfileTest {
 
         String customerWithSavedCards = '905372692';
 
-        List<CreditCard> retreivedCards = CreditCard.retrieveSavedCards(customerWithSavedCards);
+        List<CreditCard> cards = CreditCard.retrieveSavedCards(customerWithSavedCards);
         Test.stopTest();
 
-        System.assert(!retreivedCards.isEmpty());
-        System.assertEquals(4, retreivedCards.size());
+        System.assert(!cards.isEmpty());
+        System.assertEquals(4, cards.size());
+
+        //number of expired cards v not expired cards
+        //number of valid cards
+        Integer numExpiredCards = 0;
+        Integer expectedExpiredCards = 1;
+        
+        for(CreditCard c : cards) {
+            if(c.isExpired()) {
+                numExpiredCards++;
+            }
+        }
     }
     
     @isTest static void testRetrieveSavedCardsWithNoSavedProfile() {
