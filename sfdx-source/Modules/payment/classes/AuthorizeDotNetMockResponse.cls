@@ -28,7 +28,37 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
             'ApiEndpointName' => 'ApiEndpointSandbox'
     };
     
+        
+        // Should we tell the person on the CC server side that a Map of Maps is SILLY.
+        // Instead a List of Credit Card JSON objects will suffice for our purposes.
+        // 
+        // 
+    public static Map<String,Map<String, String>> retrieveMockedCards(HttpRequest req) {
+        
 
+
+        // extract customer profile id from URL. 
+        String reqEndpoint = req.getEndpoint();
+        String customerProfileIdFromEndpoint = reqEndpoint.substringBetween('customer/','/cards');
+
+        String hasSavePaymentProfiles = '905372692';
+        String hasNoPaymentProfiles = 'abcd1234';
+        // List <Map<string, string>> mockedCards = new List <Map<string, string>> {
+        Map<String,String> cc1 = new Map<String, string>{'isDefault'=>'true', 'id'=>'905264262', 'cardNumber'=>'XXXX4532', 'expirationDate'=>'2024-08', 'cardType'=>'visa', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'};
+        Map<String,String> cc2 = new Map<String, string>{'isDefault'=>'false', 'id'=>'905264263', 'cardNumber'=>'XXXX4632', 'expirationDate'=>'2023-08', 'cardType'=>'mastercard', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'};
+        Map<String,String> cc3 = new Map<String, string>{'isDefault'=>'false', 'id'=>'905264264', 'cardNumber'=>'XXXX4786', 'expirationDate'=>'2043-08', 'cardType'=>'mastercard', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'};
+        Map<String,String> cc4 = new Map<String, string>{'isDefault'=>'false', 'id'=>'905264265', 'cardNumber'=>'XXXX4912', 'expirationDate'=>'2025-08', 'cardType'=>'mastercard', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'};
+		
+        Map<String,Map<String,String>> cards = new Map<String,Map<String,String>>();
+        cards.put('905264262', cc1);
+        cards.put('905264263', cc2);
+        cards.put('905264264', cc3);
+        cards.put('905264265', cc4);
+        
+
+        return customerProfileIdFromEndpoint==hasSavePaymentProfiles ? cards : new Map<String,Map<String,String>>();
+ 
+    }
     
     public AuthorizeDotNetMockResponse(TransactionResponseCode code) {
         this.responseCode = code;
@@ -51,27 +81,21 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
         // System.assertEquals('GET', req.getMethod());
         
         HttpResponse res = new HttpResponse();
-        res.setHeader('Content-Type', 'application/json');
         String cardsEndpoint = 'https://appdev.ocdla.org/customer/905372692/cards';
+        res.setHeader('Content-Type', 'application/json');
+        //String cardsEndpoint = 'https://appdev.ocdla.org/customer/905372692/cards';
 
         String body;
         if (requestType == PaymentGatewayRequestType.SUBMIT_TRANSACTION) {
             body = JSON.serialize(this.responseCode == TransactionResponseCode.SUCCESS ? TRANSACTION_RESPONSE_SUCCESS : TRANSACTION_RESPONSE_FAILURE);
         }
         else if (requestType == PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES) {
-            body = savedPaymentProfileResponseBody();
+            body = JSON.serialize(retrieveMockedCards(req));
         }
         else if (requestType == PaymentGatewayRequestType.PUT_CUSTOMER_PAYMENT_PROFILE) {
-            body = putCustomerPaymentProfile();
+            body = JSON.serialize(putCustomerPaymentProfile());
         }
-        
-        
-
-
-
-
-        
-	
+    
         res.setBody(body);
         res.setStatusCode(200);
         res.setStatus('Apex generated Mock HttpResponse.');
@@ -83,20 +107,7 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
         return '{"id": "123"}';
     }
 
-    public String savedPaymentProfileResponseBody(HttpRequest req) {
 
-        // extract customer profile id from URL. 
-        String hasSavePaymentProfiles = '905372692';
-        String hasNoPaymentProfiles = 'abcd1234';
-        List <Map<string, string>> creditCards = new List <Map<string, string>> {
-            new Map<String, string>{'isDefault'=>'true', 'id'=>'905264262', 'cardNumber'=>'XXXX4532', 'expirationDate'=>'2024-08', 'cardType'=>'visa', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'},
-                new Map<String, string>{'isDefault'=>'false', 'id'=>'905264263', 'cardNumber'=>'XXXX4632', 'expirationDate'=>'2023-08', 'cardType'=>'mastercard', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'},
-                    new Map<String, string>{'isDefault'=>'false', 'id'=>'905264264', 'cardNumber'=>'XXXX4786', 'expirationDate'=>'2043-08', 'cardType'=>'mastercard', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'},
-                        new Map<String, string>{'isDefault'=>'false', 'id'=>'905264265', 'cardNumber'=>'XXXX4912', 'expirationDate'=>'2025-08', 'cardType'=>'mastercard', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'}
-        };
-
-        return JSON.serialize(creditCards);
-    }
     
 
 }

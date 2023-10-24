@@ -1,7 +1,4 @@
-public class CreditCard {
-
-    public final String TEST_CREDIT_CARD_NUMBER = '4111111111111111';
-
+public with sharing class CreditCard {
     private Boolean isDefault;
     private integer id;
     private string cardType;
@@ -21,66 +18,47 @@ public class CreditCard {
     private string country;
     private Boolean dateIsMasked;
 
-    public CreditCard(string cardNumber, date expirationDate, string firstName, string lastName) {
-        this.cardNumber = cardNumber;
-        this.expirationDate = expirationDate;
-        this.firstName = firstName;
-        this.lastName = lastName;
+
+    public CreditCard(String cardNumber, Date expDate) {
+        
     }
 
+    
+    
+    public Boolean isExpired() {
+        return True;
+    }
     /*  */
-    public static List<CreditCard> retrieveSavedCards(string customerProfileId) {        
+    public static List<CreditCard> retrieveSavedCards(String customerProfileId) {        
 
         Map<String,Map<String,String>> creditCards =  fetchUsersCards(customerProfileId);
             
         List<CreditCard> savedCards = new List<CreditCard> {};
         for (Map<string,string> card : creditCards.values()) {
-            String expDate = card.get('expirationDate');
+            Integer id = Integer.valueOf(card.get('id'));
+            List<String> dateParts = card.get('expirationDate').split('-');
+            Integer year = Integer.valueOf(dateParts[0]);
+            Integer month = Integer.valueOf(dateParts[1]);
+            Date expDate = Date.newInstance(year, month, 1);
             String cardNum = card.get('cardNumber');
             String firstName = card.get('firstName');
             String lastName = card.get('lastName');
 
-            CreditCard theCard = new CreditCard(cardNum, expDate, firstName, lastName);
+            CreditCard theCard = new CreditCard(cardNum, expDate);
+            // card.setFirstName(firstName);
+            // card.setLastName(lastName);
+            // card.setId(id);
 
             savedCards.add(theCard);
         }
+        
         return savedCards;
-
-        
-        /*
-                
-        
-        return creditCards;
-        */
     }
-
-    public static List<SelectOption> toSelectOptions(List<CreditCard> cards) {
-        List<SelectOption> cardValues = new List<SelectOption>();
-
-        for (CreditCard card : cards) {
-            String viewableCardNum;
-            String exp = card.getExpirationDate();
-            List<string> splitExp = exp.split('-');
-            String year = splitExp[0];
-            String month = splitExp[1];
-            exp = month + '/' + year;
-            if(isExpired(card)) {
-                viewableCardNum = card.getCardNumber();
-                viewableCardNum = viewableCardNum + '(expired)';
-            }
-            cardValues.add(new SelectOption(card.getId(), viewableCardNum));
-            if (card.getIsDefault())
-            {
-                defaultCard = card;
-            }
-        }   
-
-        cardValues.add(new SelectOption('newCard', 'Add New Card'));
-        return cardValues;
-    }
-
-    // From Alex's branch
-    public static Map<String,Map<String,String>> fetchUsersCards(){
+    
+    
+    
+    // profileId currently not used. Assume it is "905372692" in "https://appdev.ocdla.org/customer/905372692/cards"
+    public static Map<String,Map<String,String>> fetchUsersCards(String profileId){
         Http client = new Http();
 
         // Instantiate a new HTTP request, specify the method (GET) as well as the endpoint
@@ -96,7 +74,63 @@ public class CreditCard {
         // deserializes the JSON to a Map with strings before returning
         return (Map<String,Map<String,String>>)JSON.deserialize(body, Map<String,Map<String,String>>.class);
     }
+    
+    
+    
+
+    public static List<SelectOption> toSelectOptions(List<CreditCard> cards) {
+        System.debug('Input Cards: ' + cards);
+        List<SelectOption> cardValues = new List<SelectOption>();
+
+        // original loop to populate select options
+        /*
+        for (CreditCardSteven card : cards) {
+            String viewableCardNum;
+            String expDate = card.getExpirationDate();
+            List<string> splitExp = exp.split('-');
+            String year = splitExp[0];
+            String month = splitExp[1];
+            expDate = month + '/' + year;
+            if(isExpired(card)) {
+                viewableCardNum = card.getCardNumber();
+                viewableCardNum = viewableCardNum + '(expired)';
+            }
+            cardValues.add(new SelectOption(card.getId(), viewableCardNum));
+            if (card.getIsDefault())
+            {
+                defaultCard = card;
+            }
+        }   
+        */
+
+        // updated loop to populate select options
+        for (CreditCard card : cards) {
+            String viewableCardNum = card.getCardNumber();
+            if(isExpired(card)) {
+                viewableCardNum = viewableCardNum + '(expired)';
+            }
+            cardValues.add(new SelectOption(String.valueOf(card.getId()), viewableCardNum));
             
+            // ---TODO---
+            // fix later after defaultCard is fully investigated in OcdlaCheckoutController
+            // currently not needed for testing
+            /*
+            if (card.getIsDefault())
+            {
+                defaultCard = card;
+            }
+            */
+        }
+
+        cardValues.add(new SelectOption('newCard', 'Add New Card'));
+        System.debug('Output SelectOptions: ' + cardValues);
+        return cardValues;
+    }
+
+
+    
+    // original isExpired function
+    /*
     private static boolean isExpired(Map<string,string> card) {
         String exp = card.get('expirationDate');
         List<string> splitExp = exp.split('/');
@@ -106,6 +140,12 @@ public class CreditCard {
         Date realDate = Date.parse(expirationDate);
         
         return realDate < Date.today();
+    }
+    */
+
+    // updated isExpired function
+    public static boolean isExpired(CreditCard card) {
+        return card.getExpirationDate() < Date.today();
     }
 
     public Integer getId() {
@@ -131,5 +171,4 @@ public class CreditCard {
     public String getLastName() {
         return lastName;
     }
-    
 }

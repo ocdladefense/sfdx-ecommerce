@@ -1,4 +1,4 @@
-public with sharing class CreditCardSteven {
+public with sharing class CreditCard {
     private Boolean isDefault;
     private integer id;
     private string cardType;
@@ -18,7 +18,7 @@ public with sharing class CreditCardSteven {
     private string country;
     private Boolean dateIsMasked;
 
-    public CreditCardSteven(string cardNumber, date expirationDate, string firstName, string lastName, Integer id) {
+    public CreditCard(string cardNumber, date expirationDate, string firstName, string lastName, Integer id) {
         this.cardNumber = cardNumber;
         this.expirationDate = expirationDate;
         this.firstName = firstName;
@@ -31,11 +31,11 @@ public with sharing class CreditCardSteven {
     }
 
     /*  */
-    public static List<CreditCardSteven> retrieveSavedCards(string customerProfileId) {        
+    public static List<CreditCard> retrieveSavedCards(string customerProfileId) {        
 
         Map<String,Map<String,String>> creditCards =  fetchUsersCards(customerProfileId);
             
-        List<CreditCardSteven> savedCards = new List<CreditCardSteven> {};
+        List<CreditCard> savedCards = new List<CreditCard> {};
         for (Map<string,string> card : creditCards.values()) {
             Integer id = Integer.valueOf(card.get('id'));
             List<String> dateParts = card.get('expirationDate').split('-');
@@ -46,7 +46,7 @@ public with sharing class CreditCardSteven {
             String firstName = card.get('firstName');
             String lastName = card.get('lastName');
 
-            CreditCardSteven theCard = new CreditCardSteven(cardNum, expDate, firstName, lastName, id);
+            CreditCard theCard = new CreditCard(cardNum, expDate, firstName, lastName, id);
 
             savedCards.add(theCard);
         }
@@ -54,7 +54,7 @@ public with sharing class CreditCardSteven {
 
     }
 
-    public static List<SelectOption> toSelectOptions(List<CreditCardSteven> cards) {
+    public static List<SelectOption> toSelectOptions(List<CreditCard> cards) {
         System.debug('Input Cards: ' + cards);
         List<SelectOption> cardValues = new List<SelectOption>();
 
@@ -80,7 +80,7 @@ public with sharing class CreditCardSteven {
         */
 
         // updated loop to populate select options
-        for (CreditCardSteven card : cards) {
+        for (CreditCard card : cards) {
             String viewableCardNum = card.getCardNumber();
             if(card.isExpired()) {
                 viewableCardNum = viewableCardNum + '(expired)';

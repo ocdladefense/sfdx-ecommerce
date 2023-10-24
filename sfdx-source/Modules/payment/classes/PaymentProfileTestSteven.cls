@@ -10,11 +10,11 @@ public with sharing class PaymentProfileTestSteven {
 
         //CreditCardSteven card = new CreditCardSteven(cardNumber, expirationDate, firstName, lastName, id);
         //CreditCardSteven card = new CreditCardSteven(cardNumber, expirationDate);
-        CreditCardSteven card = new CreditCardSteven('4444222211111111');
+        CreditCard card = new CreditCardSteven('4444222211111111');
         // should be able to pretend user has invalid credit card
-        CreditCardSteven invalidCard = new CreditCardSteven('21');
-        CreditCardSteven expiredCard = new CreditCardSteven('4444222211111111', Date.newInstance(2001, 4, 1));
-        CreditCardSteven validCVVCard = new CreditCardSteven('4444222211111111', Date.newInstance(2001, 4, 1), '123');
+        CreditCard invalidCard = new CreditCardSteven('21');
+        CreditCard expiredCard = new CreditCardSteven('4444222211111111', Date.newInstance(2001, 4, 1));
+        CreditCard validCVVCard = new CreditCardSteven('4444222211111111', Date.newInstance(2001, 4, 1), '123');
 
         // call card.setFirstName and card.setLastName
         card.setFirstName('Bob');
@@ -45,11 +45,11 @@ public with sharing class PaymentProfileTestSteven {
 
         //CreditCardSteven card = new CreditCardSteven(cardNumber, expirationDate, firstName, lastName, id);
         //CreditCardSteven card = new CreditCardSteven(cardNumber, expirationDate);
-        CreditCardSteven card = new CreditCardSteven('4444222211111111');
+        CreditCard card = new CreditCardSteven('4444222211111111');
         // should be able to pretend user has invalid credit card
-        CreditCardSteven invalidCard = new CreditCardSteven('21');
-        CreditCardSteven expiredCard = new CreditCardSteven('4444222211111111', Date.newInstance(2001, 4, 1));
-        CreditCardSteven validCVVCard = new CreditCardSteven('4444222211111111', Date.newInstance(2001, 4, 1), '123');
+        CreditCard invalidCard = new CreditCardSteven('21');
+        CreditCard expiredCard = new CreditCardSteven('4444222211111111', Date.newInstance(2001, 4, 1));
+        CreditCard validCVVCard = new CreditCardSteven('4444222211111111', Date.newInstance(2001, 4, 1), '123');
 
         // call card.setFirstName and card.setLastName
         card.setFirstName('Bob');
@@ -84,7 +84,7 @@ public with sharing class PaymentProfileTestSteven {
         String firstName = 'John';
         String lastName = 'Doe';
         
-        Map<String,Map<String,String>> creditCards =  CreditCardSteven.fetchUsersCards(customerProfileId);
+        Map<String,Map<String,String>> creditCards =  CreditCard.fetchUsersCards(customerProfileId);
         Map<String,String> card = creditCards.get(cardId);
         Test.stopTest();
 
@@ -108,8 +108,8 @@ public with sharing class PaymentProfileTestSteven {
         String firstName = 'John';
         String lastName = 'Doe';
         
-        List<CreditCardSteven> creditCards =  CreditCardSteven.retrieveSavedCards(customerProfileId);
-        CreditCardSteven card = creditCards[3]; // this card was added first but ended up at end of list of cards
+        List<CreditCard> creditCards =  CreditCard.retrieveSavedCards(customerProfileId);
+        CreditCard card = creditCards[3]; // this card was added first but ended up at end of list of cards
         Test.stopTest();
 
         System.assertNotEquals(null, creditCards);
@@ -127,8 +127,8 @@ public with sharing class PaymentProfileTestSteven {
         Test.setMock(HttpCalloutMock.class, mock);
 
         String customerProfileId = '905372692';
-        List<CreditCardSteven> creditCards =  CreditCardSteven.retrieveSavedCards(customerProfileId);
-        List<SelectOption> cardValues = new List<SelectOption>(CreditCardSteven.toSelectOptions(creditCards));
+        List<CreditCard> creditCards =  CreditCard.retrieveSavedCards(customerProfileId);
+        List<SelectOption> cardValues = new List<SelectOption>(CreditCard.toSelectOptions(creditCards));
         List<SelectOption> expectedOptions = new List<SelectOption>{
             new SelectOption('XXXX4532', '2024-08'),
             new SelectOption('XXXX4632', '2023-08(expired)'),
