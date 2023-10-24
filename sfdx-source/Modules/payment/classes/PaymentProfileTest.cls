@@ -118,20 +118,20 @@ public class PaymentProfileTest {
         }
     @isTest static void testAddValidNewCardToPaymentProfile() {
         System.assert(1==1);
-        //request type = put
+       
         //test that the size of the list is greater than original
     }
 
     @isTest static void testAddInvalidCardTypeToPaymentProfile() {
         System.assert(1==1);
-        //request type = put
+       
         //test that a message was received
         //test that the size of the list is the same as the original
     }
 
     @isTest static void testAddExpiredCardToPaymentProfile() {
         System.assert(1==1);
-        //request type = put
+       
         //test that a message was received
         //test that the size of the list is the same as the original
     }
@@ -139,7 +139,7 @@ public class PaymentProfileTest {
 
     @isTest static void testAddExistingCardAsNewToPaymentProfile() {
         System.assert(1==1);
-         //request type = put
+        
          //test that a message was received
         //test that the size of the list is the same as the original
     }
@@ -150,14 +150,14 @@ public class PaymentProfileTest {
 
     @isTest static void testChangeDefaultCard() {
         System.assert(1==1);
-        //request type = put
+       
         //test that the new default card passes isDefault
         //test that old default card passes !isDefault
     }
 
     @isTest static void testRemoveCardFromPaymentProfile() {
         System.assert(1==1);
-        //request type = put
+       
         //test that the size of the list is less than the original by 1
     }
 
