@@ -85,7 +85,7 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
         return '{"id": "123"}';
     }
 
-    public String savedPaymentProfileResponseBody(HttpRequest req) {
+    public String savedPaymentProfileResponseBodyList(HttpRequest req) {
 
         // extract customer profile id from URL. 
         String reqEndpoint = req.getEndpoint();
@@ -113,7 +113,7 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
     
     }
 
-    public String savedPaymentProfileResponseBodyMapType(HttpRequest req) {
+    public String savedPaymentProfileResponseBody(HttpRequest req) {
 
         // extract customer profile id from URL. 
         String reqEndpoint = req.getEndpoint();
@@ -122,15 +122,17 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
         String hasSavePaymentProfiles = '905372692';
         String hasNoPaymentProfiles = 'abcd1234';
 
-        List <Map<string, string>> noPaymentProfiles = new List <Map<string, string>> {new Map<String, string> {'foo' => 'bar'}};
-        noPaymentProfiles.clear();
+        Map<String,Map<String,String>> noPaymentProfiles = new Map<String,Map<String,String>>();
         //in credit card Map<String,Map<String,String>>
         //old List <Map<string, string>>
-        Map<String,Map<String,String>> savedPaymentProfiles = new Map<String,Map<String,String>> {'905372692' =>
-            new Map<String, string>{'isDefault'=>'true', 'id'=>'905264262', 'cardNumber'=>'XXXX4532', 'expirationDate'=>'2024-08', 'cardType'=>'visa', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'},
+        Map<String,Map<String,String>> savedPaymentProfiles = new Map<String,Map<String,String>> {'905263202' => 
+                new Map<String, string>{'isDefault'=>'true', 'id'=>'905264262', 'cardNumber'=>'XXXX4532', 'expirationDate'=>'2024-08', 'cardType'=>'visa', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'},
+            '905264232' =>
                 new Map<String, string>{'isDefault'=>'false', 'id'=>'905264263', 'cardNumber'=>'XXXX4632', 'expirationDate'=>'2023-08', 'cardType'=>'mastercard', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'},
-                    new Map<String, string>{'isDefault'=>'false', 'id'=>'905264264', 'cardNumber'=>'XXXX4786', 'expirationDate'=>'2043-08', 'cardType'=>'mastercard', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'},
-                        new Map<String, string>{'isDefault'=>'false', 'id'=>'905264265', 'cardNumber'=>'XXXX4912', 'expirationDate'=>'2025-08', 'cardType'=>'mastercard', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'}
+            '905264237' =>
+                new Map<String, string>{'isDefault'=>'false', 'id'=>'905264264', 'cardNumber'=>'XXXX4786', 'expirationDate'=>'2043-08', 'cardType'=>'mastercard', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'},
+            '905264243'=>
+                new Map<String, string>{'isDefault'=>'false', 'id'=>'905264265', 'cardNumber'=>'XXXX4912', 'expirationDate'=>'2025-08', 'cardType'=>'mastercard', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'}
         };
         if (customerProfileIdFromEndpoint==hasSavePaymentProfiles){
             return  JSON.serialize(savedPaymentProfiles);
@@ -141,6 +143,23 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
     
     }
 
+    //static method to return a card with all fields having valid values
+    public static CreditCard newCardAllValidValues(){
+        CreditCard card = new CreditCard('4444222211111111', Date.newInstance(2026, 4, 1), '123');
+        card.setFirstName('Charles');
+        card.setLastName('Dickens');
+        card.setEmail('cdickins@books.com');
+        card.setFax('555-555-5555');
+        card.setPhone('555-556-6666');
+        card.setIsDefault(true);
+        card.setBillingAddress('123 Tree St.');
+        card.setBillingCity('Eugene');
+        card.setBillingCountry('US');
+        card.setBillingZip('OR');
+        card.setBillingZip('97401');
+
+        return card;
+    } 
     
 
 }

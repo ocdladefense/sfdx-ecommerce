@@ -42,7 +42,7 @@ public with sharing class PaymentProfileTest {
 
         String customerWithSavedCards = '905372692';
 
-       List<Map<String,String>> paymentProfileWithCards =  CreditCard.fetchUsersCards(customerWithSavedCards);
+       Map<String, Map<String,String>> paymentProfileWithCards =  CreditCard.fetchUsersCards(customerWithSavedCards);
         Test.stopTest();
         //assert list is not empty and has count of 4 for customer with saved cards
         System.assert(!paymentProfileWithCards.isEmpty());
@@ -57,7 +57,7 @@ public with sharing class PaymentProfileTest {
 
         String customerNoSavedCards = 'abcd1234';
 
-        List<Map<String,String>> paymentProfileNoCards =  CreditCard.fetchUsersCards(customerNoSavedCards);
+        Map<String, Map<String,String>> paymentProfileNoCards =  CreditCard.fetchUsersCards(customerNoSavedCards);
         Test.stopTest();
 
         //assert list is empty and has count of 0 for customer with no saved cards
@@ -70,12 +70,38 @@ public with sharing class PaymentProfileTest {
         //this tests retrieved saved cards which uses fetchUserCards
         //retreived saved cards should be a list of creditCard objects
         //System.Assert.isInstanceOfType(card, CreditCard.class));
+
+        Test.startTest();
+        AuthorizeDotNetMockResponse mock = new AuthorizeDotNetMockResponse(PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES);
+
+        Test.setMock(HttpCalloutMock.class, mock);
+
+        String customerWithSavedCards = '905372692';
+
+        List<CreditCard> retreivedCards = CreditCard.retrieveSavedCards(customerWithSavedCards);
+        Test.stopTest();
+
+        System.assert(!retreivedCards.isEmpty());
+        System.assertEquals(4, retreivedCards.size());
     }
     
     @isTest static void testRetrieveSavedCardsWithNoSavedProfile() {
         //this tests retrieved saved cards which uses fetchUserCards
         //retreived saved cards should be a list of creditCard objects
         //when the list is empty what should it do?
+        Test.startTest();
+        AuthorizeDotNetMockResponse mock = new AuthorizeDotNetMockResponse(PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES);
+
+        Test.setMock(HttpCalloutMock.class, mock);
+
+        String customerNoSavedCards = 'abcd1234';
+
+        List<CreditCard> retreivedCards = CreditCard.retrieveSavedCards(customerNoSavedCards);
+        Test.stopTest();
+
+        System.assert(retreivedCards.isEmpty());
+        System.assertEquals(0, retreivedCards.size());
+        
         }
     @isTest static void testAddValidNewCardToPaymentProfile() {
         System.assert(1==1);

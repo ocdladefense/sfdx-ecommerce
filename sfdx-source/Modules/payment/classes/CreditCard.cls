@@ -40,12 +40,11 @@ public with sharing class CreditCard {
     /* static methods */
     public static List<CreditCard> retrieveSavedCards(string customerProfileId) {        
 
-        //Map<String,Map<String, String>> fetchedCards =  fetchUsersCards(customerProfileId);
-        List<Map<String, String>> fetchedCardList =  new List<Map<String, String>>();
-
+        Map<String,Map<String, String>> fetchedCards =  fetchUsersCards(customerProfileId);
+            
         List<CreditCard> savedCards = new List<CreditCard> {};
-
-        for (Map<string,string> card : fetchedCardList){
+        
+        for (Map<string,string> card : fetchedCards.values()) {
             Integer id = Integer.valueOf(card.get('id'));
             List<String> dateParts = card.get('expirationDate').split('-');
             Integer year = Integer.valueOf(dateParts[0]);
@@ -59,20 +58,6 @@ public with sharing class CreditCard {
 
             savedCards.add(theCard);
         }
-        /*for (Map<string,string> card : fetchedCards.values()) {
-            Integer id = Integer.valueOf(card.get('id'));
-            List<String> dateParts = card.get('expirationDate').split('-');
-            Integer year = Integer.valueOf(dateParts[0]);
-            Integer month = Integer.valueOf(dateParts[1]);
-            Date expDate = Date.newInstance(year, month, 1);
-            String cardNum = card.get('cardNumber');
-            String firstName = card.get('firstName');
-            String lastName = card.get('lastName');
-
-            CreditCard theCard = new CreditCard(cardNum, expDate);
-
-            savedCards.add(theCard);
-        }*/
         return savedCards;
 
     }
@@ -111,7 +96,7 @@ public with sharing class CreditCard {
     }
 
     // profileId currently not used. Assume it is "905372692" in "https://appdev.ocdla.org/customer/905372692/cards"
-    public static List<Map<String,String>> fetchUsersCards(String profileId){
+    public static Map<String,Map<String,String>> fetchUsersCards(String profileId){
         Http client = new Http();
 
         // Instantiate a new HTTP request, specify the method (GET) as well as the endpoint
@@ -125,7 +110,7 @@ public with sharing class CreditCard {
         System.debug(body);
 
         // deserializes the JSON to a Map with strings before returning
-        return (List<Map<String,String>>)JSON.deserialize(body, List<Map<String,String>>.class);
+        return (Map<String,Map<String,String>>)JSON.deserialize(body, Map<String,Map<String,String>>.class);
     }
     
     // original isExpired function
@@ -142,7 +127,34 @@ public with sharing class CreditCard {
     }
     */
 
-    // updated isExpired function
+    public static void addNewCardToPaymentProfile(CreditCard card){
+        //user enters values into fields and hits submit
+        //post request to server sent with form data as body
+        //make a new card from the form values
+        //as that happens setters get called and messages get sent back if invalid 
+        //after all the data is validated
+        //send api request to add it to the db
+        //is the body a serialized json object or a json object
+
+    }
+    public HttpRequest buildCardPostRequest() {
+        //make new request object
+        HttpRequest req = new HttpRequest();
+        //Set HTTPRequest Method
+        req.setMethod('POST');
+
+        // set the header
+        //req.setHeader('Content-Type','application/json');
+        
+        // Set the HTTPRequest body	
+        String body = formatBody(this.params);
+        if(null != body) {
+        	req.setBody(body);
+        }
+        
+        return req;
+    }
+
     public boolean isExpired() {
         return this.getExpirationDate() < Date.today();
     }
