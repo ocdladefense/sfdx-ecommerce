@@ -94,6 +94,8 @@ public class PaymentProfileTest {
                 numExpiredCards++;
             }
         }
+
+        System.assertEquals(expectedExpiredCards, numExpiredCards, 'Payment Gateway should have returned at least one expired card for this customer.');
     }
     
     @isTest static void testRetrieveSavedCardsWithNoSavedProfile() {
