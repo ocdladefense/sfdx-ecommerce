@@ -27,9 +27,11 @@ global without sharing class OcdlaCheckoutController extends CommunityController
     public Map<String, String> billingData {get;public set;}
     
     public Map<String, String> shippingData {get;public set;}
-    
+    //customer inputs this NOT saved creditcard data
     public Map<String, String> ccData {get;public set;}
-    
+    //will be list of saved credit cards
+    //this doesn't use the credit card class YET
+    //TO DO should be List <CreditCard>
     public List <Map<string, string>> creditCards {get;public set;}
     
     public Map<String, String> defaultCard {get;public set;}
@@ -142,7 +144,9 @@ global without sharing class OcdlaCheckoutController extends CommunityController
         System.debug(params);
 
         this.setupCustomer();
-        
+        //TO DO add ref to customer profile id
+        //customerProfileId='905372692';
+        //note current contact's id is in AuthorizeDotNetCustomerProfileId__c in Contact
         this.creditCards = CreditCard.retrieveSavedCards(customerProfileId);
         this.cardOptions = CreditCard.toSelectOptions(this.creditCards);
         

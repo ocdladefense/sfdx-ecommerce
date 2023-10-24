@@ -69,16 +69,16 @@
                             <div class="button next-step">
                                 <apex:commandButton action="{!checkoutAsGuest}" value="Submit" id="theButton" />
                             </div>-->
-                            
-                            <div class="button next-step" onclick="doGuestCheckoutThing(); return false;">
-                                <a id="checkout-billing-info-done" style="margin-bottom: 8px;" class="cc-data cc-button">
-                                Checkout as Guest
-                                </a>
-                                <apex:actionFunction name="doGuestCheckoutThing" action="{!checkoutAsGuest}" />
-                                
-                                
-                            </div>
-                            
+                            <apex:outputPanel rendered="{!isLoggedIn}" layout="block">
+                                <div class="button next-step" onclick="doGuestCheckoutThing(); return false;">
+                                    <a id="checkout-billing-info-done" style="margin-bottom: 8px;" class="cc-data cc-button">
+                                    Checkout as Guest
+                                    </a>
+                                    <apex:actionFunction name="doGuestCheckoutThing" action="{!checkoutAsGuest}" />
+                                    
+                                    
+                                </div>
+                            </apex:outputPanel>
                             
                             <div class="button next-step">
                                 <a href="/ocdlacheckoutpayment?id={!cartId}" id="checkout-billing-info-done" style="margin-bottom: 8px;" class="cc-data cc-button">
@@ -87,21 +87,21 @@
                             </div>
                             
                             
+                            <apex:outputPanel rendered="{!!isLoggedIn}" layout="block">
                             
-                            
-                            <div class="button next-step">
-                                <a href="/ocdlacheckoutpayment?id={!cartId}" id="checkout-billing-info-done" style="margin-bottom: 8px;" class="cc-data cc-button">
-                                    Login
-                                </a>
-                            </div>
-                            
-                            
-                            <div class="button next-step">
-                                <a href="/ocdlacheckoutpayment?id={!cartId}" id="checkout-billing-info-done" style="margin-bottom: 8px;" class="cc-data cc-button">
-                                    Create Account
-                                </a>
-                            </div>
-                            
+                                <div class="button next-step">
+                                    <a href="/ocdlacheckoutpayment?id={!cartId}" id="checkout-billing-info-done" style="margin-bottom: 8px;" class="cc-data cc-button">
+                                        Login
+                                    </a>
+                                </div>
+                                
+                                
+                                <div class="button next-step">
+                                    <a href="/ocdlacheckoutpayment?id={!cartId}" id="checkout-billing-info-done" style="margin-bottom: 8px;" class="cc-data cc-button">
+                                        Create Account
+                                    </a>
+                                </div>
+                            </apex:outputPanel>
                             
                         </apex:form>
                         
