@@ -5,6 +5,13 @@
 // You can also execute the entire file by running the command:
 //     SFDX: Execute Anonymous Apex with Editor Contents
 // https://developer.salesforce.com/docs/atlas.en-us.apexcode.meta/apexcode/apex_platform_cache_org_examples.htm  
+
+
+String instanceUrl = URL.getOrgDomainURL();
+
+System.debug(instanceUrl);
+
+
 String accessToken = (String)Cache.Org.get('local.Default.accessToken');
 
         CreateCustomerRequest req = new CreateCustomerRequest();

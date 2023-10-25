@@ -11,7 +11,5 @@ public class QuickBooksSandbox {
     };
   
 
-    public QuickbooksSandboxClient() {
 
-    }
 }
