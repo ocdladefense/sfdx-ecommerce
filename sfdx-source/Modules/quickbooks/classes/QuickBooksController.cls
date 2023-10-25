@@ -5,7 +5,7 @@ public class QuickBooksController {
     
     public QuickBooksController() {
         
-        CustomerQueryRequest req = new CustomerQueryRequest();
+        QueryRequest req = new QueryRequest();
         req.setQuery('select * from Customer Where Metadata.LastUpdatedTime > \'2023-08-01\'');
         
         String clientId = (String)Cache.Org.get('local.Default.clientId');
