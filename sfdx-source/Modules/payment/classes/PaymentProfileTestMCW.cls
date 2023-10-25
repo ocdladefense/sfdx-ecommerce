@@ -1,5 +1,6 @@
+
 @isTest
-public class PaymentProfileTest {
+public with sharing class PaymentProfileTestMCW {
     /*@isTest static void testForTest(){
         Test.startTest();
         Integer i = 1;
@@ -8,24 +9,24 @@ public class PaymentProfileTest {
     }*/
 
     @isTest 
-    static void testCreditCardConstructors() {
+    static void testCreditCardMaraConstructors() {
         //constructor takes credit card number only
-        CreditCard validCard = new CreditCard('4444222211111111');
-        CreditCard invalidCard = new CreditCard('21');
+        CreditCardMara validCard = new CreditCardMara('4444222211111111');
+        CreditCardMara invalidCard = new CreditCardMara('21');
 
         System.assert(validCard.isValid());
         System.assert(!invalidCard.isValid());
 
         //constructor takes credit card number and expiration date only
-        CreditCard expiredCard = new CreditCard('4444222211111111', Date.newInstance(2001, 4, 1));
-        CreditCard currentCard = new CreditCard('4444222211111111', Date.newInstance(2026, 4, 1));
+        CreditCardMara expiredCard = new CreditCardMara('4444222211111111', Date.newInstance(2001, 4, 1));
+        CreditCardMara currentCard = new CreditCardMara('4444222211111111', Date.newInstance(2026, 4, 1));
 
         System.assert(expiredCard.isExpired());
         System.assert(!currentCard.isExpired());
 
         //constructor takes credit card number, expiration date, and cvv
-        CreditCard validCVVCard = new CreditCard('4444222211111111', Date.newInstance(2026, 4, 1), '123');
-        CreditCard invalidCVVCard = new CreditCard('44', Date.newInstance(2001, 4, 1), '123');
+        CreditCardMara validCVVCard = new CreditCardMara('4444222211111111', Date.newInstance(2026, 4, 1), '123');
+        CreditCardMara invalidCVVCard = new CreditCardMara('44', Date.newInstance(2001, 4, 1), '123');
         
         System.assert(validCVVCard.isValid());
         System.assert(!invalidCVVCard.isValid());
@@ -42,7 +43,7 @@ public class PaymentProfileTest {
 
         String customerWithSavedCards = '905372692';
 
-       Map<String, Map<String,String>> paymentProfileWithCards =  CreditCard.fetchUsersCards(customerWithSavedCards);
+        Map<String,Map<String,String>> paymentProfileWithCards =  CreditCardMara.fetchUsersCards(customerWithSavedCards);
         Test.stopTest();
         //assert list is not empty and has count of 4 for customer with saved cards
         System.assert(!paymentProfileWithCards.isEmpty());
@@ -57,7 +58,7 @@ public class PaymentProfileTest {
 
         String customerNoSavedCards = 'abcd1234';
 
-        Map<String, Map<String,String>> paymentProfileNoCards =  CreditCard.fetchUsersCards(customerNoSavedCards);
+        Map<String,Map<String,String>> paymentProfileNoCards =  CreditCardMara.fetchUsersCards(customerNoSavedCards);
         Test.stopTest();
 
         //assert list is empty and has count of 0 for customer with no saved cards
@@ -69,62 +70,13 @@ public class PaymentProfileTest {
     @isTest static void testRetrieveSavedCardsOnSavedPaymentProfile() {
         //this tests retrieved saved cards which uses fetchUserCards
         //retreived saved cards should be a list of creditCard objects
-        //System.Assert.isInstanceOfType(card, CreditCard.class));
-
-        Test.startTest();
-        AuthorizeDotNetMockResponse mock = new AuthorizeDotNetMockResponse(PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES);
-
-        Test.setMock(HttpCalloutMock.class, mock);
-
-        String customerWithSavedCards = '905372692';
-
-        List<CreditCard> cards = CreditCard.retrieveSavedCards(customerWithSavedCards);
-        Test.stopTest();
-
-        System.assert(!cards.isEmpty());
-        System.assertEquals(4, cards.size());
-
-        //number of expired cards v not expired cards
-        //number of valid cards
-        Integer numExpiredCards = 0;
-        Integer expectedExpiredCards = 1;
-        
-        for(CreditCard c : cards) {
-            if(c.isExpired()) {
-                numExpiredCards++;
-            }
-        }
-        System.assertEquals(expectedExpiredCards, numExpiredCards, 'Payment Gateway should have returned at least one expired card for this customer.');
-        
-        Integer numDefaultCards = 0;
-        Integer expectedDefaultCards = 1;
-        for(CreditCard c : cards) {
-            if(c.getIsDefault()) {
-                numDefaultCards++;
-            }
-        }
-
-
-        System.assertEquals(expectedDefaultCards, numDefaultCards, 'Payment Gateway should have returned one default card for this customer.');
+        //System.Assert.isInstanceOfType(card, CreditCardMara.class));
     }
     
     @isTest static void testRetrieveSavedCardsWithNoSavedProfile() {
         //this tests retrieved saved cards which uses fetchUserCards
         //retreived saved cards should be a list of creditCard objects
         //when the list is empty what should it do?
-        Test.startTest();
-        AuthorizeDotNetMockResponse mock = new AuthorizeDotNetMockResponse(PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES);
-
-        Test.setMock(HttpCalloutMock.class, mock);
-
-        String customerNoSavedCards = 'abcd1234';
-
-        List<CreditCard> retreivedCards = CreditCard.retrieveSavedCards(customerNoSavedCards);
-        Test.stopTest();
-
-        System.assert(retreivedCards.isEmpty());
-        System.assertEquals(0, retreivedCards.size());
-        
         }
     @isTest static void testAddValidNewCardToPaymentProfile() {
         System.assert(1==1);

@@ -1,4 +1,4 @@
-public with sharing class CreditCard {
+public with sharing class CreditCardMara {
     //copied from Credit Card Steven to named class until I have access to independent sandbox
 
 
@@ -22,30 +22,28 @@ public with sharing class CreditCard {
     private Boolean dateIsMasked;
 
 //constructors
-    public CreditCard(String cardNumber) {
+    public CreditCardMara(String cardNumber) {
         this.cardNumber = cardNumber;
     }
 
-    public CreditCard(String cardNumber, date expirationDate) {
+    public CreditCardMara(String cardNumber, date expirationDate) {
         this.cardNumber = cardNumber;
         this.expirationDate = expirationDate;
     }
 
-    public CreditCard(String cardNumber, Date expDate, string cvv) {
+    public CreditCardMara(String cardNumber, date expirationDate, string cvv) {
         this.cardNumber = cardNumber;
-        this.expirationDate = expDate;
+        this.expirationDate = expirationDate;
         this.cvv = cvv;
     }
 
     /* static methods */
-    public static List<CreditCard> retrieveSavedCards(string customerProfileId) {        
+    public static List<CreditCardMara> retrieveSavedCards(string customerProfileId) {        
 
-        Map<String,Map<String, String>> fetchedCards =  fetchUsersCards(customerProfileId);
+        Map<String,Map<String,String>> creditCards =  fetchUsersCards(customerProfileId);
             
-        List<CreditCard> savedCards = new List<CreditCard> {};
-        
-        for (Map<string,string> card : fetchedCards.values()) {
-            Boolean isDefault = Boolean.valueOf(card.get('isDefault'));
+        List<CreditCardMara> savedCards = new List<CreditCardMara> {};
+        for (Map<string,string> card : creditCards.values()) {
             Integer id = Integer.valueOf(card.get('id'));
             List<String> dateParts = card.get('expirationDate').split('-');
             Integer year = Integer.valueOf(dateParts[0]);
@@ -54,23 +52,8 @@ public with sharing class CreditCard {
             String cardNum = card.get('cardNumber');
             String firstName = card.get('firstName');
             String lastName = card.get('lastName');
-            String billingAddress = card.get('address');
-            String billingCity = card.get('city');
-            String billingZip = card.get('zip');
-            String billingState = card.get('state');
-            String billingCountry = card.get('country');
 
-            CreditCard theCard = new CreditCard(cardNum, expDate);
-            theCard.setId(id);
-            theCard.setIsDefault(isDefault);
-            //these properties are not referenced in select options - will we ever need a list of credit cards that has all the info returned by the api call?
-            theCard.setFirstName(firstName);
-            theCard.setLastName(lastName);
-            theCard.setBillingAddress(billingAddress);
-            theCard.setBillingCity(billingCity);
-            theCard.setBillingState(billingState);
-            theCard.setBillingZip(billingZip);
-            theCard.setBillingCountry(billingCountry);
+            CreditCardMara theCard = new CreditCardMara(cardNum, expDate);
 
             savedCards.add(theCard);
         }
@@ -78,7 +61,7 @@ public with sharing class CreditCard {
 
     }
 
-    public static List<SelectOption> toSelectOptions(List<CreditCard> cards) {
+    public static List<SelectOption> toSelectOptions(List<CreditCardMara> cards) {
         System.debug('Input Cards: ' + cards);
         List<SelectOption> cardValues = new List<SelectOption>();
 
@@ -88,7 +71,7 @@ public with sharing class CreditCard {
         */
 
         // updated loop to populate select options
-        for (CreditCard card : cards) {
+        for (CreditCardMara card : cards) {
             String viewableCardNum = card.getCardNumber();
             if(card.isExpired()) {
                 viewableCardNum = viewableCardNum + '(expired)';
@@ -143,29 +126,7 @@ public with sharing class CreditCard {
     }
     */
 
-    public static void addNewCardToPaymentProfile(CreditCard card){
-        //user enters values into fields and hits submit
-        //post request to server sent with form data as body
-        //make a new card from the form values
-        //as that happens setters get called and messages get sent back if invalid 
-        //after all the data is validated
-        //send api request to add it to the db
-        //is the body a serialized json object or a json object
-
-    }
-    public HttpRequest buildCardPostRequest() {
-        //make new request object
-        HttpRequest req = new HttpRequest();
-        //Set HTTPRequest Method
-        req.setMethod('POST');
-
-        // set the header
-        //req.setHeader('Content-Type','application/json');
-        
-            
-        return req;
-    }
-
+    // updated isExpired function
     public boolean isExpired() {
         return this.getExpirationDate() < Date.today();
     }
@@ -231,11 +192,7 @@ public with sharing class CreditCard {
     }
     
 
-//do not need setters for card number, card type
-    //set id is used when creating list of credit card objects
-    public void setId (Integer id){
-        this.id = id;
-    }
+//do not need setters for card number, card type, or id
     
     public void setIsDefault (Boolean isDefault){
         this.isDefault=isDefault;
