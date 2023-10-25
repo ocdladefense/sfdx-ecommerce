@@ -58,12 +58,19 @@ public with sharing class CreditCard {
             String billingCity = card.get('city');
             String billingZip = card.get('zip');
             String billingState = card.get('state');
+            String billingCountry = card.get('country');
 
             CreditCard theCard = new CreditCard(cardNum, expDate);
             theCard.setId(id);
+            theCard.setIsDefault(isDefault);
+            //these properties are not referenced in select options - will we ever need a list of credit cards that has all the info returned by the api call?
             theCard.setFirstName(firstName);
             theCard.setLastName(lastName);
-            theCard.setIsDefault(isDefault);
+            theCard.setBillingAddress(billingAddress);
+            theCard.setBillingCity(billingCity);
+            theCard.setBillingState(billingState);
+            theCard.setBillingZip(billingZip);
+            theCard.setBillingCountry(billingCountry);
 
             savedCards.add(theCard);
         }
