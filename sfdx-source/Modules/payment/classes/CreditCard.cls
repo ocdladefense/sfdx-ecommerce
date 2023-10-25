@@ -151,6 +151,7 @@ public class CreditCard {
     }
 
     // Instance Methods
+    /*
     public HttpRequest buildCardPostRequest() {
         //make new request object
         HttpRequest req = new HttpRequest();
@@ -167,7 +168,8 @@ public class CreditCard {
         }
         
         return req;
-    }  
+    } 
+    */ 
     
     // original isExpired method
     /*
@@ -277,23 +279,23 @@ public class CreditCard {
         this.lastName = lastName;
     }
 
-    public void setAddress (string billingAddress){
-        this.billingAddress = billingAddress;
+    public void setAddress (string address){
+        this.address = address;
     }
 
-    public void setCity (string billingCity){
-        this.billingCity = billingCity;
+    public void setCity (string city){
+        this.city = city;
     }
 
-    public void setState (string billingState){
-        this.billingState = billingState;
+    public void setState (string state){
+        this.state = state;
     }
 
-    public void setZip (string billingZip){
-        this.billingZip = billingZip;
+    public void setZip (string zip){
+        this.zip = zip;
     }
 
-    public void setCountry (string billingCountry){
-        this.billingCountry = billingCountry;
+    public void setCountry (string country){
+        this.country = country;
     }   
 }
