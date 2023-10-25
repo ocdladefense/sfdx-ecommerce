@@ -45,6 +45,7 @@ public with sharing class CreditCard {
         List<CreditCard> savedCards = new List<CreditCard> {};
         
         for (Map<string,string> card : fetchedCards.values()) {
+            Boolean isDefault = Boolean.valueOf(card.get('isDefault'));
             Integer id = Integer.valueOf(card.get('id'));
             List<String> dateParts = card.get('expirationDate').split('-');
             Integer year = Integer.valueOf(dateParts[0]);
@@ -53,8 +54,16 @@ public with sharing class CreditCard {
             String cardNum = card.get('cardNumber');
             String firstName = card.get('firstName');
             String lastName = card.get('lastName');
+            String billingAddress = card.get('address');
+            String billingCity = card.get('city');
+            String billingZip = card.get('zip');
+            String billingState = card.get('state');
 
             CreditCard theCard = new CreditCard(cardNum, expDate);
+            theCard.setId(id);
+            theCard.setFirstName(firstName);
+            theCard.setLastName(lastName);
+            theCard.setIsDefault(isDefault);
 
             savedCards.add(theCard);
         }
@@ -146,12 +155,7 @@ public with sharing class CreditCard {
         // set the header
         //req.setHeader('Content-Type','application/json');
         
-        // Set the HTTPRequest body	
-        String body = formatBody(this.params);
-        if(null != body) {
-        	req.setBody(body);
-        }
-        
+            
         return req;
     }
 
@@ -220,7 +224,11 @@ public with sharing class CreditCard {
     }
     
 
-//do not need setters for card number, card type, or id
+//do not need setters for card number, card type
+    //set id is used when creating list of credit card objects
+    public void setId (Integer id){
+        this.id = id;
+    }
     
     public void setIsDefault (Boolean isDefault){
         this.isDefault=isDefault;

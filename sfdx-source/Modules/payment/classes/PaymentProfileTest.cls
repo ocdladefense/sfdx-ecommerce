@@ -94,8 +94,18 @@ public class PaymentProfileTest {
                 numExpiredCards++;
             }
         }
-
         System.assertEquals(expectedExpiredCards, numExpiredCards, 'Payment Gateway should have returned at least one expired card for this customer.');
+        
+        Integer numDefaultCards = 0;
+        Integer expectedDefaultCards = 1;
+        for(CreditCard c : cards) {
+            if(c.getIsDefault()) {
+                numDefaultCards++;
+            }
+        }
+
+
+        System.assertEquals(expectedDefaultCards, numDefaultCards, 'Payment Gateway should have returned one default card for this customer.');
     }
     
     @isTest static void testRetrieveSavedCardsWithNoSavedProfile() {
