@@ -1,12 +1,5 @@
 @isTest
 public class PaymentProfileTest {
-    /*@isTest static void testForTest(){
-        Test.startTest();
-        Integer i = 1;
-        Test.stopTest();
-        System.assertEquals(1, i);
-    }*/
-
     @isTest 
     static void testCreditCardConstructors() {
         //constructor takes credit card number only
@@ -36,7 +29,7 @@ public class PaymentProfileTest {
     @isTest 
     static void testFetchUsersCardsWithSavedCards() {
         Test.startTest();
-        AuthorizeDotNetMockResponse mock = new AuthorizeDotNetMockResponse(PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES);
+        Auth mock = new AuthorizeDotNetMockResponse(PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES);
 
         Test.setMock(HttpCalloutMock.class, mock);
 

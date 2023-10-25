@@ -1,4 +1,3 @@
-@isTest
 public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
 
     private PaymentGatewayRequestType requestType;
@@ -106,8 +105,4 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
     public String putCustomerPaymentProfile() {
         return '{"id": "123"}';
     }
-
-
-    
-
 }
