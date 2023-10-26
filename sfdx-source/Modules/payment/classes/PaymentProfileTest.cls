@@ -1,5 +1,6 @@
 @isTest
 public class PaymentProfileTest {
+
     @isTest 
     static void testCreditCardConstructors() {
         //constructor takes credit card number only
@@ -29,7 +30,7 @@ public class PaymentProfileTest {
     @isTest 
     static void testFetchUsersCardsWithSavedCards() {
         Test.startTest();
-        Auth mock = new AuthorizeDotNetMockResponse(PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES);
+        AuthorizeDotNetMockResponse mock = new AuthorizeDotNetMockResponse(PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES);
 
         Test.setMock(HttpCalloutMock.class, mock);
 
@@ -41,6 +42,7 @@ public class PaymentProfileTest {
         System.assert(!paymentProfileWithCards.isEmpty());
         System.assertEquals(4, paymentProfileWithCards.size());
     }
+
     @isTest 
     static void testFetchUsersCardsWithNoPaymentProfileSaved() {
         Test.startTest();
@@ -56,7 +58,6 @@ public class PaymentProfileTest {
         //assert list is empty and has count of 0 for customer with no saved cards
         System.assert(paymentProfileNoCards.isEmpty());
         System.assertEquals(0, paymentProfileNoCards.size());
-
     }
 
     @isTest static void testRetrieveSavedCardsOnSavedPaymentProfile() {
@@ -107,8 +108,23 @@ public class PaymentProfileTest {
 
         System.assert(retreivedCards.isEmpty());
         System.assertEquals(0, retreivedCards.size());
+    }
+
+    @isTest static void testToSelectOptions() {
+        Test.startTest();
+        AuthorizeDotNetMockResponse mock = new AuthorizeDotNetMockResponse(PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES);
+
+        Test.setMock(HttpCalloutMock.class, mock);
+
+        String customerProfileId = '905372692';
+        List<CreditCard> creditCards =  CreditCard.retrieveSavedCards(customerProfileId);
+        List<SelectOption> cardValues = new List<SelectOption>(CreditCard.toSelectOptions(creditCards));
         
-        }
+        Test.stopTest();
+        System.assert(!cardValues.isEmpty());
+        System.assertEquals(5, cardValues.size()); // 5 options in list. 4 cards 1 for adding new card
+    }
+
     @isTest static void testAddValidNewCardToPaymentProfile() {
         System.assert(1==1);
        

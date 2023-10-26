@@ -18,20 +18,6 @@ public class CreditCard {
     private String country;
     private Boolean dateIsMasked;
 
-    /*
-    public CreditCard(String cardNumber, Date expirationDate, String firstName, String lastName, Integer id) {
-        this.cardNumber = cardNumber;
-        this.expirationDate = expirationDate;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.id = id; // added to try and solve null value in select options
-    }
-
-    public CreditCard(String cardNumber) {
-        this.cardNumber = cardNumber;
-    }
-    */
-
     // Constructors
     public CreditCard(String cardNumber) {
         this.cardNumber = cardNumber;
@@ -67,12 +53,12 @@ public class CreditCard {
         return (Map<String,Map<String,String>>)JSON.deserialize(body, Map<String,Map<String,String>>.class);
     }
 
-    public static List<CreditCard> retrieveSavedCards(string customerProfileId) {        
+    public static List<CreditCard> retrieveSavedCards(String customerProfileId) {        
     
         Map<String,Map<String, String>> fetchedCards =  fetchUsersCards(customerProfileId);
             
         List<CreditCard> savedCards = new List<CreditCard> {};
-        
+        System.debug('Saved Cards: ' + savedCards);
         for (Map<string,string> card : fetchedCards.values()) {
             Integer id = Integer.valueOf(card.get('id'));
             List<String> dateParts = card.get('expirationDate').split('-');
@@ -84,9 +70,11 @@ public class CreditCard {
             String lastName = card.get('lastName');
 
             CreditCard theCard = new CreditCard(cardNum, expDate);
+            theCard.setId(id);
 
             savedCards.add(theCard);
         }
+        System.debug('Saved Cards: ' + savedCards);
         return savedCards;
     }
 
@@ -138,6 +126,8 @@ public class CreditCard {
         System.debug('Output SelectOptions: ' + cardValues);
         return cardValues;
     }
+
+    
 
     public static void addNewCardToPaymentProfile(CreditCard card){
         //user enters values into fields and hits submit
@@ -228,6 +218,10 @@ public class CreditCard {
     public String getCardNumber() {
         return cardNumber;
     }
+
+    public String getCVV() {
+        return cvv;
+    }
     
     public String getFirstName() {
         return firstName;
@@ -253,6 +247,9 @@ public class CreditCard {
     //do not need setters for card number, card type, or id
 
     // Setters
+    public void setId(Integer id) {
+        this.id = id;
+    }
     public void setIsDefault (Boolean isDefault){
         this.isDefault=isDefault;
     }
