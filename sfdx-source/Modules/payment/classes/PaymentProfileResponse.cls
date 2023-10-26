@@ -1,4 +1,8 @@
 public with sharing class PaymentProfileResponse {
+    
+    private Map<String, AuthorizeDotNetResponseMessagesBody> messages;
+
+   
     public Map<String,String> body;
     //top level string
 	public String messages;
