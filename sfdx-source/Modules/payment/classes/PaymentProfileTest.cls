@@ -104,7 +104,6 @@ public class PaymentProfileTest {
             }
         }
 
-
         System.assertEquals(expectedDefaultCards, numDefaultCards, 'Payment Gateway should have returned one default card for this customer.');
     }
     
