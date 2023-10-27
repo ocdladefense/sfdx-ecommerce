@@ -19,7 +19,7 @@ public class CreditCard {
     private Boolean dateIsMasked;
 
     // Constructors-----------------
-    
+
     public CreditCard(String cardNumber) {
         this.cardNumber = cardNumber;
     }
@@ -321,7 +321,7 @@ public class CreditCard {
     }
     
 
-    //do not need setters for card number, card type, or id
+    //do not need setters for card number or card type
 
     // Setters------------------------
     public void setId(Integer id) {
