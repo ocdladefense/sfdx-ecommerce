@@ -131,15 +131,17 @@ public class PaymentProfileTest {
     @isTest
     static void testCreateCustomerPaymentProfile() {
         Test.startTest();
-        AuthorizeDotNetMockResponse mock = new AuthorizeDotNetMockResponse(PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES);
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
 
-        Test.setMock(HttpCalloutMock.class, mock);
+        Test.setMock(HttpCalloutMock.class, client);
 
-        String customerProfileId = '905372692';
-        String apiLoginId = '12345';
-        String transactionKey = '123';
+        String customerProfileId= '905372692';
+        CreditCard card = new CreditCard('1234567890', Date.newInstance(2026, 8, 1));
+        Address billToAddress = new Address('mara', 'williams', 'blah 123', 'eugene', 'oregon', '97454');
+        CustomerPaymentProfile profile = new CustomerPaymentProfile(card, billToAddress);
+        CreateCustomerPaymentProfileRequest req = new CreateCustomerPaymentProfileRequest(profile);
 
-        
+        HttpResponseMessage resp = client.send(req);
 
         Test.stopTest();
 

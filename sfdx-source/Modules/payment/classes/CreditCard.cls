@@ -1,21 +1,10 @@
 public class CreditCard {
-    private Boolean isDefault;
-    private Integer id;
+
     private String cardType;
     private String cardNumber;
     private String cvv;
-    private Date expirationDate;
+    private String expirationDate;
     private String unmaskedExpirationDate;
-    private String firstName;
-    private String lastName;
-    private String phone;
-    private String fax;
-    private String email;
-    private String address;
-    private String city;
-    private String state;
-    private String zip;
-    private String country;
     private Boolean dateIsMasked;
 
     // Constructors-----------------
@@ -26,189 +15,22 @@ public class CreditCard {
 
     public CreditCard(String cardNumber, date expirationDate) {
         this.cardNumber = cardNumber;
-        this.expirationDate = expirationDate;
+        this.expirationDate = dateToString(expirationDate);
     }
 
-    public CreditCard(String cardNumber, Date expDate, string cvv) {
+    public CreditCard(String cardNumber, Date expirationDate, string cvv) {
         this.cardNumber = cardNumber;
-        this.expirationDate = expDate;
+        this.expirationDate = dateToString(expirationDate);
         this.cvv = cvv;
     }
 
     // Static Methods------------------------------
 
-    // profileId currently not used. Assume it is "905372692" in "https://appdev.ocdla.org/customer/905372692/cards"
-    public static Map<String,Map<String,String>> fetchUsersCards(String profileId){
-        Http client = new Http();
-
-        // Instantiate a new HTTP request, specify the method (GET) as well as the endpoint
-        HttpRequest req = new HttpRequest();
-        req.setEndpoint('https://appdev.ocdla.org/customer/' + profileId + '/cards');
-        req.setMethod('GET');
-
-        // Send the request, and return a response
-        HttpResponse res = client.send(req);
-        String body =  res.getBody();
-
-        // deserializes the JSON to a Map with strings before returning
-        return (Map<String,Map<String,String>>)JSON.deserialize(body, Map<String,Map<String,String>>.class);
-    }
-
-    public static List<CreditCard> retrieveSavedCards(String customerProfileId) {        
-    
-        Map<String,Map<String, String>> fetchedCards =  fetchUsersCards(customerProfileId);
-            
-        List<CreditCard> savedCards = new List<CreditCard> {};
-        for (Map<string,string> card : fetchedCards.values()) {
-            Integer id = Integer.valueOf(card.get('id'));
-            List<String> dateParts = card.get('expirationDate').split('-');
-            Integer year = Integer.valueOf(dateParts[0]);
-            Integer month = Integer.valueOf(dateParts[1]);
-            Date expDate = Date.newInstance(year, month, 1);
-            String cardNum = card.get('cardNumber');
-            String firstName = card.get('firstName');
-            String lastName = card.get('lastName');
-
-            CreditCard theCard = new CreditCard(cardNum, expDate);
-            theCard.setId(id);
-
-            savedCards.add(theCard);
-        }
-        return savedCards;
-    }
-
-    public static List<SelectOption> toSelectOptions(List<CreditCard> cards) {
-        System.debug('Input Cards: ' + cards);
-        List<SelectOption> cardValues = new List<SelectOption>();
-
-        // original loop to populate select options
-        /*
-        for (CreditCard card : cards) {
-            String viewableCardNum;
-            String expDate = card.getExpirationDate();
-            List<string> splitExp = exp.split('-');
-            String year = splitExp[0];
-            String month = splitExp[1];
-            expDate = month + '/' + year;
-            if(isExpired(card)) {
-                viewableCardNum = card.getCardNumber();
-                viewableCardNum = viewableCardNum + '(expired)';
-            }
-            cardValues.add(new SelectOption(card.getId(), viewableCardNum));
-            if (card.getIsDefault())
-            {
-                defaultCard = card;
-            }
-        }   
-        */
-
-        // updated loop to populate select options
-        for (CreditCard card : cards) {
-            String viewableCardNum = card.getCardNumber();
-            if(card.isExpired()) {
-                viewableCardNum = viewableCardNum + '(expired)';
-            }
-            cardValues.add(new SelectOption(String.valueOf(card.getId()), viewableCardNum));
-            
-            // ---TODO---
-            // fix later after defaultCard is fully investigated in OcdlaCheckoutController
-            // currently not needed for testing
-            /*
-            if (card.getIsDefault())
-            {
-                defaultCard = card;
-            }
-            */
-        }
-
-        cardValues.add(new SelectOption('newCard', 'Add New Card'));
-        System.debug('Output SelectOptions: ' + cardValues);
-        return cardValues;
-    }
-
     
 
-    public static void addNewCardToPaymentProfile(CreditCard card){
-        //user enters values into fields and hits submit
-        //post request to server sent with form data as body
-        //make a new card from the form values
-        //as that happens setters get called and messages get sent back if invalid 
-        //after all the data is validated
-        //send api request to add it to the db
-        //is the body a serialized json object or a json object
-    }
-
-    public static String createCustomerPaymentProfile(String apiLoginId, String transactionKey, CreditCard card) {
-        // Authorize.net test environment. Requires account and sandbox setup before use.
-        String endpoint = 'https://apitest.authorize.net/xml/v1/request.api';
-
-        // Create HTTP request
-        HttpRequest req = new HttpRequest();
-        req.setEndpoint(endpoint);
-        req.setMethod('POST');
-        req.setHeader('Content-Type', 'application/json');
-
-        // Build the request body
-        Map<String,Object> requestBody = new Map<String,Object>{
-            'merchantAuthentication' => new Map<String,String>{
-                'name' => apiLoginId,
-                'transactionKey' =>transactionKey
-            },
-            'customerProfileId' => card.getId(),
-            'paymentProfile' => new Map<String,Object>{
-                'billTo' => new Map<String,String>{
-                    'firstName' => card.getFirstName(),
-                    'lastName' => card.getLastName(),
-                    'address' => card.getAddress(),
-                    'city' => card.getCity(),
-                    'state' => card.getState(),
-                    'zip' => card.getZip(),
-                    'country' => card.getCountry(),
-                    'phoneNumber' => card.getPhone()
-                },
-                'payment' => new Map<String,Object> {
-                    'creditCard' => new Map<String,String>{
-                    'cardNumber' => card.getCardNumber(),
-                    'expirationDate' => card.dateToString()
-                    }
-                },
-                'defaultPaymentProfile' => false
-            }
-        };
-
-        // Serialize the request body to JSON
-        String jsonRequestBody = JSON.serialize(requestBody);
-        req.setBody(jsonRequestBody);
-
-        // Send HTTP request and get response
-        Http client = new Http();
-        HttpResponse res = client.send(req);
-        String body =  res.getBody();
-        
-        return body;
-    }
+    
 
     // Instance Methods-------------------
-    
-    /*
-    public HttpRequest buildCardPostRequest() {
-        //make new request object
-        HttpRequest req = new HttpRequest();
-        //Set HTTPRequest Method
-        req.setMethod('POST');
-
-        // set the header
-        //req.setHeader('Content-Type','application/json');
-        
-        // Set the HTTPRequest body	
-        String body = formatBody(this.params);
-        if(null != body) {
-            req.setBody(body);
-        }
-        
-        return req;
-    } 
-    */ 
     
     // original isExpired method
     /*
@@ -226,12 +48,12 @@ public class CreditCard {
 
     // updated isExpired method
     public Boolean isExpired() {
-        return this.getExpirationDate() < Date.today();
+        return true;
     }
 
-    public String dateToString() {
-        Integer year = this.getExpirationDate().year();
-        Integer month = this.getExpirationDate().month();
+    public static String dateToString(Date expDate) {
+        Integer year = expDate.year();
+        Integer month = expDate.month();
         // Format as 'YYYY-MM'
         String formattedDate = String.valueOf(year) + '-' + (month < 10 ? '0' + String.valueOf(month) : String.valueOf(month));
         return formattedDate;
@@ -260,15 +82,10 @@ public class CreditCard {
     }
 
     // Getters------------------
-    public Integer getId() {
-        return id;
-    }
 
-    public Boolean getIsDefault() {
-        return isDefault;
-    }
+    
 
-    public Date getExpirationDate() {
+    public String getExpirationDate() {
         return expirationDate;
     }
 
@@ -280,96 +97,18 @@ public class CreditCard {
         return cvv;
     }
     
-    public String getFirstName() {
-        return firstName;
-    }
 
-    public String getLastName() {
-        return lastName;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public String getFax() {
-        return fax;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public String getState() {
-        return state;
-    }
-
-    public String getZip() {
-        return zip;
-    }
-
-    public String getCountry() {
-        return country;
-    }
-    
 
     //do not need setters for card number or card type
 
     // Setters------------------------
-    public void setId(Integer id) {
-        this.id = id;
-    }
-    public void setIsDefault (Boolean isDefault){
-        this.isDefault=isDefault;
-    }
-    public void setExpirationDate (date expirationDate){
+
+
+    public void setExpirationDate (String expirationDate){
         this.expirationDate=expirationDate;
     }
     public void setCvv(string cvv) {
         this.cvv = cvv;
     }
-    public void setPhone(string phone){
-        this.phone = phone;
-    }
-    public void setFax(string fax){
-        this.fax = fax;
-    }
-    public void setEmail (string email) {
-        this.email = email;
-    }
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public void setAddress (string address){
-        this.address = address;
-    }
-
-    public void setCity (string city){
-        this.city = city;
-    }
-
-    public void setState (string state){
-        this.state = state;
-    }
-
-    public void setZip (string zip){
-        this.zip = zip;
-    }
-
-    public void setCountry (string country){
-        this.country = country;
-    }   
+    
 }
