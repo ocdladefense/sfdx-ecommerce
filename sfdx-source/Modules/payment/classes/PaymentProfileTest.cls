@@ -175,9 +175,11 @@ public class PaymentProfileTest {
         CreditCard card = new CreditCard('4444111144441111');
         card.setId(paymentProfileCardIdToDelete);
         AuthorizeDotNetResponse response = card.deleteCardFromPaymentProfile(customerProfileId);
+        response.deserialize();
         Test.stopTest();
 
         String resultCode = response.getResultCode();
+        System.debug(resultCode);
         System.assertEquals('Ok', resultCode, 'Successful call to delete should return an Ok result code');
 
 
