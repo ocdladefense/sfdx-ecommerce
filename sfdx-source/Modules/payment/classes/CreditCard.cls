@@ -153,18 +153,52 @@ public with sharing class CreditCard {
         //is the body a serialized json object or a json object
 
     }
-    public HttpRequest buildCardPostRequest() {
-        //make new request object
-        HttpRequest req = new HttpRequest();
-        //Set HTTPRequest Method
-        req.setMethod('POST');
 
-        // set the header
-        //req.setHeader('Content-Type','application/json');
-        
-            
-        return req;
-    }
+    public static Integer deleteCardFromPaymentProfile(Integer cardId, string customerProfileId){
+        //user submits which card to delete
+        //calling code receives card id and knows customer id
+        //make request
+        Http client = new Http();
+
+        HttpRequest req = new HttpRequest();
+        //is this the same endpoint?
+        //for testing it will work
+        req.setEndpoint('https://appdev.ocdla.org/customer/' + customerProfileId + '/cards');
+        //authorize.net says all calls are POST
+        req.setMethod('POST');
+        req.setHeader('Content-Type','application/json');
+
+            /*                                                                        
+        {
+        "deleteCustomerPaymentProfileRequest": {
+            "merchantAuthentication": {
+                "name": "5KP3u95bQpv",
+                "transactionKey": "346HZ32z3fP4hTG2"
+            },
+            "customerProfileId": "10000",
+            "customerPaymentProfileId": "20000"
+            }
+        }
+
+                {
+        'deleteCustomerPaymentProfileRequest=> {
+            'merchantAuthentication'=> {
+                'name'=>'5KP3u95bQpv',
+                'transactionKey': '346HZ32z3fP4hTG2'
+            },
+            'customerProfileId'=> customerProfileId,
+            'customerPaymentProfileId'=> cardId
+            }
+        }
+
+    */
+
+
+
+}
+
+
+    
 
     public boolean isExpired() {
         return this.getExpirationDate() < Date.today();

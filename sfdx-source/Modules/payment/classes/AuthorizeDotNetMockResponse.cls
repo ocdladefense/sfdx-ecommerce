@@ -137,5 +137,9 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
  
     }
 
+    public String sampleDeletePaymentProfileResponseBody(){
+        return'{"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}';
+    }
+    
 
 }
