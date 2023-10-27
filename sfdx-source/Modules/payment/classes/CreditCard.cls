@@ -47,7 +47,6 @@ public class CreditCard {
         // Send the request, and return a response
         HttpResponse res = client.send(req);
         String body =  res.getBody();
-        System.debug(body);
 
         // deserializes the JSON to a Map with strings before returning
         return (Map<String,Map<String,String>>)JSON.deserialize(body, Map<String,Map<String,String>>.class);
@@ -58,7 +57,6 @@ public class CreditCard {
         Map<String,Map<String, String>> fetchedCards =  fetchUsersCards(customerProfileId);
             
         List<CreditCard> savedCards = new List<CreditCard> {};
-        System.debug('Saved Cards: ' + savedCards);
         for (Map<string,string> card : fetchedCards.values()) {
             Integer id = Integer.valueOf(card.get('id'));
             List<String> dateParts = card.get('expirationDate').split('-');
@@ -74,7 +72,6 @@ public class CreditCard {
 
             savedCards.add(theCard);
         }
-        System.debug('Saved Cards: ' + savedCards);
         return savedCards;
     }
 
@@ -139,8 +136,44 @@ public class CreditCard {
         //is the body a serialized json object or a json object
     }
 
-    public static HttpResponse createCustomerPaymentProfile() {
-        
+    public static HttpResponse createCustomerPaymentProfile(String apiLoginId, String transactionKey, CreditCard card) {
+        // Set the endpoint URL. Currently set to testing sandbox.
+        String endpoint = 'https://apitest.authorize.net/xml/v1/request.api';
+
+        // Create HTTP request
+        HttpRequest req = new HttpRequest();
+        req.getEndpoint(endpoint);
+        req.setMethod('POST');
+        req.setHeader('Content-Type', 'application/json');
+
+        // Build the request body
+        Map<String,Object> requestBody = new Map<String,Object>{
+            'merchantAuthentication' => new Map<String,String>{
+                'name' => apiLoginId,
+                'transactionKey' =>transactionKey
+            },
+            'customerProfileId' => card.getId(),
+            'paymentProfile' => new Map<String,Object>{
+                'billTo' => new Map<String,String>{
+                    'firstName' => card.getFirstName(),
+                    'lastName' => card.getLastName(),
+                    'address' => card.getAddress(),
+                    'city' => card.getCity(),
+                    'state' => card.getState(),
+                    'zip' => card.getZip(),
+                    'country' => card.getCountry(),
+                    'phoneNumber' => card.getPhone()
+                },
+                'payment' => new Map<String,Object> {
+                    'creditCard' => new Map<String,String>{
+                    'cardNumber' => card.getCardNumber(),
+                    'expirationDate' => card.getExpirationDate()
+                    }
+                },
+                'defaultPaymentProfile' => false
+            }
+            }
+        };
     }
 
     // Instance Methods
