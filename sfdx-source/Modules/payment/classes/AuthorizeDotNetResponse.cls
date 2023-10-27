@@ -3,7 +3,7 @@ public with sharing class AuthorizeDotNetResponse {
     
     private String resultCode;
 
-    private List <Map<String, String>> messages = New List <Map<String, String>>();
+    private List <Map<String, Object>> messages = New List <Map<String, Object>>();
 
     public AuthorizeDotNetResponse(String theJson) {
         this.body = theJson;
@@ -22,11 +22,11 @@ public with sharing class AuthorizeDotNetResponse {
         //messages = [
             // {"code":"I00001","text":"Successful."}
             //]
-        Map<String, String> message = (Map<String, String>)messages[0];
+        Map<String, Object> message = (Map<String, Object>)messages[0];
         //messageItem = {"code":"I00001","text":"Successful."}
-        String text = message.get('text');
+        String text = (String)message.get('text');
         //text = 'Successful'
-        String code = message.get('code');
+        String code = (String)message.get('code');
 
         this.resultCode=resultCode;
         this.messages.add(message);
@@ -35,15 +35,15 @@ public with sharing class AuthorizeDotNetResponse {
     }
 
     public Map<String, String> getMessage(){
-        return messages[0];
+        return (Map<String, String>)messages[0];
     }
 
     public String getText (){
-        return messages[0].get('text');
+        return (String)messages[0].get('text');
     }
 
     public String getCode (){
-        return messages[0].get('code');
+        return (String)messages[0].get('code');
     }
 
     public String getResultCode (){
