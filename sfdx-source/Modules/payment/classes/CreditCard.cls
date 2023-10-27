@@ -1,3 +1,4 @@
+
 public class CreditCard {
 
     private String cardType;
@@ -7,11 +8,14 @@ public class CreditCard {
     private String unmaskedExpirationDate;
     private Boolean dateIsMasked;
 
-    // Constructors-----------------
 
-    public CreditCard(String cardNumber) {
+
+    public CreditCard(String cardNumber, Date expDate, string cvv) {
         this.cardNumber = cardNumber;
+        this.expirationDate = expDate;
+        this.cvv = cvv;
     }
+
 
     public CreditCard(String cardNumber, date expirationDate) {
         this.cardNumber = cardNumber;
@@ -57,6 +61,7 @@ public class CreditCard {
         // Format as 'YYYY-MM'
         String formattedDate = String.valueOf(year) + '-' + (month < 10 ? '0' + String.valueOf(month) : String.valueOf(month));
         return formattedDate;
+
     }
 
     public String getType() {
@@ -81,7 +86,6 @@ public class CreditCard {
         return cardNumber.length() == 16 && this.getType()!='Unknown';
     }
 
-    // Getters------------------
 
     
 
@@ -98,12 +102,6 @@ public class CreditCard {
     }
     
 
-
-    //do not need setters for card number or card type
-
-    // Setters------------------------
-
-
     public void setExpirationDate (String expirationDate){
         this.expirationDate=expirationDate;
     }
@@ -112,3 +110,4 @@ public class CreditCard {
     }
     
 }
+
