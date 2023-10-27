@@ -167,7 +167,7 @@ public class CreditCard {
                 'payment' => new Map<String,Object> {
                     'creditCard' => new Map<String,String>{
                     'cardNumber' => card.getCardNumber(),
-                    'expirationDate' => card.getExpirationDate()
+                    'expirationDate' => card.formattedDate()
                     }
                 },
                 'defaultPaymentProfile' => false
@@ -178,9 +178,13 @@ public class CreditCard {
         String jsonRequestBody = JSON.serialize(requestBody);
         req.setBody(jsonRequestBody);
 
-        // Send HTTP request
+        // Send HTTP request and get response
         Http client = new Http();
-        HttpResponse res = http.send(req);
+        HttpResponse res = client.send(req);
+        String body =  res.getBody();
+
+        // deserializes the JSON to a Map with strings before returning
+        return (Map<String,Map<String,String>>)JSON.deserialize(body, Map<String,Map<String,String>>.class);
     }
 
     // Instance Methods
@@ -221,6 +225,14 @@ public class CreditCard {
     // updated isExpired method
     public Boolean isExpired() {
         return this.getExpirationDate() < Date.today();
+    }
+
+    public String dateToString() {
+        Integer year = this.getExpirationDate().year();
+        Integer month = this.getExpirationDate().month();
+        // Format as 'YYYY-MM'
+        String formattedDate = String.valueOf(year) + '-' + (month < 10 ? '0' + String.valueOf(month) : String.valueOf(month));
+        return formattedDate;
     }
 
     public String getType() {
@@ -274,16 +286,36 @@ public class CreditCard {
         return lastName;
     }
 
-    public string getPhone() {
+    public String getPhone() {
         return phone;
     }
 
-    public string getFax(){
+    public String getFax() {
         return fax;
     }
 
-    public string getEmail(){
+    public String getEmail() {
         return email;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public String getState() {
+        return state;
+    }
+
+    public String getZip() {
+        return zip;
+    }
+
+    public String getCountry() {
+        return country;
     }
     
 
