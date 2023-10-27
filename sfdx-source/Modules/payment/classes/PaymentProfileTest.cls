@@ -1,11 +1,5 @@
 @isTest
 public class PaymentProfileTest {
-    /*@isTest static void testForTest(){
-        Test.startTest();
-        Integer i = 1;
-        Test.stopTest();
-        System.assertEquals(1, i);
-    }*/
 
     @isTest 
     static void testCreditCardConstructors() {
@@ -48,6 +42,7 @@ public class PaymentProfileTest {
         System.assert(!paymentProfileWithCards.isEmpty());
         System.assertEquals(4, paymentProfileWithCards.size());
     }
+
     @isTest 
     static void testFetchUsersCardsWithNoPaymentProfileSaved() {
         Test.startTest();
@@ -63,10 +58,10 @@ public class PaymentProfileTest {
         //assert list is empty and has count of 0 for customer with no saved cards
         System.assert(paymentProfileNoCards.isEmpty());
         System.assertEquals(0, paymentProfileNoCards.size());
-
     }
 
-    @isTest static void testRetrieveSavedCardsOnSavedPaymentProfile() {
+    @isTest
+    static void testRetrieveSavedCardsOnSavedPaymentProfile() {
         //this tests retrieved saved cards which uses fetchUserCards
         //retreived saved cards should be a list of creditCard objects
         //System.Assert.isInstanceOfType(card, CreditCard.class));
@@ -107,7 +102,8 @@ public class PaymentProfileTest {
         System.assertEquals(expectedDefaultCards, numDefaultCards, 'Payment Gateway should have returned one default card for this customer.');
     }
     
-    @isTest static void testRetrieveSavedCardsWithNoSavedProfile() {
+    @isTest
+    static void testRetrieveSavedCardsWithNoSavedProfile() {
         //this tests retrieved saved cards which uses fetchUserCards
         //retreived saved cards should be a list of creditCard objects
         //when the list is empty what should it do?
@@ -123,8 +119,44 @@ public class PaymentProfileTest {
 
         System.assert(retreivedCards.isEmpty());
         System.assertEquals(0, retreivedCards.size());
+    }
+
+    @isTest
+    static void testToSelectOptions() {
+        Test.startTest();
+        AuthorizeDotNetMockResponse mock = new AuthorizeDotNetMockResponse(PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES);
+
+        Test.setMock(HttpCalloutMock.class, mock);
+
+        String customerProfileId = '905372692';
+        List<CreditCard> creditCards =  CreditCard.retrieveSavedCards(customerProfileId);
+        List<SelectOption> cardValues = new List<SelectOption>(CreditCard.toSelectOptions(creditCards));
         
-        }
+        Test.stopTest();
+        System.assert(!cardValues.isEmpty());
+        System.assertEquals(5, cardValues.size()); // 5 options in list. 4 cards 1 for adding new card
+    }
+
+    @isTest
+    static void testCreateCustomerPaymentProfile() {
+        Test.startTest();
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+
+        Test.setMock(HttpCalloutMock.class, client);
+
+        String customerProfileId= '905372692';
+        CreditCard card = new CreditCard('1234567890', Date.newInstance(2026, 8, 1));
+        Address billToAddress = new Address('mara', 'williams', 'blah 123', 'eugene', 'oregon', '97454');
+        CustomerPaymentProfile profile = new CustomerPaymentProfile(card, billToAddress);
+        CreateCustomerPaymentProfileRequest req = new CreateCustomerPaymentProfileRequest(profile);
+
+        HttpResponseMessage resp = client.send(req);
+
+        Test.stopTest();
+
+
+    }
+
     @isTest static void testAddValidNewCardToPaymentProfile() {
         System.assert(1==1);
         //request type = put
