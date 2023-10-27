@@ -172,8 +172,15 @@ public class CreditCard {
                 },
                 'defaultPaymentProfile' => false
             }
-            }
         };
+
+        // Serialize the request body to JSON
+        String jsonRequestBody = JSON.serialize(requestBody);
+        req.setBody(jsonRequestBody);
+
+        // Send HTTP request
+        Http client = new Http();
+        HttpResponse res = http.send(req);
     }
 
     // Instance Methods
