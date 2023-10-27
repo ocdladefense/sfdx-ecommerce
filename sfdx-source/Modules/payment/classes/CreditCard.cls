@@ -137,7 +137,10 @@ public class CreditCard {
         //after all the data is validated
         //send api request to add it to the db
         //is the body a serialized json object or a json object
+    }
 
+    public static HttpResponse createCustomerPaymentProfile() {
+        
     }
 
     // Instance Methods
