@@ -154,48 +154,35 @@ public with sharing class CreditCard {
 
     }
 
-    public static Integer deleteCardFromPaymentProfile(Integer cardId, string customerProfileId){
+    public string deleteCardFromPaymentProfile(string customerProfileId){
         //user submits which card to delete
         //calling code receives card id and knows customer id
         //make request
         Http client = new Http();
 
         HttpRequest req = new HttpRequest();
-        //is this the same endpoint?
+        //not the same endpoint?
         //for testing it will work
         req.setEndpoint('https://appdev.ocdla.org/customer/' + customerProfileId + '/cards');
         //authorize.net says all calls are POST
         req.setMethod('POST');
         req.setHeader('Content-Type','application/json');
+        //create body for request
+        Map<String, PaymentProfileRequest> body = new Map<String, PaymentProfileRequest> {
+            'deleteCustomerPaymentProfileRequest' => new PaymentProfileRequest(customerProfileId, this.id)
+        };
+        String stringBody = JSON.serialize(body);
+        req.setBody(stringBody);
 
-            /*                                                                        
-        {
-        "deleteCustomerPaymentProfileRequest": {
-            "merchantAuthentication": {
-                "name": "5KP3u95bQpv",
-                "transactionKey": "346HZ32z3fP4hTG2"
-            },
-            "customerProfileId": "10000",
-            "customerPaymentProfileId": "20000"
-            }
-        }
-
-                {
-        'deleteCustomerPaymentProfileRequest=> {
-            'merchantAuthentication'=> {
-                'name'=>'5KP3u95bQpv',
-                'transactionKey': '346HZ32z3fP4hTG2'
-            },
-            'customerProfileId'=> customerProfileId,
-            'customerPaymentProfileId'=> cardId
-            }
-        }
-
-    */
-
-
-
-}
+        // Send the request, and return a response
+        HttpResponse res = client.send(req);
+        String bodyResponse =  res.getBody();
+        PaymentProfileResponse paymentProfileResponse = new PaymentProfileResponse(bodyResponse);
+        PaymentProfileMessage innerMsg = paymentProfileResponse.getmessages();
+        String code = innerMsg.getResultCode();
+        
+        return code;
+    }
 
 
     

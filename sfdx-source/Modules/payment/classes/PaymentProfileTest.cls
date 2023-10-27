@@ -158,16 +158,50 @@ public class PaymentProfileTest {
     }
 
     @isTest static void testChangeDefaultCard() {
-        System.assert(1==1);
-        //request type = put
+    
         //test that the new default card passes isDefault
         //test that old default card passes !isDefault
     }
 
     @isTest static void testRemoveCardFromPaymentProfile() {
-        System.assert(1==1);
-        //request type = put
-        //test that the size of the list is less than the original by 1
-    }
 
-}
+        Test.startTest();
+
+        AuthorizeDotNetMockResponse putMock = new AuthorizeDotNetMockResponse(PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILE);
+
+        Test.setMock(HttpCalloutMock.class, putMock);
+
+        String customerProfileId = '905372692';
+        //delete this card, in test data card is expired
+        Integer paymentProfileCardIdToDelete = 905264263;
+        CreditCard card = new CreditCard('4444111144441111');
+        card.setId(paymentProfileCardIdToDelete);
+        String resultCode = card.deleteCardFromPaymentProfile(customerProfileId);
+
+        //call delete on the card
+
+        //AuthorizeDotNetMockResponse putMock = new AuthorizeDotNetMockResponse(PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILES);
+
+        //Test.setMock(HttpCalloutMock.class, getMock);
+
+        
+        Test.stopTest();
+
+        System.assertEquals('Ok', resultCode, 'Successful call to delete should return an Ok result code');
+        //test that the size of the list is less than the original by 1
+        //test the count of expired cards is 0
+
+/*
+        Integer numExpiredCards = 0;
+        Integer expectedExpiredCards = 1;
+        
+        for(CreditCard c : cards) {
+            if(c.isExpired()) {
+                numExpiredCards++;
+            }
+        }
+        System.assertEquals(expectedExpiredCards, numExpiredCards, 'Payment Gateway should have returned at least one expired card for this customer.');
+
+    }
+*/
+}}

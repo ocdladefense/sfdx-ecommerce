@@ -93,12 +93,16 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
         }
         else if (requestType == PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES) {
             body = JSON.serialize(retrieveMockedCards(req));
-            body = JSON.serialize(retrieveMockedCards(req));
         }
         else if (requestType == PaymentGatewayRequestType.PUT_CUSTOMER_PAYMENT_PROFILE) {
             body = JSON.serialize(putCustomerPaymentProfile());
-            body = JSON.serialize(putCustomerPaymentProfile());
         }
+        else if (req ==PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILE){
+            body =sampleDeletePaymentProfileResponseBody();
+            //this is already a string
+        }
+        else if(req = PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES_AFTER_DELETE)
+            body = JSON.serialize(retreiveMockedCardsAfterDelete(req));
     
     
         res.setBody(body);
@@ -139,6 +143,26 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
 
     public String sampleDeletePaymentProfileResponseBody(){
         return'{"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}';
+    }
+    
+    public static Map<String,Map<String, String>> retreiveMockedCardsAfterDelete(HttpRequest req) {
+        
+        // extract customer profile id from URL. 
+        String reqEndpoint = req.getEndpoint();
+        String customerProfileIdFromEndpoint = reqEndpoint.substringBetween('customer/','/cards');
+
+        String hasSavePaymentProfiles = '905372692';
+     
+        Map<String,String> cc1 = new Map<String, string>{'isDefault'=>'true', 'id'=>'905264262', 'cardNumber'=>'XXXX4532', 'expirationDate'=>'2024-08', 'cardType'=>'visa', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'};
+        Map<String,String> cc3 = new Map<String, string>{'isDefault'=>'false', 'id'=>'905264264', 'cardNumber'=>'XXXX4786', 'expirationDate'=>'2043-08', 'cardType'=>'mastercard', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'};
+        Map<String,String> cc4 = new Map<String, string>{'isDefault'=>'false', 'id'=>'905264265', 'cardNumber'=>'XXXX4912', 'expirationDate'=>'2025-08', 'cardType'=>'mastercard', 'firstName'=>'John', 'lastName'=>'Doe', 'address'=>'123 Main St.', 'city'=>'Eugene', 'zip'=>'97402', 'state'=>'OR'};
+		
+        Map<String,Map<String,String>> cards = new Map<String,Map<String,String>>();
+        cards.put('905264262', cc1);
+        cards.put('905264264', cc3);
+        cards.put('905264265', cc4);
+        
+        return customerProfileIdFromEndpoint==hasSavePaymentProfiles ? cards : new Map<String,Map<String,String>>();
     }
     
 
