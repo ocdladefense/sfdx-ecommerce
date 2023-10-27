@@ -1,4 +1,3 @@
-@isTest
 public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
 
     private PaymentGatewayRequestType requestType;
@@ -107,7 +106,5 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
         return '{"id": "123"}';
     }
 
-
     
-
 }
