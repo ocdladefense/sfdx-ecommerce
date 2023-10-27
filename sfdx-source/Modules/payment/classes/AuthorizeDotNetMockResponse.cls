@@ -98,11 +98,11 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
         else if (requestType == PaymentGatewayRequestType.PUT_CUSTOMER_PAYMENT_PROFILE) {
             body = JSON.serialize(putCustomerPaymentProfile());
         }
-        else if (req ==PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILE){
+        else if (requestType ==PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILE){
             body = sampleDeletePaymentProfileResponseBody();
             //this is already a string
         }
-        else if(req == PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES_AFTER_DELETE)
+        else if(requestType == PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES_AFTER_DELETE)
             body = JSON.serialize(retreiveMockedCardsAfterDelete(req));
     
     
