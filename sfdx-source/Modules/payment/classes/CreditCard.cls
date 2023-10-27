@@ -154,7 +154,7 @@ public with sharing class CreditCard {
 
     }
 
-    public string deleteCardFromPaymentProfile(string customerProfileId){
+    public AuthorizeDotNetResponse deleteCardFromPaymentProfile(string customerProfileId){
         //user submits which card to delete
         //calling code receives card id and knows customer id
         //make request
@@ -177,11 +177,9 @@ public with sharing class CreditCard {
         // Send the request, and return a response
         HttpResponse res = client.send(req);
         String bodyResponse =  res.getBody();
-        PaymentProfileResponse paymentProfileResponse = new PaymentProfileResponse(bodyResponse);
-        PaymentProfileMessage innerMsg = paymentProfileResponse.getmessages();
-        String code = innerMsg.getResultCode();
+        AuthorizeDotNetResponse response = new AuthorizeDotNetResponse(bodyResponse);
         
-        return code;
+        return response;
     }
 
 

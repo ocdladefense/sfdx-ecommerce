@@ -166,9 +166,7 @@ public class PaymentProfileTest {
     @isTest static void testRemoveCardFromPaymentProfile() {
 
         Test.startTest();
-
         AuthorizeDotNetMockResponse putMock = new AuthorizeDotNetMockResponse(PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILE);
-
         Test.setMock(HttpCalloutMock.class, putMock);
 
         String customerProfileId = '905372692';
@@ -176,18 +174,21 @@ public class PaymentProfileTest {
         Integer paymentProfileCardIdToDelete = 905264263;
         CreditCard card = new CreditCard('4444111144441111');
         card.setId(paymentProfileCardIdToDelete);
-        String resultCode = card.deleteCardFromPaymentProfile(customerProfileId);
+        AuthorizeDotNetResponse response = card.deleteCardFromPaymentProfile(customerProfileId);
+        Test.stopTest();
+
+        String resultCode = response.getResultCode();
+        System.assertEquals('Ok', resultCode, 'Successful call to delete should return an Ok result code');
+
 
         //call delete on the card
 
         //AuthorizeDotNetMockResponse putMock = new AuthorizeDotNetMockResponse(PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILES);
 
         //Test.setMock(HttpCalloutMock.class, getMock);
+      
 
-        
-        Test.stopTest();
-
-        System.assertEquals('Ok', resultCode, 'Successful call to delete should return an Ok result code');
+       
         //test that the size of the list is less than the original by 1
         //test the count of expired cards is 0
 

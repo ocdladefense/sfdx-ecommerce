@@ -88,6 +88,7 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
         //String cardsEndpoint = 'https://appdev.ocdla.org/customer/905372692/cards';
 
         String body;
+        
         if (requestType == PaymentGatewayRequestType.SUBMIT_TRANSACTION) {
             body = JSON.serialize(this.responseCode == TransactionResponseCode.SUCCESS ? TRANSACTION_RESPONSE_SUCCESS : TRANSACTION_RESPONSE_FAILURE);
         }
@@ -98,7 +99,7 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
             body = JSON.serialize(putCustomerPaymentProfile());
         }
         else if (req ==PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILE){
-            body =sampleDeletePaymentProfileResponseBody();
+            body = sampleDeletePaymentProfileResponseBody();
             //this is already a string
         }
         else if(req = PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES_AFTER_DELETE)
