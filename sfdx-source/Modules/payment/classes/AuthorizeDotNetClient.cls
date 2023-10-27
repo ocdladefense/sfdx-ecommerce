@@ -1,6 +1,7 @@
-public class AuthorizeDotNetClient implements IPaymentGatewayClient {
+public class AuthorizeDotNetClient extends HttpClient implements IPaymentGatewayClient, HttpCalloutMock{
       	
-
+    //can be used in production and testing
+    
 	private static final Integer CALLOUT_TIMEOUT = 60000;
     
     private static final String endpoint = 'ccAuthorize';
@@ -22,25 +23,6 @@ public class AuthorizeDotNetClient implements IPaymentGatewayClient {
         this.url = url;
     }
     
-    
-    
-
-    
-    public String getEndpoint(){
-        return endPoint;
-    }
-    
-    public String getProtocol(){
-        return protocol;
-    }
-
-    
-    public static String getDomain(){
-        Organization org = [SELECT Id, InstanceName, IsSandbox FROM Organization WHERE Id = :UserInfo.getOrganizationId()];
-        
-        return org.IsSandbox ? GATEWAY_SANDBOX_URL  : GATEWAY_PRODUCTION_URL;
-    }
-    
     @TestVisible
     public TransactionResponse send(TransactionRequest reqn){
         Http http = new Http();
@@ -57,4 +39,60 @@ public class AuthorizeDotNetClient implements IPaymentGatewayClient {
         
         return TransactionResponse.newFromResponse(resp);
     } 
+        
+    public override HttpResponseMessage send(HttpRequestMessage r) {
+
+        Http client = new Http();
+        HttpRequest req = r.getAsHttpRequest();
+		req.setHeader('Authorization', 'Bearer '+this.getAccessToken());
+        
+        HttpResponse resp = client.send(req);
+  
+        return new HttpResponseMessage(resp);
+    }
+    
+    
+    
+    public HttpResponse send(HttpRequest req) {
+
+        Http client = new Http();
+		
+        return client.send(req);
+    }
+    
+    public HttpResponse respond(HttpRequest req) {
+  
+        HttpResponse res = new HttpResponse();
+        String cardsEndpoint = 'https://appdev.ocdla.org/customer/905372692/cards';
+        res.setHeader('Content-Type', 'application/json');
+        //String cardsEndpoint = 'https://appdev.ocdla.org/customer/905372692/cards';
+        res.setHeader('Content-Type', 'application/json');
+        //String cardsEndpoint = 'https://appdev.ocdla.org/customer/905372692/cards';
+
+        AuthorizeDotNetMockResponse putMock = new AuthorizeDotNetMockResponse(PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILE);
+        String body = putMock.getBody(req);
+
+        res.setBody(body);
+        res.setStatusCode(200);
+        res.setStatus('Apex generated Mock HttpResponse.');
+        
+        return res;
+    }
+
+    
+    public String getEndpoint(){
+        return endPoint;
+    }
+    
+    public String getProtocol(){
+        return protocol;
+    }
+
+    
+    public static String getDomain(){
+        Organization org = [SELECT Id, InstanceName, IsSandbox FROM Organization WHERE Id = :UserInfo.getOrganizationId()];
+        
+        return org.IsSandbox ? GATEWAY_SANDBOX_URL  : GATEWAY_PRODUCTION_URL;
+    }
+
 }

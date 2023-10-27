@@ -164,26 +164,44 @@ public class PaymentProfileTest {
     }
 
     @isTest static void testRemoveCardFromPaymentProfile() {
-
         Test.startTest();
-        AuthorizeDotNetMockResponse putMock = new AuthorizeDotNetMockResponse(PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILE);
-        Test.setMock(HttpCalloutMock.class, putMock);
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+        //AuthorizeDotNetMockResponse putMock = new AuthorizeDotNetMockResponse(PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILE);
+        //Test.setMock(HttpCalloutMock.class, putMock);
+        
+        Test.setMock(HttpCalloutMock.class, client);
 
+        HttpRequest req = new HttpRequest();
+        //not the same endpoint?
+        //for testing it will work
+        req.setEndpoint('https://appdev.ocdla.org/customer/' + customerProfileId + '/cards');
+        //authorize.net says all calls are POST
+        req.setMethod('POST');
+        req.setHeader('Content-Type','application/json');
+        //create body for request
+        Map<String, PaymentProfileRequest> body = new Map<String, PaymentProfileRequest> {
+            'deleteCustomerPaymentProfileRequest' => new PaymentProfileRequest(customerProfileId, this.id)
+        };
+        String stringBody = JSON.serialize(body);
+        req.setBody(stringBody);
+        //needs send
+        HttpResponse resp = client.send(req);
+       
+        
         String customerProfileId = '905372692';
         //delete this card, in test data card is expired
         Integer paymentProfileCardIdToDelete = 905264263;
         CreditCard card = new CreditCard('4444111144441111');
         card.setId(paymentProfileCardIdToDelete);
+
+        //call delete on the card
         AuthorizeDotNetResponse response = card.deleteCardFromPaymentProfile(customerProfileId);
-        response.deserialize();
+        //response.deserialize();
         Test.stopTest();
 
         String resultCode = response.getResultCode();
         System.debug(resultCode);
         System.assertEquals('Ok', resultCode, 'Successful call to delete should return an Ok result code');
-
-
-        //call delete on the card
 
         //AuthorizeDotNetMockResponse putMock = new AuthorizeDotNetMockResponse(PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILES);
 

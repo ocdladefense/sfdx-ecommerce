@@ -7,6 +7,8 @@ public with sharing class AuthorizeDotNetResponse {
 
     public AuthorizeDotNetResponse(String theJson) {
         this.body = theJson;
+        //could we call deserialize here? the string always needs to be in a more readable format
+        this.deserialize();
     }
 
     public void deserialize (){

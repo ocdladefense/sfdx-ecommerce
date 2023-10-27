@@ -69,6 +69,29 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
         this.requestType = requestType;
     }
     
+    public String getBody(HttpRequest req) {
+       
+        String body;
+        
+        if (requestType == PaymentGatewayRequestType.SUBMIT_TRANSACTION) {
+            body = JSON.serialize(this.responseCode == TransactionResponseCode.SUCCESS ? TRANSACTION_RESPONSE_SUCCESS : TRANSACTION_RESPONSE_FAILURE);
+        }
+        else if (requestType == PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES) {
+            body = JSON.serialize(retrieveMockedCards(req));
+        }
+        else if (requestType == PaymentGatewayRequestType.PUT_CUSTOMER_PAYMENT_PROFILE) {
+            body = JSON.serialize(putCustomerPaymentProfile());
+        }
+        else if (requestType ==PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILE){
+            body = okDeletePaymentProfileResponseBody();
+            //this is already a string
+        }
+        else if(requestType == PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES_AFTER_DELETE){
+            body = JSON.serialize(retreiveMockedCardsAfterDelete(req));
+        }
+        
+        return body;
+    }
     public HttpResponse respond(HttpRequest req) {
         // Create a fake response.
         // Set response values, and 
@@ -77,8 +100,6 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
 
         // Optionally, only send a mock response for a specific endpoint
         // and method.
-        // System.assertEquals('http://api.salesforce.com/foo/bar', req.getEndpoint());
-        // System.assertEquals('GET', req.getMethod());
         
         HttpResponse res = new HttpResponse();
         String cardsEndpoint = 'https://appdev.ocdla.org/customer/905372692/cards';
@@ -99,11 +120,12 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
             body = JSON.serialize(putCustomerPaymentProfile());
         }
         else if (requestType ==PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILE){
-            body = sampleDeletePaymentProfileResponseBody();
+            body = okDeletePaymentProfileResponseBody();
             //this is already a string
         }
-        else if(requestType == PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES_AFTER_DELETE)
+        else if(requestType == PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES_AFTER_DELETE){
             body = JSON.serialize(retreiveMockedCardsAfterDelete(req));
+        }
     
     
         res.setBody(body);
@@ -142,8 +164,12 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
  
     }
 
-    public String sampleDeletePaymentProfileResponseBody(){
+    public String okDeletePaymentProfileResponseBody(){
         return'{"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}';
+    }
+
+    public String errorDeletePaymentProfileResponseBody(){
+        return'{"messages":{"resultCode":"Error","message":[{"code":"E00105","text":"The specified payment profile is associated with an active or suspended subscription and cannot be deleted"}]}}';
     }
     
     public static Map<String,Map<String, String>> retreiveMockedCardsAfterDelete(HttpRequest req) {
