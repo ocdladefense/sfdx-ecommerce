@@ -102,7 +102,7 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
             body = sampleDeletePaymentProfileResponseBody();
             //this is already a string
         }
-        else if(req = PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES_AFTER_DELETE)
+        else if(req == PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES_AFTER_DELETE)
             body = JSON.serialize(retreiveMockedCardsAfterDelete(req));
     
     
@@ -117,7 +117,7 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
         return '{"id": "123"}';
     }
 
-    public static Map<String,Map<String, String>> retrieveMockedCards(HttpRequest req) {
+    public static Map<String,Map<String, String>> retrieveMockedCards2(HttpRequest req) {
         
         // extract customer profile id from URL. 
         String reqEndpoint = req.getEndpoint();
