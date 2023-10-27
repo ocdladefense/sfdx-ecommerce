@@ -60,7 +60,8 @@ public class PaymentProfileTest {
         System.assertEquals(0, paymentProfileNoCards.size());
     }
 
-    @isTest static void testRetrieveSavedCardsOnSavedPaymentProfile() {
+    @isTest
+    static void testRetrieveSavedCardsOnSavedPaymentProfile() {
         //this tests retrieved saved cards which uses fetchUserCards
         //retreived saved cards should be a list of creditCard objects
         //System.Assert.isInstanceOfType(card, CreditCard.class));
@@ -92,7 +93,8 @@ public class PaymentProfileTest {
         System.assertEquals(expectedExpiredCards, numExpiredCards, 'Payment Gateway should have returned at least one expired card for this customer.');
     }
     
-    @isTest static void testRetrieveSavedCardsWithNoSavedProfile() {
+    @isTest
+    static void testRetrieveSavedCardsWithNoSavedProfile() {
         //this tests retrieved saved cards which uses fetchUserCards
         //retreived saved cards should be a list of creditCard objects
         //when the list is empty what should it do?
@@ -110,7 +112,8 @@ public class PaymentProfileTest {
         System.assertEquals(0, retreivedCards.size());
     }
 
-    @isTest static void testToSelectOptions() {
+    @isTest
+    static void testToSelectOptions() {
         Test.startTest();
         AuthorizeDotNetMockResponse mock = new AuthorizeDotNetMockResponse(PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES);
 
@@ -123,6 +126,24 @@ public class PaymentProfileTest {
         Test.stopTest();
         System.assert(!cardValues.isEmpty());
         System.assertEquals(5, cardValues.size()); // 5 options in list. 4 cards 1 for adding new card
+    }
+
+    @isTest
+    static void testCreateCustomerPaymentProfile() {
+        Test.startTest();
+        AuthorizeDotNetMockResponse mock = new AuthorizeDotNetMockResponse(PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES);
+
+        Test.setMock(HttpCalloutMock.class, mock);
+
+        String customerProfileId = '905372692';
+        String apiLoginId = '12345';
+        String transactionKey = '123';
+
+        
+
+        Test.stopTest();
+
+
     }
 
     @isTest static void testAddValidNewCardToPaymentProfile() {

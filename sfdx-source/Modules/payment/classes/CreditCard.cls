@@ -18,7 +18,8 @@ public class CreditCard {
     private String country;
     private Boolean dateIsMasked;
 
-    // Constructors
+    // Constructors-----------------
+    
     public CreditCard(String cardNumber) {
         this.cardNumber = cardNumber;
     }
@@ -34,7 +35,8 @@ public class CreditCard {
         this.cvv = cvv;
     }
 
-    // Static Methods
+    // Static Methods------------------------------
+
     // profileId currently not used. Assume it is "905372692" in "https://appdev.ocdla.org/customer/905372692/cards"
     public static Map<String,Map<String,String>> fetchUsersCards(String profileId){
         Http client = new Http();
@@ -136,13 +138,13 @@ public class CreditCard {
         //is the body a serialized json object or a json object
     }
 
-    public static HttpResponse createCustomerPaymentProfile(String apiLoginId, String transactionKey, CreditCard card) {
-        // Set the endpoint URL. Currently set to testing sandbox.
+    public static String createCustomerPaymentProfile(String apiLoginId, String transactionKey, CreditCard card) {
+        // Authorize.net test environment. Requires account and sandbox setup before use.
         String endpoint = 'https://apitest.authorize.net/xml/v1/request.api';
 
         // Create HTTP request
         HttpRequest req = new HttpRequest();
-        req.getEndpoint(endpoint);
+        req.setEndpoint(endpoint);
         req.setMethod('POST');
         req.setHeader('Content-Type', 'application/json');
 
@@ -167,7 +169,7 @@ public class CreditCard {
                 'payment' => new Map<String,Object> {
                     'creditCard' => new Map<String,String>{
                     'cardNumber' => card.getCardNumber(),
-                    'expirationDate' => card.formattedDate()
+                    'expirationDate' => card.dateToString()
                     }
                 },
                 'defaultPaymentProfile' => false
@@ -182,12 +184,12 @@ public class CreditCard {
         Http client = new Http();
         HttpResponse res = client.send(req);
         String body =  res.getBody();
-
-        // deserializes the JSON to a Map with strings before returning
-        return (Map<String,Map<String,String>>)JSON.deserialize(body, Map<String,Map<String,String>>.class);
+        
+        return body;
     }
 
-    // Instance Methods
+    // Instance Methods-------------------
+    
     /*
     public HttpRequest buildCardPostRequest() {
         //make new request object
@@ -257,7 +259,7 @@ public class CreditCard {
         return cardNumber.length() == 16 && this.getType()!='Unknown';
     }
 
-    // Getters
+    // Getters------------------
     public Integer getId() {
         return id;
     }
@@ -321,7 +323,7 @@ public class CreditCard {
 
     //do not need setters for card number, card type, or id
 
-    // Setters
+    // Setters------------------------
     public void setId(Integer id) {
         this.id = id;
     }
