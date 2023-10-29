@@ -23,9 +23,7 @@ public with sharing class DeleteCustomerPaymentProfileTest {
         //returns a string result code
 
         DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest(profile, customerProfileId);
-        //DeletePaymentProfileRequest has a requestType
-        //when testing set this value before calling send 
-        req.setRequestType(PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILE_SUCCESS);
+
         HttpResponseMessage resp = client.send(req);
         Test.stopTest();
 
@@ -75,7 +73,7 @@ public with sharing class DeleteCustomerPaymentProfileTest {
         Integer customerPaymentProfileId = 111264262;
        
         CustomerPaymentProfile profile = AuthorizeDotNetMockResponse.sampleCustomerPaymentProfile();
-        //reset the value so when the method calls addRequestTypeForTest on a DeleteCustomerPaymentRequest it sets the type to error
+        //reset the value to get an error mock response
         profile.setCustomerPaymentProfileId(customerPaymentProfileId);
         
         //call the method held in payment profile class

@@ -73,24 +73,7 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
     public String getBody(HttpRequest req) {
        
         String body;
-        
-        /*/if (requestType == PaymentGatewayRequestType.SUBMIT_TRANSACTION) {
-            //body = JSON.serialize(this.responseCode == TransactionResponseCode.SUCCESS ? TRANSACTION_RESPONSE_SUCCESS : TRANSACTION_RESPONSE_FAILURE);
-        }
-        else if (requestType == PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES) {
-            //body = JSON.serialize(retrieveMockedCards(req));
-        }
-        else if (requestType == PaymentGatewayRequestType.PUT_CUSTOMER_PAYMENT_PROFILE) {
-            //body = JSON.serialize(putCustomerPaymentProfile());
-        }
-        else if (requestType ==PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILE_SUCCESS){
-            body = okDeletePaymentProfileResponseBody();
-            //this is already a string
-        }
-        else if(requestType == PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES_AFTER_DELETE){
-            //body = JSON.serialize(retreiveMockedCardsAfterDelete(req));
-        }*/
-        
+    
         return body;
     }
     public HttpResponse respond(HttpRequest req) {
@@ -111,22 +94,6 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
 
         String body;
         
-        /*if (requestType == PaymentGatewayRequestType.SUBMIT_TRANSACTION) {
-            //body = JSON.serialize(this.responseCode == TransactionResponseCode.SUCCESS ? TRANSACTION_RESPONSE_SUCCESS : TRANSACTION_RESPONSE_FAILURE);
-        }
-        else if (requestType == PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES) {
-            //body = JSON.serialize(retrieveMockedCards(req));
-        }
-        else if (requestType == PaymentGatewayRequestType.PUT_CUSTOMER_PAYMENT_PROFILE) {
-            //body = JSON.serialize(putCustomerPaymentProfile());
-        }
-        else if (requestType ==PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILE_SUCCESS){
-            //body = okDeletePaymentProfileResponseBody();
-            //this is already a string
-        }
-        else if(requestType == PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES_AFTER_DELETE){
-            //body = JSON.serialize(retreiveMockedCardsAfterDelete(req));
-        }*/
     
     
         res.setBody(body);

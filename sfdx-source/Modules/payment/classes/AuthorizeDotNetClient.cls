@@ -72,11 +72,6 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
 		
         req.setHeader('Authorization', 'Bearer '+this.getAccessToken());
         
-        //set the reqest type value based on the class - if every class has an instance variable for it
-        //DeletePaymentProfileRequest has a requestType
-        //when testing set this value in a static variable before calling send 
-        AuthorizeDotNetClient.requestType = r.getRequestType();
-
         HttpResponse resp = client.send(req);
   
         return new HttpResponseMessage(resp);
@@ -97,25 +92,14 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
         
         String theJson = req.getBody();
         String body = setMockBodyDeserializeVersion(theJson);
-        //call either the derserialize method or the request type method
         
-
-        // System.debug(AuthorizeDotNetClient.requestType);
-        // if (AuthorizeDotNetClient.requestType == PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILE_SUCCESS){
-        //     body = AuthorizeDotNetMockResponse.okDeletePaymentProfileResponseBody();
-        // }
-        // else if (AuthorizeDotNetClient.requestType == PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILE_ERROR){
-        //     body = AuthorizeDotNetMockResponse.errorDeletePaymentProfileResponseBody();
-        // }
-
-
         res.setBody(body);
         res.setStatusCode(200);
         res.setStatus('Apex generated Mock HttpResponse.');
         
         return res;
     }
-    //where to put the logic that evaluates based on PaymentGateway RequestType?
+    
 
     public string setMockBodyDeserializeVersion(String theJson){
         Map<String, Object> deserialized = (Map<String, Object>)JSON.deserializeUntyped(theJson);
@@ -187,9 +171,7 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
         return protocol;
     }
 
-    //public void setRequestType(PaymentGatewayRequestType requestType){
-      //  this.requestType = requestType;
-    //}
+
     public static Boolean isIdInSampleList(Integer id){
         List<Integer> samplePaymentProfileIds = AuthorizeDotNetMockResponse.samplePaymentProfileIds();
             //default set to error
