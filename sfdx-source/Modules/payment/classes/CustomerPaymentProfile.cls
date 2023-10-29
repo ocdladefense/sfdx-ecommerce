@@ -115,6 +115,11 @@ public with sharing class CustomerPaymentProfile {
     
         //make the request message
         DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest(this, customerProfileId);
+
+        //if a test is running call method to set a request type
+        if(Test.isRunningTest()){
+            req.addRequestTypeForTest(this.getCustomerPaymentProfileId());
+        }
         
         //send the request and receive the response
         HttpResponseMessage resp = client.send(req);
@@ -127,6 +132,7 @@ public with sharing class CustomerPaymentProfile {
         //send resultCode
         return message.getResultCode();
     }
+
 
     public Integer getCustomerPaymentProfileId() {
         return customerPaymentProfileId;

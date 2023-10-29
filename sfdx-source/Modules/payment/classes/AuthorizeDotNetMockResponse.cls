@@ -74,7 +74,7 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
        
         String body;
         
-        if (requestType == PaymentGatewayRequestType.SUBMIT_TRANSACTION) {
+        /*/if (requestType == PaymentGatewayRequestType.SUBMIT_TRANSACTION) {
             //body = JSON.serialize(this.responseCode == TransactionResponseCode.SUCCESS ? TRANSACTION_RESPONSE_SUCCESS : TRANSACTION_RESPONSE_FAILURE);
         }
         else if (requestType == PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES) {
@@ -83,13 +83,13 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
         else if (requestType == PaymentGatewayRequestType.PUT_CUSTOMER_PAYMENT_PROFILE) {
             //body = JSON.serialize(putCustomerPaymentProfile());
         }
-        else if (requestType ==PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILE){
+        else if (requestType ==PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILE_SUCCESS){
             body = okDeletePaymentProfileResponseBody();
             //this is already a string
         }
         else if(requestType == PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES_AFTER_DELETE){
             //body = JSON.serialize(retreiveMockedCardsAfterDelete(req));
-        }
+        }*/
         
         return body;
     }
@@ -111,7 +111,7 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
 
         String body;
         
-        if (requestType == PaymentGatewayRequestType.SUBMIT_TRANSACTION) {
+        /*if (requestType == PaymentGatewayRequestType.SUBMIT_TRANSACTION) {
             //body = JSON.serialize(this.responseCode == TransactionResponseCode.SUCCESS ? TRANSACTION_RESPONSE_SUCCESS : TRANSACTION_RESPONSE_FAILURE);
         }
         else if (requestType == PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES) {
@@ -120,13 +120,13 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
         else if (requestType == PaymentGatewayRequestType.PUT_CUSTOMER_PAYMENT_PROFILE) {
             //body = JSON.serialize(putCustomerPaymentProfile());
         }
-        else if (requestType ==PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILE){
+        else if (requestType ==PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILE_SUCCESS){
             //body = okDeletePaymentProfileResponseBody();
             //this is already a string
         }
         else if(requestType == PaymentGatewayRequestType.GET_CUSTOMER_PAYMENT_PROFILES_AFTER_DELETE){
             //body = JSON.serialize(retreiveMockedCardsAfterDelete(req));
-        }
+        }*/
     
     
         res.setBody(body);
@@ -136,11 +136,11 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
         return res;
     }
 
-    public String okDeletePaymentProfileResponseBody(){
+    public static String okDeletePaymentProfileResponseBody(){
         return'{"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}';
     }
 
-    public String errorDeletePaymentProfileResponseBody(){
+    public static String errorDeletePaymentProfileResponseBody(){
         return'{"messages":{"resultCode":"Error","message":[{"code":"E00105","text":"The specified payment profile is associated with an active or suspended subscription and cannot be deleted"}]}}';
     }
     
@@ -212,8 +212,17 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
 
         return profiles;
     }
-    
-    
- 
+
+    public static List<Integer> samplePaymentProfileIds() {
+        List<CustomerPaymentProfile> profiles =sampleCustomerPaymentProfileList();
+        List <Integer>profileIds = new List<Integer>();
+
+        for (CustomerPaymentProfile profile : profiles){
+            Integer id = profile.getCustomerPaymentProfileId();
+            profileIds.add(id);
+        }
+
+        return profileIds;
+    } 
 
 }
