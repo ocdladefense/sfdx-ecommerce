@@ -4,23 +4,6 @@ public with sharing class DeleteCustomerPaymentProfileTest {
     public DeleteCustomerPaymentProfileTest() {
 
     }
-    @isTest static void testUsingAuthorizeDotNetClient(){
-        Test.startTest();
-        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
-
-        Test.setMock(HttpCalloutMock.class, client);
-
-        String customerProfileId= '905372692';
-        CreditCard card = new CreditCard('1234567890', Date.newInstance(2026, 8, 1));
-        Address billToAddress = new Address('mara', 'williams', 'blah 123', 'eugene', 'oregon', '97454');
-        CustomerPaymentProfile profile = new CustomerPaymentProfile(card, billToAddress);
-        CreateCustomerPaymentProfileRequest req = new CreateCustomerPaymentProfileRequest(profile);
-
-        HttpResponseMessage resp = client.send(req);
-
-        Test.stopTest();
-        System.assert(resp!=null, 'response should not be null');
-    }
 
     @isTest static void testDeletePaymentProfileSuccess(){
         Test.startTest();

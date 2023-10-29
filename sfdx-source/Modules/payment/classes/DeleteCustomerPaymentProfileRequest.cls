@@ -12,10 +12,8 @@ public class DeleteCustomerPaymentProfileRequest extends HttpRequestMessage {
 
         this.deleteBody = new Map<String, Object>{
             'deleteCustomerPaymentProfileRequest'=>new Map<String,Object>{
-                'merchantAuthentication'=> new Map<String, Object>{
-                    'customerProfileId'=> customerProfileId,
-                    'customerPaymentProfileId'=>profile.getCustomerPaymentProfileId()
-                }
+                'customerProfileId'=> customerProfileId,
+                'customerPaymentProfileId'=>profile.getCustomerPaymentProfileId()
             }
         };
         this.body = JSON.serialize(this.deleteBody, true);
@@ -32,7 +30,7 @@ public class DeleteCustomerPaymentProfileRequest extends HttpRequestMessage {
         this.requestType = requestType;
     } 
 
-    public PaymentGatewayRequestType addRequestTypeForTest(Integer customerPaymentProfileId){
+    public void addRequestTypeForTest(Integer customerPaymentProfileId){
         //
         if (this.requestType ==null){
             List<Integer> samplePaymentProfileIds = AuthorizeDotNetMockResponse.samplePaymentProfileIds();
@@ -47,7 +45,6 @@ public class DeleteCustomerPaymentProfileRequest extends HttpRequestMessage {
                 }
             }
         }
-        return;
     }
   
 }

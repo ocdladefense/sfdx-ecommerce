@@ -11,10 +11,13 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
     public static final String GATEWAY_SANDBOX_URL = 'membertest.ocdla.org';
     
     public static final String GATEWAY_PRODUCTION_URL = 'members.ocdla.org';
+
+    public static final String DELETE_REQUEST_KEY = 'deleteCustomerPaymentProfileRequest';
     
     private String url;
 
-    private PaymentGatewayRequestType requestType;
+    //needed to set value for if statement in respond
+    private static PaymentGatewayRequestType requestType;
     
     //copied to be like QuickBooksClient as private instance method
     //class would not deploy without value
@@ -62,17 +65,18 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
     }
 
     public HttpResponseMessage send(DeleteCustomerPaymentProfileRequest r) {
-        System.debug('making a delete request');
+       
         Http client = new Http();
-        HttpRequest req = r.getAsHttpRequest();
-		req.setHeader('Authorization', 'Bearer '+this.getAccessToken());
-        System.debug('request method is ' + req.getMethod());
 
-        //set the reqest type value based on the class
-        //or if there is one method - deserialize the body one level to get the first key name
+        HttpRequest req = r.getAsHttpRequest();
+		
+        req.setHeader('Authorization', 'Bearer '+this.getAccessToken());
+        
+        //set the reqest type value based on the class - if every class has an instance variable for it
         //DeletePaymentProfileRequest has a requestType
-        //when testing set this value before calling send 
-        this.requestType = r.getRequestType();
+        //when testing set this value in a static variable before calling send 
+        AuthorizeDotNetClient.requestType = r.getRequestType();
+
         HttpResponse resp = client.send(req);
   
         return new HttpResponseMessage(resp);
@@ -90,19 +94,19 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
         HttpResponse res = new HttpResponse();
         String cardsEndpoint = 'https://appdev.ocdla.org/customer/905372692/cards';
         res.setHeader('Content-Type', 'application/json');
-        //String cardsEndpoint = 'https://appdev.ocdla.org/customer/905372692/cards';
-        res.setHeader('Content-Type', 'application/json');
-        //String cardsEndpoint = 'https://appdev.ocdla.org/customer/905372692/cards';
         
-        string body;
-        //this is where we add the request type
-        System.debug(requestType);
-        if (this.requestType ==PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILE_SUCCESS){
-            body = AuthorizeDotNetMockResponse.okDeletePaymentProfileResponseBody();
-        }
-        else if (this.requestType == PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILE_ERROR){
-            body = AuthorizeDotNetMockResponse.errorDeletePaymentProfileResponseBody();
-        }
+        String theJson = req.getBody();
+        String body = setMockBodyDeserializeVersion(theJson);
+        //call either the derserialize method or the request type method
+        
+
+        // System.debug(AuthorizeDotNetClient.requestType);
+        // if (AuthorizeDotNetClient.requestType == PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILE_SUCCESS){
+        //     body = AuthorizeDotNetMockResponse.okDeletePaymentProfileResponseBody();
+        // }
+        // else if (AuthorizeDotNetClient.requestType == PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILE_ERROR){
+        //     body = AuthorizeDotNetMockResponse.errorDeletePaymentProfileResponseBody();
+        // }
 
 
         res.setBody(body);
@@ -113,6 +117,66 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
     }
     //where to put the logic that evaluates based on PaymentGateway RequestType?
 
+    public string setMockBodyDeserializeVersion(String theJson){
+        Map<String, Object> deserialized = (Map<String, Object>)JSON.deserializeUntyped(theJson);
+
+        Boolean isDeleteRequest = deserialized.containsKey('deleteCustomerPaymentProfileRequest');
+        system.debug('is this first string about delete: ' + isDeleteRequest);
+
+        //error evaluation for delete tests based on if the customerpaymentprofileid is held in the sample list 
+        //can produce an invalid test by using a customerpaymentprofileid that is not on the list 
+        //first extract the top level key
+        //then deserialize the next object to extract customerpaymentprofileid
+        //then call mini method to check the list
+        //if errors are done other ways, then don't need to do this, instead use deserialized.containsKey() in the if statements
+
+        Set <String> requestBodyKeys = new Set<String>();
+        requestBodyKeys = deserialized.keySet();
+
+        String requestTypeString;
+
+        if(requestBodyKeys.contains(DELETE_REQUEST_KEY)){
+            requestTypeString=DELETE_REQUEST_KEY;
+        }
+
+        Map<String,Object> innerBody = ( Map<String, Object>)deserialized.get(requestTypeString);
+
+        Integer customerPaymentProfileId = (Integer)innerBody.get('customerPaymentProfileId');
+
+       
+
+        string body;
+        //this is where we add the request type
+        //one way - set up multiple request types and have fiddly is test check
+        //or if all the requests are properly wrapped - do it this way
+
+
+         if(requestTypeString == DELETE_REQUEST_KEY)
+         {
+            //find out if value should be ok or error
+            Boolean isErrorTest= AuthorizeDotNetClient.isIdInSampleList(customerPaymentProfileId);
+            body = !isErrorTest? AuthorizeDotNetMockResponse.okDeletePaymentProfileResponseBody(): AuthorizeDotNetMockResponse.errorDeletePaymentProfileResponseBody();
+            //set body to delete
+         }
+         else if(requestTypeString == 'updateCustomerPaymentProfileRequest'){
+            //find out if value should be ok or error
+            //set body to update
+         }
+         else if (requestTypeString == 'createCustomerPaymentProfileRequest'){
+            //find out if value should be ok or error
+            //set body to create
+         }
+         else if (requestTypeString == 'getCustomerPaymentProfileRequest'){
+            //find out if value should be ok or error
+            //set body to return one payment profile
+         }
+         else if (requestTypeString == 'getCustomerProfileRequest'){
+            //find out if value should be ok or error
+            //set body to return set of payment profiles
+         }
+
+         return body;
+    }
     
     
     public String getEndpoint(){
@@ -123,6 +187,23 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
         return protocol;
     }
 
+    //public void setRequestType(PaymentGatewayRequestType requestType){
+      //  this.requestType = requestType;
+    //}
+    public static Boolean isIdInSampleList(Integer id){
+        List<Integer> samplePaymentProfileIds = AuthorizeDotNetMockResponse.samplePaymentProfileIds();
+            //default set to error
+            Boolean isErrorTest = true;
+
+            //if matching profile id is found set request type to success
+            for (Integer sampleId : samplePaymentProfileIds){
+                if (sampleId==id){
+                    isErrorTest=false;
+                }
+            }
+        return isErrorTest;
+    }
+    
     
     public static String getDomain(){
         Organization org = [SELECT Id, InstanceName, IsSandbox FROM Organization WHERE Id = :UserInfo.getOrganizationId()];
