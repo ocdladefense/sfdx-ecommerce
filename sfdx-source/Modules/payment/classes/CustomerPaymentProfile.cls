@@ -112,8 +112,9 @@ public with sharing class CustomerPaymentProfile {
         //set up a client
         AuthorizeDotNetClient client = new AuthorizeDotNetClient();
 
+    
         //make the request message
-        DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest(profile, customerProfileId);
+        DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest(this, customerProfileId);
         
         //send the request and receive the response
         HttpResponseMessage resp = client.send(req);
@@ -121,7 +122,7 @@ public with sharing class CustomerPaymentProfile {
         //get the message from the response and parse
         String body = resp.getBody();
 
-        AuthorizeDotNetResponse message = new AuthorizeDotNetClient(body);
+        AuthorizeDotNetResponse message = new AuthorizeDotNetResponse(body);
        
         //send resultCode
         return message.getResultCode();

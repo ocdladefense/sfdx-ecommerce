@@ -1,3 +1,5 @@
+
+@isTest 
 public with sharing class DeleteCustomerPaymentProfileTest {
     public DeleteCustomerPaymentProfileTest() {
 
@@ -28,7 +30,7 @@ public with sharing class DeleteCustomerPaymentProfileTest {
         //id of customer
         String customerProfileId= '905372692';
         //id of payment profile to delete
-        Integer customerPaymentProfileId ='905264262';
+        Integer customerPaymentProfileId =905264262;
        
         CustomerPaymentProfile profile = AuthorizeDotNetMockResponse.sampleCustomerPaymentProfile();
 
@@ -37,7 +39,7 @@ public with sharing class DeleteCustomerPaymentProfileTest {
         //wrote instance method in CustomerPaymentProfile that makes request message, sends, and parses the response
         //returns a string result code
 
-        DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest(profile);
+        DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest(profile, customerProfileId);
 
         HttpResponseMessage resp = client.send(req);
         Test.stopTest();
@@ -45,7 +47,7 @@ public with sharing class DeleteCustomerPaymentProfileTest {
         String body = resp.getBody();
 
         //check the contents of the message for ok
-        AuthorizeDotNetResponse message = new AuthorizeDotNetClient(body);
+        AuthorizeDotNetResponse message = new AuthorizeDotNetResponse(body);
         String resultCode = message.getResultCode();
         
     }
