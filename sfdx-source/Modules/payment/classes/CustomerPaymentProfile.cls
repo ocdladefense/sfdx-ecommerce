@@ -108,6 +108,25 @@ public with sharing class CustomerPaymentProfile {
         return cardValues;
     }
 
+    public String deleteCustomerPaymentProfile(String customerProfileId){
+        //set up a client
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+
+        //make the request message
+        DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest(profile, customerProfileId);
+        
+        //send the request and receive the response
+        HttpResponseMessage resp = client.send(req);
+
+        //get the message from the response and parse
+        String body = resp.getBody();
+
+        AuthorizeDotNetResponse message = new AuthorizeDotNetClient(body);
+       
+        //send resultCode
+        return message.getResultCode();
+    }
+
     public Integer getCustomerPaymentProfileId() {
         return customerPaymentProfileId;
     }

@@ -78,7 +78,9 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
         
         return res;
     }
+    //where to put the logic that evaluates based on PaymentGateway RequestType?
 
+    
     
     public String getEndpoint(){
         return endPoint;

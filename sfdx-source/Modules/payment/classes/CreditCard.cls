@@ -1,4 +1,3 @@
-
 public class CreditCard {
 
     private String cardType;
@@ -10,10 +9,8 @@ public class CreditCard {
 
 
 
-    public CreditCard(String cardNumber, Date expDate, string cvv) {
+    public CreditCard(String cardNumber) {
         this.cardNumber = cardNumber;
-        this.expirationDate = expDate;
-        this.cvv = cvv;
     }
 
 
@@ -29,10 +26,6 @@ public class CreditCard {
     }
 
     // Static Methods------------------------------
-
-    
-
-    
 
     // Instance Methods-------------------
     
@@ -86,9 +79,6 @@ public class CreditCard {
         return cardNumber.length() == 16 && this.getType()!='Unknown';
     }
 
-
-    
-
     public String getExpirationDate() {
         return expirationDate;
     }
@@ -100,7 +90,6 @@ public class CreditCard {
     public String getCVV() {
         return cvv;
     }
-    
 
     public void setExpirationDate (String expirationDate){
         this.expirationDate=expirationDate;
