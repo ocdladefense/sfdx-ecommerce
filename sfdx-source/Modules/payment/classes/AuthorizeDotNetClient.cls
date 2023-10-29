@@ -20,7 +20,8 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
         return 'foobar';
     }
     
-
+    public AuthorizeDotNetClient() {
+    }
     
     public AuthorizeDotNetClient(String url) {
         this.url = url;
