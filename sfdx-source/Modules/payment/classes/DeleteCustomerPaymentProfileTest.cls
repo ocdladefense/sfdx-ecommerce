@@ -1,6 +1,8 @@
-
 @isTest 
 public with sharing class DeleteCustomerPaymentProfileTest {
+
+    public static final String DEFAULT_CUSTOMER_PROFILE_ID = '905372692';
+
     public DeleteCustomerPaymentProfileTest() {
 
     }
@@ -11,16 +13,13 @@ public with sharing class DeleteCustomerPaymentProfileTest {
 
         Test.setMock(HttpCalloutMock.class, client);
         //id of customer
-        String customerProfileId= '905372692';
+        String customerProfileId= DEFAULT_CUSTOMER_PROFILE_ID;
         //id of payment profile to delete
         Integer customerPaymentProfileId =905264262;
        
         CustomerPaymentProfile profile = AuthorizeDotNetMockResponse.sampleCustomerPaymentProfile();
 
         //make request or call the method held in payment profile class
-
-        //wrote instance method in CustomerPaymentProfile that makes request message, sends, and parses the response
-        //returns a string result code
 
         DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest(profile, customerProfileId);
 
@@ -37,13 +36,43 @@ public with sharing class DeleteCustomerPaymentProfileTest {
         
     }
 
+
+    @isTest static void testDeletePaymentProfileError(){
+        Test.startTest();
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+
+        Test.setMock(HttpCalloutMock.class, client);
+        //id of customer
+        String customerProfileId= DEFAULT_CUSTOMER_PROFILE_ID;
+        
+        CustomerPaymentProfile profile = AuthorizeDotNetMockResponse.sampleCustomerPaymentProfile();
+        
+        //reset the value to get an error mock response
+        Integer customerPaymentProfileId = 111264262;
+        profile.setCustomerPaymentProfileId(customerPaymentProfileId);
+       
+        DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest(profile, customerProfileId);
+
+        HttpResponseMessage resp = client.send(req);
+        Test.stopTest();
+
+        String body = resp.getBody();
+
+        //check the contents of the message for ok
+        AuthorizeDotNetResponse message = new AuthorizeDotNetResponse(body);
+        String resultCode = message.getResultCode();
+
+        System.assertEquals('Error', resultCode, 'Result code should be error');
+        
+    }
+
     @isTest static void testDeletePaymentProfileClassMethodSuccess(){
         Test.startTest();
         AuthorizeDotNetClient client = new AuthorizeDotNetClient();
 
         Test.setMock(HttpCalloutMock.class, client);
         //id of customer
-        String customerProfileId= '905372692';
+        String customerProfileId= DEFAULT_CUSTOMER_PROFILE_ID;
         //id of payment profile to delete - will be found in list of sample profiles
         Integer customerPaymentProfileId =905264262;
        
@@ -68,7 +97,7 @@ public with sharing class DeleteCustomerPaymentProfileTest {
 
         Test.setMock(HttpCalloutMock.class, client);
         //id of customer
-        String customerProfileId= '905372692';
+        String customerProfileId= DEFAULT_CUSTOMER_PROFILE_ID;
         //id of payment profile to delete - will not be found in list of sample ids
         Integer customerPaymentProfileId = 111264262;
        
