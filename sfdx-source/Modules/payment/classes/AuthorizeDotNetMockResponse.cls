@@ -147,7 +147,7 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
     public static CustomerPaymentProfile sampleCustomerPaymentProfile(){
         Integer customerProfileId= 905372692;
         Integer customerPaymentProfileId =905264262;
-        CreditCard card = new CreditCard('123456789022', Date.newInstance(2026, 8, 1));
+        CreditCard card = new CreditCard('123456789', Date.newInstance(2026, 8, 1));
         Address billToAddress = new Address('mara', 'williams', 'blah 123', 'eugene', 'oregon', '97454');
         CustomerPaymentProfile profile = new CustomerPaymentProfile(card, billToAddress);
         profile.setCustomerPaymentProfileId(customerPaymentProfileId);
@@ -199,12 +199,14 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
         //return list
         return profiles;
     }
-    public static Map<String,Map<String, String>> samplePaymentProfileListAfterDelete(HttpRequest req, Integer customerPaymentProfileId) {
+    public List<CustomerPaymentProfile> samplePaymentProfileListAfterDelete(HttpRequest req, Integer customerPaymentProfileId) {
         List<CustomerPaymentProfile> profiles =sampleCustomerPaymentProfileList();
         
         for (CustomerPaymentProfile profile : profiles){
+            Integer index;
             if (profile.getCustomerPaymentProfileId()==customerPaymentProfileId){
-                profiles.remove(profile);
+                index=profiles.indexOf(profile);
+                profiles.remove(index);
             }
         }
 
