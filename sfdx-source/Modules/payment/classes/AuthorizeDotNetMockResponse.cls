@@ -173,7 +173,7 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
         return'{"messages":{"resultCode":"Error","message":[{"code":"E00105","text":"The specified payment profile is associated with an active or suspended subscription and cannot be deleted"}]}}';
     }
     
-    public static Map<String,Map<String, String>> retreiveMockedCardsAfterDelete(HttpRequest req) {
+    public static Map<String,Map<String, String>> samplePaymentProfileListAfterDelete(HttpRequest req) {
         
         // extract customer profile id from URL. 
         String reqEndpoint = req.getEndpoint();
@@ -191,6 +191,73 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
         cards.put('905264265', cc4);
         
         return customerProfileIdFromEndpoint==hasSavePaymentProfiles ? cards : new Map<String,Map<String,String>>();
+    }
+
+    public static CustomerPaymentProfile sampleCustomerPaymentProfile(){
+        String customerProfileId= '905372692';
+        Integer customerPaymentProfileId ='905264262';
+        CreditCard card = new CreditCard('123456789022', Date.newInstance(2026, 8, 1));
+        Address billToAddress = new Address('mara', 'williams', 'blah 123', 'eugene', 'oregon', '97454');
+        CustomerPaymentProfile profile = new CustomerPaymentProfile(card, billToAddress);
+        profile.setCustomerPaymentProfileId(customerPaymentProfileId);
+        return profile;
+    }
+
+    public static List<CustomerPaymentProfile> sampleCustomerPaymentProfileList(){
+        List<CustomerPaymentProfile> profiles = new List<CustomerPaymentProfile>();
+
+        //invalid card
+        String customerProfileId= '905372692';
+        Integer customerPaymentProfileId ='905264262';
+        CreditCard card = new CreditCard('123456789022', Date.newInstance(2026, 8, 1));
+        Address billToAddress = new Address('mara', 'williams', 'blah 123', 'eugene', 'oregon', '97454');
+        CustomerPaymentProfile profile = new CustomerPaymentProfile(card, billToAddress);
+        profile.setCustomerPaymentProfileId(customerPaymentProfileId);
+
+        //default valid Visa card
+        Integer customerPaymentProfileId2 ='905264263';
+        CreditCard card2 = new CreditCard('4444111144441111', Date.newInstance(2025, 11, 1));
+        Address billToAddress2 = new Address('mara', 'williams', 'blah 123', 'eugene', 'oregon', '97454');
+        CustomerPaymentProfile profile2 = new CustomerPaymentProfile(card, billToAddress);
+        profile2.setCustomerPaymentProfileId(customerPaymentProfileId2);
+        profile2.setIsDefault(true);
+
+        //valid Mastercard card
+        Integer customerPaymentProfileId3 ='905264264';
+        CreditCard card3 = new CreditCard('5555111144441111', Date.newInstance(2027, 2, 1));
+        Address billToAddress3 = new Address('mara', 'morgan', 'blah 123', 'eugene', 'oregon', '97454');
+        CustomerPaymentProfile profile3 = new CustomerPaymentProfile(card, billToAddress);
+        profile3.setCustomerPaymentProfileId(customerPaymentProfileId3);
+        profile3.setIsDefault(false);
+
+        //valid card number and type expired 
+
+        Integer customerPaymentProfileId4 ='905264265';
+        CreditCard card4 = new CreditCard('5544111155559999', Date.newInstance(2023, 6, 1));
+        Address billToAddress4 = new Address('Mara', 'Williams', 'office park 123', 'Eugene', 'OR', '97402');
+        CustomerPaymentProfile profile4 = new CustomerPaymentProfile(card, billToAddress);
+        profile3.setCustomerPaymentProfileId(customerPaymentProfileId3);
+        profile3.setIsDefault(false);
+
+        //add to list
+        profiles.add(profile);
+        profiles.add(profile2);
+        profiles.add(profile3);
+        profiles.add(profile4);
+        
+        //return list
+        return profiles;
+    }
+    public static Map<String,Map<String, String>> samplePaymentProfileListAfterDelete(HttpRequest req, Integer customerPaymentProfileId) {
+        List<CustomerPaymentProfile> profiles =sampleCustomerPaymentProfileList();
+        
+        for (CustomerPaymentProfile profile : profiles){
+            if (profile.getCustomerPaymentProfileId()==customerPaymentProfileId){
+                profiles.remove(profile);
+            }
+        }
+
+        return profiles;
     }
     
 

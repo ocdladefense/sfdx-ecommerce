@@ -12,7 +12,7 @@ public with sharing class DeleteCustomerPaymentProfileTest {
 
         String customerProfileId= '905372692';
         //profileid to delete
-
+        
         //make request or call the method held in payment profile class
         DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest(profile);
 

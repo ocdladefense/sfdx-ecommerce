@@ -1,7 +1,17 @@
 public class DeleteCustomerPaymentProfileRequest extends HttpRequestMessage {
-    private String body;
+    //no merchant info needed
+    private Map<String, Object> deleteBody;
 
-    public DeleteCustomerPaymentProfileRequest(CustomerPaymentProfile profile) {
-        this.body = JSON.serialize(profile, true);
+    public DeleteCustomerPaymentProfileRequest(CustomerPaymentProfile profile, String customerProfileId) {
+        
+        this.deleteBody = new Map<String, Object>{
+            'merchantAuthentication'=> new Map<String, Object>{
+                'customerProfileId'=> customerProfileId,
+                'customerPaymentProfileId'=>profile.getCustomerPaymentProfileId()
+            }
+        };
+        this.body = JSON.serialize(this.deleteBody, true);
     }
+
+  
 }
