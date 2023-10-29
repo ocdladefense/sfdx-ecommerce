@@ -14,10 +14,13 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
     
     private String url;
     
-    
+    //copied to be like QuickBooksClient as private instance method
+    //class would not deploy without value
+    private String getAccessToken() {
+        return 'foobar';
+    }
     
 
-    
     
     public AuthorizeDotNetClient(String url) {
         this.url = url;
