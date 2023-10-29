@@ -36,6 +36,162 @@ public with sharing class CustomerPaymentProfile {
         return (Map<String,Map<String,String>>)JSON.deserialize(body, Map<String,Map<String,String>>.class);
     }
 
+    //call to AuthorizeDotNet getCustomerProfileRequest to retrieve full profile with list of saved payment profiles
+    public static List<CustomerPaymentProfile> getPaymentProfileList(String customerProfileId){
+        
+        List<CustomerPaymentProfile> profiles = new List<CustomerPaymentProfile>();
+        
+        //set up a client
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+
+    
+        //make the request message
+        GetCustomerProfileRequest req = new GetCustomerProfileRequest(customerProfileId);
+      
+        //send the request and receive the response
+        HttpResponseMessage resp = client.send(req);
+
+        //get the message from the response and parse
+        String body = resp.getBody();
+       
+        Map<String, Object> body = (Map<String, Object>)JSON.deserializeUntyped(body);
+
+        //key is profile
+        Map<String, Object> soapBody = (Map<String, Object>)body.get('profile');
+
+        //get list of payment profiles
+        List<Object> paymentProfiles = (List<Object>)soapBody.get('paymentProfiles');
+        
+        //for each profile in the list, make a new profile object with billto and payment
+        //ignore "originalNetworkTransId" and 'originalAuthAmount'
+
+        for (Object profile : paymentProfiles) {
+            //first hold paymentprofile id in variable
+            Map<String, Object> paymentProfile = (Map<String, Object>)JSON.deserializeUntyped(profile);
+            String customerPaymentProfileId = (String)paymentProfile.get('customerPaymentProfileId');
+
+            //next make new address and set the fields
+            Map<String, Object> billTo = (Map<String, Object>)paymentProfile.get('billTo');
+
+            //next deserialize payment into a map string object
+            Map<String, Object> payment = (Map<String, Object>)paymentProfile.get('payment');
+
+
+        }
+        //first hold paymentprofile id in variable
+        //next make new address and set the fields
+        //next deserialize payment into a map string object
+        //then deserialize payment into map string string
+        //make new credit card and call setters
+        //what to do about exp date?
+        //make new customerpayment profile
+        //add to list of profiles
+
+        //use AuthorizeDotNetResponse to parse messages
+ 
+        //deserialize 
+        //AuthorizeDotNetResponse message = new AuthorizeDotNetResponse(body);
+        
+        /*                                                               
+{
+  "profile": {
+    "paymentProfiles": [{
+        "customerPaymentProfileId": "87",
+        "payment": {
+          "creditCard": {
+            "cardNumber": "XXXX1111",
+            "expirationDate": "XXXX",
+            "cardType": "Visa",
+            "issuerNumber": "411111"
+          }
+        },
+        "originalNetworkTransId": "0TN1VE648DFCJSHQ81GZH9F",
+        "originalAuthAmount": 0,
+        "billTo": {
+          "phoneNumber": "000-000-0000",
+          "firstName": "John",
+          "lastName": "Doe",
+          "address": "123 Main St.",
+          "city": "Bellevue",
+          "state": "WA",
+          "zip": "98004",
+          "country": "US"
+        }
+      }, {
+        "customerPaymentProfileId": "86",
+        "payment": {
+          "creditCard": {
+            "cardNumber": "XXXX1111",
+            "expirationDate": "XXXX",
+            "cardType": "Visa",
+            "issuerNumber": "411111"
+          }
+        },
+        "originalNetworkTransId": "0STSMT7WLO5D80U0KJR4Z9A",
+        "originalAuthAmount": 0,
+        "customerType": "individual",
+        "billTo": {
+          "phoneNumber": "123-123-1235",
+          "firstName": "Customer FirstName",
+          "lastName": "Customer LastName",
+          "address": "123 Main St.",
+          "city": "Bellevue",
+          "state": "WA",
+          "zip": "98004",
+          "country": "US"
+        }
+      }
+    ],
+    "profileType": "regular",
+    "customerProfileId": "527262",
+    "merchantCustomerId": "MerchantCustID",
+    "description": "Profile description here",
+    "email": "customer-profile-email@here.com"
+  },
+  "messages": {
+    "resultCode": "Ok",
+    "message": [{
+        "code": "I00001",
+        "text": "Successful."
+      }
+    ]
+  }
+}
+
+    */
+      return profiles; 
+    }
+
+    public Address deserializeAddressFromJson(Map<String, Object> billTo){
+        Map<String, String> theAddress = (Map<String, String>)JSON.deserializeUntyped(billTo);
+        String firstName = theAddress.get('firstName');
+        String lastName = theAddress.get('lastName');
+        String phoneNumber = theAddress.get('phoneNumber');
+        String address = theAddress.get('address');
+        String city = theAddress.get('city');
+        String state = theAddress.get('state');
+        String zip = theAddress.get('zip');
+        String country = theAddress.get('country');
+        
+        //check for nulls?
+        Address newAdress = new Address();
+        newAdress.setFirstName(firstName);
+        newAdress.setLastName(lastName);
+        newAdress.setAddress(address);
+        newAdress.setCity(city);
+        newAdress.setState(state);
+        newAdress.setZip(zip);
+
+        if(country!=null){
+            newAdress.setCountry(country);
+        }
+
+        if (phoneNumber!=null){
+            newAdress.setPhoneNumber(phoneNumber);
+        }
+        return newAdress;
+    }
+
     public static List<CreditCard> retrieveSavedCards(String customerProfileId) {        
     
         Map<String,Map<String, String>> fetchedCards =  fetchUsersCards(customerProfileId);
