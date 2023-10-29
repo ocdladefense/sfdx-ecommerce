@@ -49,6 +49,8 @@ public with sharing class DeleteCustomerPaymentProfileTest {
         //check the contents of the message for ok
         AuthorizeDotNetResponse message = new AuthorizeDotNetResponse(body);
         String resultCode = message.getResultCode();
+
+        System.assertEquals('Ok', resultCode, 'Result code should be ok');
         
     }
 

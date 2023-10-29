@@ -13,6 +13,8 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
     public static final String GATEWAY_PRODUCTION_URL = 'members.ocdla.org';
     
     private String url;
+
+    private PaymentGatewayRequestType requestType;
     
     //copied to be like QuickBooksClient as private instance method
     //class would not deploy without value
@@ -43,18 +45,36 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
         
         return TransactionResponse.newFromResponse(resp);
     } 
-        
+    //if sent a request message type 
+    //do this which then will call send that takes a request type
     public override HttpResponseMessage send(HttpRequestMessage r) {
-
+        System.debug('making a override request');
         Http client = new Http();
         HttpRequest req = r.getAsHttpRequest();
 		req.setHeader('Authorization', 'Bearer '+this.getAccessToken());
-        
+        String cardsEndpoint = 'https://appdev.ocdla.org/customer/905372692/cards';
+        req.setEndpoint(cardsEndpoint);
+        req.setMethod('POST');
+        //set the reqest type value based on the class
         HttpResponse resp = client.send(req);
   
         return new HttpResponseMessage(resp);
     }
-    
+
+    public HttpResponseMessage send(DeleteCustomerPaymentProfileRequest r) {
+        System.debug('making a delete request');
+        Http client = new Http();
+        HttpRequest req = r.getAsHttpRequest();
+		req.setHeader('Authorization', 'Bearer '+this.getAccessToken());
+        System.debug('request method is ' + req.getMethod());
+
+        //set the reqest type value based on the class
+        //or if there is one method - deserialize the body one level to get the first key name
+        this.requestType = PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILE;
+        HttpResponse resp = client.send(req);
+  
+        return new HttpResponseMessage(resp);
+    }
     
     
     public HttpResponse send(HttpRequest req) {
@@ -72,9 +92,17 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
         //String cardsEndpoint = 'https://appdev.ocdla.org/customer/905372692/cards';
         res.setHeader('Content-Type', 'application/json');
         //String cardsEndpoint = 'https://appdev.ocdla.org/customer/905372692/cards';
-
-        AuthorizeDotNetMockResponse putMock = new AuthorizeDotNetMockResponse(PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILE);
-        String body = putMock.getBody(req);
+        
+        string body;
+        //this is where we add the request type
+        System.debug(requestType);
+        if (this.requestType ==PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILE){
+            body = AuthorizeDotNetMockResponse.okDeletePaymentProfileResponseBody();
+            //this is already a string
+        }
+        else if (this.requestType == PaymentGatewayRequestType.DELETE_CUSTOMER_PAYMENT_PROFILE_ERROR){
+            body = AuthorizeDotNetMockResponse.errorDeletePaymentProfileResponseBody();
+        }
 
         res.setBody(body);
         res.setStatusCode(200);
