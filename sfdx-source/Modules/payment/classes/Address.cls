@@ -33,17 +33,16 @@ public with sharing class Address {
 
     // Static Methods------------------------------
 
-    public static Address deserializeAddressFromJson(Map<String, Object> billTo){
+    public static Address newAddressFromMap(Map<String, Object> billTo){
         
-        Map<String, String> theAddress = (Map<String, String>)JSON.deserializeUntyped(billTo);
-        String firstName = theAddress.get('firstName');
-        String lastName = theAddress.get('lastName');
-        String phoneNumber = theAddress.get('phoneNumber');
-        String address = theAddress.get('address');
-        String city = theAddress.get('city');
-        String state = theAddress.get('state');
-        String zip = theAddress.get('zip');
-        String country = theAddress.get('country');
+        String firstName = (String) billTo.get('firstName');
+        String lastName = (String) billTo.get('lastName');
+        String phoneNumber = (String) billTo.get('phoneNumber');
+        String address = (String) billTo.get('address');
+        String city = (String) billTo.get('city');
+        String state = (String) billTo.get('state');
+        String zip = (String) billTo.get('zip');
+        String country = (String) billTo.get('country');
         
         //check for nulls?
         Address newAdress = new Address();

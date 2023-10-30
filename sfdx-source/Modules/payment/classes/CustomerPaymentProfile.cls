@@ -72,10 +72,10 @@ public with sharing class CustomerPaymentProfile {
 
             //next make new address and set the fields
             Map<String, Object> billTo = (Map<String, Object>)paymentProfile.get('billTo');
-
+            Address theAddress = Address.newAddressFromMap(billTo);
             //next deserialize payment into a map string object
             Map<String, Object> payment = (Map<String, Object>)paymentProfile.get('payment');
-
+            //CreditCard theCard=
 
         }
         //first hold paymentprofile id in variable
