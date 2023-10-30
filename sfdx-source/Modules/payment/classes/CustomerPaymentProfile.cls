@@ -52,22 +52,22 @@ public with sharing class CustomerPaymentProfile {
         HttpResponseMessage resp = client.send(req);
 
         //get the message from the response and parse
-        String body = resp.getBody();
+        String respBody = resp.getBody();
        
-        Map<String, Object> body = (Map<String, Object>)JSON.deserializeUntyped(body);
+        Map<String, Object> body = (Map<String, Object>)JSON.deserializeUntyped(respBody);
 
         //key is profile
-        Map<String, Object> soapBody = (Map<String, Object>)body.get('profile');
+        Map<String, Object> soapProfile = (Map<String, Object>)body.get('profile');
 
         //get list of payment profiles
-        List<Object> paymentProfiles = (List<Object>)soapBody.get('paymentProfiles');
+        List<Object> paymentProfiles = (List<Object>)soapProfile.get('paymentProfiles');
         
         //for each profile in the list, make a new profile object with billto and payment
         //ignore "originalNetworkTransId" and 'originalAuthAmount'
 
-        for (Object profile : paymentProfiles) {
+        for (Object p : paymentProfiles) {
             //first hold paymentprofile id in variable
-            Map<String, Object> paymentProfile = (Map<String, Object>)JSON.deserializeUntyped(profile);
+            Map<String, Object> paymentProfile = (Map<String, Object>)p;
             String customerPaymentProfileId = (String)paymentProfile.get('customerPaymentProfileId');
 
             //next make new address and set the fields
@@ -75,17 +75,14 @@ public with sharing class CustomerPaymentProfile {
             Address theAddress = Address.newAddressFromMap(billTo);
             //next deserialize payment into a map string object
             Map<String, Object> payment = (Map<String, Object>)paymentProfile.get('payment');
-            //CreditCard theCard=
+            CreditCard theCard=CreditCard.newCardFromPaymentMap(payment);
 
-        }
-        //first hold paymentprofile id in variable
-        //next make new address and set the fields
-        //next deserialize payment into a map string object
-        //then deserialize payment into map string string
-        //make new credit card and call setters
-        //what to do about exp date?
-        //make new customerpayment profile
+            //make new customerpayment profile
+            CustomerPaymentProfile profile = new CustomerPaymentProfile(theCard,theAddress);
         //add to list of profiles
+            profiles.add(profile);
+        }
+        
 
         //use AuthorizeDotNetResponse to parse messages
  
@@ -160,36 +157,6 @@ public with sharing class CustomerPaymentProfile {
 
     */
       return profiles; 
-    }
-
-    public Address deserializeAddressFromJson(Map<String, Object> billTo){
-        Map<String, String> theAddress = (Map<String, String>)JSON.deserializeUntyped(billTo);
-        String firstName = theAddress.get('firstName');
-        String lastName = theAddress.get('lastName');
-        String phoneNumber = theAddress.get('phoneNumber');
-        String address = theAddress.get('address');
-        String city = theAddress.get('city');
-        String state = theAddress.get('state');
-        String zip = theAddress.get('zip');
-        String country = theAddress.get('country');
-        
-        //check for nulls?
-        Address newAdress = new Address();
-        newAdress.setFirstName(firstName);
-        newAdress.setLastName(lastName);
-        newAdress.setAddress(address);
-        newAdress.setCity(city);
-        newAdress.setState(state);
-        newAdress.setZip(zip);
-
-        if(country!=null){
-            newAdress.setCountry(country);
-        }
-
-        if (phoneNumber!=null){
-            newAdress.setPhoneNumber(phoneNumber);
-        }
-        return newAdress;
     }
 
     public static List<CreditCard> retrieveSavedCards(String customerProfileId) {        
