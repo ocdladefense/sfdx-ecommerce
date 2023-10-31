@@ -132,7 +132,7 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
             'messages' => messagesMap
         };
         
-        return (Object)responseMap;  // Casting Map<String, Object> to Object
+        return responseMap;  // Casting Map<String, Object> to Object
     }
 
     
