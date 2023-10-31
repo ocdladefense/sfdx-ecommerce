@@ -1,10 +1,10 @@
-public class UpdatePaymentProfileResponse extends AuthorizeDotNetResponse {
+public class UpdateCustomerPaymentProfileResponse extends AuthorizeDotNetResponse {
     private Boolean defaultPaymentProfile;
     private String validationDirectResponse;
     // Optional instance variable
     private String refId;
 
-    public UpdatePaymentProfileResponse() {
+    public UpdateCustomerPaymentProfileResponse() {
 
     }
 
