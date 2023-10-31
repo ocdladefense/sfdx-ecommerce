@@ -1,4 +1,5 @@
-public class HttpResponseMessage extends HttpMessage {
+public virtual with sharing class HttpResponseMessage extends HttpMessage {
+//public class HttpResponseMessage extends HttpMessage {
     public HttpResponseMessage() {
 
     }

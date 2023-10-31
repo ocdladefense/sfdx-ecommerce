@@ -14,6 +14,8 @@ public with sharing class Address {
     private static final String DEFAULT_COUNTRY_CODE = 'US';
 
     // Constructors-----------------
+    public Address (){}
+
     public Address(String firstName, String lastName, String address, String city, String state, String zip) {
         this(firstName, lastName, address, city, state, zip, DEFAULT_COUNTRY_CODE);
     }
