@@ -28,9 +28,6 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
         return 'foobar';
     }
     
-    public AuthorizeDotNetClient() {
-    }
-    
     public AuthorizeDotNetClient(String url) {
         this.url = url;
     }
@@ -53,6 +50,7 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
     } 
     //if sent a request message type 
     //do this which then will call send that takes a request type
+    /*
     public override HttpResponseMessage send(HttpRequestMessage r) {
         System.debug('making a override request');
         Http client = new Http();
@@ -66,23 +64,27 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
   
         return new HttpResponseMessage(resp);
     }
+    */
 
 
-    public HttpResponseMessage send(AuthorizeDotNetRequest r) {
+    public AuthorizeDotNetResponse send(AuthorizeDotNetRequest r) {
        
         Http client = new Http();
 
         HttpRequest req = r.getAsHttpRequest();
 		
-        req.setHeader('Authorization', 'Bearer '+this.getAccessToken());
-        
+        //req.setHeader('Authorization', 'Bearer '+this.getAccessToken());
+        //Test.isRunningTest();
         HttpResponse resp = client.send(req);
   
         //inspect the specific type of request to know what to do
-        AuthorizeDotNetResponse authResponse = AuthorizeDotNetClient.getInstanceOfResponse(req);
+        AuthorizeDotNetResponse authResp = new AuthorizeDotNetResponse();
         authResp.setBody(resp.getBody());
+        //AuthorizeDotNetResponse authResp = AuthorizeDotNetClient.getInstanceOfResponse(r);
+        //authResp.setBody(resp.getBody());
+        authResp.deserialize();
 
-        return authResponse;
+        return authResp;
     }
     
     
@@ -99,7 +101,7 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
         res.setHeader('Content-Type', 'application/json');
         
         String theJson = req.getBody();
-        String body = setMockBodyDeserializeVersion(theJson);
+        String body = '';//setMockBodyDeserializeVersion(theJson);
         
         res.setBody(body);
         res.setStatusCode(200);
@@ -110,11 +112,29 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
     
     
     public static String getType(AuthorizeDotNetRequest r){
-
+        return '';
     }
     public static AuthorizeDotNetResponse getInstanceOfResponse(AuthorizeDotNetRequest r){
-        return new DeleteCustomerPaymentProfileResponse();
+        
+        /*
+        if (r instanceof CreateCustomerPaymentProfileRequest) {
+            return new CreateCustomerPaymentProfileResponse();
+        }
+        */
+
+        return new AuthorizeDotNetResponse();
     }
+
+    public static AuthorizeDotNetResponse getInstanceOfResponse(CreateCustomerPaymentProfileRequest r){
+
+
+        return new CreateCustomerPaymentProfileResponse();
+
+
+
+
+    }
+
     public String getEndpoint(){
         return endPoint;
     }
@@ -123,7 +143,7 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
         return protocol;
     }
 
-
+    /*
     public static Boolean isIdInSampleList(Integer id){
         List<Integer> samplePaymentProfileIds = AuthorizeDotNetMockResponse.samplePaymentProfileIds();
             //default set to error
@@ -137,6 +157,7 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
             }
         return isErrorTest;
     }
+    */
     
     
     public static String getDomain(){

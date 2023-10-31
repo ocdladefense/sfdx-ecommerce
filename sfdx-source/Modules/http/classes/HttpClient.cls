@@ -9,7 +9,7 @@ public virtual class HttpClient {
 
     }
 
-    public virtual HttpResponseMessage send(HttpRequestMessage r) {
+    public HttpResponseMessage send(HttpRequestMessage r) {
 
         Http client = new Http();
         HttpRequest req = r.getAsHttpRequest();

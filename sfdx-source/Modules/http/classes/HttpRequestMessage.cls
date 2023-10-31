@@ -2,7 +2,7 @@ public virtual class HttpRequestMessage extends HttpMessage {
 
     protected String endpoint;
 
-    protected String method;
+    protected String method = 'get';
 
     protected Map<String,String> params;
 

@@ -1,4 +1,4 @@
-public class CreateCustomerPaymentProfileResponse extends AuthorizeDotNetRespose {
+public class CreateCustomerPaymentProfileResponse extends AuthorizeDotNetResponse {
     public CreateCustomerPaymentProfileResponse() {
 
     }
@@ -12,10 +12,6 @@ public class CreateCustomerPaymentProfileResponse extends AuthorizeDotNetRespose
 
     // Optional
     private String refId;
-
-    public CreatePaymentProfileResponse() {
-
-    }
 
     public override void deserialize() {
         super.deserialize();
