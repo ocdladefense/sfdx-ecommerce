@@ -98,15 +98,5 @@ public class CreditCard {
         this.cvv = cvv;
     }
     
-    public static CreditCard newCardFromPaymentMap(Map<String, Object> payment){
-        Map<String, Object> theCard = (Map<String, Object>)payment.get('creditCard');
-        String cardNumber = (String) theCard.get('cardNumber');
-       
-        CreditCard card = new CreditCard(cardNumber);
-        
-        String expirationDate = (String)theCard.get('expirationDate');
-        card.setExpirationDate(expirationDate);
-        return card;
-    }
 }
 

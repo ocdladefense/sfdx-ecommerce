@@ -33,35 +33,6 @@ public with sharing class Address {
 
     // Static Methods------------------------------
 
-    public static Address newAddressFromMap(Map<String, Object> billTo){
-        Map<String, String> theAddress = (Map<String, String>)billTo;
-        String firstName = theAddress.get('firstName');
-        String lastName = theAddress.get('lastName');
-        String phoneNumber = theAddress.get('phoneNumber');
-        String address = theAddress.get('address');
-        String city = theAddress.get('city');
-        String state = theAddress.get('state');
-        String zip = theAddress.get('zip');
-        String country = theAddress.get('country');
-        
-        //check for nulls?
-        Address newAdress = new Address();
-        newAdress.setFirstName(firstName);
-        newAdress.setLastName(lastName);
-        newAdress.setAddress(address);
-        newAdress.setCity(city);
-        newAdress.setState(state);
-        newAdress.setZip(zip);
-
-        if(country!=null){
-            newAdress.setCountry(country);
-        }
-
-        if (phoneNumber!=null){
-            newAdress.setPhoneNumber(phoneNumber);
-        }
-        return newAdress;
-    }
     
 
     // Getters------------------

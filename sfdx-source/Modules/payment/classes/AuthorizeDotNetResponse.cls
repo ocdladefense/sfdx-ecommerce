@@ -1,14 +1,22 @@
-public with sharing class AuthorizeDotNetResponse {
-    private String body;
-    
+public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{    
+
+//public with sharing class AuthorizeDotNetResponse extends HttpResponseMessage{    
     private String resultCode;
 
     private List <Map<String, Object>> messages = New List <Map<String, Object>>();
 
-    public AuthorizeDotNetResponse(String theJson) {
-        this.body = theJson;
+    public AuthorizeDotNetResponse() {
+    }
+
+    public AuthorizeDotNetResponse(String theBody) {
+        this.body = theBody;
         //could we call deserialize here? the string always needs to be in a more readable format
-        this.deserialize();
+        //this.deserialize();
+    }
+
+    public override String getBody(){
+        //return this.deserialize();
+        return this.body;
     }
 
     public void deserialize (){

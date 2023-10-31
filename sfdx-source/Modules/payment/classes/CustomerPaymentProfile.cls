@@ -72,10 +72,10 @@ public with sharing class CustomerPaymentProfile {
 
             //next make new address and set the fields
             Map<String, Object> billTo = (Map<String, Object>)paymentProfile.get('billTo');
-            Address theAddress = Address.newAddressFromMap(billTo);
+            Address theAddress = CustomerPaymentProfile.newAddressFromMap(billTo);
             //next deserialize payment into a map string object
             Map<String, Object> payment = (Map<String, Object>)paymentProfile.get('payment');
-            CreditCard theCard=CreditCard.newCardFromPaymentMap(payment);
+            CreditCard theCard=CustomerPaymentProfile.newCardFromPaymentMap(payment);
 
             //make new customerpayment profile
             CustomerPaymentProfile profile = new CustomerPaymentProfile(theCard,theAddress);
@@ -251,6 +251,48 @@ public with sharing class CustomerPaymentProfile {
         return message.getResultCode();
     }
 
+
+    public static CreditCard newCardFromPaymentMap(Map<String, Object> payment){
+        Map<String, Object> theCard = (Map<String, Object>)payment.get('creditCard');
+        String cardNumber = (String) theCard.get('cardNumber');
+       
+        CreditCard card = new CreditCard(cardNumber);
+        
+        String expirationDate = (String)theCard.get('expirationDate');
+        card.setExpirationDate(expirationDate);
+        return card;
+    }
+
+    public static Address newAddressFromMap(Map<String, Object> billTo){
+        Map<String, String> theAddress = (Map<String, String>)billTo;
+        String firstName = theAddress.get('firstName');
+        String lastName = theAddress.get('lastName');
+        String phoneNumber = theAddress.get('phoneNumber');
+        String address = theAddress.get('address');
+        String city = theAddress.get('city');
+        String state = theAddress.get('state');
+        String zip = theAddress.get('zip');
+        String country = theAddress.get('country');
+        
+        //check for nulls?
+        Address newAdress = new Address();
+        newAdress.setFirstName(firstName);
+        newAdress.setLastName(lastName);
+        newAdress.setAddress(address);
+        newAdress.setCity(city);
+        newAdress.setState(state);
+        newAdress.setZip(zip);
+
+        if(country!=null){
+            newAdress.setCountry(country);
+        }
+
+        if (phoneNumber!=null){
+            newAdress.setPhoneNumber(phoneNumber);
+        }
+        return newAdress;
+    }
+    
 
     public Integer getCustomerPaymentProfileId() {
         return customerPaymentProfileId;

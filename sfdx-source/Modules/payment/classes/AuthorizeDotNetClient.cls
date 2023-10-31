@@ -64,7 +64,8 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
         return new HttpResponseMessage(resp);
     }
 
-    public HttpResponseMessage send(DeleteCustomerPaymentProfileRequest r) {
+
+    public HttpResponseMessage send(AuthorizeDotNetRequest r) {
        
         Http client = new Http();
 
@@ -74,7 +75,11 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
         
         HttpResponse resp = client.send(req);
   
-        return new HttpResponseMessage(resp);
+        //inspect the specific type of request to know what to do
+        AuthorizeDotNetResponse authResponse = AuthorizeDotNetClient.getInstanceOfResponse(req);
+        authResp.setBody(resp.getBody());
+
+        return authResponse;
     }
     
     
@@ -100,69 +105,13 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
         return res;
     }
     
+    
+    public static String getType(AuthorizeDotNetRequest r){
 
-    public string setMockBodyDeserializeVersion(String theJson){
-        Map<String, Object> deserialized = (Map<String, Object>)JSON.deserializeUntyped(theJson);
-
-        Boolean isDeleteRequest = deserialized.containsKey('deleteCustomerPaymentProfileRequest');
-        system.debug('is this first string about delete: ' + isDeleteRequest);
-
-        //error evaluation for delete tests based on if the customerpaymentprofileid is held in the sample list 
-        //can produce an invalid test by using a customerpaymentprofileid that is not on the list 
-        //first extract the top level key
-        //then deserialize the next object to extract customerpaymentprofileid
-        //then call mini method to check the list
-        //if errors are done other ways, then don't need to do this, instead use deserialized.containsKey() in the if statements
-
-        Set <String> requestBodyKeys = new Set<String>();
-        requestBodyKeys = deserialized.keySet();
-
-        String requestTypeString;
-
-        if(requestBodyKeys.contains(DELETE_REQUEST_KEY)){
-            requestTypeString=DELETE_REQUEST_KEY;
-        }
-
-        Map<String,Object> innerBody = ( Map<String, Object>)deserialized.get(requestTypeString);
-
-        Integer customerPaymentProfileId = (Integer)innerBody.get('customerPaymentProfileId');
-
-       
-
-        string body;
-        //this is where we add the request type
-        //one way - set up multiple request types and have fiddly is test check
-        //or if all the requests are properly wrapped - do it this way
-
-
-         if(requestTypeString == DELETE_REQUEST_KEY)
-         {
-            //find out if value should be ok or error
-            Boolean isErrorTest= AuthorizeDotNetClient.isIdInSampleList(customerPaymentProfileId);
-            body = !isErrorTest? AuthorizeDotNetMockResponse.okDeletePaymentProfileResponseBody(): AuthorizeDotNetMockResponse.errorDeletePaymentProfileResponseBody();
-            //set body to delete
-         }
-         else if(requestTypeString == 'updateCustomerPaymentProfileRequest'){
-            //find out if value should be ok or error
-            //set body to update
-         }
-         else if (requestTypeString == 'createCustomerPaymentProfileRequest'){
-            //find out if value should be ok or error
-            //set body to create
-         }
-         else if (requestTypeString == 'getCustomerPaymentProfileRequest'){
-            //find out if value should be ok or error
-            //set body to return one payment profile
-         }
-         else if (requestTypeString == 'getCustomerProfileRequest'){
-            //find out if value should be ok or error
-            //set body to return set of payment profiles
-         }
-
-         return body;
     }
-    
-    
+    public static AuthorizeDotNetResponse getInstanceOfResponse(AuthorizeDotNetRequest r){
+        return new DeleteCustomerPaymentProfileResponse();
+    }
     public String getEndpoint(){
         return endPoint;
     }
