@@ -2,4 +2,5 @@ public class DeleteCustomerPaymentProfileResponse extends AuthorizeDotNetRespons
     public DeleteCustomerPaymentProfileResponse() {
 
     }
+
 }

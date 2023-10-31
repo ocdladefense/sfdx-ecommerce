@@ -1,6 +1,11 @@
 public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{    
 
-//public with sharing class AuthorizeDotNetResponse extends HttpResponseMessage{    
+//public with sharing class AuthorizeDotNetResponse extends HttpResponseMessage{ 
+    private static final String RESPONSE_SUCCESS = 'Ok';
+    private static final String RESPONSE_FAILURE = 'Error';
+
+    private map<String, Object> temp;
+
     private String resultCode;
 
     private List <Map<String, Object>> messages = New List <Map<String, Object>>();
@@ -22,9 +27,9 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
     public void deserialize (){
                 //'{"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}'
 
-        Map<String, Object> body = (Map<String, Object>)JSON.deserializeUntyped(this.body);
+        Map<String, Object> bodyMap = (Map<String, Object>)JSON.deserializeUntyped(this.body);
 
-        Map<String, Object> soapMessages = ( Map<String, Object>)body.get('messages');
+        Map<String, Object> soapMessages = ( Map<String, Object>)bodyMap.get('messages');
         //soapMessages = {"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}
         String resultCode = (String)soapMessages.get('resultCode');
         //resultCode = "Ok"
@@ -38,10 +43,9 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
         //text = 'Successful'
         String code = (String)message.get('code');
 
+        this.temp = bodyMap;
         this.resultCode=resultCode;
         this.messages.add(message);
-        
-        
     }
 
     public Map<String, String> getMessage(){
@@ -58,5 +62,9 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
 
     public String getResultCode (){
         return resultCode;
+    }
+
+    public Boolean success(){
+        return this.getResultCode()==RESPONSE_SUCCESS;
     }
 }
