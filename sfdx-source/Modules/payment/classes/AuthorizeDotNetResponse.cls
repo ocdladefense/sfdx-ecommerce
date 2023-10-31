@@ -24,7 +24,7 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
         return this.body;
     }
 
-    public void deserialize (){
+    public virtual void deserialize (){
                 //'{"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}'
 
         Map<String, Object> bodyMap = (Map<String, Object>)JSON.deserializeUntyped(this.body);
