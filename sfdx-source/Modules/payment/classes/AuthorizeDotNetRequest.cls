@@ -1,4 +1,4 @@
-public class AuthorizeDotNetRequest extends HttpRequestMessage{
+public virtual class AuthorizeDotNetRequest extends HttpRequestMessage{
     public AuthorizeDotNetRequest() {
 
     }
