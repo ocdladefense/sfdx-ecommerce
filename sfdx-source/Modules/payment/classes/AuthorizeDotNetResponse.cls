@@ -4,7 +4,7 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
     private static final String RESPONSE_SUCCESS = 'Ok';
     private static final String RESPONSE_FAILURE = 'Error';
 
-    private map<String, Object> temp;
+    protected map<String, Object> temp;
 
     private String resultCode;
 
