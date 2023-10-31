@@ -15,7 +15,9 @@ public class AuthorizeDotNetClient implements IPaymentGatewayClient {
     
     
     
-
+    public AuthorizeDotNetClient() {
+        
+    }
     
     
     public AuthorizeDotNetClient(String url) {
