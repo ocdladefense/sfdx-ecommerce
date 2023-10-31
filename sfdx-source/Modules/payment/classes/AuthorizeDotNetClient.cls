@@ -15,9 +15,12 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
     public static final String DELETE_REQUEST_KEY = 'deleteCustomerPaymentProfileRequest';
     
     private String url;
-
-    //needed to set value for if statement in respond
-    private static PaymentGatewayRequestType requestType;
+    
+    
+    
+    public AuthorizeDotNetClient() {
+        
+    }
     
     //copied to be like QuickBooksClient as private instance method
     //class would not deploy without value
