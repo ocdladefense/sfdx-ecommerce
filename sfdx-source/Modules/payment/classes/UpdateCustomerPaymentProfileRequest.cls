@@ -1,4 +1,4 @@
-public class UpdateCustomerPaymentProfileRequest extends AuthorizeDoteNetRequest {
+public class UpdateCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
     public CustomerPaymentProfile profile;
     public Address address;
     public CreditCard card;

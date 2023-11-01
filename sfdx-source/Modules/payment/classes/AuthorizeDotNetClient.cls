@@ -1,4 +1,4 @@
-public class AuthorizeDotNetClient extends HttpClient implements IPaymentGatewayClient, HttpCalloutMock{
+public class AuthorizeDotNetClient extends HttpClient implements IPaymentGatewayClient {
       	
     //can be used in production and testing
     
@@ -67,24 +67,26 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
     */
 
 
-    public AuthorizeDotNetResponse send(AuthorizeDotNetRequest r) {
+    public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
        
         Http client = new Http();
-
-        HttpRequest req = r.getAsHttpRequest();
+        req.setHeader('X-Request-Type', req.getRequestType());
+        HttpRequest breq = req.getAsHttpRequest();
 		
         //req.setHeader('Authorization', 'Bearer '+this.getAccessToken());
         //Test.isRunningTest();
-        HttpResponse resp = client.send(req);
+        HttpResponse bresp = client.send(breq);
   
-        //inspect the specific type of request to know what to do
-        AuthorizeDotNetResponse authResp = new AuthorizeDotNetResponse();
-        authResp.setBody(resp.getBody());
-        //AuthorizeDotNetResponse authResp = AuthorizeDotNetClient.getInstanceOfResponse(r);
-        //authResp.setBody(resp.getBody());
-        authResp.deserialize();
+        //inspect the specific type of request to know what to do.
+        AuthorizeDotNetResponse resp = AuthorizeDotNetResponse.newFromRequestType(req.getHeader('X-Request-Type'));
+        
+        
+        resp.setBody(bresp.getBody());
+        // AuthorizeDotNetResponse authResp = AuthorizeDotNetClient.getInstanceOfResponse(r);
+        // authResp.setBody(resp.getBody());
+        resp.deserialize();
 
-        return authResp;
+        return resp;
     }
     
     
@@ -94,26 +96,8 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
         return client.send(req);
     }
     
-    public HttpResponse respond(HttpRequest req) {
-        System.debug('making a responde request');
-        HttpResponse res = new HttpResponse();
-        String cardsEndpoint = 'https://appdev.ocdla.org/customer/905372692/cards';
-        res.setHeader('Content-Type', 'application/json');
-        
-        String theJson = req.getBody();
-        String body = '';//setMockBodyDeserializeVersion(theJson);
-        
-        res.setBody(body);
-        res.setStatusCode(200);
-        res.setStatus('Apex generated Mock HttpResponse.');
-        
-        return res;
-    }
-    
-    
-    public static String getType(AuthorizeDotNetRequest r){
-        return '';
-    }
+
+
     public static AuthorizeDotNetResponse getInstanceOfResponse(AuthorizeDotNetRequest r){
         
         /*

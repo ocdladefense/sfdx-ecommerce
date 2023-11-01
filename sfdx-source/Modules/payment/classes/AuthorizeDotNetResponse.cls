@@ -67,4 +67,13 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
     public Boolean success(){
         return this.getResultCode()==RESPONSE_SUCCESS;
     }
+
+
+    public static AuthorizeDotNetResponse newFromRequestType(String requestType) {
+
+        String typeName = requestType + 'Response'; // e.g., CreateCustomerPaymentProfileResponse
+        // String respMockName = req.requestType + 'MockResponse'; //e.g., CreateCustomerPaymentProfileMockResponse
+        System.Type t = Type.forName(typeName);
+        return (AuthorizeDotNetResponse)t.newInstance();
+    }
 }
