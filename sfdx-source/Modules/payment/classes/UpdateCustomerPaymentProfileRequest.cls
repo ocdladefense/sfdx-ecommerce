@@ -1,4 +1,4 @@
-public class UpdateCustomerPaymentProfileRequest extends HttpRequestMessage {
+public class UpdateCustomerPaymentProfileRequest extends AuthorizeDoteNetRequest {
     public CustomerPaymentProfile profile;
     public Address address;
     public CreditCard card;
@@ -24,7 +24,7 @@ public class UpdateCustomerPaymentProfileRequest extends HttpRequestMessage {
         this.card = newCard;
     }
 
-    public String getBody() {
+    public override String getBody() {
         // body for request, look below method
         return '{"customerProfileId": "10000",' +
             '"paymentProfile": {' +

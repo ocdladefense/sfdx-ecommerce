@@ -1,4 +1,4 @@
-public class CreateCustomerPaymentProfileRequest extends HttpRequestMessage {
+public class CreateCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
 
 
 

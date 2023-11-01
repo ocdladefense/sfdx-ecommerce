@@ -3,6 +3,7 @@ public class CustomerPaymentProfileList {
 
     }
 
+    /*
     public static List<CustomerPaymentProfile> fromMapData(List<Map<String,String>> profiles) {        
     
         // Map<String,Map<String, String>> fetchedCards =  fetchUsersCards(customerProfileId);
@@ -26,4 +27,5 @@ public class CustomerPaymentProfileList {
         return savedCards;
 
     }
+    */
 }

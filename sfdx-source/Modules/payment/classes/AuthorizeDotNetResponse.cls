@@ -4,11 +4,11 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
     private static final String RESPONSE_SUCCESS = 'Ok';
     private static final String RESPONSE_FAILURE = 'Error';
 
-    protected map<String, Object> temp;
+    protected Map<String, Object> temp;
 
     private String resultCode;
 
-    private List <Map<String, Object>> messages = New List <Map<String, Object>>();
+    private List <Map<String, Object>> messages = new List <Map<String, Object>>();
 
     public AuthorizeDotNetResponse() {
     }
@@ -19,7 +19,7 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
         //this.deserialize();
     }
 
-    public override String getBody(){
+    public virtual override String getBody(){
         //return this.deserialize();
         return this.body;
     }

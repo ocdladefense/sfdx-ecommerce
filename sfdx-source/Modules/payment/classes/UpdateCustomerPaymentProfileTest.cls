@@ -1,9 +1,8 @@
 @isTest
 public class UpdateCustomerPaymentProfileTest {
-    /*
-    public CustomerPaymentProfileUpdateTest() {
 
-    }*/
+
+    /*
     @isTest 
     static void testCreditCardConstructors() {
         //constructor takes credit card number only
@@ -172,4 +171,5 @@ public class UpdateCustomerPaymentProfileTest {
        
         //test that the size of the list is less than the original by 1
     }
+    */
 }
