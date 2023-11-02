@@ -1,4 +1,7 @@
 public class GetCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
+    public Integer customerProfileId;
+    public Integer customerPaymentProfileId;
+    public Boolean includeIssuerInfo;
 
     public GetCustomerPaymentProfileRequest() {
         super();
@@ -16,5 +19,10 @@ public class GetCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
         // 
         this.requestType = 'GetCustomerPaymentProfile';
         this.body = JSON.serialize(profile, true);
+    }
+
+    public override String getBody() {
+        // body for request, look below method
+        return '{"customerProfileId": "' + this.customerProfileId + '", "customerPaymentProfileId": "' + this.customerPaymentProfileId + '", "includeIssuerInfo": "' + this.includeIssuerInfo + '"}';
     }
 }
