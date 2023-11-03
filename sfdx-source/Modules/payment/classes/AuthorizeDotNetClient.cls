@@ -14,13 +14,12 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
 
     public static final String DELETE_REQUEST_KEY = 'deleteCustomerPaymentProfileRequest';
 
-    public static final Map<String, Object> MERCHANT_AUTH = new Map<String, Object>{
-        'merchantAuthentication' => new Map<String, String>{ 
-            'name'=> '6gSVxaYj397',
-            'transactionKey'=> '6FR49pDH5Jjum58g'
-        }
+
+    public static final Map<String, String> MERCHANT_AUTHENTICATION = new Map<String, String>{ 
+        'name'=> '6gSVxaYj397',
+        'transactionKey'=> '6FR49pDH5Jjum58g'
     };
-    
+
     private String url;
     
     
@@ -77,11 +76,22 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
     public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
        
         Http client = new Http();
-        req.setHeader('X-Request-Type', req.getRequestType());
+
+        String xRequestType=req.getRequestType();
+        String payloadRequestType = xRequestType.uncapitalize();
+        payloadRequestType+='Request';
+
+        req.setHeader('X-Request-Type', xRequestType);
+        req.prepend('merchantAuthentication', MERCHANT_AUTHENTICATION);
+        req.wrap(payloadRequestType);
+        
+        req.setMethod('POST');
+        req.setEndpoint('https://apitest.authorize.net/xml/v1/request.api');
+        req.setHeader('Content-Type', 'application/json');
+        
+        //then convert to this saleforce
         HttpRequest breq = req.getAsHttpRequest();
-		
-        //req.setHeader('Authorization', 'Bearer '+this.getAccessToken());
-        //Test.isRunningTest();
+
         HttpResponse bresp = client.send(breq);
   
         //inspect the specific type of request to know what to do.
@@ -157,16 +167,5 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
         return org.IsSandbox ? GATEWAY_SANDBOX_URL  : GATEWAY_PRODUCTION_URL;
     }
 
-    public object prepend(object payload) {
-        
-    }
-
-    // get the request type
-    // append 'Request' to the end of request type
-    // wrap request payload using request type key
-
-    public void wrap(AuthorizeDotNetRequest req) {
-        
-    }
 
 }

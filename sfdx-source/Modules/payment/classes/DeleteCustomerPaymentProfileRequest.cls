@@ -20,7 +20,7 @@ public class DeleteCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
     public DeleteCustomerPaymentProfileRequest(CustomerPaymentProfile profile, String customerProfileId) {
         this.setMethod('POST');
         this.setEndpoint(DELETE_ENDPOINT);
-
+        //this is not current
         Map<String, Object> bodyTmp = new Map<String, Object>{
             'deleteCustomerPaymentProfileRequest'=>new Map<String,Object>{
                 'customerProfileId'=> customerProfileId,
@@ -30,5 +30,8 @@ public class DeleteCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
 
         this.body = JSON.serialize(bodyTmp, true);
     }
-  
+    
+    public override getBodyAsNativeObject(){
+        return 
+    }
 }

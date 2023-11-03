@@ -3,6 +3,7 @@ public class CreateCustomerPaymentProfileMockResponse extends AuthorizeDotNetRes
         // Setup all of your mock data here.
     }
 
+
     public override String getBody(String custProfileId) {
         
         body = JSON.serialize(createCustomerProfileSuccessResponse());
@@ -61,6 +62,7 @@ public class CreateCustomerPaymentProfileMockResponse extends AuthorizeDotNetRes
         };
         
         return response;  // Casting Map<String, Object> to Object
+
     }
 
 }

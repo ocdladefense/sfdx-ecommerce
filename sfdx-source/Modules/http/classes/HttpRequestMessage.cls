@@ -2,7 +2,7 @@ public virtual class HttpRequestMessage extends HttpMessage {
 
     protected String endpoint;
 
-    protected String method = 'get';
+    protected String method = 'GET';
 
     protected Map<String,String> params;
 
@@ -70,8 +70,8 @@ public virtual class HttpRequestMessage extends HttpMessage {
 
         req.setEndpoint(this.getEndpoint());
 
-        if(null != this.body) {
-       	 req.setBody(this.body);
+        if(this.getMethod() != 'GET') {
+       	    req.setBody(this.getBody());
         }
         
         for(String key : this.headers.keySet()) {
@@ -81,7 +81,9 @@ public virtual class HttpRequestMessage extends HttpMessage {
         return req;
     }
 
-
+    public String getMethod() {
+        return this.method;
+    }
 
 
 }

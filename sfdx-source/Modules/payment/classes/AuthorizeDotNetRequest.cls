@@ -1,10 +1,11 @@
 public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
 
     protected String requestType;
+
+    protected Map<String, Object> nativeObject;
+    //set the properties on this
     
     public AuthorizeDotNetRequest() {
-        this.setMethod('POST');
-        this.setEndpoint('http://fubar');
         this.headers.put('X-Request-Type',this.requestType);
     }
 
@@ -12,9 +13,37 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
         return this.requestType;
     }
 
-    // every subclass should override in order to return a Map<String,Object>.
-    // 
-    public virtual Map<String,Object> getBodyAsNativeCode(){
+
+    public override String getBody(){
+        Map<String,Object> obj = this.getBodyAsNativeObject();
+        return JSON.serialize(obj, true);
+    }
+
+    //obje will be the merch auth
+    // operating on nativeObject
+    public void prepend(Map<String, Object> obj){
+        Map<String, Object> out = new Map<String, Object>();
+
+        out.put('merchantAuthentication', obj);
+
+        out.putAll(this.nativeObject);
+
+        
+        this.nativeObject = out;
+    }
+
+    // operating on native nativeObject
+    public void wrap(String reqType) {
+        Map<String, Object> out = new Map<String, Object>();
+
+        out.put(reqType, this.nativeObject);
+        this.nativeObject = out;
 
     }
+
+    public virtual Map<String,Object> getBodyAsNativeObject() {
+        return this.nativeObject;
+    }
+
+
 }

@@ -112,7 +112,7 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
     }
     /*
     public static CustomerPaymentProfile sampleCustomerPaymentProfile(){
-        Integer customerProfileId= 905372692;
+        String customerProfileId= 905372692;
         Integer customerPaymentProfileId =905264262;
         CreditCard card = new CreditCard('123456789', Date.newInstance(2026, 8, 1));
         Address billToAddress = new Address('mara', 'williams', 'blah 123', 'eugene', 'oregon', '97454');
