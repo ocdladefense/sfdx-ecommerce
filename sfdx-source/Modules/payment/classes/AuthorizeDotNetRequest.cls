@@ -14,19 +14,34 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
     }
 
     public override String getBody(){
-        return JSON.serialize(body, true);
+        Map<String,Object> obj = this.getBodyAsNativeObject();
+        return JSON.serialize(obj, true);
     }
 
     //obje will be the merch auth
+    // operating on nativeObject
     public void prepend(Map<String, Object> obj){
         Map<String, Object> out = new Map<String, Object>();
 
         out.put('merchantAuthentication', obj);
 
-        out.putAll(body);
+        out.putAll(this.nativeObject);
 
         
+        this.nativeObject = out;
+    }
 
+    // operating on native nativeObject
+    public void wrap(String reqType) {
+        Map<String, Object> out = new Map<String, Object>();
+
+        out.put(reqType, this.nativeObject);
+        this.nativeObject = out;
+
+    }
+
+    public virtual Map<String,Object> getBodyAsNativeObject() {
+        return this.nativeObject;
     }
 
 }

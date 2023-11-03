@@ -1,9 +1,10 @@
 public with sharing class CustomerPaymentProfile {
-    private Boolean isDefault;
-    private Integer customerPaymentProfileId;
+    
+    private String customerProfileId;
+    private String customerPaymentProfileId;
     private Address billTo;
     private Map<String, Object> payment; 
-    private CreditCard card;   
+    private Boolean defaultPaymentProfile;
     
     public CustomerPaymentProfile() {
 
@@ -11,11 +12,9 @@ public with sharing class CustomerPaymentProfile {
 
     public CustomerPaymentProfile(CreditCard card, Address billTo) {
         this.billTo = billTo;
-        this.card = card;
+        //this.card = card;
         this.payment = new Map<String, Object> {
-            'payment' => new Map<String, Object> {
                 'creditCard' => card
-            }
         };
     }
 

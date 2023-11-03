@@ -1,11 +1,11 @@
 public class CreditCard {
 
-    private String cardType;
     private String cardNumber;
-    private String cvv;
     private String expirationDate;
     private String unmaskedExpirationDate;
+    private String cardType;
     private Boolean dateIsMasked;
+    private String cvv;
 
 
 

@@ -3,14 +3,14 @@ public with sharing class Address {
     
     private String firstName;
     private String lastName;
-    private String phoneNumber;
-    private String fax;
-    private String email;
     private String address;
     private String city;
     private String state;
     private String zip;
     private String country;
+    private String phoneNumber;
+    private String fax;
+    private String email;
     private static final String DEFAULT_COUNTRY_CODE = 'US';
 
     // Constructors-----------------
