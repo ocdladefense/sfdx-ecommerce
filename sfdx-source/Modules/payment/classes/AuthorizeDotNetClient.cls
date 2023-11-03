@@ -157,6 +157,16 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
         return org.IsSandbox ? GATEWAY_SANDBOX_URL  : GATEWAY_PRODUCTION_URL;
     }
 
+    public object prepend(object payload) {
+        
+    }
 
+    // get the request type
+    // append 'Request' to the end of request type
+    // wrap request payload using request type key
+
+    public void wrap(AuthorizeDotNetRequest req) {
+        
+    }
 
 }
