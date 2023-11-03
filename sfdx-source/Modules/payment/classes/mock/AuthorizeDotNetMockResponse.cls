@@ -110,7 +110,7 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
     public static String errorDeletePaymentProfileResponseBody(){
         return'{"messages":{"resultCode":"Error","message":[{"code":"E00105","text":"The specified payment profile is associated with an active or suspended subscription and cannot be deleted"}]}}';
     }
-    
+    /*
     public static CustomerPaymentProfile sampleCustomerPaymentProfile(){
         Integer customerProfileId= 905372692;
         Integer customerPaymentProfileId =905264262;
@@ -119,8 +119,8 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
         CustomerPaymentProfile profile = new CustomerPaymentProfile(card, billToAddress);
         profile.setCustomerPaymentProfileId(customerPaymentProfileId);
         return profile;
-    }
-
+    }*/
+/*
     public static List<CustomerPaymentProfile> sampleCustomerPaymentProfileList(){
         List<CustomerPaymentProfile> profiles = new List<CustomerPaymentProfile>();
 
@@ -191,5 +191,5 @@ public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
 
         return profileIds;
     } 
-
+*/
 }

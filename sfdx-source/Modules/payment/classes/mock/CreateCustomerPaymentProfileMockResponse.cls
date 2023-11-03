@@ -6,4 +6,5 @@ public class CreateCustomerPaymentProfileMockResponse extends AuthorizeDotNetRes
     public override String getBody() {
         return '{}';
     }
+
 }
