@@ -13,6 +13,13 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
     public static final String GATEWAY_PRODUCTION_URL = 'members.ocdla.org';
 
     public static final String DELETE_REQUEST_KEY = 'deleteCustomerPaymentProfileRequest';
+
+    public static final Map<String, Object> MERCHANT_AUTH = new Map<String, Object>{
+        'merchantAuthentication' => new Map<String, String>{ 
+            'name'=> '6gSVxaYj397',
+            'transactionKey'=> '6FR49pDH5Jjum58g'
+        }
+    };
     
     private String url;
     
@@ -148,6 +155,18 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
         Organization org = [SELECT Id, InstanceName, IsSandbox FROM Organization WHERE Id = :UserInfo.getOrganizationId()];
         
         return org.IsSandbox ? GATEWAY_SANDBOX_URL  : GATEWAY_PRODUCTION_URL;
+    }
+
+    public object prepend(object payload) {
+        
+    }
+
+    // get the request type
+    // append 'Request' to the end of request type
+    // wrap request payload using request type key
+
+    public void wrap(AuthorizeDotNetRequest req) {
+        
     }
 
 }

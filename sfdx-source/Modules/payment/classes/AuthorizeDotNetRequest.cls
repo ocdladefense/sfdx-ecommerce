@@ -11,4 +11,10 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
     public String getRequestType() {
         return this.requestType;
     }
+
+    // every subclass should override in order to return a Map<String,Object>.
+    // 
+    public virtual Map<String,Object> getBodyAsNativeCode(){
+
+    }
 }
