@@ -4,6 +4,6 @@ public class CreateCustomerPaymentProfileMockResponse extends AuthorizeDotNetRes
     }
 
     public override String getBody() {
-        return '{}';
+        return'{"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}';
     }
 }
