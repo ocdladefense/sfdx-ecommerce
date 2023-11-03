@@ -25,7 +25,10 @@ public with sharing class DeleteCustomerPaymentProfileTest {
         //make request or call the method held in payment profile class
 
         DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest(profile, customerProfileId);
-
+        req.setMethod('POST');
+        String endpoint = 'https://appdev.ocdla.org/customer/905372692/cards';
+        req.setEndpoint(endpoint);
+        
         DeleteCustomerPaymentProfileResponse resp = (DeleteCustomerPaymentProfileResponse)client.send(req);
 
         Test.stopTest();
