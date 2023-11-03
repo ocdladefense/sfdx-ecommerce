@@ -14,6 +14,6 @@ public virtual with sharing class HttpResponseMessage extends HttpMessage {
 
         this.body = resp.getBody();
     }
-
+    
 
 }

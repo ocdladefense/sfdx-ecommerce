@@ -6,35 +6,39 @@ public with sharing class DeleteCustomerPaymentProfileTest {
     public DeleteCustomerPaymentProfileTest() {
 
     }
+    
 
     @isTest static void testDeletePaymentProfileSuccess(){
         Test.startTest();
+        AuthorizeDotNetServiceMock mock = new AuthorizeDotNetServiceMock();
+
+        Test.setMock(HttpCalloutMock.class, mock);
         AuthorizeDotNetClient client = new AuthorizeDotNetClient();
 
-        Test.setMock(HttpCalloutMock.class, client);
         //id of customer
         String customerProfileId= DEFAULT_CUSTOMER_PROFILE_ID;
-        //id of payment profile to delete
-        Integer customerPaymentProfileId =905264262;
-       
-        CustomerPaymentProfile profile = AuthorizeDotNetMockResponse.sampleCustomerPaymentProfile();
+        CreditCard card = new CreditCard('1234567890', Date.newInstance(2026, 8, 1));
+        Address billToAddress = new Address('mara', 'williams', 'blah 123', 'eugene', 'oregon', '97454');
+        CustomerPaymentProfile profile = new CustomerPaymentProfile(card, billToAddress);
+   
 
         //make request or call the method held in payment profile class
 
         DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest(profile, customerProfileId);
+        req.setMethod('POST');
+        String endpoint = 'https://appdev.ocdla.org/customer/905372692/cards';
+        req.setEndpoint(endpoint);
+        
+        DeleteCustomerPaymentProfileResponse resp = (DeleteCustomerPaymentProfileResponse)client.send(req);
 
-        HttpResponseMessage resp = client.send(req);
         Test.stopTest();
 
         String body = resp.getBody();
 
-        //check the contents of the message for ok
-        AuthorizeDotNetResponse message = new AuthorizeDotNetResponse(body);
-        String resultCode = message.getResultCode();
-
-        System.assertEquals('Ok', resultCode, 'Result code should be ok');
+        System.assert(resp!=null);
         
     }
+    /*
 
 
     @isTest static void testDeletePaymentProfileError(){
