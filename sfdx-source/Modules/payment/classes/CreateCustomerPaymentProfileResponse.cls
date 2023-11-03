@@ -32,7 +32,7 @@ public class CreateCustomerPaymentProfileResponse extends AuthorizeDotNetRespons
     }
 
     public String getCustomerProfileId() {
-        return this.customerPaymentProfileId;
+        return this.customerProfileId;
     }
 
     public String getCustomerPaymentProfileId() {

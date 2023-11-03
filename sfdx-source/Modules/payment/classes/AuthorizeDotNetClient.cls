@@ -14,10 +14,12 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
 
     public static final String DELETE_REQUEST_KEY = 'deleteCustomerPaymentProfileRequest';
 
+
     public static final Map<String, String> MERCHANT_AUTHENTICATION = new Map<String, String>{ 
         'name'=> '6gSVxaYj397',
         'transactionKey'=> '6FR49pDH5Jjum58g'
     };
+
     private String url;
     
     

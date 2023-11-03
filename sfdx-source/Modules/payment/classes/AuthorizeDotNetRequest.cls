@@ -13,6 +13,7 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
         return this.requestType;
     }
 
+
     public override String getBody(){
         Map<String,Object> obj = this.getBodyAsNativeObject();
         return JSON.serialize(obj, true);
@@ -43,5 +44,6 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
     public virtual Map<String,Object> getBodyAsNativeObject() {
         return this.nativeObject;
     }
+
 
 }
