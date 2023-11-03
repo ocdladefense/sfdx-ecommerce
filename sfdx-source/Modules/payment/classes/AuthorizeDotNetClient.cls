@@ -13,7 +13,17 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
     public static final String GATEWAY_PRODUCTION_URL = 'members.ocdla.org';
 
     public static final String DELETE_REQUEST_KEY = 'deleteCustomerPaymentProfileRequest';
-    
+
+    public static final Map<String, Object> MERCHANT_AUTH = new Map<String, Object>{
+        'merchantAuthentication' => new Map<String, String>{ 
+            'name'=> '6gSVxaYj397',
+            'transactionKey'=> '6FR49pDH5Jjum58g'
+        }
+    };
+    public static final Map<String, String> AUTh = new Map<String, String>{ 
+        'name'=> '6gSVxaYj397',
+        'transactionKey'=> '6FR49pDH5Jjum58g'
+    };
     private String url;
     
     
@@ -68,9 +78,40 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
 
 
     public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
-       
+       /*"createCustomerProfileRequest": { // note the request type, suffixed by “Request”
+        "merchantAuthentication": {  // per documentation, org name and key for our Sandbox
+            "name": "6gSVxaYj397",
+            "transactionKey": "6FR49pDH5Jjum58g"
+        }   
+*/  
+
+        //store merchauth as MAp of string string
+        //hard code in client
+        //prepend merch auth to body - takes payload and add new object to the front
+        //then
+        //method wrap method - takes payload, key
+        //wraps paylod with the right key
+        //key is name of request type plus request
+
         Http client = new Http();
-        req.setHeader('X-Request-Type', req.getRequestType());
+
+        String xRequestType=req.getRequestType();
+        String payloadRequestType = xRequestType.uncapitalize();
+        payloadRequestType+='Request';
+
+        req.setHeader('X-Request-Type', xRequestType);
+        req.prepend('merchantauth', someStaticMethod);
+        
+        
+        Map<String, Object> newBody = doEverything(req);
+        String actualBodyToBeSent = JSON.serialize(newBody, true);
+
+        req.setBody(actualBodyToBeSent);
+
+        req.setMethod('POST');
+        req.setEndpoint('aaaaa');
+        
+        //then convert to this saleforce
         HttpRequest breq = req.getAsHttpRequest();
 		
         //req.setHeader('Authorization', 'Bearer '+this.getAccessToken());
@@ -149,5 +190,6 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
         
         return org.IsSandbox ? GATEWAY_SANDBOX_URL  : GATEWAY_PRODUCTION_URL;
     }
+
 
 }
