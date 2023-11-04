@@ -21,10 +21,15 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
 
     //obje will be the merch auth
     // operating on nativeObject
-    public void prepend(Map<String, Object> obj){
+    public void prependBody(String key, Map<String, Object> obj) {
+
+        if(null == this.nativeObject) {
+            this.nativeObject = this.getBodyAsNativeObject();
+        }
+        
         Map<String, Object> out = new Map<String, Object>();
 
-        out.put('merchantAuthentication', obj);
+        out.put(key, obj);
 
         out.putAll(this.nativeObject);
 
@@ -33,12 +38,16 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
     }
 
     // operating on native nativeObject
-    public void wrap(String reqType) {
+    public void wrapBody(String reqType) {
+
+        if(null == this.nativeObject) {
+            this.nativeObject = this.getBodyAsNativeObject();
+        }
+
         Map<String, Object> out = new Map<String, Object>();
 
         out.put(reqType, this.nativeObject);
         this.nativeObject = out;
-
     }
 
     public virtual Map<String,Object> getBodyAsNativeObject() {

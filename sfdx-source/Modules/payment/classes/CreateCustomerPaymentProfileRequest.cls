@@ -9,15 +9,7 @@ public class CreateCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
     public CreateCustomerPaymentProfileRequest(CustomerPaymentProfile profile) {
         this();
         this.profile = profile;
-        // We can now dynamically instantiate the AuthorizeDotNetResponse *and
-        // the AuthorizeDotNetMockResponse.
-        // String respTypeName = req.requestType + 'Response'; // e.g., CreateCustomerPaymentProfileResponse
-        // String respMockName = req.requestType + 'MockResponse'; //e.g., CreateCustomerPaymentProfileMockResponse
-        // System.Type t = Type.forName(req.requestType);
-        // AuthorizeDotNetResponse resp = t.newInstance();
-        // 
         this.requestType = 'CreateCustomerPaymentProfile';
-        //this.body = JSON.serialize(profile, true);
     }
 
     public void setCustomerProfileId(String customerProfileId) {
@@ -28,7 +20,7 @@ public class CreateCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
         Map<String,Object> obj = new Map<String,Object>();
 
         obj.put('customerProfileId', this.customerProfileId);
-        obj.put('paymentProfile', profile);
+        obj.put('paymentProfile', this.profile);
         return obj;
     }
 }

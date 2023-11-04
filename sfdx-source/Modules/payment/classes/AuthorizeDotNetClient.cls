@@ -73,22 +73,22 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
     */
 
 
-    public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
+public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
        
         Http client = new Http();
 
-        String xRequestType=req.getRequestType();
+        String xRequestType = req.getRequestType();
         String payloadRequestType = xRequestType.uncapitalize();
-        payloadRequestType+='Request';
+        payloadRequestType += 'Request';
 
-        req.setHeader('X-Request-Type', xRequestType);
-        req.prepend('merchantAuthentication', MERCHANT_AUTHENTICATION);
-        req.wrap(payloadRequestType);
         
-        req.setMethod('POST');
+        req.prependBody('merchantAuthentication', MERCHANT_AUTHENTICATION);
+        req.wrapBody(payloadRequestType);
         req.setEndpoint('https://apitest.authorize.net/xml/v1/request.api');
+        req.setMethod('POST');
         req.setHeader('Content-Type', 'application/json');
-        
+        req.setHeader('X-Request-Type', xRequestType);
+
         //then convert to this saleforce
         HttpRequest breq = req.getAsHttpRequest();
 
