@@ -31,7 +31,9 @@ public class DeleteCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
         this.body = JSON.serialize(bodyTmp, true);
     }
     
+    /*
     public override getBodyAsNativeObject(){
         return 
     }
+    */
 }
