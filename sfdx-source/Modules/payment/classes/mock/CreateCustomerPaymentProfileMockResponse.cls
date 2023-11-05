@@ -4,7 +4,7 @@ public class CreateCustomerPaymentProfileMockResponse extends AuthorizeDotNetRes
     }
 
 
-    public override String getBody(String custProfileId) {
+    public String getBody(String custProfileId) {
         
         body = JSON.serialize(createCustomerProfileSuccessResponse());
         return body;

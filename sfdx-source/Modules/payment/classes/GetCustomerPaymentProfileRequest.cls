@@ -7,25 +7,13 @@ public class GetCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
     public GetCustomerPaymentProfileRequest() {
         super();
         super.setMethod('GET');
+        this.requestType = 'GetCustomerPaymentProfile';
     }
 
     public GetCustomerPaymentProfileRequest(CustomerPaymentProfile profile) {
         this();
         // We can now dynamically instantiate the AuthorizeDotNetResponse *and
         // the AuthorizeDotNetMockResponse.
-        /*
-            // Get the class name from a custom setting.
-            // This class implements the Vehicle interface.
-            CustomImplementation__c cs = CustomImplementation__c.getInstance('Vehicle');
-            
-            // Get the Type corresponding to the class name
-            Type t = Type.forName(cs.className__c);
-            
-            // Instantiate the type.
-            // The type of the instantiated object 
-            //   is the interface.
-            Vehicle v = (Vehicle)t.newInstance();
-        */
         
         // Currently we have no way to get ProfileID so for now it's gonna be a CONST
         this.customerProfileId = DEFAULT_PROFILE_ID;
@@ -54,7 +42,6 @@ public class GetCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
 
     public GetCustomerPaymentProfileRequest(CustomerPaymentProfile profile, Boolean includeIssuerInfo) {
         this();
-
         
         this.customerProfileId = DEFAULT_PROFILE_ID;
         this.customerPaymentProfileId = profile.getCustomerPaymentProfileId();
