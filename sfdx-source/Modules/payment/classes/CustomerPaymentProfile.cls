@@ -230,7 +230,7 @@ public with sharing class CustomerPaymentProfile {
         return cardValues;
     }
 
-    public String deleteCustomerPaymentProfile(String customerProfileId){
+    public String deleteCustomerPaymentProfile(CustomerPaymentProfile profile, String customerProfileId){
         //set up a client
         AuthorizeDotNetClient client = new AuthorizeDotNetClient();
 
@@ -293,35 +293,45 @@ public with sharing class CustomerPaymentProfile {
     }
     
 
-    public Integer getCustomerPaymentProfileId() {
+    public String getCustomerPaymentProfileId() {
         return customerPaymentProfileId;
+    }
+
+    public String getCustomerProfileId() {
+        return customerProfileId;
     }
 
     public Address getBillTo() {
         return billTo;
     }
 
-    public CreditCard getCard() {
-        return card;
+    public Map<String, Object> getPayment() {
+        return payment;
     }
 
-    public Boolean getIsDefault() {
-        return isDefault;
+    public Boolean getDefaultPaymentProfile() {
+        return defaultPaymentProfile;
     }
 
-    public void setCustomerPaymentProfileId(Integer customerPaymentProfileId) {
+    public void setCustomerPaymentProfileId(String customerPaymentProfileId) {
         this.customerPaymentProfileId = customerPaymentProfileId;
+    }
+
+    public void setCustomerProfileId(String customerProfileId) {
+        this.customerProfileId = customerProfileId;
     }
 
     public void setBillTo(Address billTo) {
         this.billTo = billTo;
     }
 
-    public void setCard(CreditCard card) {
-        this.card = card;
+    public void setPayment(CreditCard card) {
+        this.payment = new Map<String, Object> {
+            'creditCard' => card
+        };
     }
 
-    public void setIsDefault (Boolean isDefault){
-        this.isDefault=isDefault;
+    public void setDefaultPaymentProfile (Boolean defaultPaymentProfile){
+        this.defaultPaymentProfile=defaultPaymentProfile;
     }
 }

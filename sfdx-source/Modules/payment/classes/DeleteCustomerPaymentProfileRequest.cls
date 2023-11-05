@@ -1,10 +1,16 @@
 public class DeleteCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
     //no merchant info needed
+    private String customerProfileId;
+    private CustomerPaymentProfile profile;
     private final String DELETE_ENDPOINT = 'https://appdev.ocdla.org/customer/905372692/cards';
 
     public DeleteCustomerPaymentProfileRequest() {
         super();
     }
+    public DeleteCustomerPaymentProfileRequest(CustomerPaymentProfile profile, String customerPaymentProfile){
+
+    }
+
     public DeleteCustomerPaymentProfileRequest(CustomerPaymentProfile profile) {
         this();
         // We can now dynamically instantiate the AuthorizeDotNetResponse *and
@@ -14,24 +20,22 @@ public class DeleteCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
         // System.Type t = Type.forName(req.requestType);
         // AuthorizeDotNetResponse resp = t.newInstance();
         // 
+        this.customerProfileId = profile.getCustomerProfileId();
+        this.profile = profile;
         this.requestType = 'DeleteCustomerPaymentProfile';
-        this.body = JSON.serialize(profile, true);
     }
-    public DeleteCustomerPaymentProfileRequest(CustomerPaymentProfile profile, String customerProfileId) {
-        this.setMethod('POST');
-        this.setEndpoint(DELETE_ENDPOINT);
-        //this is not current
-        Map<String, Object> bodyTmp = new Map<String, Object>{
-            'deleteCustomerPaymentProfileRequest'=>new Map<String,Object>{
-                'customerProfileId'=> customerProfileId,
-                'customerPaymentProfileId'=>profile.getCustomerPaymentProfileId()
-            }
-        };
 
-        this.body = JSON.serialize(bodyTmp, true);
+    public void setCustomerProfileId(String customerProfileId) {
+        this.customerProfileId = customerProfileId;
     }
-    
-    public override getBodyAsNativeObject(){
-        return 
+    public String getCustomerProfileId() {
+        return this.customerProfileId = customerProfileId;
+    }
+    public override Map<String,Object> getBodyAsNativeObject(){
+        Map<String,Object> obj = new Map<String,Object>();
+
+        obj.put('customerProfileId', this.customerProfileId);
+        obj.put('customerPaymentProfileId', this.profile.getCustomerPaymentProfileId());
+        return obj;
     }
 }
