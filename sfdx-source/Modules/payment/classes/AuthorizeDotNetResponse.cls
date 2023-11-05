@@ -74,6 +74,7 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
         String typeName = requestType + 'Response'; // e.g., CreateCustomerPaymentProfileResponse
         // String respMockName = req.requestType + 'MockResponse'; //e.g., CreateCustomerPaymentProfileMockResponse
         System.Type t = Type.forName(typeName);
+        System.debug('the type is '+ typeName);
         return (AuthorizeDotNetResponse)t.newInstance();
     }
 

@@ -11,6 +11,12 @@ public class DeleteCustomerPaymentProfileMockResponse extends AuthorizeDotNetRes
     public override String getBody() {
         return getIsErrorTest()? errorDeletePaymentProfileResponseBody():okDeletePaymentProfileResponseBody();
     }
+    public override String getBody(string paymentProfileId) {
+        Boolean isErrorTest = DeleteCustomerPaymentProfileMockResponse.setIsErrorTestByPaymentProfileId(paymentProfileId);
+        resp.setIsErrorTest(isErrorTest); 
+        System.debug('set the errorTestValue');
+         return getIsErrorTest()? errorDeletePaymentProfileResponseBody():okDeletePaymentProfileResponseBody();
+    }
 
     public static String okDeletePaymentProfileResponseBody(){
         return'{"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}';
