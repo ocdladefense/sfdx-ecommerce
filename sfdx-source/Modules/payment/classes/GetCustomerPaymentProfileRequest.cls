@@ -1,8 +1,8 @@
 public class GetCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
-    public Integer customerProfileId;
-    public Integer customerPaymentProfileId;
+    public String customerProfileId;
+    public String customerPaymentProfileId;
     public Boolean includeIssuerInfo;
-    public Integer DEFAULT_PROFILE_ID = 905372692;
+    public String DEFAULT_PROFILE_ID = '905372692';
 
     public GetCustomerPaymentProfileRequest() {
         super();
@@ -54,7 +54,7 @@ public class GetCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
         Type t = Type.forName(this.getRequestType());
         AuthorizeDotNetResponse resp = (AuthorizeDotNetResponse) t.newInstance();
     }
-
+    /*
     public override String getBody() {
         List<String> reqBody = new String[]{'{"customerProfileId": "' + '123445' + '", "customerPaymentProfileId": "' + '838347374774' + '"'};
         if (this.includeIssuerInfo)
@@ -64,4 +64,5 @@ public class GetCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
         //Boolean temp = this.includeIssuerInfo ? reqBody.add(', "includeIssuerInfo:" "' + 'Mhmm' +'"}') : reqBody.add('}');
         return String.join(reqBody, '');
     }
+    */
 }

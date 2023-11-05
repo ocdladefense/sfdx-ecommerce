@@ -293,14 +293,14 @@ public with sharing class CustomerPaymentProfile {
     }
     
 
-    public Integer getCustomerPaymentProfileId() {
+    public String getCustomerPaymentProfileId() {
         return customerPaymentProfileId;
     }
 
     public Address getBillTo() {
         return billTo;
     }
-
+    /*
     public CreditCard getCard() {
         return card;
     }
@@ -308,15 +308,15 @@ public with sharing class CustomerPaymentProfile {
     public Boolean getIsDefault() {
         return isDefault;
     }
-
-    public void setCustomerPaymentProfileId(Integer customerPaymentProfileId) {
+    */
+    public void setCustomerPaymentProfileId(String customerPaymentProfileId) {
         this.customerPaymentProfileId = customerPaymentProfileId;
     }
 
     public void setBillTo(Address billTo) {
         this.billTo = billTo;
     }
-
+    /*
     public void setCard(CreditCard card) {
         this.card = card;
     }
@@ -324,4 +324,5 @@ public with sharing class CustomerPaymentProfile {
     public void setIsDefault (Boolean isDefault){
         this.isDefault=isDefault;
     }
+    */
 }
