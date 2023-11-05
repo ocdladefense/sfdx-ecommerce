@@ -95,12 +95,21 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
         HttpResponse bresp = client.send(breq);
   
         //inspect the specific type of request to know what to do.
+
+
         AuthorizeDotNetResponse resp = AuthorizeDotNetResponse.newFromRequestType(req.getHeader('X-Request-Type'));
-        
         
         resp.setBody(bresp.getBody());
         // AuthorizeDotNetResponse authResp = AuthorizeDotNetClient.getInstanceOfResponse(r);
         // authResp.setBody(resp.getBody());
+
+        if(Test.isRunningTest() && xRequestType=='deleteCustomerPaymentProfileRequest'){
+            //can also try in test class
+            //need way to set isErrorTest value to false
+           DeleteCustomerPaymentProfileMockResponse.setIsErrorTestByPaymentProfileId(req.getCustomerPaymentProfileId()); 
+           System.debug('set the errorTestValue');
+        }
+
         resp.deserialize();
 
         return resp;
@@ -143,23 +152,6 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
     public String getProtocol(){
         return protocol;
     }
-
-    /*
-    public static Boolean isIdInSampleList(Integer id){
-        List<Integer> samplePaymentProfileIds = AuthorizeDotNetMockResponse.samplePaymentProfileIds();
-            //default set to error
-            Boolean isErrorTest = true;
-
-            //if matching profile id is found set request type to success
-            for (Integer sampleId : samplePaymentProfileIds){
-                if (sampleId==id){
-                    isErrorTest=false;
-                }
-            }
-        return isErrorTest;
-    }
-    */
-    
     
     public static String getDomain(){
         Organization org = [SELECT Id, InstanceName, IsSandbox FROM Organization WHERE Id = :UserInfo.getOrganizationId()];

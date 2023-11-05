@@ -1,8 +1,10 @@
 public class DeleteCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
     //no merchant info needed
     private String customerProfileId;
+    private String customerPaymentProfileId;
     private CustomerPaymentProfile profile;
     private final String DELETE_ENDPOINT = 'https://appdev.ocdla.org/customer/905372692/cards';
+    private boolean isErrorTest;
 
     public DeleteCustomerPaymentProfileRequest() {
         super();
@@ -29,8 +31,15 @@ public class DeleteCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
         this.customerProfileId = customerProfileId;
     }
     public String getCustomerProfileId() {
-        return this.customerProfileId = customerProfileId;
+        return this.customerProfileId;
     }
+    public void setCustomerPaymentProfileId(String customerPaymentProfileId) {
+        this.customerPaymentProfileId = customerPaymentProfileId;
+    }
+    public String getCustomerCustomerProfileId() {
+        return this.customerPaymentProfileId;
+    }
+
     public override Map<String,Object> getBodyAsNativeObject(){
         Map<String,Object> obj = new Map<String,Object>();
 
@@ -38,4 +47,8 @@ public class DeleteCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
         obj.put('customerPaymentProfileId', this.profile.getCustomerPaymentProfileId());
         return obj;
     }
+
+    //for running unit tests
+    //response payload does not include customerProfileId or PaymentProfileId
+    
 }
