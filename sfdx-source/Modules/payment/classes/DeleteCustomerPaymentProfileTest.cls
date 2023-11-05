@@ -40,38 +40,38 @@ public with sharing class DeleteCustomerPaymentProfileTest {
         System.assertEquals(false, resp.getIsErrorTest(), 'isErrorTest should be false');
         
     }
-    /*
-
-
-    @isTest static void testDeletePaymentProfileError(){
+    @isTest static void testDeletePaymentProfileFailure(){
         Test.startTest();
+        AuthorizeDotNetServiceMock mock = new AuthorizeDotNetServiceMock();
+
+        Test.setMock(HttpCalloutMock.class, mock);
         AuthorizeDotNetClient client = new AuthorizeDotNetClient();
 
-        Test.setMock(HttpCalloutMock.class, client);
         //id of customer
         String customerProfileId= DEFAULT_CUSTOMER_PROFILE_ID;
-        
-        CustomerPaymentProfile profile = AuthorizeDotNetMockResponse.sampleCustomerPaymentProfile();
-        
-        //reset the value to get an error mock response
-        Integer customerPaymentProfileId = 111264262;
-        profile.setCustomerPaymentProfileId(customerPaymentProfileId);
-       
-        DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest(profile, customerProfileId);
+        CustomerPaymentProfile profile = DeleteCustomerPaymentProfileMockResponse.sampleCustomerPaymentProfile();
+        profile.setCustomerProfileId(customerProfileId);
+        profile.setCustomerPaymentProfileId('xxxxxxxx');
 
-        HttpResponseMessage resp = client.send(req);
+        //make request or call the method held in payment profile class
+
+        DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest(profile);
+        
+        DeleteCustomerPaymentProfileResponse resp = (DeleteCustomerPaymentProfileResponse)client.send(req);
+
         Test.stopTest();
 
         String body = resp.getBody();
+        
+        System.assertEquals(false, resp.success(), 'the success method should return false');
 
-        //check the contents of the message for ok
-        AuthorizeDotNetResponse message = new AuthorizeDotNetResponse(body);
-        String resultCode = message.getResultCode();
+        System.assertEquals('Error', resp.getResultCode());
 
-        System.assertEquals('Error', resultCode, 'Result code should be error');
+        System.assertEquals(false, resp.getIsErrorTest(), 'isErrorTest should be true');
         
     }
 
+/*
     @isTest static void testDeletePaymentProfileClassMethodSuccess(){
         Test.startTest();
         AuthorizeDotNetClient client = new AuthorizeDotNetClient();

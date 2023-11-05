@@ -79,6 +79,7 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
 
     public virtual void setIsErrorTest(Boolean isErrorTest){
         this.isErrorTest = isErrorTest;
+        this.setBody(this.getBody());
     }
 
     public Boolean getIsErrorTest(){

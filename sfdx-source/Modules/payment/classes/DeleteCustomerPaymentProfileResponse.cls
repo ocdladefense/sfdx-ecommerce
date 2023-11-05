@@ -10,5 +10,8 @@ public class DeleteCustomerPaymentProfileResponse extends AuthorizeDotNetRespons
     //     this.body = theBody;
     // }
 
-    
+    public override void setIsErrorTest(Boolean isErrorTest){
+        this.isErrorTest = isErrorTest;
+        this.setBody(this.getBody());
+    }
 }
