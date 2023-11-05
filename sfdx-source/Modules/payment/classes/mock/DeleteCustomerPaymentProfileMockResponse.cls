@@ -19,6 +19,8 @@ public class DeleteCustomerPaymentProfileMockResponse extends AuthorizeDotNetRes
     public static String errorDeletePaymentProfileResponseBody(){
         return'{"messages":{"resultCode":"Error","message":[{"code":"E00105","text":"The specified payment profile is associated with an active or suspended subscription and cannot be deleted"}]}}';
     }
+
+
     public static List<String> samplePaymentProfileIds() {
         List<CustomerPaymentProfile> profiles =sampleCustomerPaymentProfileList();
         List <String> paymentProfileIds = new List<String>();
@@ -43,6 +45,15 @@ public class DeleteCustomerPaymentProfileMockResponse extends AuthorizeDotNetRes
         }
 
         return profiles;
+    }
+    public static CustomerPaymentProfile sampleCustomerPaymentProfile(){
+        String customerProfileId= '905372692';
+        String customerPaymentProfileId ='905264262';
+        CreditCard card = new CreditCard('123456789022', Date.newInstance(2026, 8, 1));
+        Address billToAddress = new Address('mara', 'williams', 'blah 123', 'eugene', 'oregon', '97454');
+        CustomerPaymentProfile profile = new CustomerPaymentProfile(card, billToAddress);
+        profile.setCustomerPaymentProfileId(customerPaymentProfileId);
+        return profile;
     }
     public static List<CustomerPaymentProfile> sampleCustomerPaymentProfileList(){
         List<CustomerPaymentProfile> profiles = new List<CustomerPaymentProfile>();
@@ -89,26 +100,24 @@ public class DeleteCustomerPaymentProfileMockResponse extends AuthorizeDotNetRes
         //return list
         return profiles;
     }
-    public void setIsErrorTestByPaymentProfileId(String customerPaymentProfileId){
+    public static Boolean setIsErrorTestByPaymentProfileId(String customerPaymentProfileId){
     
         List <String> paymentProfileIds = samplePaymentProfileIds();
+        Integer matches=0;
         for (String paymentProfileId : paymentProfileIds){
-            Integer index;
+            
             if (paymentProfileId==customerPaymentProfileId){
-                index=paymentProfileIds.indexOf(paymentProfileId);
-                paymentProfileIds.remove(index);
+                matches++;
             }
         }
-        Boolean tempValue =  paymentProfileIds.size()==0? false : true;
-        this.isErrorTest = tempValue;
+       
+        return matches==0;
     }
 
-    public void setIsErrorTest(Boolean isErrorTest){
+    public override void setIsErrorTest(Boolean isErrorTest){
         this.isErrorTest = isErrorTest;
         this.setBody(this.getBody());
     }
 
-    public Boolean getIsErrorTest(){
-        return this.isErrorTest;
-    }
+
 }

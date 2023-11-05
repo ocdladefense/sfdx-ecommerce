@@ -3,7 +3,7 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
 //public with sharing class AuthorizeDotNetResponse extends HttpResponseMessage{ 
     private static final String RESPONSE_SUCCESS = 'Ok';
     private static final String RESPONSE_FAILURE = 'Error';
-
+    protected Boolean isErrorTest = false;
     protected Map<String, Object> temp;
 
     private String resultCode;
@@ -76,4 +76,13 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
         System.Type t = Type.forName(typeName);
         return (AuthorizeDotNetResponse)t.newInstance();
     }
+
+    public virtual void setIsErrorTest(Boolean isErrorTest){
+        this.isErrorTest = isErrorTest;
+    }
+
+    public Boolean getIsErrorTest(){
+        return this.isErrorTest;
+    }
+
 }

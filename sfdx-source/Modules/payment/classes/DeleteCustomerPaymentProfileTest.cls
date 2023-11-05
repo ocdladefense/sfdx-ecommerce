@@ -17,17 +17,15 @@ public with sharing class DeleteCustomerPaymentProfileTest {
 
         //id of customer
         String customerProfileId= DEFAULT_CUSTOMER_PROFILE_ID;
-        CreditCard card = new CreditCard('1234567890', Date.newInstance(2026, 8, 1));
-        Address billToAddress = new Address('mara', 'williams', 'blah 123', 'eugene', 'oregon', '97454');
-        CustomerPaymentProfile profile = new CustomerPaymentProfile(card, billToAddress);
-   
+        CustomerPaymentProfile profile = DeleteCustomerPaymentProfileMockResponse.sampleCustomerPaymentProfile();
+        profile.setCustomerProfileId(customerProfileId);
 
         //make request or call the method held in payment profile class
 
-        DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest(profile, customerProfileId);
-        req.setMethod('POST');
-        String endpoint = 'https://appdev.ocdla.org/customer/905372692/cards';
-        req.setEndpoint(endpoint);
+        DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest(profile);
+        //req.setMethod('POST');
+        //String endpoint = 'https://appdev.ocdla.org/customer/905372692/cards';
+        //req.setEndpoint(endpoint);
         
         DeleteCustomerPaymentProfileResponse resp = (DeleteCustomerPaymentProfileResponse)client.send(req);
 
@@ -36,6 +34,10 @@ public with sharing class DeleteCustomerPaymentProfileTest {
         String body = resp.getBody();
 
         System.assert(resp!=null);
+        
+        System.assertEquals(true, resp.success(), 'the success method should return true');
+        System.debug('response succes is - '+resp.success());
+        System.assertEquals(false, resp.getIsErrorTest(), 'isErrorTest should be false');
         
     }
     /*

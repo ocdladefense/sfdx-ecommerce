@@ -1,5 +1,5 @@
 public class DeleteCustomerPaymentProfileResponse extends AuthorizeDotNetResponse{
-    
+
     //delete response only contains messages which are deserialized in AuthorizeDotNetResponse class
     public DeleteCustomerPaymentProfileResponse() {
         super();

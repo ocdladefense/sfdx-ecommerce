@@ -103,10 +103,13 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
         // AuthorizeDotNetResponse authResp = AuthorizeDotNetClient.getInstanceOfResponse(r);
         // authResp.setBody(resp.getBody());
 
-        if(Test.isRunningTest() && xRequestType=='deleteCustomerPaymentProfileRequest'){
+        if(Test.isRunningTest() && req.getRequestType()=='DeleteCustomerPaymentProfile'){
             //can also try in test class
             //need way to set isErrorTest value to false
-           DeleteCustomerPaymentProfileMockResponse.setIsErrorTestByPaymentProfileId(req.getCustomerPaymentProfileId()); 
+            Map<String, Object> tempObj = req.getBodyAsNativeObject();
+            String paymentProfileId = (String)tempObj.get('customerPaymentProfileId');
+           Boolean isErrorTest = DeleteCustomerPaymentProfileMockResponse.setIsErrorTestByPaymentProfileId(paymentProfileId);
+           resp.setIsErrorTest(isErrorTest); 
            System.debug('set the errorTestValue');
         }
 
@@ -126,23 +129,27 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
 
     public static AuthorizeDotNetResponse getInstanceOfResponse(AuthorizeDotNetRequest r){
         
-        /*
-        if (r instanceof CreateCustomerPaymentProfileRequest) {
-            return new CreateCustomerPaymentProfileResponse();
-        }
-        */
-
+        
+        // if (r instanceof CreateCustomerPaymentProfileRequest) {
+        //     return new CreateCustomerPaymentProfileResponse();
+        // }
+        // else if(r instanceof DeleteCustomerPaymentProfileRequest){
+        //     return new DeleteCustomerPaymentProfileRequest();
+        // }
+        // else{
+        //     return new AuthorizeDotNetResponse();
+        // }
+        System.debug('MadeInstance WITHOUT specific paramenter');
         return new AuthorizeDotNetResponse();
     }
 
     public static AuthorizeDotNetResponse getInstanceOfResponse(CreateCustomerPaymentProfileRequest r){
-
-
         return new CreateCustomerPaymentProfileResponse();
+    }
 
-
-
-
+    public static AuthorizeDotNetResponse getInstanceOfResponse(DeleteCustomerPaymentProfileRequest r){
+        System.debug('MadeInstance with specific paramenter');
+        return new DeleteCustomerPaymentProfileResponse();
     }
 
     public String getEndpoint(){
