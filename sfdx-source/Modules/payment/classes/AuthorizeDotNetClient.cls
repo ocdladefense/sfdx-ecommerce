@@ -89,13 +89,12 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
         req.setHeader('Content-Type', 'application/json');
         req.setHeader('X-Request-Type', xRequestType);
 
-        //then convert to this saleforce
+        //then convert to this a saleforce request class
         HttpRequest breq = req.getAsHttpRequest();
 
         HttpResponse bresp = client.send(breq);
   
         //inspect the specific type of request to know what to do.
-
 
         AuthorizeDotNetResponse resp = AuthorizeDotNetResponse.newFromRequestType(req.getHeader('X-Request-Type'));
         

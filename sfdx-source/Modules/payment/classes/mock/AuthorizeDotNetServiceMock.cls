@@ -1,8 +1,10 @@
 public class AuthorizeDotNetServiceMock implements HttpCalloutMock {
     
+    protected List<CustomerPaymentProfile> profiles;
+
     public AuthorizeDotNetServiceMock() {
         //invoke the list with 4 profiles
-
+        this.profiles = AuthorizeDotNetServiceMock.sampleCustomerPaymentProfileList();
 }
 
 //logic for testing if a req's customerProfileId is on the list
@@ -16,27 +18,48 @@ public class AuthorizeDotNetServiceMock implements HttpCalloutMock {
            resp.setIsErrorTest(isErrorTest); 
            System.debug('set the errorTestValue');
         }*/
-        
+
     public HttpResponse respond(HttpRequest req) {
-        System.debug('making a responde request');
+        System.debug('making a respond request');
+        System.debug('profile count is '+ this.getSampleListSize());
+        if(this.profiles.size()==0){
+            this.profiles = AuthorizeDotNetServiceMock.sampleCustomerPaymentProfileList();
+           
+        }
         HttpResponse resp = new HttpResponse();
 
+       
         
-        
-        
+        String xRequestType = req.getHeader('X-Request-Type');
         String mockType = req.getHeader('X-Request-Type')+'MockResponse';
-        //if is delete - remove 1 from list
+        
+
+ 
 
         System.Type t = Type.forName(mockType);
 
         IMockResponse mock = (IMockResponse)t.newInstance();
 
         resp.setHeader('Content-Type', 'application/json');
+       
+
         resp.setBody(mock.getBody());
         resp.setStatusCode(200);
+        String codeForDebug ='200';
         resp.setStatus('Apex generated Mock HttpResponse.');
         // resp.setHeader('X-Request-Type')
 
+        //if is delete - call method to delete the profile with matching id paymentProfileid
+        if (mockType=='deleteCustomerPaymentProfileMockResponse'){
+            this.deleteFromProfileList(req, xRequestType);
+            if(this.profiles.size()==4){
+                System.debug('checking size');
+                resp.setStatusCode(500);
+                resp.setBody(DeleteCustomerPaymentProfileMockResponse.errorDeletePaymentProfileResponseBody());
+                codeForDebug='500';
+            }
+        }
+        System.debug('The mock response status code is ' + codeForDebug);
         return resp;
     }
 
@@ -84,5 +107,24 @@ public class AuthorizeDotNetServiceMock implements HttpCalloutMock {
         
         //return list
         return profiles;
+    }
+
+    public void deleteFromProfileList(HttpRequest req, String xRequestType) {
+        Map<String, Object> tempObj = (Map<String, Object>)JSON.deserializeUntyped(req.getBody());
+   
+        String profileIdToDelete = (String)tempObj.get('customerPaymentProfileId');
+
+        for (CustomerPaymentProfile p : this.profiles){
+            Integer index;
+            if (p.getCustomerPaymentProfileId()==profileIdToDelete){
+                index=this.profiles.indexOf(p);
+                this.profiles.remove(index);
+            }
+        }
+        System.debug(this.getSampleListSize());
+    }
+
+    public Integer getSampleListSize(){
+        return this.profiles.size();
     }
 }

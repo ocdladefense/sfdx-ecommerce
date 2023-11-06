@@ -1,23 +1,16 @@
 public class DeleteCustomerPaymentProfileMockResponse extends AuthorizeDotNetResponse implements IMockResponse{
     
-    private boolean isErrorTest = false;
+    private boolean isErrorTest;
 
     public DeleteCustomerPaymentProfileMockResponse() {
         super();
-        this.getBody();
     }
 
     //when testing for an error call setIsErrorTest
     public override String getBody() {
         return getIsErrorTest()? errorDeletePaymentProfileResponseBody():okDeletePaymentProfileResponseBody();
     }
-    public override String getBody(string paymentProfileId) {
-        Boolean isErrorTest = DeleteCustomerPaymentProfileMockResponse.setIsErrorTestByPaymentProfileId(paymentProfileId);
-        resp.setIsErrorTest(isErrorTest); 
-        System.debug('set the errorTestValue');
-         return getIsErrorTest()? errorDeletePaymentProfileResponseBody():okDeletePaymentProfileResponseBody();
-    }
-
+   
     public static String okDeletePaymentProfileResponseBody(){
         return'{"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}';
     }
@@ -39,19 +32,7 @@ public class DeleteCustomerPaymentProfileMockResponse extends AuthorizeDotNetRes
         return paymentProfileIds;
     } 
 
-    public List<CustomerPaymentProfile> samplePaymentProfileListAfterDelete(HttpRequest req, String customerPaymentProfileId) {
-        List<CustomerPaymentProfile> profiles =sampleCustomerPaymentProfileList();
-        
-        for (CustomerPaymentProfile profile : profiles){
-            Integer index;
-            if (profile.getCustomerPaymentProfileId()==customerPaymentProfileId){
-                index=profiles.indexOf(profile);
-                profiles.remove(index);
-            }
-        }
-
-        return profiles;
-    }
+    
     public static CustomerPaymentProfile sampleCustomerPaymentProfile(){
         String customerProfileId= '905372692';
         String customerPaymentProfileId ='905264262';
