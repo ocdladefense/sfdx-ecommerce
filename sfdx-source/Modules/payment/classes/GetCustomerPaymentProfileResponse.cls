@@ -24,9 +24,9 @@ public class GetCustomerPaymentProfileResponse extends AuthorizeDotNetResponse {
         Boolean isDef = (Boolean) createBody.get('defaultPaymentProfile');
         String custProfileId = (String) createBody.get('customerProfileId');
         String custPaymentProfileId = (String) createBody.get('customerPaymentProfileId');
-        String card = (CreditCard) createBody.get('creditCard');
+        CreditCard card = (CreditCard) createBody.get('creditCard');
         string ogNetTransId = (String) createBody.get('originalNetworkTransId');
-        string ogAuthAmnt = (Decimal) createBody.get('originalAuthAmount');
+        Decimal ogAuthAmnt = (Decimal) createBody.get('originalAuthAmount');
         Address billTo = (Address) createBody.get('billTo');
         String refId = (String)createBody.get('refId');
 
