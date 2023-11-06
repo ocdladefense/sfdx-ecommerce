@@ -103,16 +103,6 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
         // AuthorizeDotNetResponse authResp = AuthorizeDotNetClient.getInstanceOfResponse(r);
         // authResp.setBody(resp.getBody());
 
-        if(Test.isRunningTest() && req.getRequestType()=='DeleteCustomerPaymentProfile'){
-            //can also try in test class
-            //need way to set isErrorTest value to false
-            Map<String, Object> tempObj = req.getBodyAsNativeObject();
-            String paymentProfileId = (String)tempObj.get('customerPaymentProfileId');
-           Boolean isErrorTest = DeleteCustomerPaymentProfileMockResponse.setIsErrorTestByPaymentProfileId(paymentProfileId);
-           resp.setIsErrorTest(isErrorTest); 
-           System.debug('set the errorTestValue');
-        }
-
         resp.deserialize();
 
         return resp;
