@@ -1,8 +1,8 @@
 public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{    
 
 //public with sharing class AuthorizeDotNetResponse extends HttpResponseMessage{ 
-    private static final String RESPONSE_SUCCESS = 'Ok';
-    private static final String RESPONSE_FAILURE = 'Error';
+    protected final String RESPONSE_SUCCESS = 'Ok';
+    protected final String RESPONSE_FAILURE = 'Error';
 
     protected Map<String, Object> temp;
 
