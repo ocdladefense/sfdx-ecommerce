@@ -26,7 +26,9 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
 
     public virtual void deserialize (){
                 //'{"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}'
+                //in sandbox testing has questionmark symbol before{"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}
 
+    
         Map<String, Object> bodyMap = (Map<String, Object>)JSON.deserializeUntyped(this.body);
 
         Map<String, Object> soapMessages = ( Map<String, Object>)bodyMap.get('messages');

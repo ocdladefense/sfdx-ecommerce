@@ -48,7 +48,7 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
         req.setEndpoint( 'https' + '://'+ getDomain()+'/'+'ccAuthorize');
         req.setTimeout(CALLOUT_TIMEOUT);
         // Execute web service call here	
-     	
+     	System.debug('From send req is ' + req);
         HttpResponse resp = http.send(req);
         
         return TransactionResponse.newFromResponse(resp);
@@ -100,8 +100,8 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
         resp.setBody(bresp.getBody());
         // AuthorizeDotNetResponse authResp = AuthorizeDotNetClient.getInstanceOfResponse(r);
         // authResp.setBody(resp.getBody());
-
-        resp.deserialize();
+        
+        //resp.deserialize();
 
         return resp;
     }
