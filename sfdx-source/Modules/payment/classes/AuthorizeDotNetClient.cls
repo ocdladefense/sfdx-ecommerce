@@ -94,6 +94,8 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
         HttpResponse bresp = client.send(breq);
   
         //inspect the specific type of request to know what to do.
+        //the generic step - an authorizedotnetresponse rather than a specific kind 
+        //AuthorizeDotNetResponse resp = new AuthorizeDotNetResponse(bresp.getBody());
 
         AuthorizeDotNetResponse resp = AuthorizeDotNetResponse.newFromRequestType(req.getHeader('X-Request-Type'));
         
