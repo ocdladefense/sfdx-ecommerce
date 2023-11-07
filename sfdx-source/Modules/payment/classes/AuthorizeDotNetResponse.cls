@@ -8,7 +8,7 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
 
     private String resultCode;
 
-    private List <Map<String, Object>> messages = new List <Map<String, Object>>();
+    private Map<String, Object> messages = new Map<String, Object>();
 
     public AuthorizeDotNetResponse() {
     }
