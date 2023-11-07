@@ -5,6 +5,8 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
     protected Map<String, Object> nativeObject;
     //set the properties on this
     
+    protected Map<String,String> params;
+    
     public AuthorizeDotNetRequest() {
         this.headers.put('X-Request-Type',this.requestType);
     }
@@ -54,5 +56,9 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
         return this.nativeObject;
     }
 
+    //testing - got error void addParams(String, String) from the type AuthorizeDotNetRequest
+    public override void addParam(String key, String value) {
+        this.params.put(key,value);
+    }
 
 }

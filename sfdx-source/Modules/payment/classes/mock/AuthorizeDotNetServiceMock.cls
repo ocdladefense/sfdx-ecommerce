@@ -113,14 +113,16 @@ public class AuthorizeDotNetServiceMock implements HttpCalloutMock {
         Map<String, Object> tempObj = (Map<String, Object>)JSON.deserializeUntyped(req.getBody());
    
         String profileIdToDelete = (String)tempObj.get('customerPaymentProfileId');
-
+        Integer index;
         for (CustomerPaymentProfile p : this.profiles){
-            Integer index;
             if (p.getCustomerPaymentProfileId()==profileIdToDelete){
                 index=this.profiles.indexOf(p);
-                this.profiles.remove(index);
             }
         }
+        if(index!=null){
+            this.profiles.remove(index);
+        }
+        
         System.debug(this.getSampleListSize());
     }
 

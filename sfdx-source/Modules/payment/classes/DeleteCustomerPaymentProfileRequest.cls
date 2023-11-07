@@ -3,7 +3,7 @@ public class DeleteCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
     private String customerProfileId;
     private String customerPaymentProfileId;
     private CustomerPaymentProfile profile;
-    private final String DELETE_ENDPOINT = 'https://appdev.ocdla.org/customer/905372692/cards';
+   
 
     public DeleteCustomerPaymentProfileRequest() {
         super();

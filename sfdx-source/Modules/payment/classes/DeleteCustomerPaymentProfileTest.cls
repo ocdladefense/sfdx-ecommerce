@@ -7,6 +7,41 @@ public with sharing class DeleteCustomerPaymentProfileTest {
 
     }
     
+    @isTest static void prependTest(){
+        Test.startTest();
+        AuthorizeDotNetServiceMock mock = new AuthorizeDotNetServiceMock();
+
+        Test.setMock(HttpCalloutMock.class, mock);
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+
+        String customerProfileId= DEFAULT_CUSTOMER_PROFILE_ID;
+        CustomerPaymentProfile profile = DeleteCustomerPaymentProfileMockResponse.sampleCustomerPaymentProfile();
+        profile.setCustomerProfileId(customerProfileId);
+
+        DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest(profile);
+
+        //from send in AuthorizeDotNetClient
+
+        String xRequestType = req.getRequestType();
+        String payloadRequestType = xRequestType.uncapitalize();
+        payloadRequestType += 'Request';
+
+        Map<String, String> MERCHANT_AUTHENTICATION = new Map<String, String>{ 
+            'name'=> '6gSVxaYj397',
+            'transactionKey'=> '6FR49pDH5Jjum58g'
+        };
+        req.prependBody('merchantAuthentication', MERCHANT_AUTHENTICATION);
+        
+        req.wrapBody(payloadRequestType);
+        req.setEndpoint('https://apitest.authorize.net/xml/v1/request.api');
+        req.setMethod('POST');
+        req.setHeader('Content-Type', 'application/json');
+        req.setHeader('X-Request-Type', xRequestType);
+
+        Test.stopTest();
+
+        System.assertEquals('POST', req.getMethod(), 'method should be post');
+    }
 
     @isTest static void testDeletePaymentProfileSuccess(){
         Test.startTest();

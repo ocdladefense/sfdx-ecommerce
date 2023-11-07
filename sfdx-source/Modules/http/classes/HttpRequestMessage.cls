@@ -41,7 +41,7 @@ public virtual class HttpRequestMessage extends HttpMessage {
         this.addParam(key, null);
     }
 
-    public void addParam(String key, String value) {
+    public virtual void addParam(String key, String value) {
         this.params.put(key,value);
     }
 
@@ -84,6 +84,11 @@ public virtual class HttpRequestMessage extends HttpMessage {
     public String getMethod() {
         return this.method;
     }
+
+    //temp
+    public void setParams(String key, string value) {
+        this.params.put(key,value);
+    } 
 
 
 }

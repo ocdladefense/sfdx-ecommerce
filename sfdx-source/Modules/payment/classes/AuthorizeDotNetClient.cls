@@ -12,7 +12,6 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
     
     public static final String GATEWAY_PRODUCTION_URL = 'members.ocdla.org';
 
-    public static final String DELETE_REQUEST_KEY = 'deleteCustomerPaymentProfileRequest';
 
 
     public static final Map<String, String> MERCHANT_AUTHENTICATION = new Map<String, String>{ 
