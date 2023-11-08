@@ -2,8 +2,11 @@ public with sharing class CustomerPaymentProfile {
     
     private String customerProfileId;
     private String customerPaymentProfileId;
+    private Payment payment; 
+    private String originalNetworkTransId;
+    private Decimal originalAuthAmount;
+    private String customerType;
     private Address billTo;
-    private Map<String, Object> payment; 
     private Boolean defaultPaymentProfile;
     
     public CustomerPaymentProfile() {
@@ -13,9 +16,7 @@ public with sharing class CustomerPaymentProfile {
     public CustomerPaymentProfile(CreditCard card, Address billTo) {
         this.billTo = billTo;
         //this.card = card;
-        this.payment = new Map<String, Object> {
-                'creditCard' => card
-        };
+        this.payment = new Payment(card);
     }
 
     // profileId currently not used. Assume it is "905372692" in "https://appdev.ocdla.org/customer/905372692/cards"
@@ -294,17 +295,22 @@ public with sharing class CustomerPaymentProfile {
     
 
     public String getCustomerPaymentProfileId() {
+    public String getCustomerPaymentProfileId() {
         return customerPaymentProfileId;
     }
 
     public Address getBillTo() {
         return billTo;
     }
-
-    public Boolean getDefaultPaymentProfile() {
-        return defaultPaymentProfile;
+    /*
+    public CreditCard getCard() {
+        return card;
     }
 
+    public Boolean getIsDefault() {
+        return isDefault;
+    }
+    */
     public void setCustomerPaymentProfileId(String customerPaymentProfileId) {
         this.customerPaymentProfileId = customerPaymentProfileId;
     }
@@ -312,8 +318,13 @@ public with sharing class CustomerPaymentProfile {
     public void setBillTo(Address billTo) {
         this.billTo = billTo;
     }
-
-    public void setDefaultPaymentProfile (Boolean defaultPaymentProfile){
-        this.defaultPaymentProfile = defaultPaymentProfile;
+    /*
+    public void setCard(CreditCard card) {
+        this.card = card;
     }
+
+    public void setIsDefault (Boolean isDefault){
+        this.isDefault=isDefault;
+    }
+    */
 }
