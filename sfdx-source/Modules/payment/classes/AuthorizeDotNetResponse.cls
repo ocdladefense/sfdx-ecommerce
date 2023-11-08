@@ -6,7 +6,6 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
 
     protected Map<String, Object> temp;
 
-    private String validationDirectResponse;
     private Map<String, Object> messages = new Map<String, Object>();
     private String resultCode;
     private List<Map<String,String>> message = new List<Map<String,String>>();
@@ -71,9 +70,6 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
         // Deserialize the JSON string into a Map with String keys and Object values
         Map<String, Object> bodyMap = (Map<String, Object>) JSON.deserializeUntyped(this.body);
 
-        // Retrieve the 'validationDirectResponse' field from the deserialized map
-        this.validationDirectResponse = (String) bodyMap.get('validationDirectResponse');
-
         // Retrieve the 'messages' object from the bodyMap
         this.messages = (Map<String, Object>) bodyMap.get('messages');
 
@@ -109,10 +105,6 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
 
     public String getCode (){
         return (String)message[0].get('code');
-    }
-
-    public String getValidationDirectResponse() {
-        return this.validationDirectResponse;
     }
 
     //-------------End new methods
