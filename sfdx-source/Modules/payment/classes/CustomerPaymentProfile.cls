@@ -295,7 +295,6 @@ public with sharing class CustomerPaymentProfile {
     
 
     public String getCustomerPaymentProfileId() {
-    public String getCustomerPaymentProfileId() {
         return customerPaymentProfileId;
     }
 

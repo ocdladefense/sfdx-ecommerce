@@ -14,12 +14,12 @@ public class CreditCard {
     }
 
 
-    public CreditCard(String cardNumber, date expirationDate) {
+    public CreditCard(String cardNumber, String expirationDate) {
         this.cardNumber = cardNumber;
         this.expirationDate = dateToString(expirationDate);
     }
 
-    public CreditCard(String cardNumber, Date expirationDate, string cvv) {
+    public CreditCard(String cardNumber, String expirationDate, string cvv) {
         this.cardNumber = cardNumber;
         this.expirationDate = dateToString(expirationDate);
         this.cvv = cvv;

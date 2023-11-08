@@ -6,9 +6,12 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
 
     protected Map<String, Object> temp;
 
-    private String resultCode;
-
+    private String validationDirectResponse;
     private Map<String, Object> messages = new Map<String, Object>();
+    private String resultCode;
+    private List<Map<String,String>> message = new List<Map<String,String>>();
+
+    
 
     public AuthorizeDotNetResponse() {
     }
@@ -24,6 +27,7 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
         return this.body;
     }
 
+    /*
     public virtual void deserialize (){
                 //'{"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}'
 
@@ -59,6 +63,49 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
     public String getCode (){
         return (String)messages[0].get('code');
     }
+    */
+
+    //-------------Testing new methods
+
+    public virtual void deserialize() {
+        Map<String, Object> bodyMap = (Map<String, Object>) JSON.deserializeUntyped(this.body);
+
+        this.validationDirectResponse = (String) bodyMap.get('validationDirectResponse');
+
+        this.messages = (Map<String, Object>) bodyMap.get('messages');
+        this.resultCode = (String) messages.get('resultCode');
+
+        List<Object> messageList = (List<Object>) messages.get('message');
+        this.message = new List<Map<String, String>>();
+
+        for (Object msgObj : messageList) {
+            Map<String, Object> msgMap = (Map<String, Object>) msgObj;
+
+            Map<String, String> stringMsgMap = new Map<String, String>();
+            for (String key : msgMap.keySet()) {
+                stringMsgMap.put(key, (String)msgMap.get(key));
+            }
+        this.message.add(stringMsgMap);
+        }
+    }
+
+    public Map<String, String> getMessage(){
+        return (Map<String, String>)message[0];
+    }
+
+    public String getText (){
+        return (String)message[0].get('text');
+    }
+
+    public String getCode (){
+        return (String)message[0].get('code');
+    }
+
+    public String getValidationDirectResponse() {
+        return this.validationDirectResponse;
+    }
+
+    //-------------End new methods
 
     public String getResultCode (){
         return resultCode;
