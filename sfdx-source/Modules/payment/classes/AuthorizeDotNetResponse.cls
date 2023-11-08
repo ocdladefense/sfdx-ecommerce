@@ -68,19 +68,29 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
     //-------------Testing new methods
 
     public virtual void deserialize() {
+        // Deserialize the JSON string into a Map with String keys and Object values
         Map<String, Object> bodyMap = (Map<String, Object>) JSON.deserializeUntyped(this.body);
 
+        // Retrieve the 'validationDirectResponse' field from the deserialized map
         this.validationDirectResponse = (String) bodyMap.get('validationDirectResponse');
 
+        // Retrieve the 'messages' object from the bodyMap
         this.messages = (Map<String, Object>) bodyMap.get('messages');
+
+        // Retrieve the 'resultCode' from the 'messages' map
         this.resultCode = (String) messages.get('resultCode');
 
+        // Retrieve the 'message' list from the 'messages' map
         List<Object> messageList = (List<Object>) messages.get('message');
+
+        // Initialize the message property as a new List<Map<String, String>>
         this.message = new List<Map<String, String>>();
 
+        // Convert each Object in the list to Map<String, String>
         for (Object msgObj : messageList) {
             Map<String, Object> msgMap = (Map<String, Object>) msgObj;
 
+            // Cast each value in msgMap to String
             Map<String, String> stringMsgMap = new Map<String, String>();
             for (String key : msgMap.keySet()) {
                 stringMsgMap.put(key, (String)msgMap.get(key));
