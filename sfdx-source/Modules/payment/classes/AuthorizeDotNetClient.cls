@@ -99,10 +99,10 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
         
         // //inspect the specific type of request to know what to do.
         // //the generic step - an authorizedotnetresponse rather than a specific kind 
-        AuthorizeDotNetResponse resp = new AuthorizeDotNetResponse(respBodyString);
+        //AuthorizeDotNetResponse resp = new AuthorizeDotNetResponse(respBodyString);
 
         AuthorizeDotNetResponse resp2 = AuthorizeDotNetResponse.newFromRequestType(req.getHeader('X-Request-Type'));
-        
+        resp2.setBody(respBodyString);
         // resp.setBody(bresp.getBody());
         // AuthorizeDotNetResponse authResp = AuthorizeDotNetClient.getInstanceOfResponse(r);
         // authResp.setBody(resp.getBody());

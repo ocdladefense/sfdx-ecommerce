@@ -59,8 +59,7 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
         // Deserialize the JSON string into a Map with String keys and Object values
       
         this.messages = (Messages)JSON.deserialize(this.getBody(), Messages.class);
-
-
+        System.debug('in authresp proper ' + this.messages);
     }
 
     public Messages getMessages(){
