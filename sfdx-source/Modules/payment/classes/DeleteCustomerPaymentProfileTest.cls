@@ -67,7 +67,6 @@ public with sharing class DeleteCustomerPaymentProfileTest {
         
         System.assertEquals(true, resp.success(), 'the success method should return true');
       
-        System.assertEquals(false, resp.getIsErrorTest(), 'isErrorTest should be false');
         
     }
     @isTest static void testDeletePaymentProfileFailure(){
@@ -97,7 +96,6 @@ public with sharing class DeleteCustomerPaymentProfileTest {
 
         System.assertEquals('Error', resp.getResultCode());
 
-        System.assertEquals(false, resp.getIsErrorTest(), 'isErrorTest should be true');
         
     }
 }

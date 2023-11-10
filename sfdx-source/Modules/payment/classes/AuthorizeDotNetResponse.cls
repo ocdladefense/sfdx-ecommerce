@@ -1,16 +1,9 @@
 public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{    
 
-//public with sharing class AuthorizeDotNetResponse extends HttpResponseMessage{ 
+    protected Messages messages;
     protected final String RESPONSE_SUCCESS = 'Ok';
     protected final String RESPONSE_FAILURE = 'Error';
-
     protected Map<String, Object> temp;
-
-    private Map<String, Object> messages = new Map<String, Object>();
-    private String resultCode;
-    private List<Map<String,String>> message = new List<Map<String,String>>();
-
-    
 
     public AuthorizeDotNetResponse() {
     }
@@ -57,66 +50,33 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
         return (Map<String, String>)messages[0];
     }
 
-    public String getText (){
-        return (String)messages[0].get('text');
-    }
 
-    public String getCode (){
-        return (String)messages[0].get('code');
-    }
     */
 
     //-------------Testing new methods
 
     public virtual void deserialize() {
         // Deserialize the JSON string into a Map with String keys and Object values
-        Map<String, Object> bodyMap = (Map<String, Object>) JSON.deserializeUntyped(this.body);
+        this.temp = (Map<String, Object>) JSON.deserializeUntyped(this.body);
 
         // Retrieve the 'messages' object from the bodyMap
-        this.messages = (Map<String, Object>) bodyMap.get('messages');
+        this.messages = (Messages)temp.get('messages');
 
-        // Retrieve the 'resultCode' from the 'messages' map
-        this.resultCode = (String) messages.get('resultCode');
-
-        // Retrieve the 'message' list from the 'messages' map
-        List<Object> messageList = (List<Object>) messages.get('message');
-
-        // Initialize the message property as a new List<Map<String, String>>
-        this.message = new List<Map<String, String>>();
-
-        // Convert each Object in the list to Map<String, String>
-        for (Object msgObj : messageList) {
-            Map<String, Object> msgMap = (Map<String, Object>) msgObj;
-
-            // Cast each value in msgMap to String
-            Map<String, String> stringMsgMap = new Map<String, String>();
-            for (String key : msgMap.keySet()) {
-                stringMsgMap.put(key, (String)msgMap.get(key));
-            }
-        this.message.add(stringMsgMap);
-        }
     }
 
-    public Map<String, String> getMessage(){
-        return (Map<String, String>)message[0];
+    public Messages getMessages(){
+        return this.messages;
     }
 
-    public String getText (){
-        return (String)message[0].get('text');
-    }
-
-    public String getCode (){
-        return (String)message[0].get('code');
+    public void setMessages(Messages messages){
+        this.messages = messages;
     }
 
     //-------------End new methods
 
-    public String getResultCode (){
-        return resultCode;
-    }
 
     public Boolean success(){
-        return this.getResultCode()==RESPONSE_SUCCESS;
+        return this.messages.getResultCode()==RESPONSE_SUCCESS;
     }
 
 
@@ -127,14 +87,6 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
         System.Type t = Type.forName(typeName);
         System.debug('the type is '+ typeName);
         return (AuthorizeDotNetResponse)t.newInstance();
-    }
-
-    public void setIsErrorTest(Boolean isErrorTest){
-        this.isErrorTest = isErrorTest;
-    }
-
-    public Boolean getIsErrorTest(){
-        return this.isErrorTest;
     }
 
 }

@@ -101,10 +101,6 @@ public class DeleteCustomerPaymentProfileMockResponse extends AuthorizeDotNetRes
         return matches==0;
     }
 
-    public override void setIsErrorTest(Boolean isErrorTest){
-        this.isErrorTest = isErrorTest;
-        this.setBody(this.getBody());
-    }
 
 
 }

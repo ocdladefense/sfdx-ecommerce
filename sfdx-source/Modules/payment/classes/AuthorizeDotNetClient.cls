@@ -72,7 +72,7 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
     */
 
 
-public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
+public void send(AuthorizeDotNetRequest req) {
        
         Http client = new Http();
 
@@ -82,7 +82,9 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
 
         
         req.prependBody('merchantAuthentication', MERCHANT_AUTHENTICATION);
+        system.debug('after prepend = ' + req.getBody());
         req.wrapBody(payloadRequestType);
+        system.debug('after wrap = ' + req.getBody());
         req.setEndpoint('https://apitest.authorize.net/xml/v1/request.api');
         req.setMethod('POST');
         req.setHeader('Content-Type', 'application/json');
@@ -91,21 +93,21 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
         //then convert to this a saleforce request class
         HttpRequest breq = req.getAsHttpRequest();
 
-        HttpResponse bresp = client.send(breq);
-        System.debug(bresp);
-        //inspect the specific type of request to know what to do.
-        //the generic step - an authorizedotnetresponse rather than a specific kind 
-        //AuthorizeDotNetResponse resp = new AuthorizeDotNetResponse(bresp.getBody());
+        // HttpResponse bresp = client.send(breq);
+        // System.debug(bresp);
+        // //inspect the specific type of request to know what to do.
+        // //the generic step - an authorizedotnetresponse rather than a specific kind 
+        // //AuthorizeDotNetResponse resp = new AuthorizeDotNetResponse(bresp.getBody());
 
-        AuthorizeDotNetResponse resp = AuthorizeDotNetResponse.newFromRequestType(req.getHeader('X-Request-Type'));
+        // AuthorizeDotNetResponse resp = AuthorizeDotNetResponse.newFromRequestType(req.getHeader('X-Request-Type'));
         
-        resp.setBody(bresp.getBody());
+        // resp.setBody(bresp.getBody());
         // AuthorizeDotNetResponse authResp = AuthorizeDotNetClient.getInstanceOfResponse(r);
         // authResp.setBody(resp.getBody());
         
         //resp.deserialize();
 
-        return resp;
+        //return resp;
     }
     
     
