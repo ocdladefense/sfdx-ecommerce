@@ -16,7 +16,7 @@ public class CreateCustomerPaymentProfileResponse extends AuthorizeDotNetRespons
     public override void deserialize() {
         super.deserialize();
 
-        Map<String, Object> createBody = this.temp;
+        Map<String, Object> createBody = new Map<String, Object>();
 
         String validResp = (String)createBody.get('validationDirectResponse');
         Boolean isDefault = (Boolean)createBody.get('defaultPaymentProfile');

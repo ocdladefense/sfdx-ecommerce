@@ -21,7 +21,7 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
         return JSON.serialize(obj, true);
     }
 
-    //obje will be the merch auth
+    //obj will be the merch auth
     // operating on nativeObject
     public void prependBody(String key, Map<String, Object> obj) {
 
@@ -32,11 +32,12 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
         Map<String, Object> out = new Map<String, Object>();
 
         out.put(key, obj);
-
+        system.debug('----out is '+ out);
         out.putAll(this.nativeObject);
-
+        system.debug('----out is '+ out);
         
-        this.nativeObject = out;
+        this.setBodyAsNativeObject(out);
+        system.debug('----n-o is '+ this.getBodyAsNativeObject());
     }
 
     // operating on native nativeObject
@@ -49,13 +50,16 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
         Map<String, Object> out = new Map<String, Object>();
 
         out.put(reqType, this.nativeObject);
-        this.nativeObject = out;
+        this.setBodyAsNativeObject(out);
     }
 
     public virtual Map<String,Object> getBodyAsNativeObject() {
         return this.nativeObject;
     }
 
+    public virtual void setBodyAsNativeObject(Map<String,Object> obj) {
+      this.nativeObject=obj;
+    }
     //testing - got error void addParams(String, String) from the type AuthorizeDotNetRequest
     public override void addParam(String key, String value) {
         this.params.put(key,value);

@@ -72,7 +72,7 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
     */
 
 
-public void send(AuthorizeDotNetRequest req) {
+public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
        
         Http client = new Http();
 
@@ -82,24 +82,26 @@ public void send(AuthorizeDotNetRequest req) {
 
         
         req.prependBody('merchantAuthentication', MERCHANT_AUTHENTICATION);
-        system.debug('after prepend = ' + req.getBody());
+        system.debug('after prepend = ' + req.getBodyAsNativeObject());
         req.wrapBody(payloadRequestType);
-        system.debug('after wrap = ' + req.getBody());
+        system.debug('after wrap = ' + req.getBodyAsNativeObject());
         req.setEndpoint('https://apitest.authorize.net/xml/v1/request.api');
         req.setMethod('POST');
         req.setHeader('Content-Type', 'application/json');
         req.setHeader('X-Request-Type', xRequestType);
 
+
         //then convert to this a saleforce request class
         HttpRequest breq = req.getAsHttpRequest();
 
-        // HttpResponse bresp = client.send(breq);
-        // System.debug(bresp);
+        HttpResponse bresp = client.send(breq);
+        String respBodyString = bresp.getBody().replace('\uFEFF', '');
+        
         // //inspect the specific type of request to know what to do.
         // //the generic step - an authorizedotnetresponse rather than a specific kind 
-        // //AuthorizeDotNetResponse resp = new AuthorizeDotNetResponse(bresp.getBody());
+        AuthorizeDotNetResponse resp = new AuthorizeDotNetResponse(respBodyString);
 
-        // AuthorizeDotNetResponse resp = AuthorizeDotNetResponse.newFromRequestType(req.getHeader('X-Request-Type'));
+        AuthorizeDotNetResponse resp2 = AuthorizeDotNetResponse.newFromRequestType(req.getHeader('X-Request-Type'));
         
         // resp.setBody(bresp.getBody());
         // AuthorizeDotNetResponse authResp = AuthorizeDotNetClient.getInstanceOfResponse(r);
@@ -107,7 +109,7 @@ public void send(AuthorizeDotNetRequest req) {
         
         //resp.deserialize();
 
-        //return resp;
+        return resp;
     }
     
     
@@ -139,10 +141,10 @@ public void send(AuthorizeDotNetRequest req) {
         return new CreateCustomerPaymentProfileResponse();
     }
 
-    public static AuthorizeDotNetResponse getInstanceOfResponse(DeleteCustomerPaymentProfileRequest r){
-        System.debug('MadeInstance with specific paramenter');
-        return new DeleteCustomerPaymentProfileResponse();
-    }
+    // public static AuthorizeDotNetResponse getInstanceOfResponse(DeleteCustomerPaymentProfileRequest r){
+    //     System.debug('MadeInstance with specific paramenter');
+    //     //return new DeleteCustomerPaymentProfileResponse();
+    // }
 
     public String getEndpoint(){
         return endPoint;
