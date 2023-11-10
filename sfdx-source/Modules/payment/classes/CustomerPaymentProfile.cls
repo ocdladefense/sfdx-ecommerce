@@ -1,13 +1,13 @@
 public with sharing class CustomerPaymentProfile {
     
-    private String customerProfileId;
-    private String customerPaymentProfileId;
-    private Payment payment; 
-    private String originalNetworkTransId;
-    private Decimal originalAuthAmount;
-    private String customerType;
-    private Address billTo;
-    private Boolean defaultPaymentProfile;
+    public String customerProfileId;
+    public String customerPaymentProfileId;
+    public Payment payment; 
+    public String originalNetworkTransId;
+    public String originalAuthAmount;
+    public String customerType;
+    public Address billTo;
+    public String defaultPaymentProfile;
     
     public CustomerPaymentProfile() {
 
@@ -164,11 +164,11 @@ public with sharing class CustomerPaymentProfile {
         return billTo;
     }
 
-    public Map<String, Object> getPayment() {
+    public Payment getPayment() {
         return payment;
     }
 
-    public Boolean getDefaultPaymentProfile() {
+    public String getDefaultPaymentProfile() {
         return defaultPaymentProfile;
     }
 
@@ -185,13 +185,11 @@ public with sharing class CustomerPaymentProfile {
     }
 
     public void setPayment(CreditCard card) {
-        this.payment = new Map<String, Object> {
-            'creditCard' => card
-        };
+        this.payment = new Payment (card);
     }
 
-    public void setDefaultPaymentProfile (Boolean defaultPaymentProfile){
+    public void setDefaultPaymentProfile (String defaultPaymentProfile){
         this.defaultPaymentProfile=defaultPaymentProfile;
     }
-    */
+    
 }

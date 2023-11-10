@@ -3,7 +3,7 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
     protected Messages messages;
     protected final String RESPONSE_SUCCESS = 'Ok';
     protected final String RESPONSE_FAILURE = 'Error';
-    protected Map<String, Object> temp;
+
 
     public AuthorizeDotNetResponse() {
     }
@@ -57,10 +57,9 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
 
     public virtual void deserialize() {
         // Deserialize the JSON string into a Map with String keys and Object values
-        this.temp = (Map<String, Object>) JSON.deserializeUntyped(this.body);
+      
+        this.messages = (Messages)JSON.deserialize(this.getBody(), Messages.class);
 
-        // Retrieve the 'messages' object from the bodyMap
-        this.messages = (Messages)temp.get('messages');
 
     }
 
