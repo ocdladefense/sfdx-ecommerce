@@ -303,9 +303,9 @@ public with sharing class CustomerPaymentProfile {
     }
     /*
     public CreditCard getCard() {
-        return card;
+        return this.payment.getCreditCard();
     }
-
+    
     public Boolean getIsDefault() {
         return isDefault;
     }
