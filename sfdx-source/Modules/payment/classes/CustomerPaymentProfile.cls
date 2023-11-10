@@ -301,15 +301,15 @@ public with sharing class CustomerPaymentProfile {
     public Address getBillTo() {
         return billTo;
     }
-    /*
+    
     public CreditCard getCard() {
         return this.payment.getCreditCard();
     }
     
     public Boolean getIsDefault() {
-        return isDefault;
+        return this.defaultPaymentProfile;
     }
-    */
+    
     public void setCustomerPaymentProfileId(String customerPaymentProfileId) {
         this.customerPaymentProfileId = customerPaymentProfileId;
     }
@@ -317,13 +317,13 @@ public with sharing class CustomerPaymentProfile {
     public void setBillTo(Address billTo) {
         this.billTo = billTo;
     }
-    /*
+    
     public void setCard(CreditCard card) {
-        this.card = card;
+        this.payment.setCreditCard(card);
     }
 
     public void setIsDefault (Boolean isDefault){
-        this.isDefault=isDefault;
+        this.defaultPaymentProfile = isDefault;
     }
-    */
+    
 }

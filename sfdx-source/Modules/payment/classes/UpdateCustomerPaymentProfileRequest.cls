@@ -9,30 +9,34 @@ public class UpdateCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
         // testMode: Card data is validated using simple mathematical checks to confirm that it appears to be valid
         this.validationMode = 'testMode';
     }
-
+    // Might only need this constructor since billTo and payment are both in here
     public UpdateCustomerPaymentProfileRequest(CustomerPaymentProfile profile) {
+        this();
         this.customerProfileId = DEFAULT_PROFILE_ID;
         this.paymentProfile = profile;
     }
     // Overloaded constructor for if only the Address is changed
     public UpdateCustomerPaymentProfileRequest(CustomerPaymentProfile profile, Address newAddress) {
+        this();
         this.customerProfileId = DEFAULT_PROFILE_ID;
         this.paymentProfile = profile;
         this.paymentProfile.setBillTo(newAddress);
     }
     // Overloaded constructor for if only the CreditCard is changed
     public UpdateCustomerPaymentProfileRequest(CustomerPaymentProfile profile, CreditCard newCard) {
+        this();
         this.customerProfileId = DEFAULT_PROFILE_ID;
         this.paymentProfile = profile;
-        this.paymentProfile = newCard;
+        this.paymentProfile.setCard(newCard);
     }
 
     // Overloaded constructor for if both Address and CreditCard are changed
     public UpdateCustomerPaymentProfileRequest(CustomerPaymentProfile profile, Address newAddress, CreditCard newCard) {
+        this();
         this.customerProfileId = DEFAULT_PROFILE_ID;
         this.paymentProfile = profile;
         this.paymentProfile.setBillTo(newAddress);
-        this.card = newCard;
+        this.paymentProfile.setCard(newCard);
     }
 
     
@@ -45,9 +49,8 @@ public class UpdateCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
 
         obj.put('customerProfileId', this.customerProfileId);
         obj.put('paymentProfile', this.paymentProfile);
-        if (this.includeIssuerInfo) {
-            obj.put('includeIssuerInfo', this.includeIssuerInfo);
-        }
+        obj.put('validationMode', this.validationMode);
+        
         return obj;
     }
     /*
