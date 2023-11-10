@@ -1,11 +1,12 @@
 public class UpdateCustomerPaymentProfileResponse extends AuthorizeDotNetResponse {
-    private Boolean defaultPaymentProfile;
     private String validationDirectResponse;
+    // possible eventual class we make, comment out for now.
+    // private Message messages;
     // Optional instance variable
     private String refId;
 
     public UpdateCustomerPaymentProfileResponse() {
-
+        super();
     }
 
     public override void deserialize() {
@@ -14,20 +15,11 @@ public class UpdateCustomerPaymentProfileResponse extends AuthorizeDotNetRespons
         Map<String, Object> updateBody = this.temp;
 
         String validResp = (String)updateBody.get('validationDirectResponse');
-        Boolean isDefault = (Boolean)updateBody.get('defaultPaymentProfile');
+        // Eventual getter and setting of messages once class is made.
         String refId = (String)updateBody.get('refId');
-
     }
 
     public String getValidationResponse() {
         return this.validationDirectResponse;
-    }
-
-    public Boolean isDefault() {
-        return this.defaultPaymentProfile != null ? this.defaultPaymentProfile : false;
-    }
-
-    public String getRefId() {
-        return this.refId;
     }
 }
