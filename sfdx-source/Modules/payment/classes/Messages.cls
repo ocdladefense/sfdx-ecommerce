@@ -1,15 +1,13 @@
-public with sharing class Messages {
+public class Messages {
+
     protected String resultCode;
+
     protected List<Message> message;
     
     public Messages() {
 
     }
 
-    public virtual void deserialize() {
-        // does this need something here?
-
-    }
     public String getResultCode (){
         return resultCode;
     }

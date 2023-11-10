@@ -1,30 +1,17 @@
 public class DeleteCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
     //no merchant info needed
     private String customerProfileId;
+
     private String customerPaymentProfileId;
-    private CustomerPaymentProfile profile;
-   
+
+
 
     public DeleteCustomerPaymentProfileRequest() {
         super();
-    }
-    public DeleteCustomerPaymentProfileRequest(CustomerPaymentProfile profile, String customerPaymentProfile){
-
+        requestType = 'deleteCustomerPaymentProfile';
     }
 
-    public DeleteCustomerPaymentProfileRequest(CustomerPaymentProfile profile) {
-        this();
-        // We can now dynamically instantiate the AuthorizeDotNetResponse *and
-        // the AuthorizeDotNetMockResponse.
-        // String respTypeName = req.requestType + 'Response'; // e.g., CreateCustomerPaymentProfileResponse
-        // String respMockName = req.requestType + 'MockResponse'; //e.g., CreateCustomerPaymentProfileMockResponse
-        // System.Type t = Type.forName(req.requestType);
-        // AuthorizeDotNetResponse resp = t.newInstance();
-        // 
-        this.customerProfileId = profile.getCustomerProfileId();
-        this.profile = profile;
-        this.requestType = 'DeleteCustomerPaymentProfile';
-    }
+
 
     public void setCustomerProfileId(String customerProfileId) {
         this.customerProfileId = customerProfileId;
@@ -39,15 +26,21 @@ public class DeleteCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
         return this.customerPaymentProfileId;
     }
 
-    public override Map<String,Object> getBodyAsNativeObject(){
-        Map<String,Object> obj = new Map<String,Object>();
+    // System.JSONGenerator.
 
-        obj.put('customerProfileId', this.customerProfileId);
-        obj.put('customerPaymentProfileId', this.profile.getCustomerPaymentProfileId());
-        return obj;
+
+    public override String getBody() {
+
+        
+        JSONGenerator gen = super.getJsonGenerator();
+
+        // Continue processing the JSON for the request.
+
+        // Use the generator to create one or more objects for the payload json,
+        // *in the exact order as required by the Authorize.net documentation.
+        return gen.getAsString();
+
     }
 
-    //for running unit tests
-    //response payload does not include customerProfileId or PaymentProfileId
     
 }

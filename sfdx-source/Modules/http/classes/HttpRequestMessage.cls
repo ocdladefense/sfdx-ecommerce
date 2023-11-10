@@ -1,8 +1,9 @@
+@JsonAccess(serializable='never' deserializable='never')
 public virtual class HttpRequestMessage extends HttpMessage {
 
     protected String endpoint;
 
-    protected String method = 'GET';
+    protected String method;// = 'GET';
 
     protected Map<String,String> params;
 

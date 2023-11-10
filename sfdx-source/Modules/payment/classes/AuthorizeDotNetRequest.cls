@@ -1,89 +1,66 @@
 public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
 
-    protected String requestType;
 
-    protected Map<String, Object> nativeObject;
-    //set the properties on this
 
-    //this is needed to preserve changes after calling prepend and wrap
-    protected Map<String, Object> nativeobjectForResponse;
-    
-    protected Map<String,String> params;
-    
+    // public Credentials merchantAuthentication = new Credentials('6gSVxaYj397','6FR49pDH5Jjum58g');
+
+    public static String requestType;
+
+
+    /**
+     * @constructor Default constructor
+     * @description set the method and headers to null so these properties are
+     * not serialize as part of the JSON payload.
+     */
     public AuthorizeDotNetRequest() {
-        this.headers.put('X-Request-Type',this.requestType);
-        this.nativeobjectForResponse = this.getBodyAsNativeObject();
-        //system.debug('--in constructor nofr is '+this.nativeobjectForResponse);
+        super();
+       this.method = null;
+        this.headers = null;
     }
+
+
 
     public String getRequestType() {
-        return this.requestType;
+        return requestType;
     }
 
 
-    public override String getBody(){
-        Map<String,Object> obj = this.getBodyAsNativeObjectForResponse();
-        //System.debug(JSON.serialize(obj, true));
-        return JSON.serialize(obj, true);
+
+
+    public System.JSONGenerator getJsonGenerator() {
+
+        // this will handle the creation fo the requestType.
+        // AND will handle the creation fo the merchantAuthentication
+
+        // then it can return to the sub-class for the subclass to finish 
+       JSONGenerator gen = JSON.createGenerator(true);
+
+        gen.writeStartObject();
+        gen.writeStringField('merchantAuthentication');
+        gen.writeStartObject();
+        gen.writeStringField('name', variableFromSuperClass);
+        gen.writeStringField('transactionKey', variableFromSueprClass);
+        gen.writeEndObject();
+
+        return gen;
+    }
+    public override String getBody() {
+        requestType += 'Request';
+        String payload = JSON.serialize(this,True);
+        //System.debug(merchantAuthentication);
+        payload = payload.substring(1, payload.length()-1);
+
+                 String credentials = '{"name":"6gSVxaYj397","transactionKey":"6FR49pDH5Jjum58g"}';
+        // super class
+        String wrapper = '{"deleteCustomerPaymentProfileRequest":{"merchantAuthentication":'
+            +credentials + ','
+            +payload+'}}';
+
+        return wrapper;
+        // return JSON.serialize(new Map<String,AuthorizeDotNetRequest>{requestType => this}, True);
+      
     }
 
-
-    //obj will be the merch auth
-    // operating on non-virtual nativeObjectForResponse
-    public void prependBody(String key, Map<String, Object> obj) {
-
-        if(null == this.nativeObject) {
-            this.nativeObject = this.getBodyAsNativeObject();
-            this.nativeobjectForResponse = this.getBodyAsNativeObject();
-        }
-        
-        Map<String, Object> out = new Map<String, Object>();
-
-        out.put(key, obj);
-        //system.debug('----out is '+ out);
-        out.putAll(this.nativeobjectForResponse);
-        //system.debug('----out is '+ out);
-        this.nativeobjectForResponse=out;
-        //system.debug('----after prepend nofr is  '+ this.getBodyAsNativeObjectForResponse());
-
-    }
-
-    // operating on native nativeObject
-    public void wrapBody(String reqType) {
-
-        if(null == this.nativeObject) {
-            this.nativeObject = this.getBodyAsNativeObject();
-            this.nativeobjectForResponse = this.getBodyAsNativeObject();
-
-        }
-
-        Map<String, Object> out = new Map<String, Object>();
-
-        out.put(reqType, this.nativeobjectForResponse);
-        this.nativeobjectForResponse = out;
-        //system.debug('---- after wrap nofr is '+ this.getBodyAsNativeObjectForResponse());
-
-        //this.setBodyAsNativeObject(this.getBodyAsNativeObjectForResponse());
-        //system.debug('----native object with setter is '+ this.getBodyAsNativeObject()); 
-
-
-    }
-
-    public virtual Map<String,Object> getBodyAsNativeObject() {
-        return this.nativeObject;
-    }
-
-    public Map<String,Object> getBodyAsNativeObjectForResponse() {
-        return this.nativeobjectForResponse;
-    }
-
-    public virtual void setBodyAsNativeObject(Map<String,Object> obj) {
-      this.nativeObject=obj;
-    }
-    //testing - got error void addParams(String, String) from the type AuthorizeDotNetRequest
-    public override void addParam(String key, String value) {
-        this.params.put(key,value);
-    }
 
 
 

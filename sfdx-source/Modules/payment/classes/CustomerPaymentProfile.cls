@@ -7,7 +7,7 @@ public with sharing class CustomerPaymentProfile {
     public String originalAuthAmount;
     public String customerType;
     public Address billTo;
-    public String defaultPaymentProfile;
+    public Boolean defaultPaymentProfile;
     
     public CustomerPaymentProfile() {
 

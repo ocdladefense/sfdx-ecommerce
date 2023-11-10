@@ -13,12 +13,6 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
     public static final String GATEWAY_PRODUCTION_URL = 'members.ocdla.org';
 
 
-
-    public static final Map<String, String> MERCHANT_AUTHENTICATION = new Map<String, String>{ 
-        'name'=> '6gSVxaYj397',
-        'transactionKey'=> '6FR49pDH5Jjum58g'
-    };
-
     private String url;
     
     
@@ -53,63 +47,54 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
         
         return TransactionResponse.newFromResponse(resp);
     } 
-    //if sent a request message type 
-    //do this which then will call send that takes a request type
-    /*
-    public override HttpResponseMessage send(HttpRequestMessage r) {
-        System.debug('making a override request');
-        Http client = new Http();
-        HttpRequest req = r.getAsHttpRequest();
-		req.setHeader('Authorization', 'Bearer '+this.getAccessToken());
-        String cardsEndpoint = 'https://appdev.ocdla.org/customer/905372692/cards';
-        req.setEndpoint(cardsEndpoint);
-        req.setMethod('POST');
-        //set the reqest type value based on the class
-        HttpResponse resp = client.send(req);
-  
-        return new HttpResponseMessage(resp);
-    }
-    */
+
 
 
 public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
        
         Http client = new Http();
 
-        String xRequestType = req.getRequestType();
-        String payloadRequestType = xRequestType.uncapitalize();
-        payloadRequestType += 'Request';
+        String requestType = req.getRequestType();
+        String responseType = requestType.capitalize()+'Response';
+       
+        // We have to get the body *before we apply other properties.
+        // Otherwise, endpoing, method and headers will be serialized.
+        // (and we don't want that).
+        String reqBody = req.getBody();
 
+        System.debug(reqBody);
+
+
+        HttpRequest breq = new HttpRequest();
+        breq.setEndpoint('https://apitest.authorize.net/xml/v1/request.api');
+        breq.setMethod('POST');
+        breq.setHeader('Content-Type', 'application/json');
+        breq.setHeader('X-Response-Type', responseType);
+        breq.setBody(reqBody);
         
-        req.prependBody('merchantAuthentication', MERCHANT_AUTHENTICATION);
-        system.debug('after prepend = ' + req.getBody());
-        req.wrapBody(payloadRequestType);
-        system.debug('after wrap = ' + req.getBody());
-        req.setEndpoint('https://apitest.authorize.net/xml/v1/request.api');
-        req.setMethod('POST');
-        req.setHeader('Content-Type', 'application/json');
-        req.setHeader('X-Request-Type', xRequestType);
+        if(null != req.getHeaders()) {
+        for(String key : req.getHeaders().keySet()) {
+            breq.setHeader(key, req.getHeader(key));
+        }
+    }
 
 
-        //then convert to this a saleforce request class
-        HttpRequest breq = req.getAsHttpRequest();
-
+        // System.debug(breq.getBody());
         HttpResponse bresp = client.send(breq);
+
+        System.debug(bresp.getBody());
         String respBodyString = bresp.getBody().replace('\uFEFF', '');
         
         // //inspect the specific type of request to know what to do.
         // //the generic step - an authorizedotnetresponse rather than a specific kind 
         //AuthorizeDotNetResponse resp = new AuthorizeDotNetResponse(respBodyString);
-
-        AuthorizeDotNetResponse resp2 = AuthorizeDotNetResponse.newFromRequestType(req.getHeader('X-Request-Type'));
-        resp2.setBody(respBodyString);
-        // resp.setBody(bresp.getBody());
-        // AuthorizeDotNetResponse authResp = AuthorizeDotNetClient.getInstanceOfResponse(r);
-        // authResp.setBody(resp.getBody());
+        // DeleteCustomerPaymentProfile
         
-        //resp.deserialize();
+        System.Type t = Type.forName(responseType);
 
-        return resp2;
+        AuthorizeDotNetResponse resp = (AuthorizeDotNetResponse)JSON.deserialize(respBodyString, t);
+
+        return resp;
     }
     
     
@@ -120,31 +105,6 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
     }
     
 
-
-    public static AuthorizeDotNetResponse getInstanceOfResponse(AuthorizeDotNetRequest r){
-        
-        
-        // if (r instanceof CreateCustomerPaymentProfileRequest) {
-        //     return new CreateCustomerPaymentProfileResponse();
-        // }
-        // else if(r instanceof DeleteCustomerPaymentProfileRequest){
-        //     return new DeleteCustomerPaymentProfileRequest();
-        // }
-        // else{
-        //     return new AuthorizeDotNetResponse();
-        // }
-        System.debug('MadeInstance WITHOUT specific paramenter');
-        return new AuthorizeDotNetResponse();
-    }
-
-    public static AuthorizeDotNetResponse getInstanceOfResponse(CreateCustomerPaymentProfileRequest r){
-        return new CreateCustomerPaymentProfileResponse();
-    }
-
-    // public static AuthorizeDotNetResponse getInstanceOfResponse(DeleteCustomerPaymentProfileRequest r){
-    //     System.debug('MadeInstance with specific paramenter');
-    //     //return new DeleteCustomerPaymentProfileResponse();
-    // }
 
     public String getEndpoint(){
         return endPoint;
