@@ -1,7 +1,7 @@
 public class UpdateCustomerPaymentProfileResponse extends AuthorizeDotNetResponse {
     private String validationDirectResponse;
     // possible eventual class we make, comment out for now.
-    // private Message messages;
+    // private Messages messages;
     // Optional instance variable
     private String refId;
 
