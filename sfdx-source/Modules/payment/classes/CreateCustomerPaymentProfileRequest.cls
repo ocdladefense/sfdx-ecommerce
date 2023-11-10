@@ -21,6 +21,7 @@ public class CreateCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
 
         obj.put('customerProfileId', this.customerProfileId);
         obj.put('paymentProfile', this.profile);
+        System.debug(obj);
         return obj;
     }
 }

@@ -92,7 +92,7 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
         HttpRequest breq = req.getAsHttpRequest();
 
         HttpResponse bresp = client.send(breq);
-  
+        System.debug(bresp);
         //inspect the specific type of request to know what to do.
         //the generic step - an authorizedotnetresponse rather than a specific kind 
         //AuthorizeDotNetResponse resp = new AuthorizeDotNetResponse(bresp.getBody());

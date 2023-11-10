@@ -1,5 +1,9 @@
-public with sharing class GetCustomerProfileResponse extends AuthorizeDotNetResponse{
+public class GetCustomerProfileResponse
+ //extends AuthorizeDotNetResponse 
+ {
+    private CustomerProfile profile;
+
     public GetCustomerProfileResponse() {
-        super();
+
     }
 }

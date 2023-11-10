@@ -24,6 +24,7 @@ public class UpdateCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
         this.card = newCard;
     }
 
+    /*
     public override String getBody() {
         // body for request, look below method
         return '{"customerProfileId": "10000",' +
@@ -50,6 +51,7 @@ public class UpdateCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
                 '"customerPaymentProfileId": "20000"' +
             '}';
     }
+    */
 
     /* -- Update request for body --
         "customerProfileId": "10000",
