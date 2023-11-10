@@ -82,9 +82,9 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
 
         
         req.prependBody('merchantAuthentication', MERCHANT_AUTHENTICATION);
-        system.debug('after prepend = ' + req.getBodyAsNativeObject());
+        system.debug('after prepend = ' + req.getBody());
         req.wrapBody(payloadRequestType);
-        system.debug('after wrap = ' + req.getBodyAsNativeObject());
+        system.debug('after wrap = ' + req.getBody());
         req.setEndpoint('https://apitest.authorize.net/xml/v1/request.api');
         req.setMethod('POST');
         req.setHeader('Content-Type', 'application/json');
@@ -109,7 +109,7 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
         
         //resp.deserialize();
 
-        return resp;
+        return resp2;
     }
     
     
