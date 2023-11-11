@@ -7,8 +7,7 @@ public class DeleteCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
 
 
     public DeleteCustomerPaymentProfileRequest() {
-        super();
-        requestType = 'deleteCustomerPaymentProfile';
+        super('deleteCustomerPaymentProfile');
     }
 
 
@@ -26,8 +25,6 @@ public class DeleteCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
         return this.customerPaymentProfileId;
     }
 
-    // System.JSONGenerator.
-
 
     public override String getBody() {
 
@@ -35,11 +32,13 @@ public class DeleteCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
         JSONGenerator gen = super.getJsonGenerator();
 
         // Continue processing the JSON for the request.
-
+        gen.writeStringField('customerProfileId', this.customerProfileId);
+        gen.writeStringField('customerPaymentProfileId', this.customerPaymentProfileId);
+        gen.writeEndObject();
+        gen.writeEndObject();
         // Use the generator to create one or more objects for the payload json,
         // *in the exact order as required by the Authorize.net documentation.
         return gen.getAsString();
-
     }
 
     

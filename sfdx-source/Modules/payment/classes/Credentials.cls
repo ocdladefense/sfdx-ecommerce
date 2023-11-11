@@ -2,7 +2,7 @@ public class Credentials {
 
 
 
-        private String name;
+    private String name;
 
     private String transactionKey; 
 
@@ -15,8 +15,16 @@ public class Credentials {
 
          String credentials = '{"name":"6gSVxaYj397","transactionKey":"6FR49pDH5Jjum58g"}';
         // super class
-        String wrapper = '{"deleteCustomerPaymentProfileRequest":{"merchantAuthentication":'+credentials+payload+'}';
+       // String wrapper = '{"deleteCustomerPaymentProfileRequest":{"merchantAuthentication":'+credentials+payload+'}';
     
-       
+       return credentials;
+    }
+
+    public String getName() {
+        return this.name;
+    }
+
+    public String getTransactionKey() {
+        return this.transactionKey;
     }
 }

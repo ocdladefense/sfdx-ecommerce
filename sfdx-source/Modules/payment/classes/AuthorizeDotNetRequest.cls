@@ -2,9 +2,9 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
 
 
 
-    // public Credentials merchantAuthentication = new Credentials('6gSVxaYj397','6FR49pDH5Jjum58g');
+    public Credentials merchantAuthentication = new Credentials('6gSVxaYj397','6FR49pDH5Jjum58g');
 
-    public static String requestType;
+    protected String requestType;
 
 
     /**
@@ -12,10 +12,11 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
      * @description set the method and headers to null so these properties are
      * not serialize as part of the JSON payload.
      */
-    public AuthorizeDotNetRequest() {
+    public AuthorizeDotNetRequest(String requestType) {
         super();
        this.method = null;
         this.headers = null;
+        this.requestType = requestType;
     }
 
 
@@ -36,29 +37,25 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
        JSONGenerator gen = JSON.createGenerator(true);
 
         gen.writeStartObject();
-        gen.writeStringField('merchantAuthentication');
+        gen.writeFieldName(this.requestType+'Request');
         gen.writeStartObject();
-        gen.writeStringField('name', variableFromSuperClass);
-        gen.writeStringField('transactionKey', variableFromSueprClass);
+        gen.writeFieldName('merchantAuthentication');
+        gen.writeStartObject();
+        gen.writeStringField('name', this.merchantAuthentication.getName());
+        gen.writeStringField('transactionKey', this.merchantAuthentication.getTransactionKey());
         gen.writeEndObject();
+        // gen.writeEndObject();
+        // gen.writeEndObject();
 
         return gen;
     }
-    public override String getBody() {
-        requestType += 'Request';
-        String payload = JSON.serialize(this,True);
-        //System.debug(merchantAuthentication);
-        payload = payload.substring(1, payload.length()-1);
 
-                 String credentials = '{"name":"6gSVxaYj397","transactionKey":"6FR49pDH5Jjum58g"}';
-        // super class
-        String wrapper = '{"deleteCustomerPaymentProfileRequest":{"merchantAuthentication":'
-            +credentials + ','
-            +payload+'}}';
 
-        return wrapper;
-        // return JSON.serialize(new Map<String,AuthorizeDotNetRequest>{requestType => this}, True);
-      
+    public virtual override String getBody() {
+        JSONGenerator gen = this.getJsonGenerator();
+        gen.writeEndObject();
+
+        return gen.getAsString();
     }
 
 
