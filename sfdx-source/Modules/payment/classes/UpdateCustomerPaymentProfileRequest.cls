@@ -1,27 +1,47 @@
 public class UpdateCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
-    public CustomerPaymentProfile profile;
-    public Address address;
-    public CreditCard card;
+    private String customerProfileId;
+    public CustomerPaymentProfile paymentProfile;
+    public String validationMode;
+    // Default profile id for our testing
+    public String DEFAULT_PROFILE_ID = '905372692';
 
+    public UpdateCustomerPaymentProfileRequest() {
+        // testMode: Card data is validated using simple mathematical checks to confirm that it appears to be valid
+        this.validationMode = 'testMode';
+    }
+    // Might only need this constructor since billTo and payment are both in here
     public UpdateCustomerPaymentProfileRequest(CustomerPaymentProfile profile) {
-        this.profile = profile;
+        this();
+        this.customerProfileId = DEFAULT_PROFILE_ID;
+        this.paymentProfile = profile;
     }
     // Overloaded constructor for if only the Address is changed
     public UpdateCustomerPaymentProfileRequest(CustomerPaymentProfile profile, Address newAddress) {
-        this.profile = profile;
-        this.address = newAddress;
+        this();
+        this.customerProfileId = DEFAULT_PROFILE_ID;
+        this.paymentProfile = profile;
+        this.paymentProfile.setBillTo(newAddress);
     }
     // Overloaded constructor for if only the CreditCard is changed
     public UpdateCustomerPaymentProfileRequest(CustomerPaymentProfile profile, CreditCard newCard) {
-        this.profile = profile;
-        this.card = newCard;
+        this();
+        this.customerProfileId = DEFAULT_PROFILE_ID;
+        this.paymentProfile = profile;
+        this.paymentProfile.setCard(newCard);
     }
 
     // Overloaded constructor for if both Address and CreditCard are changed
     public UpdateCustomerPaymentProfileRequest(CustomerPaymentProfile profile, Address newAddress, CreditCard newCard) {
-        this.profile = profile;
-        this.address = newAddress;
-        this.card = newCard;
+        this();
+        this.customerProfileId = DEFAULT_PROFILE_ID;
+        this.paymentProfile = profile;
+        this.paymentProfile.setBillTo(newAddress);
+        this.paymentProfile.setCard(newCard);
+    }
+
+    
+    public void setCustomerProfileId(String customerProfileId) {
+        this.customerProfileId = customerProfileId;
     }
 
     /*

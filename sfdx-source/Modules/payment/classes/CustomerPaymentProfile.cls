@@ -190,6 +190,7 @@ public with sharing class CustomerPaymentProfile {
 
     public void setDefaultPaymentProfile (String defaultPaymentProfile){
         this.defaultPaymentProfile=defaultPaymentProfile;
+
     }
     
 }
