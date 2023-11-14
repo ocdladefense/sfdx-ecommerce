@@ -7,7 +7,9 @@ public class CreditCard {
     private Boolean dateIsMasked;
     private String cvv;
 
+    public CreditCard() {
 
+    }
 
     public CreditCard(String cardNumber) {
         this.cardNumber = cardNumber;
@@ -16,36 +18,28 @@ public class CreditCard {
 
     public CreditCard(String cardNumber, String expirationDate) {
         this.cardNumber = cardNumber;
-        this.expirationDate = dateToString(expirationDate);
+        this.expirationDate = expirationDate;
     }
 
     public CreditCard(String cardNumber, String expirationDate, string cvv) {
         this.cardNumber = cardNumber;
-        this.expirationDate = dateToString(expirationDate);
+        this.expirationDate = expirationDate;
         this.cvv = cvv;
     }
 
-    // Static Methods------------------------------
-
-    // Instance Methods-------------------
-    
-    // original isExpired method
-    /*
-    private static boolean isExpired(Map<string,string> card) {
-        String exp = card.get('expirationDate');
-        List<string> splitExp = exp.split('/');
-        String month = splitExp[0];
-        String year = splitExp[1];
-        String expirationDate = month + '/01/' + year;
-        Date realDate = Date.parse(expirationDate);
-        
-        return realDate < Date.today();
-    }
-    */
-
-    // updated isExpired method
     public Boolean isExpired() {
-        return true;
+        return stringToDate() < Date.today();
+    }
+
+    public Date stringToDate() {
+        String exp = this.expirationDate;
+        List<String> splitExp = exp.split('-');
+        String year = splitExp[0];
+        String month = splitExp[1];
+        String expDate = month + '/01/' + year;
+        Date realDate = Date.parse(expDate);
+
+        return realDate;
     }
 
     public static String dateToString(Date expDate) {
@@ -76,19 +70,23 @@ public class CreditCard {
     }
 
     public Boolean isValid() {
-        return cardNumber.length() == 16 && this.getType()!='Unknown';
+        return this.cardNumber.length() == 16 && this.getType()!='Unknown';
     }
 
     public String getExpirationDate() {
-        return expirationDate;
+        return this.expirationDate;
     }
 
     public String getCardNumber() {
-        return cardNumber;
+        return this.cardNumber;
     }
 
     public String getCVV() {
-        return cvv;
+        return this.cvv;
+    }
+
+    public void setCardNumber(String cardNumber) {
+        this.cardNumber = cardNumber;
     }
 
     public void setExpirationDate (String expirationDate){
