@@ -22,13 +22,7 @@ public class GetCustomerProfileRequest extends AuthorizeDotNetRequest {
       
 
     }
-    public override Map<String,Object> getBodyAsNativeObject(){
-        Map<String,Object> obj = new Map<String,Object>();
-
-        obj.put('customerProfileId', this.customerProfileId);
-        obj.put('includeIssuerInfo', this.includeIssuerInfo);
-        return obj;
-    }
+    
     //would this be called in any other way?
 
     public void setCustomerProfileId(String customerProfileId) {
@@ -44,5 +38,20 @@ public class GetCustomerProfileRequest extends AuthorizeDotNetRequest {
 
     public void setIncludeIssuerInfo(String includeIssuerInfo){
         this.includeIssuerInfo=includeIssuerInfo;
+    }
+
+    public override String getBody() {
+
+        
+        JSONGenerator gen = super.getJsonGenerator();
+
+        // Continue processing the JSON for the request.
+        gen.writeStringField('customerProfileId', this.customerProfileId);
+        gen.writeStringField('includeIssuerInfo', this.includeIssuerInfo);
+        gen.writeEndObject();
+        gen.writeEndObject();
+        // Use the generator to create one or more objects for the payload json,
+        // *in the exact order as required by the Authorize.net documentation.
+        return gen.getAsString();
     }
 }

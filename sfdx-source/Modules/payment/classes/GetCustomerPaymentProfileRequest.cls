@@ -28,8 +28,8 @@ public class GetCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
         */
     }
 
-    public GetCustomerPaymentProfileRequest(CustomerPaymentProfile profile, Boolean includeIssuerInfo) {
-        this();
+    public GetCustomerPaymentProfileRequest(CustomerPaymentProfile profile, Boolean includeIssuerInfo) 
+    {
         
         this.customerProfileId = DEFAULT_PROFILE_ID;
         this.customerPaymentProfileId = profile.getCustomerPaymentProfileId();
@@ -41,16 +41,7 @@ public class GetCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
         this.customerProfileId = customerProfileId;
     }
 
-    public override Map<String,Object> getBodyAsNativeObject() {
-        Map<String,Object> obj = new Map<String,Object>();
-
-        obj.put('customerProfileId', this.customerProfileId);
-        obj.put('customerPaymentProfileId', this.customerPaymentProfileId);
-        if (this.includeIssuerInfo) {
-            obj.put('includeIssuerInfo', this.includeIssuerInfo);
-        }
-        return obj;
-    }
+    
 
     /*
     public override String getBody() {

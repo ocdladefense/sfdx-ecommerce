@@ -30,5 +30,9 @@ public class CustomerProfile {
         return this.description;
     }
 
+    public List<CustomerPaymentProfile> getPaymentProfiles(){
+        return this.paymentProfiles;
+    }
+    
 
 }

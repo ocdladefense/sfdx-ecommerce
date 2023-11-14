@@ -6,7 +6,11 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
 
     protected String requestType;
 
-
+    public AuthorizeDotNetRequest(){
+        super();
+        this.method = null;
+         this.headers = null;
+    }
     /**
      * @constructor Default constructor
      * @description set the method and headers to null so these properties are
@@ -37,7 +41,7 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
        JSONGenerator gen = JSON.createGenerator(true);
 
         gen.writeStartObject();
-        gen.writeFieldName(this.requestType+'Request');
+        gen.writeFieldName(this.requestType.uncapitalize()+'Request');
         gen.writeStartObject();
         gen.writeFieldName('merchantAuthentication');
         gen.writeStartObject();

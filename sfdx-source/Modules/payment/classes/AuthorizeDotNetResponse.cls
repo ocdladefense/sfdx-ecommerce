@@ -1,7 +1,8 @@
 public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{    
 
     protected Messages messages;
-    protected final String RESPONSE_SUCCESS = 'Ok';
+    //these constants are null when success() is called
+    public final String RESPONSE_SUCCESS='Ok';
     protected final String RESPONSE_FAILURE = 'Error';
 
 
@@ -74,7 +75,9 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
 
 
     public Boolean success(){
-        return this.messages.getResultCode()==RESPONSE_SUCCESS;
+        system.debug('from super class responseCode: ' + this.messages.getResultCode());
+        System.debug('const is '+ RESPONSE_SUCCESS);
+        return this.messages.getResultCode()=='Ok';
     }
 
 
