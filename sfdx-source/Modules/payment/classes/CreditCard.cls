@@ -13,15 +13,19 @@ public class CreditCard {
         this.cardNumber = cardNumber;
     }
 
+    public CreditCard(String cardNumber, Date theDate) {
+        this.cardNumber = cardNumber;
+    }
+
 
     public CreditCard(String cardNumber, String expirationDate) {
         this.cardNumber = cardNumber;
-        this.expirationDate = dateToString(expirationDate);
+        this.expirationDate = expirationDate;
     }
 
     public CreditCard(String cardNumber, String expirationDate, string cvv) {
         this.cardNumber = cardNumber;
-        this.expirationDate = dateToString(expirationDate);
+        this.expirationDate = expirationDate;
         this.cvv = cvv;
     }
 
@@ -58,21 +62,26 @@ public class CreditCard {
     }
 
     public String getType() {
-        if (cardNumber.startsWith('4')) {
-            return 'Visa';
+        if(this.cardType==null)
+        {
+            if (cardNumber.startsWith('4')) {
+                return 'Visa';
+            }
+            else if(cardNumber.startsWith('5')){
+                return 'Mastercard';
+            }
+            else if (cardNumber.startsWith('6')){
+                return 'Discover';
+            }
+            else if (cardNumber.startsWith('34') || cardNumber.startsWith('37')){
+                return 'American Express';
+            }
+            else {
+                return 'Unknown';
+            }
         }
-        else if(cardNumber.startsWith('5')){
-            return 'Mastercard';
-        }
-        else if (cardNumber.startsWith('6')){
-            return 'Discover';
-        }
-        else if (cardNumber.startsWith('34') || cardNumber.startsWith('37')){
-            return 'American Express';
-        }
-        else {
-            return 'Unknown';
-        }
+        return this.cardType;
+        
     }
 
     public Boolean isValid() {
