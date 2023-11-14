@@ -1,4 +1,4 @@
-public class Credentials {
+public class Credentials extends AuthorizeDotNetType{
 
 
 
@@ -9,6 +9,7 @@ public class Credentials {
     public Credentials(String name, String transactionKey) {
         this.name = name;
         this.transactionKey = transactionKey;
+        this.orderedFieldList = new List<String> {'name', 'transactionKey'};
     }
 
     public override String toString() {

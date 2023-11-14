@@ -6,7 +6,7 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
 
     protected String requestType;
 
-
+    protected AuthorizeDotNetType props = new AuthorizeDotNetType();
     /**
      * @constructor Default constructor
      * @description set the method and headers to null so these properties are
@@ -27,38 +27,41 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
 
 
 
-
-    public System.JSONGenerator getJsonGenerator() {
-
-        // this will handle the creation fo the requestType.
-        // AND will handle the creation fo the merchantAuthentication
-
-        // then it can return to the sub-class for the subclass to finish 
-       JSONGenerator gen = JSON.createGenerator(true);
-
-        gen.writeStartObject();
-        gen.writeFieldName(this.requestType+'Request');
-        gen.writeStartObject();
-        gen.writeFieldName('merchantAuthentication');
-        gen.writeStartObject();
-        gen.writeStringField('name', this.merchantAuthentication.getName());
-        gen.writeStringField('transactionKey', this.merchantAuthentication.getTransactionKey());
-        gen.writeEndObject();
-        // gen.writeEndObject();
-        // gen.writeEndObject();
-
-        return gen;
-    }
-
-
     public virtual override String getBody() {
-        JSONGenerator gen = this.getJsonGenerator();
-        gen.writeEndObject();
+        JsonPayload payload = new JsonPayload();
 
-        return gen.getAsString();
+        payload.writeStartObject();
+        payload.writeFieldName(this.requestType+'Request');
+        payload.writeStartObject();
+        payload.writeObjectField('merchantAuthentication', this.merchantAuthentication);
+        
+
+        // Continue processing the JSON for the request.
+        //payload.writeStringField('customerProfileId', this.customerProfileId);
+
+        //payload.writeObjectField('address', this.address);
+        for(String prop : this.props.getOrderedFieldList()) {
+            Object value = this.props.get(prop);
+            if(value instanceOf AuthorizeDotNetType) {
+                payload.writeObjectField(prop, (AuthorizeDotNetType)value);
+            }
+            else {
+                payload.writeObjectField(prop, value);
+
+            }
+        }
+        //payload.writeBooleanField('defaultShippingAddress', getDefaultShippingAddress());
+        payload.writeEndObject();
+        payload.writeEndObject();
+        // Use the generator to create one or more objects for the payload json,
+        // *in the exact order as required by the Authorize.net documentation.
+        return payload.getAsString();
     }
 
-
+    public void setProp(String key, Object value) {
+        this.props.setProp(key, value);
+        this.props.addField(key);
+    }
 
 
 }

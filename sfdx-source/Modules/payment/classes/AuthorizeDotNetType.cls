@@ -1,30 +1,32 @@
 public virtual class AuthorizeDotNetType {
-    protected List<String> orderedFieldList;
+    protected List<String> orderedFieldList = new List<String>();
+    protected Map<String, Object> props = new Map<String, Object>();
 
     public AuthorizeDotNetType() {
 
     }
 
-    // Iterates through a list of keys, gets the value for the key from the Map<String, Object>, and serializes the key/value pair.
-    public virtual String getBody() {
-        JSONGenerator gen = JSON.createGenerator(true);
-        gen.writeStartObject();
-        // serialize address object into a String
-        String json_instance = Json.serialize(this);
-        // deserialize address String into Map<String, Object>
-        Map<String, Object> untyped_instance = (Map<String, Object>)JSON.deserializeUntyped(json_instance);
-        // iterate through the map calling gen.writeStringField() if value or if not value call gen.writeNullField()
-        for(String key : orderedFieldList) {
-            String value = (String)untyped_instance.get(key);
-            if(value != null) {
-                gen.writeStringField(key, value);
-            }
-            else {
-                gen.writeNullField(key);
-            }
+    public List<String> getOrderedFieldList() {
+        return orderedFieldList;
+    }
 
-        }
-        gen.writeEndObject();
-        return gen.getAsString();
+    public Map<String, Object> getProps() {
+        return props;
+    }
+
+    public void setProp(String key, Object value) {
+        this.props.put(key, value);
+    }
+
+    public Object get(String key) {
+        return this.props.get(key);
+    }
+
+    public void setOrderedFieldList(List<String> fieldList) {
+        this.orderedFieldList = fieldList;
+    }
+
+    public void addField(String key) {
+        this.orderedFieldList.add(key);
     }
 }
