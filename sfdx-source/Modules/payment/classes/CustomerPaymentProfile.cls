@@ -1,13 +1,13 @@
-public with sharing class CustomerPaymentProfile {
+public class CustomerPaymentProfile {
     
-    public String customerProfileId;
-    public String customerPaymentProfileId;
-    public Payment payment; 
-    public String originalNetworkTransId;
-    public String originalAuthAmount;
-    public String customerType;
-    public Address billTo;
-    public Boolean defaultPaymentProfile;
+    private String customerProfileId = '905372692';
+    private String customerPaymentProfileId;
+    private Payment payment; 
+    private String originalNetworkTransId;
+    private Decimal originalAuthAmount;
+    private String customerType;
+    private Address billTo;
+    private Boolean defaultPaymentProfile;
     
     public CustomerPaymentProfile() {
 
@@ -15,7 +15,6 @@ public with sharing class CustomerPaymentProfile {
 
     public CustomerPaymentProfile(CreditCard card, Address billTo) {
         this.billTo = billTo;
-        //this.card = card;
         this.payment = new Payment(card);
     }
 
@@ -36,7 +35,128 @@ public with sharing class CustomerPaymentProfile {
         return (Map<String,Map<String,String>>)JSON.deserialize(body, Map<String,Map<String,String>>.class);
     }
 
+    //call to AuthorizeDotNet getCustomerProfileRequest to retrieve full profile with list of saved payment profiles
+    public static List<CustomerPaymentProfile> getPaymentProfileList(String customerProfileId){
+        
+        List<CustomerPaymentProfile> profiles = new List<CustomerPaymentProfile>();
+        
+        //set up a client
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
 
+    
+        //make the request message
+        GetCustomerProfileRequest req = new GetCustomerProfileRequest(customerProfileId);
+      
+        //send the request and receive the response
+        HttpResponseMessage resp = client.send(req);
+
+        //get the message from the response and parse
+        String respBody = resp.getBody();
+       
+        Map<String, Object> body = (Map<String, Object>)JSON.deserializeUntyped(respBody);
+
+        //key is profile
+        Map<String, Object> soapProfile = (Map<String, Object>)body.get('profile');
+
+        //get list of payment profiles
+        List<Object> paymentProfiles = (List<Object>)soapProfile.get('paymentProfiles');
+        
+        //for each profile in the list, make a new profile object with billto and payment
+        //ignore "originalNetworkTransId" and 'originalAuthAmount'
+
+        for (Object p : paymentProfiles) {
+            //first hold paymentprofile id in variable
+            Map<String, Object> paymentProfile = (Map<String, Object>)p;
+            String customerPaymentProfileId = (String)paymentProfile.get('customerPaymentProfileId');
+
+            //next make new address and set the fields
+            Map<String, Object> billTo = (Map<String, Object>)paymentProfile.get('billTo');
+            Address theAddress = CustomerPaymentProfile.newAddressFromMap(billTo);
+            //next deserialize payment into a map string object
+            Map<String, Object> payment = (Map<String, Object>)paymentProfile.get('payment');
+            CreditCard theCard=CustomerPaymentProfile.newCardFromPaymentMap(payment);
+
+            //make new customerpayment profile
+            CustomerPaymentProfile profile = new CustomerPaymentProfile(theCard,theAddress);
+        //add to list of profiles
+            profiles.add(profile);
+        }
+        
+
+        //use AuthorizeDotNetResponse to parse messages
+ 
+        //deserialize 
+        //AuthorizeDotNetResponse message = new AuthorizeDotNetResponse(body);
+        
+        /*                                                               
+{
+  "profile": {
+    "paymentProfiles": [{
+        "customerPaymentProfileId": "87",
+        "payment": {
+          "creditCard": {
+            "cardNumber": "XXXX1111",
+            "expirationDate": "XXXX",
+            "cardType": "Visa",
+            "issuerNumber": "411111"
+          }
+        },
+        "originalNetworkTransId": "0TN1VE648DFCJSHQ81GZH9F",
+        "originalAuthAmount": 0,
+        "billTo": {
+          "phoneNumber": "000-000-0000",
+          "firstName": "John",
+          "lastName": "Doe",
+          "address": "123 Main St.",
+          "city": "Bellevue",
+          "state": "WA",
+          "zip": "98004",
+          "country": "US"
+        }
+      }, {
+        "customerPaymentProfileId": "86",
+        "payment": {
+          "creditCard": {
+            "cardNumber": "XXXX1111",
+            "expirationDate": "XXXX",
+            "cardType": "Visa",
+            "issuerNumber": "411111"
+          }
+        },
+        "originalNetworkTransId": "0STSMT7WLO5D80U0KJR4Z9A",
+        "originalAuthAmount": 0,
+        "customerType": "individual",
+        "billTo": {
+          "phoneNumber": "123-123-1235",
+          "firstName": "Customer FirstName",
+          "lastName": "Customer LastName",
+          "address": "123 Main St.",
+          "city": "Bellevue",
+          "state": "WA",
+          "zip": "98004",
+          "country": "US"
+        }
+      }
+    ],
+    "profileType": "regular",
+    "customerProfileId": "527262",
+    "merchantCustomerId": "MerchantCustID",
+    "description": "Profile description here",
+    "email": "customer-profile-email@here.com"
+  },
+  "messages": {
+    "resultCode": "Ok",
+    "message": [{
+        "code": "I00001",
+        "text": "Successful."
+      }
+    ]
+  }
+}
+
+    */
+      return profiles; 
+    }
 
     public static List<CreditCard> retrieveSavedCards(String customerProfileId) {        
     
@@ -45,10 +165,10 @@ public with sharing class CustomerPaymentProfile {
         List<CreditCard> savedCards = new List<CreditCard> {};
         for (Map<string,string> card : fetchedCards.values()) {
             Integer id = Integer.valueOf(card.get('id'));
-            List<String> dateParts = card.get('expirationDate').split('-');
-            Integer year = Integer.valueOf(dateParts[0]);
-            Integer month = Integer.valueOf(dateParts[1]);
-            Date expDate = Date.newInstance(year, month, 1);
+            //List<String> dateParts = card.get('expirationDate').split('-');
+            //Integer year = Integer.valueOf(dateParts[0]);
+            //Integer month = Integer.valueOf(dateParts[1]);
+            String expDate = card.get('expirationDate');
             String cardNum = card.get('cardNumber');
             String firstName = card.get('firstName');
             String lastName = card.get('lastName');
@@ -110,6 +230,27 @@ public with sharing class CustomerPaymentProfile {
         return cardValues;
     }
 
+    public String deleteCustomerPaymentProfile(String customerProfileId){
+        //set up a client
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+
+    
+        //make the request message
+        DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest(this, customerProfileId);
+      
+        //send the request and receive the response
+        HttpResponseMessage resp = client.send(req);
+
+        //get the message from the response and parse
+        String body = resp.getBody();
+
+        AuthorizeDotNetResponse message = new AuthorizeDotNetResponse(body);
+       
+        //send resultCode
+        return message.getResultCode();
+    }
+
+
     public static CreditCard newCardFromPaymentMap(Map<String, Object> payment){
         Map<String, Object> theCard = (Map<String, Object>)payment.get('creditCard');
         String cardNumber = (String) theCard.get('cardNumber');
@@ -156,10 +297,6 @@ public with sharing class CustomerPaymentProfile {
         return customerPaymentProfileId;
     }
 
-    public String getCustomerProfileId() {
-        return customerProfileId;
-    }
-
     public Address getBillTo() {
         return billTo;
     }
@@ -167,8 +304,12 @@ public with sharing class CustomerPaymentProfile {
     public Payment getPayment() {
         return payment;
     }
+    
+    public String getCustomerProfileId() {
+        return this.customerProfileId;
+    }
 
-    public String getDefaultPaymentProfile() {
+    public Boolean getDefaultPaymentProfile() {
         return defaultPaymentProfile;
     }
 
@@ -176,21 +317,15 @@ public with sharing class CustomerPaymentProfile {
         this.customerPaymentProfileId = customerPaymentProfileId;
     }
 
-    public void setCustomerProfileId(String customerProfileId) {
-        this.customerProfileId = customerProfileId;
-    }
-
     public void setBillTo(Address billTo) {
         this.billTo = billTo;
     }
 
-    public void setPayment(CreditCard card) {
-        this.payment = new Payment (card);
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
-    public void setDefaultPaymentProfile (String defaultPaymentProfile){
-        this.defaultPaymentProfile=defaultPaymentProfile;
-
+    public void setDefaultPaymentProfile (Boolean defaultPaymentProfile){
+        this.defaultPaymentProfile= defaultPaymentProfile;
     }
-    
 }
