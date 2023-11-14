@@ -5,6 +5,7 @@ public virtual class AuthorizeDotNetType {
 
     }
 
+    // Iterates through a list of keys, gets the value for the key from the Map<String, Object>, and serializes the key/value pair.
     public virtual String getBody() {
         JSONGenerator gen = JSON.createGenerator(true);
         gen.writeStartObject();
