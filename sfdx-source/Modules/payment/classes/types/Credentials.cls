@@ -9,7 +9,7 @@ public class Credentials extends AuthorizeDotNetType {
     public Credentials(String name, String transactionKey) {
         this.name = name;
         this.transactionKey = transactionKey;
-        this.fields = new List<String> {'name', 'transactionKey'};
+        this.fields = new Set<String> {'name', 'transactionKey'};
     }
 
 

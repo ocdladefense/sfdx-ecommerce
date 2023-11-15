@@ -21,11 +21,11 @@ public class JsonPayload {
         // iterate through the map calling gen.writeStringField() if value or if not value call gen.writeNullField()
         for(String key : obj.keySet()) {
             String value = (String)it.get(key);
-            if(value != null) {
-                gen.writeStringField(key, value);
+            if(null == value) {
+                gen.writeNullField(key);
             }
             else {
-                gen.writeNullField(key);
+                gen.writeStringField(key, value);
             }
 
         }
@@ -33,10 +33,41 @@ public class JsonPayload {
     }
 
 
-
     public void writeObjectField(String fieldName, Object obj) {
         gen.writeObjectField(fieldName, obj);
     }
+
+
+    public void writeObjectFields(IOrderedMap obj) {
+
+        // Convert obj to a Map.
+        Map<String,Object> it = obj.toMap();
+        
+        // iterate through the map calling gen.writeStringField() if value or if not value call gen.writeNullField()
+        for(String key : obj.keySet()) {
+
+            Object value = it.get(key);
+
+            // Test the type of value:
+            if(value instanceof IOrderedMap) {
+                System.debug('found authnet object');
+                this.writeObjectField(key, (IOrderedMap)value);  
+            } else if(value instanceof String) {
+                this.writeStringField(key, (String)value);
+            } else if(value instanceof Integer) {
+                this.writeNumberField(key, (Integer)value);
+            } else if(null == value) {
+                this.gen.writeNullField(key);
+            } else {
+                this.writeObjectField(key, value);
+            }
+
+        }
+    }
+
+
+
+
 
 
 
@@ -53,6 +84,10 @@ public class JsonPayload {
 
     public void writeStringField(String fieldName, String fieldValue) {
         gen.writeStringField(fieldName, fieldValue);
+    }
+
+    public void writeNumberField(String fieldName, INteger fieldValue) {
+        gen.writeNumberField(fieldName, fieldValue);
     }
 
 

@@ -39,7 +39,7 @@ public class Address extends AuthorizeDotNetType {
         this.state = state;
         this.zip = zip;
         this.country = country;
-        this.fields = new List<String> {
+        this.fields = new Set<String> {
             'firstName', 'lastName', 'address', 'city','state','zip','country','phoneNumber','faxNumber','email'
         };
     }

@@ -1,7 +1,7 @@
 public virtual class AuthorizeDotNetType implements IOrderedMap {
 
     // This list determines the order that data will be retrieved when we iterator over
-    protected List<String> fields = new List<String>();
+    protected Set<String> fields = new Set<String>();
 
     protected Map<String, Object> data = new Map<String, Object>();
 
@@ -19,7 +19,7 @@ public virtual class AuthorizeDotNetType implements IOrderedMap {
     }
 
 
-    public void setFields(List<String> fieldList) {
+    public void setFields(Set<String> fieldList) {
         this.fields = fieldList;
     }
 
@@ -28,7 +28,7 @@ public virtual class AuthorizeDotNetType implements IOrderedMap {
     }
 
 
-    public virtual List<String> keySet() {
+    public virtual Set<String> keySet() {
         return this.fields;
     }
 

@@ -1,4 +1,4 @@
-public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
+public virtual class AuthorizeDotNetRequest extends HttpRequestMessage implements IOrderedMap {
 
 
 
@@ -6,7 +6,20 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
 
     protected String requestType;
 
-    protected AuthorizeDotNetType props = new AuthorizeDotNetType();
+    protected Map<String,Object> props = new Map<String,Object>();
+
+    protected Set<String> fields = new Set<String>(); 
+
+    // protected AuthorizeDotNetType props = new AuthorizeDotNetType();
+
+    public void put(String key, Object value) {
+        this.props.put(key,value);
+        this.fields.add(key);
+    }
+
+    public Object get(String key) {
+        return this.props.get(key);
+    }
     /**
      * @constructor Default constructor
      * @description set the method and headers to null so these properties are
@@ -14,7 +27,7 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
      */
     public AuthorizeDotNetRequest(String requestType) {
         super();
-       this.method = null;
+        this.method = null;
         this.headers = null;
         this.requestType = requestType;
     }
@@ -35,15 +48,11 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
         payload.writeStartObject();
         payload.writeObjectField('merchantAuthentication', this.merchantAuthentication);
    
-        for(String prop : this.props.keySet()) {
-            Object value = this.props.get(prop);
-            if(value instanceOf AuthorizeDotNetType) {
-                payload.writeObjectField(prop, (AuthorizeDotNetType)value);
-            }
-            else {
-                payload.writeObjectField(prop, value);
-            }
-        }
+
+        payload.writeObjectFields(this);
+        
+
+
 
         payload.writeEndObject();
         payload.writeEndObject();
@@ -51,9 +60,32 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
         return payload.getAsString();
     }
 
-    public void setProp(String key, Object value) {
-        this.props.put(key, value);
-        this.props.addField(key);
+
+
+    public virtual Set<String> keySet() {
+        return this.fields;
+    }
+
+    // For use with IOrderedMap.
+    public virtual Map<String,Object> toMap() {
+        if(this.props.values().size() > 0) {
+            return this.props;
+        }
+
+        // This is a base implementation and *should be overridden.
+        // It that can only be used
+        // if the requests members are primitive types.
+        // Deserializing eliminates types like Address, Payment, CreditCard, CustomerPaymentProfile, etc.
+        String theJson = JSON.serialize(this);
+        return (Map<String,Object>)JSON.deserializeUntyped(theJson);
+    }
+
+    public void addField(String field) {
+        this.fields.add(field);
+    }
+
+    public void setFields(Set<String> fields) {
+        this.fields = fields;
     }
 
 

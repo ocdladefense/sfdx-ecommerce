@@ -9,19 +9,12 @@ public class CreateCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
     public CreateCustomerPaymentProfileRequest(CustomerPaymentProfile profile) {
         this();
         this.profile = profile;
-        this.requestType = 'CreateCustomerPaymentProfile';
+        this.requestType = 'createCustomerPaymentProfile';
     }
 
     public void setCustomerProfileId(String customerProfileId) {
         this.customerProfileId = customerProfileId;
     }
 
-    public override Map<String,Object> getBodyAsNativeObject() {
-        Map<String,Object> obj = new Map<String,Object>();
 
-        obj.put('customerProfileId', this.customerProfileId);
-        obj.put('paymentProfile', this.profile);
-        System.debug(obj);
-        return obj;
-    }
 }
