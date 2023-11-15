@@ -15,6 +15,14 @@
       "versionDescription": ""
     },
     {
+      "path": "sfdx-source/Modules/json",
+      "package": "Json",
+      "versionName": "ver 0.1",
+      "versionNumber": "0.1.0.NEXT",
+      "default": false,
+      "versionDescription": ""
+    },
+    {
       "path": "sfdx-source/Modules/payment",
       "package": "EcommercePayment",
       "versionName": "ver 0.1",

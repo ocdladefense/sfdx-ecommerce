@@ -1,16 +1,26 @@
-public with sharing class Address extends AuthorizeDotNetType {
+public class Address extends AuthorizeDotNetType {
     
     
     private String firstName;
+
     private String lastName;
+
     private String address;
+
     private String city;
+
     private String state;
+
     private String zip;
+
     private String country;
+
     private String phoneNumber;
+
     private String faxNumber;
+
     private String email;
+
     private static final String DEFAULT_COUNTRY_CODE = 'US';
 
 
@@ -29,7 +39,7 @@ public with sharing class Address extends AuthorizeDotNetType {
         this.state = state;
         this.zip = zip;
         this.country = country;
-        this.orderedFieldList = new List<String> {
+        this.fields = new List<String> {
             'firstName', 'lastName', 'address', 'city','state','zip','country','phoneNumber','faxNumber','email'
         };
     }

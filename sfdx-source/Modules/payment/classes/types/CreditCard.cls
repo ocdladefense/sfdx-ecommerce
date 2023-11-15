@@ -1,4 +1,4 @@
-public class CreditCard {
+public class CreditCard extends AuthorizeDotNetType {
 
     private String cardNumber;
     private String expirationDate;
@@ -8,23 +8,27 @@ public class CreditCard {
     private String cvv;
 
     public CreditCard() {
-
+        this.fields = new List<String>{'cardNumber', 'expirationDate','cardType'};
     }
 
     public CreditCard(String cardNumber) {
+        this();
         this.cardNumber = cardNumber;
     }
 
 
     public CreditCard(String cardNumber, String expirationDate) {
+        this();
         this.cardNumber = cardNumber;
         this.expirationDate = expirationDate;
     }
 
     public CreditCard(String cardNumber, String expirationDate, string cvv) {
+        this();
         this.cardNumber = cardNumber;
         this.expirationDate = expirationDate;
         this.cvv = cvv;
+        
     }
 
     public Boolean isExpired() {
