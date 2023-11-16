@@ -1,6 +1,41 @@
-<apex:page>
-<!-- Begin Default Content REMOVE THIS -->
-<h1>Congratulations</h1>
-This is your new Page
-<!-- End Default Content REMOVE THIS -->
+<apex:page controller="OcdlaSavedPaymentMethodsController">
+    <apex:form id="paymentForm">
+        <apex:outputPanel rendered="{!IF(paymentProfiles.size != 0, true, false)}">
+            <apex:pageBlock>
+                <apex:commandLink action="{!redirectToOcdlaAddPaymentMethod}" value="Add Payment Method" styleClass="addPaymentMethodLink"/>
+            </apex:pageBlock>
+            <apex:pageBlock title="Saved Payment Methods">
+                <apex:pageBlockTable value="{!paymentProfiles}" var="profile">
+                    <apex:column headerValue="Name">
+                        {!profile.billTo.firstName & ' ' & profile.billTo.lastName}
+                    </apex:column>
+                    <apex:column value="{!profile.payment.creditCard.cardNumber}" headerValue="Card Number"/>
+                    <apex:column value="{!profile.payment.creditCard.expirationDate}" headerValue="Expiration Date"/>
+                    <apex:column>
+                        Test edit
+                        <!-- <apex:commandLink value="Edit" action="{!editPaymentProfile}" rerender="pageBlock">
+                            <apex:param name="profileId" value="{!profile.Id}" />
+                        </apex:commandLink> -->
+                    </apex:column>
+                    <apex:column>
+                        Test delete
+                        <!-- <apex:commandLink value="Delete" action="{!deletePaymentProfile}" rerender="pageBlock">
+                            <apex:param name="profileId" value="{!profile.Id}" />
+                        </apex:commandLink> -->
+                    </apex:column>
+                    <apex:column>
+                        Test setDefault
+                        <!-- <apex:commandLink value="Set Default" action="{!setDefaultPaymentProfile}" rerender="pageBlock">
+                            <apex:param name="profileId" value="{!profile.Id}" />
+                        </apex:commandLink> -->
+                    </apex:column>
+                </apex:pageBlockTable>
+            </apex:pageBlock>
+        </apex:outputPanel>
+        <apex:outputPanel rendered="{!IF(paymentProfiles.size == 0, true, false)}">
+            <apex:pageBlock>
+                <apex:commandLink action="{!redirectToOcdlaAddPaymentMethod}" value="Add Payment Method" styleClass="addPaymentMethodLink"/>
+            </apex:pageBlock>
+        </apex:outputPanel>
+    </apex:form>
 </apex:page>
