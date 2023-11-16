@@ -8,7 +8,7 @@ public class CreditCard extends AuthorizeDotNetType {
     private String cvv;
 
     public CreditCard() {
-        this.fields = new List<String>{'cardNumber', 'expirationDate','cardType'};
+        this.fields = new Set<String>{'cardNumber', 'expirationDate','cardType'};
     }
 
     public CreditCard(String cardNumber) {

@@ -3,7 +3,7 @@ public class CreateCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
     private CustomerPaymentProfile profile;
 
     public CreateCustomerPaymentProfileRequest() {
-        super();
+        super('createCustomerPaymentProfile');
     }
 
     public CreateCustomerPaymentProfileRequest(CustomerPaymentProfile profile) {

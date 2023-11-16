@@ -28,7 +28,7 @@ public class AuthorizeDotNetServiceMock implements HttpCalloutMock {
         String responseType = requestType.capitalize()+'MockResponse';
  
 
-        System.Type t = Type.forName(mockType);
+        System.Type t = Type.forName(requestType);
 
         IMockResponse mock = (IMockResponse)t.newInstance();
 

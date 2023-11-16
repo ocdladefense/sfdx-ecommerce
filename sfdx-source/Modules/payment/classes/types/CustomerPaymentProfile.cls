@@ -236,7 +236,9 @@ public class CustomerPaymentProfile {
 
     
         //make the request message
-        DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest(this, customerProfileId);
+        DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest();
+        req.setCustomerProfileId(this.customerProfileId);
+        req.setCustomerPaymentProfileId(this.customerPaymentProfileId);
       
         //send the request and receive the response
         HttpResponseMessage resp = client.send(req);
@@ -244,10 +246,10 @@ public class CustomerPaymentProfile {
         //get the message from the response and parse
         String body = resp.getBody();
 
-        AuthorizeDotNetResponse message = new AuthorizeDotNetResponse(body);
-       
+        AuthorizeDotNetResponse authResp = new AuthorizeDotNetResponse(body);
+        Messages messages = authResp.getMessages();
         //send resultCode
-        return message.getResultCode();
+        return messages.getResultCode();
     }
 
 

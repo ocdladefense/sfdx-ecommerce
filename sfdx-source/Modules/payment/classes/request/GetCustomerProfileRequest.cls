@@ -5,7 +5,7 @@ public class GetCustomerProfileRequest extends AuthorizeDotNetRequest {
   
 
     public GetCustomerProfileRequest() {
-        super();
+        super('getCustomerProfile');
     }
     public GetCustomerProfileRequest(String customerProfileId){
         this();
@@ -43,15 +43,16 @@ public class GetCustomerProfileRequest extends AuthorizeDotNetRequest {
     public override String getBody() {
 
         
-        JSONGenerator gen = super.getJsonGenerator();
+        // JSONGenerator gen = super.getJsonGenerator();
 
-        // Continue processing the JSON for the request.
-        gen.writeStringField('customerProfileId', this.customerProfileId);
-        gen.writeStringField('includeIssuerInfo', this.includeIssuerInfo);
-        gen.writeEndObject();
-        gen.writeEndObject();
-        // Use the generator to create one or more objects for the payload json,
-        // *in the exact order as required by the Authorize.net documentation.
-        return gen.getAsString();
+        // // Continue processing the JSON for the request.
+        // gen.writeStringField('customerProfileId', this.customerProfileId);
+        // gen.writeStringField('includeIssuerInfo', this.includeIssuerInfo);
+        // gen.writeEndObject();
+        // gen.writeEndObject();
+        // // Use the generator to create one or more objects for the payload json,
+        // // *in the exact order as required by the Authorize.net documentation.
+        // return gen.getAsString();
+        return '';
     }
 }
