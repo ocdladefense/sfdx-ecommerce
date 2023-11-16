@@ -1,4 +1,4 @@
-public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
+public virtual class AuthorizeDotNetRequest extends HttpRequestMessage implements IOrderedMap {
 
 
 
@@ -6,10 +6,19 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
 
     protected String requestType;
 
-    public AuthorizeDotNetRequest(){
-        super();
-        this.method = null;
-         this.headers = null;
+    protected Map<String,Object> props = new Map<String,Object>();
+
+    protected Set<String> fields = new Set<String>(); 
+
+    // protected AuthorizeDotNetType props = new AuthorizeDotNetType();
+
+    public void put(String key, Object value) {
+        this.props.put(key,value);
+        this.fields.add(key);
+    }
+
+    public Object get(String key) {
+        return this.props.get(key);
     }
     /**
      * @constructor Default constructor
@@ -18,7 +27,7 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
      */
     public AuthorizeDotNetRequest(String requestType) {
         super();
-       this.method = null;
+        this.method = null;
         this.headers = null;
         this.requestType = requestType;
     }
@@ -31,38 +40,53 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage {
 
 
 
-
-    public System.JSONGenerator getJsonGenerator() {
-
-        // this will handle the creation fo the requestType.
-        // AND will handle the creation fo the merchantAuthentication
-
-        // then it can return to the sub-class for the subclass to finish 
-       JSONGenerator gen = JSON.createGenerator(true);
-
-        gen.writeStartObject();
-        gen.writeFieldName(this.requestType.uncapitalize()+'Request');
-        gen.writeStartObject();
-        gen.writeFieldName('merchantAuthentication');
-        gen.writeStartObject();
-        gen.writeStringField('name', this.merchantAuthentication.getName());
-        gen.writeStringField('transactionKey', this.merchantAuthentication.getTransactionKey());
-        gen.writeEndObject();
-        // gen.writeEndObject();
-        // gen.writeEndObject();
-
-        return gen;
-    }
-
-
     public virtual override String getBody() {
-        JSONGenerator gen = this.getJsonGenerator();
-        gen.writeEndObject();
+        JsonPayload payload = new JsonPayload();
 
-        return gen.getAsString();
+        payload.writeStartObject();
+        payload.writeFieldName(this.requestType+'Request');
+        payload.writeStartObject();
+        payload.writeObjectField('merchantAuthentication', this.merchantAuthentication);
+   
+
+        payload.writeObjectFields(this);
+        
+
+
+
+        payload.writeEndObject();
+        payload.writeEndObject();
+
+        return payload.getAsString();
     }
 
 
+
+    public virtual Set<String> keySet() {
+        return this.fields;
+    }
+
+    // For use with IOrderedMap.
+    public virtual Map<String,Object> toMap() {
+        if(this.props.values().size() > 0) {
+            return this.props;
+        }
+
+        // This is a base implementation and *should be overridden.
+        // It that can only be used
+        // if the requests members are primitive types.
+        // Deserializing eliminates types like Address, Payment, CreditCard, CustomerPaymentProfile, etc.
+        String theJson = JSON.serialize(this);
+        return (Map<String,Object>)JSON.deserializeUntyped(theJson);
+    }
+
+    public void addField(String field) {
+        this.fields.add(field);
+    }
+
+    public void setFields(Set<String> fields) {
+        this.fields = fields;
+    }
 
 
 }

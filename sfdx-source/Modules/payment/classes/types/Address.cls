@@ -1,17 +1,28 @@
-public with sharing class Address {
+public class Address extends AuthorizeDotNetType {
     
     
     private String firstName;
+
     private String lastName;
+
     private String address;
+
     private String city;
+
     private String state;
+
     private String zip;
+
     private String country;
+
     private String phoneNumber;
-    private String fax;
+
+    private String faxNumber;
+
     private String email;
+
     private static final String DEFAULT_COUNTRY_CODE = 'US';
+
 
     // Constructors-----------------
     public Address (){}
@@ -28,6 +39,9 @@ public with sharing class Address {
         this.state = state;
         this.zip = zip;
         this.country = country;
+        this.fields = new Set<String> {
+            'firstName', 'lastName', 'address', 'city','state','zip','country','phoneNumber','faxNumber','email'
+        };
     }
   
 
@@ -49,8 +63,8 @@ public with sharing class Address {
         return phoneNumber;
     }
 
-    public String getFax() {
-        return fax;
+    public String getfaxNumber() {
+        return faxNumber;
     }
 
     public String getEmail() {
@@ -83,8 +97,8 @@ public with sharing class Address {
     public void setPhoneNumber(string phoneNumber){
         this.phoneNumber = phoneNumber;
     }
-    public void setFax(string fax){
-        this.fax = fax;
+    public void setfaxNumber(string faxNumber){
+        this.faxNumber = faxNumber;
     }
     public void setEmail (string email) {
         this.email = email;
@@ -116,4 +130,6 @@ public with sharing class Address {
     public void setCountry (string country){
         this.country = country;
     }
+
+    
 }
