@@ -5,6 +5,9 @@ public class Address extends AuthorizeDotNetType {
 
     private String lastName;
 
+    //company used in shipping address requests
+    private String company;
+
     private String address;
 
     private String city;
@@ -40,7 +43,7 @@ public class Address extends AuthorizeDotNetType {
         this.zip = zip;
         this.country = country;
         this.fields = new Set<String> {
-            'firstName', 'lastName', 'address', 'city','state','zip','country','phoneNumber','faxNumber','email'
+            'firstName', 'lastName', 'company','address', 'city','state','zip','country','phoneNumber','faxNumber','email'
         };
     }
   
@@ -90,6 +93,10 @@ public class Address extends AuthorizeDotNetType {
     public String getCountry() {
         return country;
     }
+
+    public String getCompany(){
+        return company;
+    }
     
 
     // Setters------------------------
@@ -129,6 +136,10 @@ public class Address extends AuthorizeDotNetType {
 
     public void setCountry (string country){
         this.country = country;
+    }
+
+    public void setCompany(String company){
+        this.company = company;
     }
 
     
