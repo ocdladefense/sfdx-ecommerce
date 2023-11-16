@@ -1,4 +1,4 @@
-public class CustomerPaymentProfile {
+public class CustomerPaymentProfile extends AuthorizeDotNetType{
     
     private String customerProfileId = '905372692';
     private String customerPaymentProfileId;
@@ -16,6 +16,9 @@ public class CustomerPaymentProfile {
     public CustomerPaymentProfile(CreditCard card, Address billTo) {
         this.billTo = billTo;
         this.payment = new Payment(card);
+        this.fields = new Set<String> {
+            'customerProfileId', 'customerPaymentProfileId', 'payment', 'originalNetworkTransId','originalAuthAmount','customerType','billTo','defaultPaymentProfile'
+        };
     }
 
     // profileId currently not used. Assume it is "905372692" in "https://appdev.ocdla.org/customer/905372692/cards"
