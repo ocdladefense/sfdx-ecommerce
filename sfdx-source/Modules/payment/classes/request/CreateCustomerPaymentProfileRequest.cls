@@ -1,9 +1,13 @@
 public class CreateCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
-    private String customerProfileId;
+    
     private CustomerPaymentProfile profile;
 
+    private String customerProfileId;
+
+
     public CreateCustomerPaymentProfileRequest() {
-        super();
+        super('createCustomerPaymentProfileRequest');
+        this.fields = new Set<String>{'customerProfileId', 'profile'};
     }
 
     public CreateCustomerPaymentProfileRequest(CustomerPaymentProfile profile) {
@@ -12,9 +16,13 @@ public class CreateCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
         this.requestType = 'createCustomerPaymentProfile';
     }
 
-    public void setCustomerProfileId(String customerProfileId) {
-        this.customerProfileId = customerProfileId;
-    }
 
+    public override Map<String,Object> toMap() {
+        Map<String,Object> tmp = new Map<String,Object>();
+        tmp.put('profile', this.profile);
+        tmp.put('customerProfileId', this.customerProfileId);
+
+        return tmp;
+    }
 
 }

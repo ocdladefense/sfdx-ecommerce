@@ -1,185 +1,46 @@
-public class CustomerPaymentProfile {
+public class CustomerPaymentProfile extends AuthorizeDotNetType {
     
     private String customerProfileId = '905372692';
+
     private String customerPaymentProfileId;
+
     private Payment payment; 
+
     private String originalNetworkTransId;
+
     private Decimal originalAuthAmount;
+
     private String customerType;
+
     private Address billTo;
+
     private Boolean defaultPaymentProfile;
     
-    public CustomerPaymentProfile() {
 
+
+    public CustomerPaymentProfile() {
+        this.fields = new Set<String>{'customerProfileId', 'customerPaymentProfileId','billTo','defaultPaymentProfile'};
     }
 
     public CustomerPaymentProfile(CreditCard card, Address billTo) {
+        this();
         this.billTo = billTo;
         this.payment = new Payment(card);
     }
 
-    // profileId currently not used. Assume it is "905372692" in "https://appdev.ocdla.org/customer/905372692/cards"
-    public static Map<String,Map<String,String>> fetchUsersCards(String profileId){
-        Http client = new Http();
+  public override Map<String,Object> toMap() {
+    Map<String,Object> tmp = new Map<String,Object>();
+    tmp.put('customerProfileId', this.customerProfileId);
+    tmp.put('payment', this.payment );
+    tmp.put('billTo', this.billTo);
+    tmp.put('defaultPaymentProfile', this.defaultPaymentProfile);
 
-        // Instantiate a new HTTP request, specify the method (GET) as well as the endpoint
-        HttpRequest req = new HttpRequest();
-        req.setEndpoint('https://appdev.ocdla.org/customer/' + profileId + '/cards');
-        req.setMethod('GET');
-
-        // Send the request, and return a response
-        HttpResponse res = client.send(req);
-        String body =  res.getBody();
-
-        // deserializes the JSON to a Map with strings before returning
-        return (Map<String,Map<String,String>>)JSON.deserialize(body, Map<String,Map<String,String>>.class);
-    }
-
-    //call to AuthorizeDotNet getCustomerProfileRequest to retrieve full profile with list of saved payment profiles
-    public static List<CustomerPaymentProfile> getPaymentProfileList(String customerProfileId){
-        
-        List<CustomerPaymentProfile> profiles = new List<CustomerPaymentProfile>();
-        
-        //set up a client
-        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
-
-    
-        //make the request message
-        GetCustomerProfileRequest req = new GetCustomerProfileRequest(customerProfileId);
-      
-        //send the request and receive the response
-        HttpResponseMessage resp = client.send(req);
-
-        //get the message from the response and parse
-        String respBody = resp.getBody();
-       
-        Map<String, Object> body = (Map<String, Object>)JSON.deserializeUntyped(respBody);
-
-        //key is profile
-        Map<String, Object> soapProfile = (Map<String, Object>)body.get('profile');
-
-        //get list of payment profiles
-        List<Object> paymentProfiles = (List<Object>)soapProfile.get('paymentProfiles');
-        
-        //for each profile in the list, make a new profile object with billto and payment
-        //ignore "originalNetworkTransId" and 'originalAuthAmount'
-
-        for (Object p : paymentProfiles) {
-            //first hold paymentprofile id in variable
-            Map<String, Object> paymentProfile = (Map<String, Object>)p;
-            String customerPaymentProfileId = (String)paymentProfile.get('customerPaymentProfileId');
-
-            //next make new address and set the fields
-            Map<String, Object> billTo = (Map<String, Object>)paymentProfile.get('billTo');
-            Address theAddress = CustomerPaymentProfile.newAddressFromMap(billTo);
-            //next deserialize payment into a map string object
-            Map<String, Object> payment = (Map<String, Object>)paymentProfile.get('payment');
-            CreditCard theCard=CustomerPaymentProfile.newCardFromPaymentMap(payment);
-
-            //make new customerpayment profile
-            CustomerPaymentProfile profile = new CustomerPaymentProfile(theCard,theAddress);
-        //add to list of profiles
-            profiles.add(profile);
-        }
-        
-
-        //use AuthorizeDotNetResponse to parse messages
- 
-        //deserialize 
-        //AuthorizeDotNetResponse message = new AuthorizeDotNetResponse(body);
-        
-        /*                                                               
-{
-  "profile": {
-    "paymentProfiles": [{
-        "customerPaymentProfileId": "87",
-        "payment": {
-          "creditCard": {
-            "cardNumber": "XXXX1111",
-            "expirationDate": "XXXX",
-            "cardType": "Visa",
-            "issuerNumber": "411111"
-          }
-        },
-        "originalNetworkTransId": "0TN1VE648DFCJSHQ81GZH9F",
-        "originalAuthAmount": 0,
-        "billTo": {
-          "phoneNumber": "000-000-0000",
-          "firstName": "John",
-          "lastName": "Doe",
-          "address": "123 Main St.",
-          "city": "Bellevue",
-          "state": "WA",
-          "zip": "98004",
-          "country": "US"
-        }
-      }, {
-        "customerPaymentProfileId": "86",
-        "payment": {
-          "creditCard": {
-            "cardNumber": "XXXX1111",
-            "expirationDate": "XXXX",
-            "cardType": "Visa",
-            "issuerNumber": "411111"
-          }
-        },
-        "originalNetworkTransId": "0STSMT7WLO5D80U0KJR4Z9A",
-        "originalAuthAmount": 0,
-        "customerType": "individual",
-        "billTo": {
-          "phoneNumber": "123-123-1235",
-          "firstName": "Customer FirstName",
-          "lastName": "Customer LastName",
-          "address": "123 Main St.",
-          "city": "Bellevue",
-          "state": "WA",
-          "zip": "98004",
-          "country": "US"
-        }
-      }
-    ],
-    "profileType": "regular",
-    "customerProfileId": "527262",
-    "merchantCustomerId": "MerchantCustID",
-    "description": "Profile description here",
-    "email": "customer-profile-email@here.com"
-  },
-  "messages": {
-    "resultCode": "Ok",
-    "message": [{
-        "code": "I00001",
-        "text": "Successful."
-      }
-    ]
+    return tmp;
   }
-}
 
-    */
-      return profiles; 
-    }
-
-    public static List<CreditCard> retrieveSavedCards(String customerProfileId) {        
     
-        Map<String,Map<String, String>> fetchedCards =  fetchUsersCards(customerProfileId);
-            
-        List<CreditCard> savedCards = new List<CreditCard> {};
-        for (Map<string,string> card : fetchedCards.values()) {
-            Integer id = Integer.valueOf(card.get('id'));
-            //List<String> dateParts = card.get('expirationDate').split('-');
-            //Integer year = Integer.valueOf(dateParts[0]);
-            //Integer month = Integer.valueOf(dateParts[1]);
-            String expDate = card.get('expirationDate');
-            String cardNum = card.get('cardNumber');
-            String firstName = card.get('firstName');
-            String lastName = card.get('lastName');
 
-            CreditCard theCard = new CreditCard(cardNum, expDate);
-            //theCard.setId(id);
 
-            savedCards.add(theCard);
-        }
-        return savedCards;
-    }
 
     public static List<SelectOption> toSelectOptions(List<CreditCard> cards) {
         System.debug('Input Cards: ' + cards);
@@ -230,25 +91,7 @@ public class CustomerPaymentProfile {
         return cardValues;
     }
 
-    public String deleteCustomerPaymentProfile(String customerProfileId){
-        //set up a client
-        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
-
     
-        //make the request message
-        DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest(this, customerProfileId);
-      
-        //send the request and receive the response
-        HttpResponseMessage resp = client.send(req);
-
-        //get the message from the response and parse
-        String body = resp.getBody();
-
-        AuthorizeDotNetResponse message = new AuthorizeDotNetResponse(body);
-       
-        //send resultCode
-        return message.getResultCode();
-    }
 
 
     public static CreditCard newCardFromPaymentMap(Map<String, Object> payment){
