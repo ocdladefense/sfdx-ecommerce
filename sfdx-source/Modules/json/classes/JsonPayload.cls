@@ -11,7 +11,7 @@ public class JsonPayload {
     }
 
 
-
+    /*
     public void writeObjectField(String fieldName, IOrderedMap obj) {
         gen.writeFieldName(fieldName);
         //JSONGenerator gen = JSON.createGenerator(true);
@@ -31,18 +31,32 @@ public class JsonPayload {
         }
         gen.writeEndObject();
     }
+    */
 
 
     public void writeObjectField(String fieldName, Object obj) {
-        gen.writeObjectField(fieldName, obj);
+
+        if(obj instanceof IOrderedMap) {
+            this.writeObjectFields(fieldName, (IOrderedMap)obj);
+        }
+        else gen.writeObjectField(fieldName, obj);
     }
 
-
     public void writeObjectFields(IOrderedMap obj) {
+        writeObjectFields(null, obj);
+    }
+
+  
+
+    public void writeObjectFields(String fieldName, IOrderedMap obj) {
 
         // Convert obj to a Map.
         Map<String,Object> it = obj.toMap();
         
+        if(null != fieldName) {
+            gen.writeFieldName(fieldName);
+            gen.writeStartObject();
+        }
         // iterate through the map calling gen.writeStringField() if value or if not value call gen.writeNullField()
         for(String key : obj.keySet()) {
 
@@ -51,7 +65,7 @@ public class JsonPayload {
             // Test the type of value:
             if(value instanceof IOrderedMap) {
                 System.debug('found authnet object');
-                this.writeObjectField(key, (IOrderedMap)value);  
+                this.writeObjectFields(key, (IOrderedMap)value);  
             } else if(value instanceof String) {
                 this.writeStringField(key, (String)value);
             } else if(value instanceof Integer) {
@@ -62,6 +76,10 @@ public class JsonPayload {
                 this.writeObjectField(key, value);
             }
 
+        }
+
+        if(null != fieldName) {
+            gen.writeEndObject();
         }
     }
 
