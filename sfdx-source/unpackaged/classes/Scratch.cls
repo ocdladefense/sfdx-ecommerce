@@ -60,7 +60,100 @@ public with sharing class Scratch {
     }
 
 
+    public createCustomerPaymentProfileRequest() {
 
+
+        
+        Address billTo = new Address('Jose', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
+        CreditCard card = new CreditCard('4111111111111111', '10/2014');
+
+        CustomerPaymentProfile profile = new CustomerPaymentProfile(card, billTo);
+
+        CreateCustomerPaymentProfileRequest req = new CreateCustomerPaymentProfileRequest(profile);
+
+        String result = req.getBody();
+
+        System.debug(result);
+    }
+
+
+public String deleteCustomerPaymentProfile(String customerProfileId){
+        //set up a client
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+
+    
+        //make the request message
+        DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest(this, customerProfileId);
+      
+        //send the request and receive the response
+        HttpResponseMessage resp = client.send(req);
+
+        //get the message from the response and parse
+        String body = resp.getBody();
+
+        AuthorizeDotNetResponse message = new AuthorizeDotNetResponse(body);
+       
+        //send resultCode
+        return message.getResultCode();
+    }
+
+//call to AuthorizeDotNet getCustomerProfileRequest to retrieve full profile with list of saved payment profiles
+    public static List<CustomerPaymentProfile> getPaymentProfileList(String customerProfileId){
+        
+        List<CustomerPaymentProfile> profiles = new List<CustomerPaymentProfile>();
+        
+        //set up a client
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+
+    
+        //make the request message
+        GetCustomerProfileRequest req = new GetCustomerProfileRequest(customerProfileId);
+      
+        //send the request and receive the response
+        HttpResponseMessage resp = client.send(req);
+
+        //get the message from the response and parse
+        String respBody = resp.getBody();
+       
+        Map<String, Object> body = (Map<String, Object>)JSON.deserializeUntyped(respBody);
+
+        //key is profile
+        Map<String, Object> soapProfile = (Map<String, Object>)body.get('profile');
+
+        //get list of payment profiles
+        List<Object> paymentProfiles = (List<Object>)soapProfile.get('paymentProfiles');
+        
+        //for each profile in the list, make a new profile object with billto and payment
+        //ignore "originalNetworkTransId" and 'originalAuthAmount'
+
+        for (Object p : paymentProfiles) {
+            //first hold paymentprofile id in variable
+            Map<String, Object> paymentProfile = (Map<String, Object>)p;
+            String customerPaymentProfileId = (String)paymentProfile.get('customerPaymentProfileId');
+
+            //next make new address and set the fields
+            Map<String, Object> billTo = (Map<String, Object>)paymentProfile.get('billTo');
+            Address theAddress = CustomerPaymentProfile.newAddressFromMap(billTo);
+            //next deserialize payment into a map string object
+            Map<String, Object> payment = (Map<String, Object>)paymentProfile.get('payment');
+            CreditCard theCard=CustomerPaymentProfile.newCardFromPaymentMap(payment);
+
+            //make new customerpayment profile
+            CustomerPaymentProfile profile = new CustomerPaymentProfile(theCard,theAddress);
+        //add to list of profiles
+            profiles.add(profile);
+        }
+        
+
+        //use AuthorizeDotNetResponse to parse messages
+ 
+        //deserialize 
+        //AuthorizeDotNetResponse message = new AuthorizeDotNetResponse(body);
+        
+        /*                                                               
+
+      return profiles; 
+    }
 
     public Scratch() {
 
