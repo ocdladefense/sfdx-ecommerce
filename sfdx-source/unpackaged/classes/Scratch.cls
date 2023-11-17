@@ -5,38 +5,8 @@
 
 
 public with sharing class Scratch {
-
-
-
-    public void createCustomerShippingAddressFromBaseClass() {
-
-        Address billTo = new Address('Jose', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
-        AuthorizeDotNetRequest req = new AuthorizeDotNetRequest('createCustomerShippingAddress');
-        req.put('customerProfileId', '1234');
-        req.put('address', billTo);
-        req.put('defaultShippingAddress',true);
-
-
-        String result = req.getBody();
-
-        System.debug(result);
-    }
-
-    public void createCustomerShippingAddress() {
-
-        Address billTo = new Address('Jose', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
-        CreateCustomerShippingAddressRequest req = new CreateCustomerShippingAddressRequest(billTo);
-        req.setCustomerProfileId('1234');
-        req.setAddress(billTo);
-        req.setDefaultShippingAddress(true);
-
-
-        String result = req.getBody();
-
-        System.debug(result);
-    }
-
-
+   
+    
 
     public void deleteCustomerPaymentProfile() {
 
@@ -58,6 +28,103 @@ public with sharing class Scratch {
 
         System.assert(resp.success());
     }
+
+    public void createCustomerShippingAddressFromBaseClass() {
+        string CUSTOMER_PROFILE_ID = '905372692';
+
+        Address billTo = new Address('Jose', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '90000');
+        AuthorizeDotNetRequest req = new AuthorizeDotNetRequest('createCustomerShippingAddress');
+        req.put('customerProfileId', CUSTOMER_PROFILE_ID);
+        req.put('address', billTo);
+        req.put('defaultShippingAddress',true);
+
+
+        String result = req.getBody();
+
+        System.debug(result);
+
+                // Instantiate the client.
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+
+        AuthorizeDotNetResponse resp = client.send(req);
+
+        System.debug(resp);
+
+        Messages messages= resp.getMessages();
+        Message message = messages.getFirstMessage();
+        System.debug(message.getText());
+
+
+    }
+
+    public void createCustomerShippingAddress() {
+
+        Address billTo = new Address('Jose', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
+        CreateCustomerShippingAddressRequest req = new CreateCustomerShippingAddressRequest(billTo);
+        req.setCustomerProfileId(CUSTOMER_PROFILE_ID);
+        req.setAddress(billTo);
+        req.setDefaultShippingAddress(true);
+
+
+        String result = req.getBody();
+
+        System.debug(result);
+    }
+
+    public void getCustomerShippingAddressFromBaseClass() {
+
+        AuthorizeDotNetRequest req = new AuthorizeDotNetRequest('getCustomerShippingAddress');
+        req.put('customerProfileId', '1234');
+        req.put('customerAddressId', '5678');
+
+        String result = req.getBody();
+
+        System.debug(result);
+    }
+
+    public void getCustomerShippingAddress() {
+
+        GetCustomerShippingAddressRequest req = new GetCustomerShippingAddressRequest();
+        req.setCustomerAddressId('5678');
+        req.setCustomerProfileId('1234');
+
+        String result = req.getBody();
+
+        System.debug(result);
+    }
+
+    public void updateCustomerShippingAddressFromBaseClass() {
+
+        AuthorizeDotNetRequest req = new AuthorizeDotNetRequest('updateCustomerShippingAddress');
+        req.put('customerProfileId', '1234');
+        Address newAddress = new Address('J.', 'Berna', '214 NW Monroe Ave', 'Albany', 'OR', '97330');
+        newAddress.setCompany('OCDLA');
+        //in order for request
+        req.put('customerProfileId', '1234');
+        req.put('address', newAddress);
+        req.put('defaultShippingAddress', false);
+       
+        String result = req.getBody();
+
+        System.debug(result);
+    }
+
+    public void updateCustomerShippingAddress() {
+
+        UpdateCustomerShippingAddressRequest req = new UpdateCustomerPaymentProfileRequest();
+        req.setCustomerProfileId('1234');
+        Address newAddress = new Address('J.', 'Berna', '214 NW Monroe Ave', 'Albany', 'OR', '97330');
+        newAddress.setCompany('OCDLA');
+        //in order for request
+        req.setAddress(newAddress);
+
+       
+        String result = req.getBody();
+
+        System.debug(result);
+    }
+
+
 
     public void createCustomerPaymentProfile() {
 

@@ -1,4 +1,4 @@
-public class CustomerProfile {
+public class CustomerProfile extends AuthorizeDotNetType{
     public List<CustomerPaymentProfile> paymentProfiles;
     public String profileType;
     public String customerProfileId;
@@ -7,7 +7,9 @@ public class CustomerProfile {
     public String email;
     
     public CustomerProfile() {
-
+        this.fields = new Set<String> {
+            'paymentProfiles', 'profileType', 'customerProfileId', 'merchantCustomerId','description','email'
+        };
     }
 
     public String getProfileType(){
@@ -30,5 +32,9 @@ public class CustomerProfile {
         return this.description;
     }
 
+    public List<CustomerPaymentProfile> getPaymentProfiles(){
+        return this.paymentProfiles;
+    }
+    
 
 }

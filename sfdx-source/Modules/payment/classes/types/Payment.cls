@@ -3,7 +3,9 @@ public class Payment extends AuthorizeDotNetType {
 
     public Payment(CreditCard card) {
         this.creditCard = card;
-        this.fields = new Set<String>{'creditCard'};
+        this.fields = new Set<String> {
+            'creditCard'
+        };
     }
 
     public CreditCard getCreditCard() {

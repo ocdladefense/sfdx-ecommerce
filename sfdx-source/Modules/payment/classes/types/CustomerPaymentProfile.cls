@@ -1,4 +1,4 @@
-public class CustomerPaymentProfile extends AuthorizeDotNetType {
+public class CustomerPaymentProfile extends AuthorizeDotNetType{
 
     private String customerPaymentProfileId;
 

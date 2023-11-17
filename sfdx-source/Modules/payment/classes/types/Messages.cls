@@ -16,6 +16,10 @@ public class Messages {
         return this.message;
     }
 
+    public Message getFirstMessage(){
+        return this.message[0];
+    }
+
     public void setResultCode(String resultCode){
         this.resultCode=resultCode;
     }
