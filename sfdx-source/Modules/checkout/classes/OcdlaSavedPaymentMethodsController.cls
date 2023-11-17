@@ -54,7 +54,7 @@ public class OcdlaSavedPaymentMethodsController {
     }
 
     
-    public PageReference editPaymentProfile(String customerProfileId) {
+    public PageReference editPaymentProfile() {
         
 
 
@@ -64,8 +64,8 @@ public class OcdlaSavedPaymentMethodsController {
     /*
     public PageReference deletePaymentProfile(String customerProfileId) {
         DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest();
-        req.setCustomerProfileId('905372692');
-        req.setCustomerPaymentProfileId('915360041');
+        req.setCustomerProfileId(customerProfileId);
+        req.setCustomerPaymentProfileId(selectedPaymentProfileId);
 
         AuthorizeDotNetResponse resp = client.send(req);
     }
