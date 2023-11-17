@@ -6,6 +6,7 @@ public class UpdateCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
     public String DEFAULT_PROFILE_ID = '905372692';
 
     public UpdateCustomerPaymentProfileRequest() {
+        super('updateCustomerPaymentProfile');
         // testMode: Card data is validated using simple mathematical checks to confirm that it appears to be valid
         this.validationMode = 'testMode';
     }

@@ -1,6 +1,4 @@
 public class CustomerPaymentProfile extends AuthorizeDotNetType {
-    
-    private String customerProfileId = '905372692';
 
     private String customerPaymentProfileId;
 
@@ -19,7 +17,7 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType {
 
 
     public CustomerPaymentProfile() {
-        this.fields = new Set<String>{'customerProfileId', 'customerPaymentProfileId','billTo','defaultPaymentProfile'};
+        this.fields = new Set<String>{'customerPaymentProfileId','billTo','payment','defaultPaymentProfile'};
     }
 
     public CustomerPaymentProfile(CreditCard card, Address billTo) {
@@ -30,7 +28,6 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType {
 
   public override Map<String,Object> toMap() {
     Map<String,Object> tmp = new Map<String,Object>();
-    tmp.put('customerProfileId', this.customerProfileId);
     tmp.put('payment', this.payment );
     tmp.put('billTo', this.billTo);
     tmp.put('defaultPaymentProfile', this.defaultPaymentProfile);
@@ -148,9 +145,7 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType {
         return payment;
     }
     
-    public String getCustomerProfileId() {
-        return this.customerProfileId;
-    }
+
 
     public Boolean getDefaultPaymentProfile() {
         return defaultPaymentProfile;
@@ -166,6 +161,10 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType {
 
     public void setPayment(Payment payment) {
         this.payment = payment;
+    }
+
+    public void setCard(CreditCard card) {
+        this.payment = new Payment(card);
     }
 
     public void setDefaultPaymentProfile (Boolean defaultPaymentProfile){

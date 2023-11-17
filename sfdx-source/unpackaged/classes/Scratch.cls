@@ -59,6 +59,31 @@ public with sharing class Scratch {
         System.assert(resp.success());
     }
 
+    public void createCustomerPaymentProfile() {
+
+        Address billTo = new Address('Jose', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
+
+        CreditCard card = new CreditCard('4111111111111111','11/2024');
+
+        CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile(card,billTo);
+        // Create an instance of the request object.
+        // Call the approppriate constructors,
+        // and any appropriate methods.
+        CreateCustomerPaymentProfileRequest req = new CreateCustomerPaymentProfileRequest(paymentProfile);
+        req.setCustomerProfileId('905372692');
+        
+
+       System.debug(req.getBody());
+
+        // Instantiate the client.
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+
+        AuthorizeDotNetResponse resp = client.send(req);
+
+        System.debug(resp.getBody());
+        System.assert(resp.success());
+    }
+
 
     public createCustomerPaymentProfileRequest() {
 
