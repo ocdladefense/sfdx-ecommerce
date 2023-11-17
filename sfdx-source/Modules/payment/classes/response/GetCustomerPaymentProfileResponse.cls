@@ -1,8 +1,10 @@
 public class GetCustomerPaymentProfileResponse extends AuthorizeDotNetResponse {
     
-    public GetCustomerPaymentProfileResponse() {
+    Map<String,Object> tmp = new Map<String,Object>();
 
-    }
+
+
+
 
     private Boolean defaultPaymentProfile;
     private String customerProfileId;
@@ -13,13 +15,22 @@ public class GetCustomerPaymentProfileResponse extends AuthorizeDotNetResponse {
     private Decimal originalAuthAmount;
     private Address billTo;
 
+    
     // Optional
     private String refId;
+
+
+    public GetCustomerPaymentProfileResponse() {
+        
+    }
+
+
 
     public override void deserialize() {
         super.deserialize();
         
-        Map<String, Object> createBody = this.temp;
+        Map<String, Object> createBody = (Map<String,Object>)JSON.deserializeUntyped(this.getBody());//this.getBody();
+        this.tmp = createBody;
 
         Boolean isDef = (Boolean) createBody.get('defaultPaymentProfile');
         String custProfileId = (String) createBody.get('customerProfileId');
@@ -42,7 +53,7 @@ public class GetCustomerPaymentProfileResponse extends AuthorizeDotNetResponse {
 
     public List<Map<String,Object>> getPaymentProfiles() {
         List<Map<String,Object>> payProfList = new List<Map<String,Object>>();
-        List<Object> paymentProfiles = (List<Object>)this.temp.get('paymentProfiles');
+        List<Object> paymentProfiles = (List<Object>)this.tmp.get('paymentProfiles');
 
         for(Object obj : paymentProfiles) {
             Map<String,Object> payment = (Map<String,Object>)obj;

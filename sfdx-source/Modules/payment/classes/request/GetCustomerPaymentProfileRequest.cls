@@ -5,7 +5,7 @@ public class GetCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
     public String DEFAULT_PROFILE_ID = '905372692';
 
     public GetCustomerPaymentProfileRequest() {
-        super();
+        super('getCustomerPaymentProfile');
     }
 
     public GetCustomerPaymentProfileRequest(CustomerPaymentProfile profile) {
@@ -41,26 +41,5 @@ public class GetCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
         this.customerProfileId = customerProfileId;
     }
 
-    public override Map<String,Object> getBodyAsNativeObject() {
-        Map<String,Object> obj = new Map<String,Object>();
 
-        obj.put('customerProfileId', this.customerProfileId);
-        obj.put('customerPaymentProfileId', this.customerPaymentProfileId);
-        if (this.includeIssuerInfo) {
-            obj.put('includeIssuerInfo', this.includeIssuerInfo);
-        }
-        return obj;
-    }
-
-    /*
-    public override String getBody() {
-        List<String> reqBody = new String[]{'{"customerProfileId": "' + '123445' + '", "customerPaymentProfileId": "' + '838347374774' + '"'};
-        if (this.includeIssuerInfo)
-            reqBody.add(', "includeIssuerInfo:" "' + 'Mhmm' +'"}');
-        else
-            reqBody.add('}');
-        //Boolean temp = this.includeIssuerInfo ? reqBody.add(', "includeIssuerInfo:" "' + 'Mhmm' +'"}') : reqBody.add('}');
-        return String.join(reqBody, '');
-    }
-    */
 }
