@@ -1,5 +1,5 @@
 public class Address extends AuthorizeDotNetType {
-    
+    private String customerAddressId;
     
     private String firstName;
 
@@ -40,7 +40,7 @@ public class Address extends AuthorizeDotNetType {
         this.zip = zip;
         this.country = country;
         this.fields = new Set<String> {
-            'firstName', 'lastName', 'address', 'city','state','zip','country','phoneNumber','faxNumber','email'
+            'firstName', 'lastName', 'address', 'city','state','zip','country','phoneNumber','faxNumber','email', 'customerAddressId'
         };
     }
   
