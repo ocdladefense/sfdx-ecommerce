@@ -20,11 +20,14 @@ public class CreateCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
         this.customerProfileId = customerProfileId;
     }
 
+    public void setPaymentProfile(CustomerPaymentProfile paymentProfile) {
+        this.paymentProfile = paymentProfile;
+    }
 
     public override Map<String,Object> toMap() {
         Map<String,Object> tmp = new Map<String,Object>();
-        tmp.put('paymentProfile', this.paymentProfile);
         tmp.put('customerProfileId', this.customerProfileId);
+        tmp.put('paymentProfile', this.paymentProfile);
 
         return tmp;
     }

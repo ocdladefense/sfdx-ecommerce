@@ -36,20 +36,33 @@ public class JsonPayload {
 
     public void writeObjectField(String fieldName, Object obj) {
 
-        if(obj instanceof IOrderedMap) {
-            this.writeObjectFields(fieldName, (IOrderedMap)obj);
+        if(obj instanceof AuthorizeDotNetType) {
+            this.writeObjectFields(fieldName, (AuthorizeDotNetType)obj);
         }
         else gen.writeObjectField(fieldName, obj);
+    }
+
+    public void writeObjectFields(AuthorizeDotNetType obj) {
+        writeObjectFields(null, obj);
     }
 
     public void writeObjectFields(IOrderedMap obj) {
         writeObjectFields(null, obj);
     }
 
-  
+    public void writeObjectFields(String fieldName, AuthorizeDotNetType obj) {
+        String primaryKeyFieldName = obj.getPrimaryKeyField();
+        String primaryKeyValue = obj.getPrimaryKeyValue();
+        IOrderedMap theMap = (IOrderedMap)obj;
+        if (primaryKeyValue == null) {
+            theMap.removeField(primaryKeyFieldName);
+        }
+
+        writeObjectFields(fieldName, theMap);
+    }
 
     public void writeObjectFields(String fieldName, IOrderedMap obj) {
-
+        
         // Convert obj to a Map.
         Map<String,Object> it = obj.toMap();
         
@@ -63,8 +76,11 @@ public class JsonPayload {
             Object value = it.get(key);
 
             // Test the type of value:
-            if(value instanceof IOrderedMap) {
+            if(value instanceof AuthorizeDotNetType) {
                 System.debug('found authnet object');
+                this.writeObjectFields(key, (AuthorizeDotNetType)value);  
+            } else if(value instanceof IOrderedMap) {
+                System.debug('found IOrderedMap object');
                 this.writeObjectFields(key, (IOrderedMap)value);  
             } else if(value instanceof String) {
                 this.writeStringField(key, (String)value);
@@ -82,8 +98,6 @@ public class JsonPayload {
             gen.writeEndObject();
         }
     }
-
-
 
 
 
