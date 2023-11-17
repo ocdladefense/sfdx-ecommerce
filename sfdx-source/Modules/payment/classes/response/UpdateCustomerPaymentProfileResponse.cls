@@ -12,8 +12,7 @@ public class UpdateCustomerPaymentProfileResponse extends AuthorizeDotNetRespons
     public override void deserialize() {
         super.deserialize();
 
-        Map<String, Object> updateBody = this.temp;
-
+        Map<String, Object> updateBody = (Map<String,Object>)JSON.deserializeUntyped(this.getBody());
         String validResp = (String)updateBody.get('validationDirectResponse');
         // Eventual getter and setting of messages once class is made.
         String refId = (String)updateBody.get('refId');
