@@ -92,6 +92,10 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
         
         System.Type t = Type.forName(responseType);
 
+        if(null == t) {
+            throw new AuthorizeDotNetException('RESPONSE_ERROR: The client could not determine the appropriate type to deserialize the response ('+responseType+')');
+        }
+
         AuthorizeDotNetResponse resp = (AuthorizeDotNetResponse)JSON.deserialize(respBodyString, t);
 
         
