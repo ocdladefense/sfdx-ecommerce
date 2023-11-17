@@ -80,6 +80,7 @@ public with sharing class Scratch {
 
         AuthorizeDotNetResponse resp = client.send(req);
 
+        System.debug(resp.getBody());
         System.assert(resp.success());
     }
 
