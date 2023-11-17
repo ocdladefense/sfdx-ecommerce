@@ -25,7 +25,7 @@ public with sharing class Scratch {
     public void createCustomerShippingAddressFromBaseClass() {
         string CUSTOMER_PROFILE_ID = '905372692';
 
-        Address billTo = new Address('Jose', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '90000');
+        Address billTo = new Address('Sebastian', 'Williams', '214 SW Commerce Way', 'Reno', 'NV', '89521');
         AuthorizeDotNetRequest req = new AuthorizeDotNetRequest('createCustomerShippingAddress');
         req.put('customerProfileId', CUSTOMER_PROFILE_ID);
         req.put('address', billTo);
@@ -44,7 +44,7 @@ public with sharing class Scratch {
         System.debug(resp);
 
         Messages messages= resp.getMessages();
-        Message message = messages.getMessage();
+        Message message = messages.getFirstMessage();
         System.debug(message.getText());
 
 
@@ -52,12 +52,38 @@ public with sharing class Scratch {
 
     public void createCustomerShippingAddress() {
 
-        Address billTo = new Address('Jose', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
+        Address billTo = new Address('Sebastian', 'Williams-Williams', '214 NW Circle Ave', 'Reno', 'NV', '89521');
         CreateCustomerShippingAddressRequest req = new CreateCustomerShippingAddressRequest(billTo);
-        req.setCustomerProfileId('1223');
+        req.setCustomerProfileId('905372692');
         req.setAddress(billTo);
         req.setDefaultShippingAddress(true);
 
+
+        String result = req.getBody();
+
+        System.debug(result);
+
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+
+        CreateCustomerShippingAddressResponse resp = (CreateCustomerShippingAddressResponse)client.send(req);
+
+        System.debug(resp);
+
+        Messages messages= resp.getMessages();
+      
+        Message firstMessage = messages.getFirstMessage();
+        system.debug(firstMessage.getText());
+        system.debug('new address id is: '+ resp.getCustomerAddressId());
+
+        //successfully added to Mara's sandbox 
+        //customerAddressId is 916143414
+    }
+
+    public void getCustomerShippingAddressFromBaseClass() {
+
+        AuthorizeDotNetRequest req = new AuthorizeDotNetRequest('getCustomerShippingAddress');
+        req.put('customerProfileId', '905372692');
+        req.put('customerAddressId', '916143414');
 
         String result = req.getBody();
 
@@ -70,19 +96,15 @@ public with sharing class Scratch {
         System.debug(resp);
 
         Messages messages= resp.getMessages();
-        Message message = messages.getMessage();
+        Message message = messages.getFirstMessage();
         System.debug(message.getText());
-    }
+       
+        Address address = (Address)JSON.deserialize(resp.getBody(), Address.class);
+        System.debug(address);
 
-    public void getCustomerShippingAddressFromBaseClass() {
+        //has null ref
 
-        AuthorizeDotNetRequest req = new AuthorizeDotNetRequest('getCustomerShippingAddress');
-        req.put('customerProfileId', '1234');
-        req.put('customerAddressId', '5678');
 
-        String result = req.getBody();
-
-        System.debug(result);
     }
 
     public void getCustomerShippingAddress() {
@@ -94,6 +116,37 @@ public with sharing class Scratch {
         String result = req.getBody();
 
         System.debug(result);
+
+
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+
+        GetCustomerShippingAddressResponse resp = (GetCustomerShippingAddressResponse)client.send(req);
+
+        System.debug(resp);
+
+        Messages messages= resp.getMessages();
+        Message message = messages.getFirstMessage();
+        System.debug(message.getText());
+       
+        Address address = resp.getAddress();
+        System.debug(address);
+
+        //also null object
+    }
+
+    public void deserializeGetCustomerShippingAddress(){
+        String theBody = '{"address":{"customerAddressId":"37457091","firstName":"China","lastName":"Bayles","company":"Thyme for Tea","address":"12 Main Street","city":"Pecan Springs","state":"TX","zip":"44628","country":"US"},"subscriptionIds":["3078184"],"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}' ;
+
+        GetCustomerShippingAddressResponse resp = new GetCustomerShippingAddressResponse(theBody);
+        resp.deserialize();
+
+        Address theAddress = resp.getAddress();
+        System.debug(theAddress);
+
+        List<String> subscriptions = resp.getSubscriptionIds();
+        System.debug(subscriptions);
+
+
     }
 
     public void updateCustomerShippingAddressFromBaseClass() {
@@ -131,9 +184,9 @@ public with sharing class Scratch {
 
     public void createCustomerPaymentProfile() {
 
-        Address billTo = new Address('Jose', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
+        Address billTo = new Address('Sebastian', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
 
-        CreditCard card = new CreditCard('4111111111111111','11/2024');
+        CreditCard card = new CreditCard('4111111111111122','11/2024');
 
         CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile(card,billTo);
         // Create an instance of the request object.
@@ -149,9 +202,13 @@ public with sharing class Scratch {
         AuthorizeDotNetClient client = new AuthorizeDotNetClient();
 
         AuthorizeDotNetResponse resp = client.send(req);
-
+        System.debug(resp);
         System.debug(resp.getBody());
-        System.assert(resp.success());
+        //System.assert(resp.success());
+        String newPaymentProfileId = (String)JSON.deserialize(resp.getBody(), String.class);
+        System.debug(newPaymentProfileId);
+
+
     }
 
 
