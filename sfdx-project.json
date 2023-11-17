@@ -28,10 +28,24 @@
       "versionName": "ver 0.1",
       "versionNumber": "0.1.0.NEXT",
       "default": false,
+      "versionDescription": ""
+    },
+    {
+      "path": "sfdx-source/Modules/authorizedotnet",
+      "package": "AuthorizeDotNet",
+      "versionName": "ver 0.1",
+      "versionNumber": "0.1.0.NEXT",
+      "default": false,
       "versionDescription": "",
       "dependencies": [
         {
             "package": "Http"
+        },
+        {
+            "package": "Json"
+        },
+        {
+            "package": "EcommercePayment"
         }
       ]
     },
