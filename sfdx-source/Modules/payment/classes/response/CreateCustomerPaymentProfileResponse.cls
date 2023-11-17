@@ -16,6 +16,11 @@ public class CreateCustomerPaymentProfileResponse extends AuthorizeDotNetRespons
     public override void deserialize() {
         super.deserialize();
 
+        // what if there is an error?  Well...
+
+        // we shouldn't do any of this.
+        
+
         Map<String, Object> createBody = new Map<String, Object>();
 
         String validResp = (String)createBody.get('validationDirectResponse');

@@ -73,10 +73,10 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
         breq.setBody(reqBody);
         
         if(null != req.getHeaders()) {
-        for(String key : req.getHeaders().keySet()) {
-            breq.setHeader(key, req.getHeader(key));
+            for(String key : req.getHeaders().keySet()) {
+                breq.setHeader(key, req.getHeader(key));
+            }
         }
-    }
 
 
         // System.debug(breq.getBody());
@@ -93,6 +93,8 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
         System.Type t = Type.forName(responseType);
 
         AuthorizeDotNetResponse resp = (AuthorizeDotNetResponse)JSON.deserialize(respBodyString, t);
+
+        
 
         return resp;
     }

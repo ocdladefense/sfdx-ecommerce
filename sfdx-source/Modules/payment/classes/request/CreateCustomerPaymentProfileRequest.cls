@@ -1,14 +1,18 @@
 public class CreateCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
+    
+    private CustomerPaymentProfile paymentProfile;
+
     private String customerProfileId;
-    private CustomerPaymentProfile profile;
+
 
     public CreateCustomerPaymentProfileRequest() {
-        super();
+        super('createCustomerPaymentProfileRequest');
+        this.fields = new Set<String>{'customerProfileId', 'paymentProfile'};
     }
 
-    public CreateCustomerPaymentProfileRequest(CustomerPaymentProfile profile) {
+    public CreateCustomerPaymentProfileRequest(CustomerPaymentProfile paymentProfile) {
         this();
-        this.profile = profile;
+        this.paymentProfile = paymentProfile;
         this.requestType = 'createCustomerPaymentProfile';
     }
 
@@ -16,5 +20,13 @@ public class CreateCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
         this.customerProfileId = customerProfileId;
     }
 
+
+    public override Map<String,Object> toMap() {
+        Map<String,Object> tmp = new Map<String,Object>();
+        tmp.put('paymentProfile', this.paymentProfile);
+        tmp.put('customerProfileId', this.customerProfileId);
+
+        return tmp;
+    }
 
 }
