@@ -5,8 +5,9 @@ public class OcdlaSavedPaymentMethodsController {
     public Payment paymentInfo {get; set;}
     public Boolean isDefaultPaymentMethod {get; set;}
     public List<CustomerPaymentProfile> paymentProfiles {get; set;}
+    public String selectedPaymentProfileId {get; set;}
     String customerProfileId = '905372692';
-    String selectedPaymentProfileId;
+    
 
 
     public OcdlaSavedPaymentMethodsController() {
