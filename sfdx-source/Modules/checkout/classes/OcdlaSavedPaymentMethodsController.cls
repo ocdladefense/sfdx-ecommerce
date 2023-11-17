@@ -17,12 +17,7 @@ public class OcdlaSavedPaymentMethodsController {
 
         paymentProfiles = new List<CustomerPaymentProfile>();
 
-        // For testing
         loadPaymentProfiles();
-
-        // Currently not working. 
-        // Error - Unauthorized endpoint, please check Setup->Security->Remote site settings. endpoint = https://appdev.ocdla.org/customer/905372692/cards
-        //paymentProfiles = CustomerPaymentProfile.getPaymentProfileList(customerProfileId);
         
     }
 
@@ -81,11 +76,13 @@ public class OcdlaSavedPaymentMethodsController {
         editPaymentProfile();
     }
 
-    /*
-    public List<CustomerPaymentProfile> getPaymentPaymentProfiles(String customerProfileId) {
-        
+    
+    public List<CustomerPaymentProfile> getPaymentPaymentProfiles() {
+        GetCustomerProfileRequest req = new GetCustomerProfileRequest(customerProfileId);
+
+        AuthorizeDotNetResponse resp = client.send(req);
     }
-    */
+    
 
     
 
@@ -103,6 +100,11 @@ public class OcdlaSavedPaymentMethodsController {
     }
 
     public void loadPaymentProfiles() {
+        paymentProfiles = getPaymentPaymentProfiles()
+
+
+
+        // For testing
         paymentProfiles = sampleCustomerPaymentProfileList();
         //paymentProfiles = sampleEmptyCustomerPaymentProfileList();
     }
