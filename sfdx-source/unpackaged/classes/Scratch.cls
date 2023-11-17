@@ -167,7 +167,7 @@ public with sharing class Scratch {
 
     public void updateCustomerShippingAddress() {
 
-        UpdateCustomerShippingAddressRequest req = new UpdateCustomerPaymentProfileRequest();
+        UpdateCustomerShippingAddressRequest req = new UpdateCustomerShippingAddressRequest();
         req.setCustomerProfileId('1234');
         Address newAddress = new Address('J.', 'Berna', '214 NW Monroe Ave', 'Albany', 'OR', '97330');
         newAddress.setCompany('OCDLA');

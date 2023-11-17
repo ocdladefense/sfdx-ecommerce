@@ -1,28 +1,28 @@
-public class Address extends AuthorizeDotNetType {
+public virtual class Address extends AuthorizeDotNetType {
     
     
-    private String firstName;
+    protected String firstName;
 
-    private String lastName;
+    protected String lastName;
 
     //company used in shipping address requests
-    private String company;
+    protected String company;
 
-    private String address;
+    protected String address;
 
-    private String city;
+    protected String city;
 
-    private String state;
+    protected String state;
 
-    private String zip;
+    protected String zip;
 
-    private String country;
+    protected String country;
 
-    private String phoneNumber;
+    protected String phoneNumber;
 
-    private String faxNumber;
+    protected String faxNumber;
 
-    private String email;
+    protected String email;
 
     private static final String DEFAULT_COUNTRY_CODE = 'US';
 
