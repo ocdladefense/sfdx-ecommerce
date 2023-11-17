@@ -1,12 +1,5 @@
 
-
-
-
-
-
 public with sharing class Scratch {
-   
-    
 
     public void deleteCustomerPaymentProfile() {
 
@@ -51,7 +44,7 @@ public with sharing class Scratch {
         System.debug(resp);
 
         Messages messages= resp.getMessages();
-        Message message = messages.getFirstMessage();
+        Message message = messages.getMessage();
         System.debug(message.getText());
 
 
@@ -61,7 +54,7 @@ public with sharing class Scratch {
 
         Address billTo = new Address('Jose', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
         CreateCustomerShippingAddressRequest req = new CreateCustomerShippingAddressRequest(billTo);
-        req.setCustomerProfileId(CUSTOMER_PROFILE_ID);
+        req.setCustomerProfileId('1223');
         req.setAddress(billTo);
         req.setDefaultShippingAddress(true);
 
@@ -69,6 +62,16 @@ public with sharing class Scratch {
         String result = req.getBody();
 
         System.debug(result);
+
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+
+        AuthorizeDotNetResponse resp = client.send(req);
+
+        System.debug(resp);
+
+        Messages messages= resp.getMessages();
+        Message message = messages.getMessage();
+        System.debug(message.getText());
     }
 
     public void getCustomerShippingAddressFromBaseClass() {
@@ -242,54 +245,15 @@ public String deleteCustomerPaymentProfile(String customerProfileId){
         //deserialize 
         //AuthorizeDotNetResponse message = new AuthorizeDotNetResponse(body);
         
-        /*                                                               
+                                                                     
 
       return profiles; 
     }
 
     public Scratch() {
-
-
-
-        String getRequestString = '{"getCustomerProfileRequest": {"merchantAuthentication": {"name": "6gSVxaYj397","transactionKey": "6FR49pDH5Jjum58g"},"customerProfileId": "905372692","includeIssuerInfo": "true"}}';
-
-        String fromDoc = '{ "authenticateTestRequest": { "merchantAuthentication": {"name": "6gSVxaYj397", "transactionKey": "6FR49pDH5Jjum58g" }}}';
-
-        Http client4 = new Http();
-        //HttpRequestMessage req4 = new HttpRequestMessage();
-        HttpRequest req4 = new HttpRequest();
-
-        req4.setEndpoint('https://apitest.authorize.net/xml/v1/request.api');
-        req4.setMethod('POST');
-        req4.setHeader('Content-Type', 'application/json');
-        req4.setBody(getRequestString);
-
-        HttpResponse resp4 = client4.send(req4);
-        //AuthorizeDotNetRespone resp4 = (AuthorizeDotNetRespone)client4.send(req4);
-
-        system.debug(resp4);
-
-        //should be done in client
-        String respBodyString = resp4.getBody().replace('\uFEFF', '');
-        //String respBodyString = resp4.getBody();
-        //System.debug('is alphanumeric '+ respBody4.isAlphanumeric());
-        GetC authResp = new AuthorizeDotNetResponse(respBodyString);
-        authResp.deserialize();
-        System.debug(authResp);
-        System.debug('get text is '+ authResp.getText());
-
-
-        //    if(!this.body.isAlphanumeric()){
-        //    this.body = this.body.replace('\uFEFF', '');
-        //    System.debug('entered if');
-        // }
-
     }
 
-
-    /*
-
-
+/*
 The documentation for {!list} is for the VisualForce Standard List Controller. This controller is available to the page if recordSetVars is included as an attribute on the apex:page
 
 list : Returns a PageReference object of the standard list page, based on the most recently used list filter for that object when the filterId is not specified by the user.

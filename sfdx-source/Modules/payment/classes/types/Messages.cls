@@ -1,12 +1,21 @@
-public class Messages {
+public class Messages extends AuthorizeDotNetType{
 
     protected String resultCode;
 
     protected List<Message> message;
     
     public Messages() {
-
+        this.fields = new Set<String> {
+            'resultCode', 'message'
+        };
     }
+
+    public override Map<String,Object> toMap() {
+        Map<String,Object> tmp = new Map<String,Object>();
+        tmp.put('resultCode', this.resultCode );
+        tmp.put('message', this.message);
+        return tmp;
+      }
 
     public String getResultCode (){
         return resultCode;
