@@ -6,7 +6,7 @@ public class OcdlaSavedPaymentMethodsController {
     public Boolean isDefaultPaymentMethod {get; set;}
     public List<CustomerPaymentProfile> paymentProfiles {get; set;}
     String customerProfileId = '905372692';
-    String paymentProfileId;
+    String selectedPaymentProfileId;
 
 
     public OcdlaSavedPaymentMethodsController() {
@@ -53,11 +53,15 @@ public class OcdlaSavedPaymentMethodsController {
         return new PageReference('/apex/OcdlaSavedPaymentMethods');
     }
 
-    /*
+    
     public PageReference editPaymentProfile(String customerProfileId) {
         
+
+
+        return new PageReference('/apex/OcdlaSavedPaymentMethods');
     }
 
+    /*
     public PageReference deletePaymentProfile(String customerProfileId) {
         DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest();
         req.setCustomerProfileId('905372692');
@@ -80,6 +84,10 @@ public class OcdlaSavedPaymentMethodsController {
 
     public PageReference redirectToAddPaymentMethod() {
         return new PageReference('/apex/OcdlaAddPaymentMethod');
+    }
+
+    public PageReference redirectToEditPaymentMethod() {
+        return new PageReference('/apex/OcdlaEditPaymentMethod');
     }
 
     public PageReference redirectToSavedPaymentMethods() {
