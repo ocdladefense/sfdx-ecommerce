@@ -32,6 +32,7 @@ public class Address extends AuthorizeDotNetType {
     }
 
     public Address(String firstName, String lastName, String address, String city, String state, String zip, String country) {
+        this.primaryKeyField = 'customerAddressId';
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;

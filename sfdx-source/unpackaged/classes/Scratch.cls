@@ -79,38 +79,23 @@ public with sharing class Scratch {
         // and any appropriate methods.
         CreateCustomerPaymentProfileRequest req = new CreateCustomerPaymentProfileRequest(paymentProfile);
         req.setCustomerProfileId('905372692');
-    
+        System.debug(req.getBody());
 
         // Instantiate the client.
         AuthorizeDotNetClient client = new AuthorizeDotNetClient();
 
-        AuthorizeDotNetResponse resp = client.send(req);
+        CreateCustomerPaymentProfileResponse resp = (CreateCustomerPaymentProfileResponse)client.send(req);
 
         System.debug(resp.getBody());
+        System.debug(resp.getCustomerProfileId());
+        System.debug(resp.getCustomerPaymentProfileId());
+
         System.assert(resp.success());
     }
 
 
 
-    public String deleteCustomerPaymentProfile() {
-        //set up a client
-        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
 
-    
-        //make the request message
-        DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest(this, customerProfileId);
-      
-        //send the request and receive the response
-        HttpResponseMessage resp = client.send(req);
-
-        //get the message from the response and parse
-        String body = resp.getBody();
-
-        AuthorizeDotNetResponse message = new AuthorizeDotNetResponse(body);
-       
-        //send resultCode
-        return message.getResultCode();
-    }
 
     //call to AuthorizeDotNet getCustomerProfileRequest to retrieve full profile with list of saved payment profiles
     public static List<CustomerPaymentProfile> getPaymentProfileList(String customerProfileId){

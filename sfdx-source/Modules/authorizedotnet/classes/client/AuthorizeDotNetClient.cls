@@ -98,7 +98,7 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
         }
 
         AuthorizeDotNetResponse resp = (AuthorizeDotNetResponse)JSON.deserialize(respBodyString, t);
-
+        resp.setBody(respBodyString);
         
 
         return resp;

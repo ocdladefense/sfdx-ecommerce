@@ -11,28 +11,6 @@ public class JsonPayload {
     }
 
 
-    /*
-    public void writeObjectField(String fieldName, IOrderedMap obj) {
-        gen.writeFieldName(fieldName);
-        //JSONGenerator gen = JSON.createGenerator(true);
-        gen.writeStartObject();
-        // serialize address object into a String
-        Map<String,Object> it = obj.toMap();
-        // iterate through the map calling gen.writeStringField() if value or if not value call gen.writeNullField()
-        for(String key : obj.keySet()) {
-            String value = (String)it.get(key);
-            if(null == value) {
-                gen.writeNullField(key);
-            }
-            else {
-                gen.writeStringField(key, value);
-            }
-
-        }
-        gen.writeEndObject();
-    }
-    */
-
 
     public void writeObjectField(String fieldName, Object obj) {
 
@@ -74,7 +52,7 @@ public class JsonPayload {
         for(String key : obj.keySet()) {
 
             Object value = it.get(key);
-
+            System.debug(key);
             // Test the type of value:
             if(value instanceof AuthorizeDotNetType) {
                 System.debug('found authnet object');
@@ -82,11 +60,18 @@ public class JsonPayload {
             } else if(value instanceof IOrderedMap) {
                 System.debug('found IOrderedMap object');
                 this.writeObjectFields(key, (IOrderedMap)value);  
+            } else if(value instanceof Boolean) {
+                System.debug('found boolean');
+                if(value == null) continue;
+                this.writeBooleanField(key, (Boolean)value); 
             } else if(value instanceof String) {
+                System.debug('string');
                 this.writeStringField(key, (String)value);
             } else if(value instanceof Integer) {
+                System.debug('integer');
                 this.writeNumberField(key, (Integer)value);
             } else if(null == value) {
+
                 this.gen.writeNullField(key);
             } else {
                 this.writeObjectField(key, value);

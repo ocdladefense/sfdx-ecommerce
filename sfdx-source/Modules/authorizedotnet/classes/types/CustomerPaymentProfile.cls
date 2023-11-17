@@ -29,8 +29,10 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType {
     Map<String,Object> tmp = new Map<String,Object>();
     tmp.put('payment', this.payment );
     tmp.put('billTo', this.billTo);
-    tmp.put('defaultPaymentProfile', this.defaultPaymentProfile);
 
+    if(null == this.defaultPaymentProfile) {
+        this.removeField('defaultPaymentProfile');
+    }
     return tmp;
   }
 
