@@ -1,5 +1,5 @@
 <apex:page controller="OcdlaSavedPaymentMethodsController">
-    
+    <apex:outputText value="{!selectedPaymentProfileId}" /> <!-- For testing -->
     <apex:form id="paymentMethod">
         <apex:pageBlock title="Edit Payment Method">
             <apex:pageBlockSection title="Billing Information" columns="2">
