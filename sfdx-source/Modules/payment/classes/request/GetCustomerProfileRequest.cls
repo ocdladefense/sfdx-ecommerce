@@ -5,7 +5,7 @@ public class GetCustomerProfileRequest extends AuthorizeDotNetRequest {
   
 
     public GetCustomerProfileRequest() {
-        super();
+        super('getCustomerProfile');
     }
     public GetCustomerProfileRequest(String customerProfileId){
         this();
@@ -22,14 +22,7 @@ public class GetCustomerProfileRequest extends AuthorizeDotNetRequest {
       
 
     }
-    public override Map<String,Object> getBodyAsNativeObject(){
-        Map<String,Object> obj = new Map<String,Object>();
 
-        obj.put('customerProfileId', this.customerProfileId);
-        obj.put('includeIssuerInfo', this.includeIssuerInfo);
-        return obj;
-    }
-    //would this be called in any other way?
 
     public void setCustomerProfileId(String customerProfileId) {
         this.customerProfileId = customerProfileId;
