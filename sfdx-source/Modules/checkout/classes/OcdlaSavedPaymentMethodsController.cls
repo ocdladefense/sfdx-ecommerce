@@ -6,6 +6,7 @@ public class OcdlaSavedPaymentMethodsController {
     public Boolean isDefaultPaymentMethod {get; set;}
     public List<CustomerPaymentProfile> paymentProfiles {get; set;}
     String customerProfileId = '905372692';
+    String paymentProfileId;
 
 
     public OcdlaSavedPaymentMethodsController() {
@@ -33,10 +34,10 @@ public class OcdlaSavedPaymentMethodsController {
         paymentProfile.setDefaultPaymentProfile(isDefaultPaymentMethod);
 
         // Create request
-        CreateCustomerPaymentProfileRequest createRequest = new CreateCustomerPaymentProfileRequest(paymentProfile);
+        CreateCustomerPaymentProfileRequest req = new CreateCustomerPaymentProfileRequest(paymentProfile);
         
         // Send request
-        AuthorizeDotNetResponse resp = client.send(createRequest);
+        AuthorizeDotNetResponse resp = client.send(req);
 
         // Handle the response
         if (resp.success()) {
@@ -58,13 +59,23 @@ public class OcdlaSavedPaymentMethodsController {
     }
 
     public PageReference deletePaymentProfile(String customerProfileId) {
-        
+        DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest();
+        req.setCustomerProfileId('905372692');
+        req.setCustomerPaymentProfileId('915360041');
+
+        AuthorizeDotNetResponse resp = client.send(req);
     }
 
     public PageReference setDefaultPaymentProfile(String customerProfileId) {
         
     }
+
+    public List<CustomerPaymentProfile> getPaymentPaymentProfiles(String customerProfileId) {
+        
+    }
     */
+
+    
 
 
     public PageReference redirectToAddPaymentMethod() {
