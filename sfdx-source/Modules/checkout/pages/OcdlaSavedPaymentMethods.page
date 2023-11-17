@@ -17,10 +17,9 @@
                         </apex:commandLink>
                     </apex:column>
                     <apex:column>
-                        Test delete
-                        <!-- <apex:commandLink value="Delete" action="{!deletePaymentProfile}" rerender="pageBlock">
-                            <apex:param name="profileId" value="{!profile.Id}" />
-                        </apex:commandLink> -->
+                        <apex:commandLink value="Delete" action="{!deletePaymentProfile}" rerender="pageBlock">
+                            <apex:param name="paymentProfileId" value="{!profile.customerPaymentProfileId}" assignTo="{!selectedPaymentProfileId}" />
+                        </apex:commandLink>
                     </apex:column>
                     <apex:column>
                         Test setDefault

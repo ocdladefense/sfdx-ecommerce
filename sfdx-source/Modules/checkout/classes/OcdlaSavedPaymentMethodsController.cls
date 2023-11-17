@@ -1,15 +1,15 @@
 public class OcdlaSavedPaymentMethodsController {
     
     AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+    String customerProfileId = '905372692';
+
     public Address billingInfo {get; set;}
     public Payment paymentInfo {get; set;}
     public Boolean isDefaultPaymentMethod {get; set;}
     public List<CustomerPaymentProfile> paymentProfiles {get; set;}
     public String selectedPaymentProfileId {get; set;}
-    String customerProfileId = '905372692';
     
-
-
+    
     public OcdlaSavedPaymentMethodsController() {
         billingInfo = new Address();
         paymentInfo = new Payment();
@@ -28,10 +28,10 @@ public class OcdlaSavedPaymentMethodsController {
 
     // Calls CreatePaymentProfile
     
-    public PageReference addPaymentProfile() {
-        
-        CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile(paymentInfo.getCreditCard(), billingInfo);
+    public void addPaymentProfile() {
         /*
+        CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile(paymentInfo.getCreditCard(), billingInfo);
+        
         paymentProfile.setDefaultPaymentProfile(isDefaultPaymentMethod);
 
         // Create request
@@ -51,30 +51,37 @@ public class OcdlaSavedPaymentMethodsController {
             return null; // Stays on the current page
         }
         */
-        return new PageReference('/apex/OcdlaSavedPaymentMethods');
     }
 
     
-    public PageReference editPaymentProfile() {
+    public void editPaymentProfile() {
+        /*
+        CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile(paymentInfo.getCreditCard(), billingInfo);
+        paymentProfile.setCustomerPaymentProfileId(selectedPaymentProfileId);
+        paymentProfile.setDefaultPaymentProfile(isDefaultPaymentMethod);
+
+        UpdateCustomerPaymentProfileRequest req = new UpdateCustomerPaymentProfileRequest(paymentProfile);
         
-
-
-        return new PageReference('/apex/OcdlaSavedPaymentMethods');
+        AuthorizeDotNetResponse resp = client.send(req);
+        */
     }
 
-    /*
-    public PageReference deletePaymentProfile(String customerProfileId) {
+    
+    public void deletePaymentProfile() {
+        /*
         DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest();
         req.setCustomerProfileId(customerProfileId);
         req.setCustomerPaymentProfileId(selectedPaymentProfileId);
 
         AuthorizeDotNetResponse resp = client.send(req);
+        */
     }
 
-    public PageReference setDefaultPaymentProfile(String customerProfileId) {
-        
+    public void setDefaultPaymentProfile() {
+        editPaymentProfile();
     }
 
+    /*
     public List<CustomerPaymentProfile> getPaymentPaymentProfiles(String customerProfileId) {
         
     }
