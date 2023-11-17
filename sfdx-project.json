@@ -3,10 +3,6 @@
   "namespace": "",
   "packageDirectories": [
     {
-      "path": "sfdx-source",
-      "default": true
-    },
-    {
       "path": "sfdx-source/Modules/http",
       "package": "Http",
       "versionName": "ver 0.1",
@@ -28,10 +24,24 @@
       "versionName": "ver 0.1",
       "versionNumber": "0.1.0.NEXT",
       "default": false,
+      "versionDescription": ""
+    },
+    {
+      "path": "sfdx-source/Modules/authorizedotnet",
+      "package": "AuthorizeDotNet",
+      "versionName": "ver 0.1",
+      "versionNumber": "0.1.0.NEXT",
+      "default": false,
       "versionDescription": "",
       "dependencies": [
         {
             "package": "Http"
+        },
+        {
+            "package": "Json"
+        },
+        {
+            "package": "EcommercePayment"
         }
       ]
     },
@@ -60,6 +70,10 @@
             "package": "EcommercePayment"
         }
       ]
+    },
+    {
+      "path": "sfdx-source",
+      "default": true
     }
   ],
   "sfdcLoginUrl": "https://test.salesforce.com",
