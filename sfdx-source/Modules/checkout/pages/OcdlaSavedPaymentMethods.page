@@ -12,8 +12,7 @@
                     <apex:column value="{!profile.payment.creditCard.cardNumber}" headerValue="Card Number"/>
                     <apex:column value="{!profile.payment.creditCard.expirationDate}" headerValue="Expiration Date"/>
                     <apex:column>
-                        Test edit
-                        <apex:commandLink value="Edit" action="{!redirectToEditPaymentMethod}" rerender="pageBlock">
+                        <apex:commandLink value="Edit" action="{!redirectToEditPaymentMethod}">
                             <apex:param name="paymentProfileId" value="{!profile.customerPaymentProfileId}" assignTo="{!selectedPaymentProfileId}" />
                         </apex:commandLink>
                     </apex:column>
