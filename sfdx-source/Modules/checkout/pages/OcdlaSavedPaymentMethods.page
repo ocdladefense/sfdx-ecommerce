@@ -24,6 +24,7 @@
                     <apex:column>
                         <apex:commandLink value="Set Default" action="{!setDefaultPaymentProfile}" rerender="pageBlock" rendered="{!IF(!profile.defaultPaymentProfile, true, false)}">
                             <apex:param name="paymentProfileId" value="{!profile.customerPaymentProfileId}" assignTo="{!selectedPaymentProfileId}" />
+                            <apex:param name="isDefaultPaymentMethod" value="true" assignTo="{!isDefaultPaymentMethod}" />
                         </apex:commandLink>
                         <apex:outputText value="Default payment method" rendered="{!IF(profile.defaultPaymentProfile, true, false)}"/>
                     </apex:column>

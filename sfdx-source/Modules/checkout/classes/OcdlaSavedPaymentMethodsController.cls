@@ -113,6 +113,7 @@ public class OcdlaSavedPaymentMethodsController {
         //paymentProfiles = sampleEmptyCustomerPaymentProfileList();
     }
 
+    // Test method
     public List<CustomerPaymentProfile> sampleCustomerPaymentProfileList(){
         List<CustomerPaymentProfile> profiles = new List<CustomerPaymentProfile>();
 
@@ -150,6 +151,7 @@ public class OcdlaSavedPaymentMethodsController {
         return profiles;
     } 
 
+    // Test method
     public List<CustomerPaymentProfile> sampleEmptyCustomerPaymentProfileList() {
         List<CustomerPaymentProfile> profiles = new List<CustomerPaymentProfile>();
         return profiles;
