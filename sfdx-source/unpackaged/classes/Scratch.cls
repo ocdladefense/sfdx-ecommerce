@@ -79,9 +79,7 @@ public with sharing class Scratch {
         // and any appropriate methods.
         CreateCustomerPaymentProfileRequest req = new CreateCustomerPaymentProfileRequest(paymentProfile);
         req.setCustomerProfileId('905372692');
-        
-
-       System.debug(req.getBody());
+    
 
         // Instantiate the client.
         AuthorizeDotNetClient client = new AuthorizeDotNetClient();
@@ -94,7 +92,7 @@ public with sharing class Scratch {
 
 
 
-    public String deleteCustomerPaymentProfile(String customerProfileId){
+    public String deleteCustomerPaymentProfile() {
         //set up a client
         AuthorizeDotNetClient client = new AuthorizeDotNetClient();
 

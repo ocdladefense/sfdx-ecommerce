@@ -3,10 +3,6 @@
   "namespace": "",
   "packageDirectories": [
     {
-      "path": "sfdx-source",
-      "default": true
-    },
-    {
       "path": "sfdx-source/Modules/http",
       "package": "Http",
       "versionName": "ver 0.1",
@@ -74,6 +70,10 @@
             "package": "EcommercePayment"
         }
       ]
+    },
+    {
+      "path": "sfdx-source",
+      "default": true
     }
   ],
   "sfdcLoginUrl": "https://test.salesforce.com",

@@ -70,11 +70,11 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
         this.messages = messages;
     }
 
-    //-------------End new methods
+    //-------------End new metho                                                    ds
 
 
     public Boolean success(){
-        return this.messages.getResultCode()==RESPONSE_SUCCESS;
+        return this.messages.getResultCode() == RESPONSE_SUCCESS;
     }
 
 
