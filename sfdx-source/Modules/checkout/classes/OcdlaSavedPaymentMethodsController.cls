@@ -77,10 +77,14 @@ public class OcdlaSavedPaymentMethodsController {
     }
 
     
-    public List<CustomerPaymentProfile> getPaymentPaymentProfiles() {
+    public void getPaymentPaymentProfiles() {
+        /*
         GetCustomerProfileRequest req = new GetCustomerProfileRequest(customerProfileId);
 
         AuthorizeDotNetResponse resp = client.send(req);
+
+        // get the payment profiles out of the response and add to paymentProfiles
+        */
     }
     
 
@@ -100,7 +104,7 @@ public class OcdlaSavedPaymentMethodsController {
     }
 
     public void loadPaymentProfiles() {
-        paymentProfiles = getPaymentPaymentProfiles()
+        //getPaymentPaymentProfiles();
 
 
 

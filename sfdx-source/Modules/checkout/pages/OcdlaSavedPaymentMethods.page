@@ -22,17 +22,17 @@
                         </apex:commandLink>
                     </apex:column>
                     <apex:column>
-                        Test setDefault
-                        <!-- <apex:commandLink value="Set Default" action="{!setDefaultPaymentProfile}" rerender="pageBlock">
-                            <apex:param name="profileId" value="{!profile.Id}" />
-                        </apex:commandLink> -->
+                        <apex:commandLink value="Set Default" action="{!setDefaultPaymentProfile}" rerender="pageBlock" rendered="{!IF(!profile.defaultPaymentProfile, true, false)}">
+                            <apex:param name="paymentProfileId" value="{!profile.customerPaymentProfileId}" assignTo="{!selectedPaymentProfileId}" />
+                        </apex:commandLink>
+                        <apex:outputText value="Default payment method" rendered="{!IF(profile.defaultPaymentProfile, true, false)}"/>
                     </apex:column>
                 </apex:pageBlockTable>
             </apex:pageBlock>
         </apex:outputPanel>
         <apex:outputPanel rendered="{!IF(paymentProfiles.size == 0, true, false)}">
             <apex:pageBlock>
-                <apex:commandLink action="{!redirectToAddPaymentMethod}" value="Add Payment Method" styleClass="addPaymentMethodLink"/>
+                <apex:commandLink action="{!redirectToAddPaymentMethod}" value="Add Payment Method"/>
             </apex:pageBlock>
         </apex:outputPanel>
     </apex:form>
