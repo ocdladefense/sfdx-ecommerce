@@ -7,7 +7,7 @@
 public with sharing class Scratch {
 
 
-
+    
     public void createCustomerShippingAddressFromBaseClass() {
 
         Address billTo = new Address('Jose', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
@@ -58,6 +58,49 @@ public with sharing class Scratch {
 
         System.assert(resp.success());
     }
+
+    public void getCustomerShippingAddressFromBaseClass() {
+
+        AuthorizeDotNetRequest req = new AuthorizeDotNetRequest('getCustomerShippingAddress');
+        req.put('customerProfileId', '1234');
+        req.put('customerAddressId', '5678');
+
+        String result = req.getBody();
+
+        System.debug(result);
+    }
+
+    public void updateCustomerShippingAddressFromBaseClass() {
+
+        UpdateCustomerShippingAddressRequest req = new UpdateCustomerPaymentProfileRequest();
+        req.setCustomerProfileId('1234');
+        Address newAddress = new Address('J.', 'Berna', '214 NW Monroe Ave', 'Albany', 'OR', '97330');
+        newAddress.setCompany('OCDLA');
+        //in order for request
+        req.setAddress(newAddress);
+
+       
+        String result = req.getBody();
+
+        System.debug(result);
+    }
+
+    public void updateCustomerShippingAddress() {
+
+        AuthorizeDotNetRequest req = new AuthorizeDotNetRequest('updateCustomerShippingAddress');
+        req.put('customerProfileId', '1234');
+        Address newAddress = new Address('J.', 'Berna', '214 NW Monroe Ave', 'Albany', 'OR', '97330');
+        newAddress.setCompany('OCDLA');
+        //in order for request
+        req.put('customerProfileId', '1234');
+        req.put('address', newAddress);
+        req.put('defaultShippingAddress', false);
+       
+        String result = req.getBody();
+
+        System.debug(result);
+    }
+
 
 
 

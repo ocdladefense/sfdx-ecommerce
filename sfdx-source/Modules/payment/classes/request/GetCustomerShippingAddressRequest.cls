@@ -12,9 +12,9 @@ public class GetCustomerShippingAddressRequest extends AuthorizeDotNetRequest{
             'customerProfileId', 'customerAddressId'
         };
     }
-    public GetCustomerShippingAddressRequest(String customerProfileId) {
+    public GetCustomerShippingAddressRequest(String customerAddressId) {
         this();
-        this.customerProfileId=customerProfileId;
+        this.customerAddressId=customerAddressId;
     }
 
     public void setCustomerProfileId(String customerProfileId) {
