@@ -2,7 +2,7 @@
     <apex:form id="paymentForm">
         <apex:outputPanel rendered="{!IF(paymentProfiles.size != 0, true, false)}">
             <apex:pageBlock>
-                <apex:commandLink action="{!redirectToOcdlaAddPaymentMethod}" value="Add Payment Method" styleClass="addPaymentMethodLink"/>
+                <apex:commandLink action="{!redirectToAddPaymentMethod}" value="Add Payment Method" styleClass="addPaymentMethodLink"/>
             </apex:pageBlock>
             <apex:pageBlock title="Saved Payment Methods">
                 <apex:pageBlockTable value="{!paymentProfiles}" var="profile">
@@ -34,7 +34,7 @@
         </apex:outputPanel>
         <apex:outputPanel rendered="{!IF(paymentProfiles.size == 0, true, false)}">
             <apex:pageBlock>
-                <apex:commandLink action="{!redirectToOcdlaAddPaymentMethod}" value="Add Payment Method" styleClass="addPaymentMethodLink"/>
+                <apex:commandLink action="{!redirectToAddPaymentMethod}" value="Add Payment Method" styleClass="addPaymentMethodLink"/>
             </apex:pageBlock>
         </apex:outputPanel>
     </apex:form>

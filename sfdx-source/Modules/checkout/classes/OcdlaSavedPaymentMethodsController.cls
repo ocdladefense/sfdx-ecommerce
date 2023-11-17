@@ -29,6 +29,7 @@ public class OcdlaSavedPaymentMethodsController {
     public PageReference addPaymentProfile() {
         
         CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile(paymentInfo.getCreditCard(), billingInfo);
+        /*
         paymentProfile.setDefaultPaymentProfile(isDefaultPaymentMethod);
 
         // Create request
@@ -47,6 +48,8 @@ public class OcdlaSavedPaymentMethodsController {
 
             return null; // Stays on the current page
         }
+        */
+        return new PageReference('/apex/OcdlaSavedPaymentMethods');
     }
 
     /*
@@ -65,11 +68,11 @@ public class OcdlaSavedPaymentMethodsController {
 
 
     public PageReference redirectToAddPaymentMethod() {
-        return new PageReference('/apex/AddPaymentMethod');
+        return new PageReference('/apex/OcdlaAddPaymentMethod');
     }
 
     public PageReference redirectToSavedPaymentMethods() {
-        return new Pagereference('/apex/SavedPaymentMethods');
+        return new Pagereference('/apex/OcdlaSavedPaymentMethods');
     }
 
     public void loadPaymentProfiles() {
