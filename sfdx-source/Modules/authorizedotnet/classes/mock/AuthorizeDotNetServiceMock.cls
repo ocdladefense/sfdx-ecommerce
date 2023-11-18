@@ -4,7 +4,7 @@ public class AuthorizeDotNetServiceMock implements HttpCalloutMock {
 
     public AuthorizeDotNetServiceMock() {
         //invoke the list with 4 profiles
-        this.profiles = AuthorizeDotNetServiceMock.sampleCustomerPaymentProfileList();
+       
 }
 
 //logic for testing if a req's customerProfileId is on the list
@@ -21,22 +21,14 @@ public class AuthorizeDotNetServiceMock implements HttpCalloutMock {
 
     public HttpResponse respond(HttpRequest req) {
         System.debug('making a respond request');
-        System.debug('profile count is '+ this.getSampleListSize());
-        if(this.profiles.size()==0){
-            this.profiles = AuthorizeDotNetServiceMock.sampleCustomerPaymentProfileList();
-           
-        }
+
         HttpResponse resp = new HttpResponse();
-
-       
         
-        String xRequestType = req.getHeader('X-Request-Type');
-        String mockType = req.getHeader('X-Request-Type')+'MockResponse';
-        
-
+        String requestType = req.getRequestType();
+        String responseType = requestType.capitalize()+'MockResponse';
  
 
-        System.Type t = Type.forName(mockType);
+        System.Type t = Type.forName(requestType);
 
         IMockResponse mock = (IMockResponse)t.newInstance();
 
@@ -50,19 +42,19 @@ public class AuthorizeDotNetServiceMock implements HttpCalloutMock {
         // resp.setHeader('X-Request-Type')
 
         //if is delete - call method to delete the profile with matching id paymentProfileid
-        if (mockType=='deleteCustomerPaymentProfileMockResponse'){
-            this.deleteFromProfileList(req, xRequestType);
-            if(this.profiles.size()==4){
-                System.debug('checking size');
-                resp.setStatusCode(500);
-                resp.setBody(DeleteCustomerPaymentProfileMockResponse.errorDeletePaymentProfileResponseBody());
-                codeForDebug='500';
-            }
-        }
+        // if (mockType=='deleteCustomerPaymentProfileMockResponse'){
+        //     this.deleteFromProfileList(req, xRequestType);
+        //     if(this.profiles.size()==4){
+        //         System.debug('checking size');
+        //         resp.setStatusCode(500);
+        //         resp.setBody(DeleteCustomerPaymentProfileMockResponse.errorDeletePaymentProfileResponseBody());
+        //         codeForDebug='500';
+        //     }
+        // }
         System.debug('The mock response status code is ' + codeForDebug);
         return resp;
     }
-
+/*
     public static List<CustomerPaymentProfile> sampleCustomerPaymentProfileList(){
         List<CustomerPaymentProfile> profiles = new List<CustomerPaymentProfile>();
 
@@ -128,5 +120,10 @@ public class AuthorizeDotNetServiceMock implements HttpCalloutMock {
 
     public Integer getSampleListSize(){
         return this.profiles.size();
+    }
+    */
+
+    public static String sampleGetCustomerProfileRespBody(){
+        return '{"profile":{"paymentProfiles":[{"customerPaymentProfileId":"905264257","payment":{"creditCard":{"cardNumber":"XXXX9703","expirationDate":"XXXX","cardType":"MasterCard","issuerNumber":"222300"}},"customerType":"individual","billTo":{"phoneNumber":"5417350538","firstName":"Trevor","lastName":"Uehlin","address":"2551 Cubit Street","city":"Eugene","state":"OR","zip":"97402","country":"USA"}},{"customerPaymentProfileId":"905264243","payment":{"creditCard":{"cardNumber":"XXXX0015","expirationDate":"XXXX","cardType":"MasterCard","issuerNumber":"542400"}},"customerType":"individual","billTo":{"phoneNumber":"5417350538","firstName":"Trevor","lastName":"Uehlin","address":"2551 Cubit Street","city":"Eugene","state":"OR","zip":"97402","country":"USA"}},{"customerPaymentProfileId":"905264237","payment":{"creditCard":{"cardNumber":"XXXX0017","expirationDate":"XXXX","cardType":"JCB","issuerNumber":"308800"}},"customerType":"individual","billTo":{"phoneNumber":"5417350538","firstName":"Trevor","lastName":"Uehlin","address":"2551 Cubit Street","city":"Eugene","state":"OR","zip":"97402","country":"USA"}},{"customerPaymentProfileId":"905264232","payment":{"creditCard":{"cardNumber":"XXXX0012","expirationDate":"XXXX","cardType":"Discover","issuerNumber":"601100"}},"customerType":"individual","billTo":{"phoneNumber":"5417350538","firstName":"Trevor","lastName":"Uehlin","address":"2551 Cubit Street","city":"Eugene","state":"OR","zip":"97402","country":"USA"}},{"customerPaymentProfileId":"905263202","payment":{"creditCard":{"cardNumber":"XXXX0017","expirationDate":"XXXX","cardType":"JCB","issuerNumber":"308800"}},"customerType":"individual","billTo":{"phoneNumber":"5417350538","firstName":"Trevor","lastName":"Uehlin","address":"2551 Cubit Street","city":"Eugene","state":"OR","zip":"97402","country":"USA"}}],"profileType":"regular","customerProfileId":"905372692","merchantCustomerId":"003j000000rU9NvAAK","description":"Jose Bernal","email":"redderx@yahoo.com"},"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}';
     }
 }

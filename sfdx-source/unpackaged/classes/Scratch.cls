@@ -1,9 +1,4 @@
 
-
-
-
-
-
 public with sharing class Scratch {
 
 
@@ -69,9 +64,9 @@ public with sharing class Scratch {
 
     public void createCustomerPaymentProfile() {
 
-        Address billTo = new Address('Jose', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
+        Address billTo = new Address('Sebastian', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
 
-        CreditCard card = new CreditCard('4111111111111111','11/2024');
+        CreditCard card = new CreditCard('4111111111111122','11/2024');
 
         CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile(card,billTo);
         // Create an instance of the request object.

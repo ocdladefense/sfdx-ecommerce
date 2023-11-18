@@ -16,6 +16,10 @@ public class CreditCard extends AuthorizeDotNetType {
         this.cardNumber = cardNumber;
     }
 
+    public CreditCard(String cardNumber, Date theDate) {
+        this.cardNumber = cardNumber;
+    }
+
 
     public CreditCard(String cardNumber, String expirationDate) {
         this();
@@ -56,21 +60,26 @@ public class CreditCard extends AuthorizeDotNetType {
     }
 
     public String getType() {
-        if (cardNumber.startsWith('4')) {
-            return 'Visa';
+        if(this.cardType==null)
+        {
+            if (cardNumber.startsWith('4')) {
+                return 'Visa';
+            }
+            else if(cardNumber.startsWith('5')){
+                return 'Mastercard';
+            }
+            else if (cardNumber.startsWith('6')){
+                return 'Discover';
+            }
+            else if (cardNumber.startsWith('34') || cardNumber.startsWith('37')){
+                return 'American Express';
+            }
+            else {
+                return 'Unknown';
+            }
         }
-        else if(cardNumber.startsWith('5')){
-            return 'Mastercard';
-        }
-        else if (cardNumber.startsWith('6')){
-            return 'Discover';
-        }
-        else if (cardNumber.startsWith('34') || cardNumber.startsWith('37')){
-            return 'American Express';
-        }
-        else {
-            return 'Unknown';
-        }
+        return this.cardType;
+        
     }
 
     public Boolean isValid() {
