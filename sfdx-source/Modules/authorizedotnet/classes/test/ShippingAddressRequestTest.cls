@@ -18,7 +18,7 @@ public class ShippingAddressRequestTest {
 
     }
 
-    @isTest static void deserializeCreateCustomerShippingAddressResponseBaseClass(){
+    @isTest static void deserializeCreateCustomerShippingAddressResponseBaseClassSetter(){
 
         String result = '{"customerAddressId":"126406","messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}' ;
         
@@ -34,12 +34,23 @@ public class ShippingAddressRequestTest {
         String resultCode = Messages.getResultCode();
         System.debug('result code manual is' + resultCode);
 
+        Boolean success = authResp.success();
+        System.debug('success is : '+ success);
+        System.assertEquals(true, success, 'success should return true');
+
+        String idFromResult = '126406';
+        String customerAddressId = authResp.getStringValue('customerAddressId');
+        System.debug(customerAddressId);
+
         //set body through constructor needs this in deserialize 
            //Messages m = (Messages)JSON.deserialize(this.getBody(), Messages.class);
 
             //this.messages = m;
             //added null check in deserialize to cover both situations
         
+    }
+
+    @isTest public static void deserializeCreateCustomerShippingAddressResponseBaseClassConstructor(){
         String resultConstruct = '{"customerAddressId":"126406","messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}' ;
 
         AuthorizeDotNetResponse authRespConstruct = new AuthorizeDotNetResponse(resultConstruct);
@@ -49,12 +60,12 @@ public class ShippingAddressRequestTest {
         String resultCodeConstruct = messagesConstruct.getResultCode();
         System.debug('result code constructor is' + resultCodeConstruct);
 
-        Boolean success = authResp.success();
+        Boolean success = authRespConstruct.success();
         System.debug('success is : '+ success);
         System.assertEquals(true, success, 'success should return true');
 
         String idFromResult = '126406';
-        String customerAddressId = authResp.getStringValue('customerAddressId');
+        String customerAddressId = authRespConstruct.getStringValue('customerAddressId');
         System.debug(customerAddressId);
 
         System.assertEquals(true, customerAddressId==idFromResult, 'this response should be able to get customerAddressId');
