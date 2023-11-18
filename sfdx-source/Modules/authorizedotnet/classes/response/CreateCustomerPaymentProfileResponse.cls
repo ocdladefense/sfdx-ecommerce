@@ -16,7 +16,7 @@ public class CreateCustomerPaymentProfileResponse extends AuthorizeDotNetRespons
 
 
     public CreateCustomerPaymentProfileResponse() {
-
+        super();
     }
 
 

@@ -12,10 +12,7 @@ public class GetCustomerShippingAddressRequest extends AuthorizeDotNetRequest{
             'customerProfileId', 'customerAddressId'
         };
     }
-    public GetCustomerShippingAddressRequest(String customerAddressId) {
-        this();
-        this.customerAddressId=customerAddressId;
-    }
+
 
     public void setCustomerProfileId(String customerProfileId) {
         this.customerProfileId = customerProfileId;
@@ -33,4 +30,5 @@ public class GetCustomerShippingAddressRequest extends AuthorizeDotNetRequest{
         return this.customerAddressId;
     }
 
+    //add to map to throw exception when cutomerProfileId or customerAddressId are null
 }
