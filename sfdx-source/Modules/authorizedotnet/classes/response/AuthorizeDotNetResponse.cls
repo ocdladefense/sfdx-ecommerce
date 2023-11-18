@@ -30,9 +30,11 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
         System.debug('deserialize in auth response class');
         
         //when body is set through constructor this works, but messages contents are null when body is set using setter
+        //that may not be true - this code is not deserializing correctly at all
+        //all calls are entering the if code block
+
         Messages m = (Messages)JSON.deserialize(this.getBody(), Messages.class);
         this.messages = m;
-        //System.debug('resultCode is null?' + this.messages.getResultCode()==null);
         System.debug('messages before null check is '+ this.messages);
 
         //check if contents of resultCode is null

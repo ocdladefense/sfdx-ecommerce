@@ -35,9 +35,10 @@ public class ShippingAddressRequestTest {
         System.debug('result code manual is' + resultCode);
 
         //set body through constructor needs this in deserialize 
-                //Messages m = (Messages)JSON.deserialize(this.getBody(), Messages.class);
+           //Messages m = (Messages)JSON.deserialize(this.getBody(), Messages.class);
 
-                //this.messages = m;
+            //this.messages = m;
+            //added null check in deserialize to cover both situations
         
         String resultConstruct = '{"customerAddressId":"126406","messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}' ;
 
