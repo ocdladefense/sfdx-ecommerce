@@ -1,6 +1,6 @@
 @isTest
-public class ShippingAddressRequestTest {
-    public ShippingAddressRequestTest() {
+public class ShippingAddressTest {
+    public ShippingAddressTest() {
 
     }
 
