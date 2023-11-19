@@ -7,7 +7,7 @@ public class GetCustomerShippingAddressRequest extends AuthorizeDotNetRequest{
     //no complex types in request - no need to override toMap
     
     public GetCustomerShippingAddressRequest() {
-        super('getCustomerShippingAddressRequest');
+        super('getCustomerShippingAddress');
         this.fields = new Set<String>{
             'customerProfileId', 'customerAddressId'
         };

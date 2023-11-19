@@ -22,19 +22,104 @@ public with sharing class Scratch {
 
 
     public void createCustomerShippingAddress() {
-
-        Address billTo = new Address('Jose', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
+        String default_custProfileId = '905372692';
+        Address billTo = new Address('Ralph', 'Williams', '214 Andrew Lane', 'Reno', 'NV', '89521');
         CreateCustomerShippingAddressRequest req = new CreateCustomerShippingAddressRequest(billTo);
-        req.setCustomerProfileId('1234');
+        req.setCustomerProfileId('905372692');
         req.setAddress(billTo);
-        req.setDefaultShippingAddress(true);
-
+        req.setDefaultShippingAddress(false);
 
         String result = req.getBody();
 
         System.debug(result);
+
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+        CreateCustomerShippingAddressResponse resp = (CreateCustomerShippingAddressResponse)client.send(req);
+
+        System.debug('success is '+ resp.success());
+        System.debug('addressId from response is ' + resp.getCustomerAddressId());
+        System.debug(resp);
+
+        //for next call 916168863
     }
 
+
+public void updateCustomerShippingAddress() {
+        String default_custProfileId = '905372692';
+        String customerAddressId = '916168863';
+        Address newAddress = new Address('Ralph', 'Williams', '19645 Andrew Lne', 'Reno', 'NV', '89521');
+        newAddress.setPhoneNumber('541-555-5555');
+        newAddress.setCompany('Good Dog Business');
+        newAddress.setCustomerAddressId(customerAddressId);
+        
+        updateCustomerShippingAddressRequest req = new updateCustomerShippingAddressRequest(newAddress);
+        req.setCustomerProfileId('905372692');
+        req.setAddress(newAddress);
+        req.setDefaultShippingAddress(false);
+
+        String result = req.getBody();
+
+        System.debug(result);
+
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+        UpdateCustomerShippingAddressResponse resp = (UpdateCustomerShippingAddressResponse)client.send(req);
+
+        System.debug('success is '+ resp.success());
+        System.debug(resp);
+
+        //for next call 916168863
+    }
+    public void updateCustomerShippingAddressWithNoChanges() {
+        String default_custProfileId = '905372692';
+        String customerAddressId = '916168863';
+        Address newAddress = new Address('Ralph', 'Williams', '19645 Andrew Lne', 'Reno', 'NV', '89521');
+        newAddress.setPhoneNumber('541-555-5555');
+        newAddress.setCompany('Good Dog Dog Business');
+        newAddress.setCustomerAddressId(customerAddressId);
+        
+        updateCustomerShippingAddressRequest req = new updateCustomerShippingAddressRequest(newAddress);
+        req.setCustomerProfileId('905372692');
+        req.setAddress(newAddress);
+        req.setDefaultShippingAddress(false);
+
+        String result = req.getBody();
+
+        System.debug(result);
+
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+        UpdateCustomerShippingAddressResponse resp = (UpdateCustomerShippingAddressResponse)client.send(req);
+
+        System.debug('success is '+ resp.success());
+        System.debug(resp);
+
+        //does not produce error - sends back success
+    }
+
+    public void getCustomerShippingAddress() {
+        String default_custProfileId = '905372692';
+        String customerAddressId = '916168863';
+       
+        GetCustomerShippingAddressRequest req = new GetCustomerShippingAddressRequest();
+        req.setCustomerProfileId('905372692');
+        req.setCustomerAddressId(customerAddressId);
+
+        String result = req.getBody();
+
+        System.debug(result);
+
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+        GetCustomerShippingAddressResponse resp = (GetCustomerShippingAddressResponse)client.send(req);
+
+        System.debug('success is '+ resp.success());
+        Address theAddress = resp.getAddress();
+        List<String> subscriptionIds = resp.getSubscriptionIds();
+        System.debug('subscriptions is null? ' + subscriptionIds==null);
+        System.debug(theAddress.getCompany());
+        System.debug(resp);
+
+
+        //does not produce error - sends back success
+    }
 
 
     public void deleteCustomerPaymentProfile() {

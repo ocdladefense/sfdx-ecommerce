@@ -9,10 +9,11 @@ public class ShippingAddressRequestTest {
         String getResult = '{"address":{"customerAddressId":"37457091","firstName":"China","lastName":"Bayles","company":"Thyme for Tea","address":"12 Main Street","city":"Pecan Springs","state":"TX","zip":"44628","country":"US"},"subscriptionIds":["3078184"],"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}' ;
         GetCustomerShippingAddressResponse shipResp = new GetCustomerShippingAddressResponse(getResult);
         //System.debug(shipResp);
-        //shipResp.deserialize();
+        shipResp.deserialize();
         
-        shipResp = (GetCustomerShippingAddressResponse)JSON.deserialize(shipResp.getBody(), GetCustomerShippingAddressResponse.class);
+        //shipResp = (GetCustomerShippingAddressResponse)JSON.deserialize(shipResp.getBody(), GetCustomerShippingAddressResponse.class);
         //System.debug(shipResp);
+        System.debug(shipResp.getSubscriptionIds());
         System.debug(shipResp.getAddress());
         
         Boolean success = shipResp.success();
