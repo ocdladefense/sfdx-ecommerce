@@ -13,21 +13,23 @@ public class GetCustomerShippingAddressResponse extends AuthorizeDotNetResponse 
 
     public override void deserialize(){
         super.deserialize();
+        this = (GetCustomerShippingAddressResponse)JSON.deserialize(this.getBody(), GetCustomerPaymentProfileResponse.class);
+        //this.address = (Address)JSON.deserialize(this.getBody(), Address.class);
+        Map<String, Object> theMap = (Map<String, Object>) JSON.deserializeUntyped(this.getBody());
+  
+        //Address theAddress = (Address)theMap.get('address');
+        Object obj = this.getObject('address');
+        System.debug(obj);
 
-        // JSONParser parser = JSON.createParser(this.getBody());
-        // while (parser.nextToken() != null) {
-        //     //start the address object
-        //     if (parser.getCurrentToken() == JSONToken.START_OBJECT) {
-        //         // Read entire address object
-        //       Address address = (Address)parser.readValueAs(Address.class); 
-        //       System.debug(address.getFirstName()); 
-        //       String s = JSON.serialize(address);
-        //         system.debug('Serialized address: ' + s);
-        //     }
+        Map<String, String> anotherMap = (Map<String, String>)theMap.get('address');
+        System.debug(anotherMap);
 
-        // }
-        this.address = (Address)JSON.deserialize(this.getBody(), Address.class);
-        this.subscriptionIds= (List<String>)JSON.deserialize(this.getBody(), List<String>.class);
+        //this.address = (Address)anotherMap;
+
+        //i think the parser is the only thing to do - or do it manually through the field list on address
+      
+        //this.address= (Address)obj.get('address');
+        //this.subscriptionIds= (List<String>)JSON.deserialize(this.getBody(), List<String>.class);
     }
 
     public Address getAddress(){

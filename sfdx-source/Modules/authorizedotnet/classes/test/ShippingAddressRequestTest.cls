@@ -3,21 +3,45 @@ public class ShippingAddressRequestTest {
     public ShippingAddressRequestTest() {
 
     }
-    @isTest static void createCustomerShippingAddressRequestBody(){
-        Address address = new Address('M.', 'Williams', '1000 10th Ave', 'Eugene', 'OR', '97401');
-        CreateCustomerShippingAddressRequest req = new CreateCustomerShippingAddressRequest();
-        req.setAddress(address);
-        req.setCustomerProfileId('1234');
-        
-        string result = req.getBody();
-        Boolean idPresent = result.contains('customerAddressId');
 
-        System.debug('id is present: '+ idPresent);
-        System.debug(result);
-        System.assertEquals(false, idPresent, 'this request should not have customerAddressId');
+    @isTest static void deserializeGetCustomerShippingAddressResponse(){
+
+        String getResult = '{"address":{"customerAddressId":"37457091","firstName":"China","lastName":"Bayles","company":"Thyme for Tea","address":"12 Main Street","city":"Pecan Springs","state":"TX","zip":"44628","country":"US"},"subscriptionIds":["3078184"],"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}' ;
+        GetCustomerShippingAddressResponse shipResp = new GetCustomerShippingAddressResponse(getResult);
+        //System.debug(shipResp);
+        //shipResp.deserialize();
+        
+        shipResp = (GetCustomerShippingAddressResponse)JSON.deserialize(shipResp.getBody(), GetCustomerShippingAddressResponse.class);
+        //System.debug(shipResp);
+        System.debug(shipResp.getAddress());
+        
+        Boolean success = shipResp.success();
+        System.debug('success is : '+ success);
+        System.assertEquals(true, success, 'success should return true');
 
     }
 
+    @isTest static void deserializeUpdateCustomerShippingAddressResponse(){
+        String result = '{"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}' ;
+        UpdateCustomerShippingAddressResponse shipResp = new UpdateCustomerShippingAddressResponse(result);
+        shipResp.deserialize();
+        
+        Boolean success = shipResp.success();
+        System.debug('success is : '+ success);
+        System.assertEquals(true, success, 'success should return true');
+
+    }
+
+    @isTest static void deserializeDeleteCustomerShippingAddressResponse(){
+        String result = '{"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}' ;
+        DeleteCustomerShippingAddressResponse shipResp = new DeleteCustomerShippingAddressResponse(result);
+        shipResp.deserialize();
+        
+        Boolean success = shipResp.success();
+        System.debug('success is : '+ success);
+        System.assertEquals(true, success, 'success should return true');
+
+    }
     @isTest static void deserializeCreateCustomerShippingAddressResponseBaseClassSetter(){
 
         String result = '{"customerAddressId":"126406","messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}' ;
@@ -50,6 +74,38 @@ public class ShippingAddressRequestTest {
         
     }
 
+    @isTest static void deserializeCreateCustomerShippingAddressResponse(){
+        //set body through constructor
+        String result = '{"customerAddressId":"126406","messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}' ;
+        
+        CreateCustomerShippingAddressResponse shipResp = new CreateCustomerShippingAddressResponse(result);
+        shipResp.deserialize();
+        
+        Boolean success = shipResp.success();
+        System.debug('success is : '+ success);
+        //System.assertEquals(true, success, 'success should return true');
+
+        String idFromResult = '126406';
+        String customerAddressId = shipResp.getCustomerAddressId();
+        System.debug('--------' + customerAddressId);
+
+        //set body through setter
+        String result2 = '{"customerAddressId":"126406","messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}' ;
+    
+        CreateCustomerShippingAddressResponse shipResp2 = new CreateCustomerShippingAddressResponse();
+        shipResp.setBody(result2);
+        shipResp.deserialize();
+        
+        Boolean success2 = shipResp2.success();
+        System.debug('success2 is : '+ success2);
+        //System.assertEquals(true, success, 'success should return true');
+
+        String idFromResult2 = '126406';
+        String customerAddressId2 = shipResp2.getCustomerAddressId();
+        System.debug('--------' + customerAddressId2);
+        
+    }
+
     @isTest public static void deserializeCreateCustomerShippingAddressResponseBaseClassConstructor(){
         String resultConstruct = '{"customerAddressId":"126406","messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}' ;
 
@@ -69,6 +125,21 @@ public class ShippingAddressRequestTest {
         System.debug(customerAddressId);
 
         System.assertEquals(true, customerAddressId==idFromResult, 'this response should be able to get customerAddressId');
+
+    }
+
+    @isTest static void createCustomerShippingAddressRequestBody(){
+        Address address = new Address('M.', 'Williams', '1000 10th Ave', 'Eugene', 'OR', '97401');
+        CreateCustomerShippingAddressRequest req = new CreateCustomerShippingAddressRequest();
+        req.setAddress(address);
+        req.setCustomerProfileId('1234');
+        
+        string result = req.getBody();
+        Boolean idPresent = result.contains('customerAddressId');
+
+        System.debug('id is present: '+ idPresent);
+        System.debug(result);
+        System.assertEquals(false, idPresent, 'this request should not have customerAddressId');
 
     }
 

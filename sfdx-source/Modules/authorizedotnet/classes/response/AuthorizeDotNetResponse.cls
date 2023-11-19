@@ -78,6 +78,11 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
         return value;
     }
 
+    public Object getObject(String key){
+        Map<String, Object> theMap = (Map<String, Object>)JSON.deserializeUntyped(this.getBody());
+        Object value = theMap.get(key);
+        return value;
+    }
 
     public static AuthorizeDotNetResponse newFromRequestType(String requestType) {
 

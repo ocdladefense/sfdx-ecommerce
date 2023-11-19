@@ -8,6 +8,7 @@ public class DeleteCustomerShippingAddressResponse extends AuthorizeDotNetRespon
         super(theBody);
     }
 
+    //this response only returns messages
     public override void deserialize(){
         super.deserialize();
     }
