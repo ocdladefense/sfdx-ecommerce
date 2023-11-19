@@ -121,6 +121,45 @@ public void updateCustomerShippingAddress() {
         //does not produce error - sends back success
     }
 
+    public void deleteCustomerShippingAddress() {
+        String default_custProfileId = '905372692';
+        String customerAddressId = '916168863';
+       
+        DeleteCustomerShippingAddressRequest req = new DeleteCustomerShippingAddressRequest();
+        req.setCustomerProfileId(default_custProfileId);
+        req.setCustomerAddressId(customerAddressId);
+
+        String result = req.getBody();
+
+        System.debug(result);
+
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+        DeleteCustomerShippingAddressResponse resp = (DeleteCustomerShippingAddressResponse)client.send(req);
+
+        System.debug('success is '+ resp.success());
+        
+        System.debug(resp);
+
+        //try to get the deleted address by id
+        GetCustomerShippingAddressRequest req = new GetCustomerShippingAddressRequest();
+        req.setCustomerProfileId('905372692');
+        req.setCustomerAddressId('916168863');
+        //AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+
+        GetCustomerShippingAddressResponse getResp = (GetCustomerShippingAddressResponse)client.send(req);
+
+        System.debug('success is '+ getResp.success());
+        Messages messages = getResp.getMessages();
+        Message message = messages.getFirstMessage();
+        String text = message.getText();
+        System.debug(text);
+        System.assertEquals(false, getResp.success(), 'the get request should come back as an error because there is no matching address id');
+
+
+
+        //does not produce error - sends back success
+    }
+
 
     public void deleteCustomerPaymentProfile() {
 

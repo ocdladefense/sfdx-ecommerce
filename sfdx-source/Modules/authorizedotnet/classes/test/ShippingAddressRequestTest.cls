@@ -56,7 +56,8 @@ public class ShippingAddressRequestTest {
         authResp.deserialize();
         
         Messages messages = authResp.getMessages();
-        String resultCode = Messages.getResultCode();
+        Message message = messages.getFirstMessage();
+        String resultCode=messages.getResultCode();
         System.debug('result code manual is' + resultCode);
 
         Boolean success = authResp.success();
@@ -65,7 +66,8 @@ public class ShippingAddressRequestTest {
 
         String idFromResult = '126406';
         String customerAddressId = authResp.getStringValue('customerAddressId');
-        System.debug(customerAddressId);
+        System.debug('-------' + customerAddressId);
+        System.assertEquals(idFromResult, customerAddressId, 'the customer address id should match the value in json string');
 
         //set body through constructor needs this in deserialize 
            //Messages m = (Messages)JSON.deserialize(this.getBody(), Messages.class);
@@ -89,21 +91,24 @@ public class ShippingAddressRequestTest {
         String idFromResult = '126406';
         String customerAddressId = shipResp.getCustomerAddressId();
         System.debug('--------' + customerAddressId);
+        System.assertEquals(idFromResult, customerAddressId);
 
         //set body through setter
         String result2 = '{"customerAddressId":"126406","messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}' ;
     
         CreateCustomerShippingAddressResponse shipResp2 = new CreateCustomerShippingAddressResponse();
-        shipResp.setBody(result2);
-        shipResp.deserialize();
+        shipResp2.setBody(result2);
+        shipResp2.deserialize();
         
         Boolean success2 = shipResp2.success();
         System.debug('success2 is : '+ success2);
         //System.assertEquals(true, success, 'success should return true');
 
         String idFromResult2 = '126406';
+        System.debug('--------');
         String customerAddressId2 = shipResp2.getCustomerAddressId();
         System.debug('--------' + customerAddressId2);
+        System.assertEquals(idFromResult2, customerAddressId2);
         
     }
 
