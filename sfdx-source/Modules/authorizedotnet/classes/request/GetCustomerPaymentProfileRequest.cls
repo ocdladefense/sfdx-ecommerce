@@ -34,5 +34,9 @@ public class GetCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
         this.customerProfileId = customerProfileId;
     }
 
+    public void setCustomerPaymentProfileId(String customerPaymentProfileId) {
+        this.customerPaymentProfileId = customerPaymentProfileId;
+    }
+
 
 }
