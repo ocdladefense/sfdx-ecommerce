@@ -93,7 +93,18 @@ public with sharing class Scratch {
         System.assert(resp.success());
     }
 
+    public void GetCustomerPaymentProfile() {
+        /*"customerProfileId": "10000",
+        "customerPaymentProfileId": "20000", */
+        Address billTo = new Address('Jose', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
+        CreditCard card = new CreditCard('4111111111111111','11/2024');
+        CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile(card,billTo);
+        
+        GetCustomerPaymentProfileRequest req = new GetCustomerPaymentProfileRequest(paymentProfile);
+        req.setCustomerProfileId('905372692');
+        System.debug(req.getBody());
 
+    }
 
 
 

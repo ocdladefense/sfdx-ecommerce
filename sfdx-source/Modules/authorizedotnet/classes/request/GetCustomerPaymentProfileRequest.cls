@@ -6,6 +6,7 @@ public class GetCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
 
     public GetCustomerPaymentProfileRequest() {
         super('getCustomerPaymentProfile');
+        this.fields = new Set<String>{'customerProfileId', 'customerPaymentProfileId'};
     }
 
     public GetCustomerPaymentProfileRequest(CustomerPaymentProfile profile) {
@@ -18,14 +19,6 @@ public class GetCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
         this.customerPaymentProfileId = profile.getCustomerPaymentProfileId();
         this.includeIssuerInfo = false;
         this.requestType = 'GetCustomerPaymentProfile';
-        /*this.body = JSON.serialize(getBody());
-        
-        // Code from CreateCustomerPaymentProfileRequest BEFORE EDITS
-        String respTypeName = this.getRequestType() + 'Response'; // e.g., CreateCustomerPaymentProfileResponse
-        String respMockName = this.getRequestType() + 'MockResponse'; //e.g., CreateCustomerPaymentProfileMockResponse
-        Type t = Type.forName(this.getRequestType());
-        AuthorizeDotNetResponse resp = (AuthorizeDotNetResponse) t.newInstance();
-        */
     }
 
     public GetCustomerPaymentProfileRequest(CustomerPaymentProfile profile, Boolean includeIssuerInfo) {
