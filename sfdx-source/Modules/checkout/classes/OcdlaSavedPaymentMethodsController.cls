@@ -1,11 +1,10 @@
 public class OcdlaSavedPaymentMethodsController {
     
     AuthorizeDotNetClient client = new AuthorizeDotNetClient();
-    public Contact c {get; set;}
-
     String customerProfileId;
     //String customerProfileId = '905372692';
-
+    
+    public Contact c {get; set;}
     public Address billingInfo {get; set;}
     public Payment paymentInfo {get; set;}
     public Boolean isDefaultPaymentMethod {get; set;}
@@ -54,6 +53,10 @@ public class OcdlaSavedPaymentMethodsController {
 
     
     public void editPaymentProfile() {
+        // get the selected payment profile
+        // make request with edited data
+               
+        
         /*
         CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile(paymentInfo.getCreditCard(), billingInfo);
         paymentProfile.setCustomerPaymentProfileId(selectedPaymentProfileId);
