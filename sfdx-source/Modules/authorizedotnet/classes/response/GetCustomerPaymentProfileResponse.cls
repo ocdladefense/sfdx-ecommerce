@@ -1,11 +1,6 @@
 public class GetCustomerPaymentProfileResponse extends AuthorizeDotNetResponse {
     
-    Map<String,Object> tmp = new Map<String,Object>();
-
-
-
-
-
+    //Map<String,Object> tmp = new Map<String,Object>();
     private Boolean defaultPaymentProfile;
     private String customerProfileId;
     private String customerPaymentProfileId;
@@ -15,7 +10,6 @@ public class GetCustomerPaymentProfileResponse extends AuthorizeDotNetResponse {
     private Decimal originalAuthAmount;
     private Address billTo;
 
-    
     // Optional
     private String refId;
 
@@ -25,7 +19,7 @@ public class GetCustomerPaymentProfileResponse extends AuthorizeDotNetResponse {
     }
 
 
-
+    /*
     public override void deserialize() {
         super.deserialize();
         
@@ -50,7 +44,7 @@ public class GetCustomerPaymentProfileResponse extends AuthorizeDotNetResponse {
         this.billTo = billTo;
         this.refId = refId;
     }
-
+    
     public List<Map<String,Object>> getPaymentProfiles() {
         List<Map<String,Object>> payProfList = new List<Map<String,Object>>();
         List<Object> paymentProfiles = (List<Object>)this.tmp.get('paymentProfiles');
@@ -75,7 +69,7 @@ public class GetCustomerPaymentProfileResponse extends AuthorizeDotNetResponse {
 
         return payProfList;
     }
-
+    */
     public Boolean isDefault() {
         return this.defaultPaymentProfile != null ? this.defaultPaymentProfile : false;
     }

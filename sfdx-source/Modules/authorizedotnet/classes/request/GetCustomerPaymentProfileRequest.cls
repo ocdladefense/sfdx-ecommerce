@@ -18,7 +18,7 @@ public class GetCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
         this.customerProfileId = DEFAULT_PROFILE_ID;
         this.customerPaymentProfileId = profile.getCustomerPaymentProfileId();
         this.includeIssuerInfo = false;
-        this.requestType = 'GetCustomerPaymentProfile';
+        this.requestType = 'getCustomerPaymentProfile';
     }
 
     public GetCustomerPaymentProfileRequest(CustomerPaymentProfile profile, Boolean includeIssuerInfo) {
@@ -27,7 +27,7 @@ public class GetCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
         this.customerProfileId = DEFAULT_PROFILE_ID;
         this.customerPaymentProfileId = profile.getCustomerPaymentProfileId();
         this.includeIssuerInfo = includeIssuerInfo;
-        this.requestType = 'GetCustomerPaymentProfile';
+        this.requestType = 'getCustomerPaymentProfile';
     }
 
     public void setCustomerProfileId(String customerProfileId) {
