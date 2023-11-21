@@ -1,6 +1,7 @@
 public class GetCustomerProfileResponse extends AuthorizeDotNetResponse 
  {
     public CustomerProfile profile;
+  
 
     public GetCustomerProfileResponse() {
         super();
@@ -11,8 +12,10 @@ public class GetCustomerProfileResponse extends AuthorizeDotNetResponse
 
     public override void deserialize(){
         super.deserialize();
-        system.debug('in resp meassages is ' + this.getMessages());
-        this.profile = (CustomerProfile)JSON.deserialize(this.getBody(), CustomerProfile.class);
+       GetCustomerProfileResponse tempResp =  (GetCustomerProfileResponse)JSON.deserialize(this.getBody(), GetCustomerProfileResponse.class);
+       this.profile = tempResp.getProfile();
+    
+       
     }
 
     public CustomerProfile getProfile(){
@@ -22,4 +25,6 @@ public class GetCustomerProfileResponse extends AuthorizeDotNetResponse
     public void setCustomerProfile(CustomerProfile profile){
         this.profile=profile;
     }
+
+
 }
