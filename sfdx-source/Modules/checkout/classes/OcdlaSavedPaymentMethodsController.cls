@@ -3,18 +3,18 @@ public class OcdlaSavedPaymentMethodsController {
     AuthorizeDotNetClient client = new AuthorizeDotNetClient();
     String customerProfileId;
     //String customerProfileId = '905372692';
-    
+
     public Contact c {get; set;}
-    public Address billingInfo {get; set;}
-    public Payment paymentInfo {get; set;}
+    //public Address billingInfo {get; set;}
+    //public Payment paymentInfo {get; set;}
     public Boolean isDefaultPaymentMethod {get; set;}
     public List<CustomerPaymentProfile> paymentProfiles {get; set;}
     public String selectedPaymentProfileId {get; set;}
     
     
     public OcdlaSavedPaymentMethodsController() {
-        billingInfo = new Address();
-        paymentInfo = new Payment();
+        //billingInfo = new Address();
+        //paymentInfo = new Payment();
         client = new AuthorizeDotNetClient();
         c = [SELECT FirstName, LastName, Email, AuthorizeDotNetCustomerProfileId__c FROM Contact WHERE Id = '0037h00000u1YBpAAM'];
         customerProfileId = c.AuthorizeDotNetCustomerProfileId__c;
