@@ -1,9 +1,7 @@
-<apex:component layout="none" controller="OcdlaCheckoutController">
+<apex:component layout="none">
     <apex:attribute name="hasAuthNetCustomerProfile" default="False" type="Boolean" description="Indicates whether saved payment methods should be displayed." />
-    <apex:attribute name="data" type="Map" description="Billing data for form inputs." />
     <apex:variable var="USE_AUTHNET_PROFILE" value="False" />
     
-    <!-- We aren't using this yet, but we should! Moved this to UtilsCCFields I think it fits better there? -->
     <apex:outputPanel rendered="{!AND(USE_AUTHNET_PROFILE != 'False',hasAuthNetCustomerProfile)}" layout="none">
         
         <div class="cc-data" id="existing-cards">
@@ -20,36 +18,46 @@
         
         <div class="cc-data">
             <label for="BillingFirstName">Billing First Name</label>
-            <input type="text" id="BillingFirstName" name="BillingFirstName" value="{!data['BillingFirstName']}" size="23" />
+            <input type="text" id="BillingFirstName" name="BillingFirstName" value="" size="23" />
         </div>
         
         <div class="cc-data">
             <label for="BillingLastName">Billing Last Name</label>
-            <!--Replace these if nessecary before was just lastName I think we need to change it to data['lastName']-->
-            <input type="text" id="BillingLastName" name="BillingLastName" value="{!data['BillingLastName']}" size="30" />
+            <input type="text" id="BillingLastName" name="BillingLastName" value="" size="30" />
         </div>
         
         <div class="cc-data">
             <label for="BillingStreet">Billing Street</label>
-            <input type="text" id="BillingStreet" name="BillingStreet" value="{!data['BillingStreet']}" size="35" />
+            <input type="text" id="BillingStreet" name="BillingStreet" value="" size="35" />
         </div>
         
         <div class="cc-data">
             <label for="BillingCity">Billing City</label>
-            <input type="text" id="BillingCity" name="BillingCity" value="{!data['BillingCity']}" size="20" />
+            <input type="text" id="BillingCity" name="BillingCity" value="" size="20" />
         </div>
         
         <div class="cc-data">
-            <c:UtilStatesAsOptions data="{!data['BillingStateCode']}" fieldName="Billing"/>
-            <!---<apex:selectList id="BillingStateCode" value="{!data['BillingStateCode']}" size="1" label="Billing State">
-                <c:UtilStatesAsOptions/>
-            </apex:selectList>-->
+            <label for="BillingStateCode">Billing State</label>
+            <select id="BillingStateCode" name="BillingStateCode">
+                <c:UtilStatesAsOptions />
+            </select>
         </div>
         
         <div class="cc-data">
             <label for="BillingPostalCode">Billing Zip</label>
-            <input type="text" id="BillingPostalCode" name="BillingPostalCode" value="{!data['BillingPostalCode']}" size="20" />
+            <input type="text" id="BillingPostalCode" name="BillingPostalCode" value="" size="20" />
         </div>
-        <!-- Moved CC Fields like number expir and code to the UtilsCCFields component -->
+        <div class="cc-data">
+            <label for="ccNum">CC Number</label>
+            <input type="text" id="ccNum" name="ccNum" value="" size="30" />
+        </div>
+        <div class="cc-data">
+            <label for="ccExp">Expiration (mm/yyyy)</label>
+            <input type="text" id="ccExp" name="ccExp" value="" size="12" />
+        </div>
+        <div class="cc-data">
+            <label for="ccCode">CCV</label>
+            <input type="text" id="ccCode" name="ccCode" value="" size="4" />
+        </div>
     </div>
 </apex:component>

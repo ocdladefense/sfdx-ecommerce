@@ -7,11 +7,6 @@
         </apex:define>
         
         <apex:define name="body">
-            <div class="row one-column">
-                
-			<div class="main column">
-                
-
             <apex:variable var="hello" value="world" rendered="{!hasError}">
                 <h2>
                 	There was an error processing your payment.
@@ -20,12 +15,10 @@
             <apex:variable var="hello" value="world" rendered="{!!hasError}">
                 <h2>
                     Thanks for your order!
-                    Your order number is #0001.
+                    Your order number is #000.
                     Click here for more details.
                 </h2>
             </apex:variable>
-            </div>
-                </div>
         </apex:define>
         
     </apex:composition>

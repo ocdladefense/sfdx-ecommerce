@@ -5,7 +5,7 @@
 # To exclude remote metadata changes, use the format <api name>.<metadata type> in .forceignore.
 package.xml
 
-sfdx-source/Modules/checkout
+#sfdx-source/Modules/checkout
 
 # LWC configuration files
 **/jsconfig.json
