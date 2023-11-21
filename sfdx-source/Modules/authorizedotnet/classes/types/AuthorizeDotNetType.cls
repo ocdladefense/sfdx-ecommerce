@@ -5,6 +5,7 @@ public virtual class AuthorizeDotNetType implements IOrderedMap {
 
     protected Map<String, Object> data = new Map<String, Object>();
 
+    protected String primaryKeyField;
 
     public AuthorizeDotNetType() {}
 
@@ -17,7 +18,16 @@ public virtual class AuthorizeDotNetType implements IOrderedMap {
     public Object get(String key) {
         return this.data.get(key);
     }
+    
+    public String getPrimaryKeyField() {
+        return this.primaryKeyField;
+    }
 
+    // Create a getPrimaryKeyValue, gets
+    public String getPrimaryKeyValue() {
+        Map<String,Object> theMap = toMap();
+        return theMap.get(primaryKeyField) != null ? (String)theMap.get(primaryKeyField) : null;
+    }
 
     public void setFields(Set<String> fieldList) {
         this.fields = fieldList;
@@ -27,11 +37,17 @@ public virtual class AuthorizeDotNetType implements IOrderedMap {
         this.fields.add(key);
     }
 
+    public void removeField(String key) {
+        this.fields.remove(key);
+    }
+
+    public void removePrimaryKeyField() {
+        this.fields.remove(this.primaryKeyField);
+    }
 
     public virtual Set<String> keySet() {
         return this.fields;
     }
-
 
     public virtual Map<String,Object> toMap() {
         String theJson = JSON.serialize(this);

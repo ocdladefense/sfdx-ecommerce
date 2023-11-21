@@ -1,10 +1,10 @@
 public class CreateCustomerPaymentProfileResponse extends AuthorizeDotNetResponse {
-    public CreateCustomerPaymentProfileResponse() {
 
-    }
 
     private String customerProfileId;
+
     private Boolean defaultPaymentProfile;
+
     private String validationDirectResponse;
 
     // Only displays if successful
@@ -13,6 +13,14 @@ public class CreateCustomerPaymentProfileResponse extends AuthorizeDotNetRespons
     // Optional
     private String refId;
 
+
+
+    public CreateCustomerPaymentProfileResponse() {
+
+    }
+
+
+/*
     public override void deserialize() {
         super.deserialize();
 
@@ -35,6 +43,7 @@ public class CreateCustomerPaymentProfileResponse extends AuthorizeDotNetRespons
         this.customerProfileId = custProfileId;
         this.customerPaymentProfileId = custPaymentProfileId;
     }
+    */
 
     public String getCustomerProfileId() {
         return this.customerProfileId;

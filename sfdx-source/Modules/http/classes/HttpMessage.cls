@@ -1,6 +1,5 @@
 // https://beyondthecloud.dev/blog/abstract-virtual-interface-in-apex#virtual-method-vs-abstract-method
-@JsonAccess(serializable='never' deserializable='never')
-public virtual with sharing class HttpMessage {
+public virtual class HttpMessage {
 
     protected String body;
 

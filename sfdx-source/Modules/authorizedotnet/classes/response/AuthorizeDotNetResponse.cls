@@ -1,8 +1,10 @@
 public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{    
 
     protected Messages messages;
-    protected final String RESPONSE_SUCCESS = 'Ok';
-    protected final String RESPONSE_FAILURE = 'Error';
+
+    public final static String RESPONSE_SUCCESS = 'Ok';
+
+    public final static String RESPONSE_FAILURE = 'Error';
 
 
     public AuthorizeDotNetResponse() {
@@ -70,11 +72,11 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
         this.messages = messages;
     }
 
-    //-------------End new methods
+    //-------------End new metho                                                    ds
 
 
     public Boolean success(){
-        return this.messages.getResultCode()==RESPONSE_SUCCESS;
+        return this.messages.getResultCode() == AuthorizeDotNetResponse.RESPONSE_SUCCESS;
     }
 
 

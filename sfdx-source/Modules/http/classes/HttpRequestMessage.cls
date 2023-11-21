@@ -1,4 +1,4 @@
-@JsonAccess(serializable='never' deserializable='never')
+
 public virtual class HttpRequestMessage extends HttpMessage {
 
     protected String endpoint;

@@ -22,6 +22,10 @@ public with sharing class Scratch {
         System.debug(result);
     }
 
+
+
+
+
     public void createCustomerShippingAddress() {
 
         Address billTo = new Address('Jose', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
@@ -59,6 +63,10 @@ public with sharing class Scratch {
         System.assert(resp.success());
     }
 
+
+
+
+
     public void createCustomerPaymentProfile() {
 
         Address billTo = new Address('Jose', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
@@ -71,58 +79,25 @@ public with sharing class Scratch {
         // and any appropriate methods.
         CreateCustomerPaymentProfileRequest req = new CreateCustomerPaymentProfileRequest(paymentProfile);
         req.setCustomerProfileId('905372692');
-        
-
-       System.debug(req.getBody());
+        System.debug(req.getBody());
 
         // Instantiate the client.
         AuthorizeDotNetClient client = new AuthorizeDotNetClient();
 
-        AuthorizeDotNetResponse resp = client.send(req);
+        CreateCustomerPaymentProfileResponse resp = (CreateCustomerPaymentProfileResponse)client.send(req);
 
         System.debug(resp.getBody());
+        System.debug(resp.getCustomerProfileId());
+        System.debug(resp.getCustomerPaymentProfileId());
+
         System.assert(resp.success());
     }
 
 
-    public createCustomerPaymentProfileRequest() {
 
 
-        
-        Address billTo = new Address('Jose', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
-        CreditCard card = new CreditCard('4111111111111111', '10/2014');
 
-        CustomerPaymentProfile profile = new CustomerPaymentProfile(card, billTo);
-
-        CreateCustomerPaymentProfileRequest req = new CreateCustomerPaymentProfileRequest(profile);
-
-        String result = req.getBody();
-
-        System.debug(result);
-    }
-
-
-public String deleteCustomerPaymentProfile(String customerProfileId){
-        //set up a client
-        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
-
-    
-        //make the request message
-        DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest(this, customerProfileId);
-      
-        //send the request and receive the response
-        HttpResponseMessage resp = client.send(req);
-
-        //get the message from the response and parse
-        String body = resp.getBody();
-
-        AuthorizeDotNetResponse message = new AuthorizeDotNetResponse(body);
-       
-        //send resultCode
-        return message.getResultCode();
-    }
-
-//call to AuthorizeDotNet getCustomerProfileRequest to retrieve full profile with list of saved payment profiles
+    //call to AuthorizeDotNet getCustomerProfileRequest to retrieve full profile with list of saved payment profiles
     public static List<CustomerPaymentProfile> getPaymentProfileList(String customerProfileId){
         
         List<CustomerPaymentProfile> profiles = new List<CustomerPaymentProfile>();
@@ -165,7 +140,7 @@ public String deleteCustomerPaymentProfile(String customerProfileId){
 
             //make new customerpayment profile
             CustomerPaymentProfile profile = new CustomerPaymentProfile(theCard,theAddress);
-        //add to list of profiles
+            //add to list of profiles
             profiles.add(profile);
         }
         
@@ -175,11 +150,12 @@ public String deleteCustomerPaymentProfile(String customerProfileId){
         //deserialize 
         //AuthorizeDotNetResponse message = new AuthorizeDotNetResponse(body);
         
-        /*                                                               
+                                                            
 
       return profiles; 
     }
 
+    /*   
     public Scratch() {
 
 
@@ -221,17 +197,15 @@ public String deleteCustomerPaymentProfile(String customerProfileId){
 
 
     /*
+    The documentation for {!list} is for the VisualForce Standard List Controller. This controller is available to the page if recordSetVars is included as an attribute on the apex:page
 
+    list : Returns a PageReference object of the standard list page, based on the most recently used list filter for that object when the filterId is not specified by the user.
 
-The documentation for {!list} is for the VisualForce Standard List Controller. This controller is available to the page if recordSetVars is included as an attribute on the apex:page
-
-list : Returns a PageReference object of the standard list page, based on the most recently used list filter for that object when the filterId is not specified by the user.
-
-Other standard actions you can use on list controllers are:
+    Other standard actions you can use on list controllers are:
     */
-public PageReference returnToListView() { 
-    return new ApexPages.Action('{!List}').invoke();
-}
+    public PageReference returnToListView() { 
+        return new ApexPages.Action('{!List}').invoke();
+    }
 
     public PageReference doSomething() {
 

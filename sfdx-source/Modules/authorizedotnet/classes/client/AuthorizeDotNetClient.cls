@@ -62,7 +62,7 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
         // (and we don't want that).
         String reqBody = req.getBody();
 
-        System.debug(reqBody);
+        // System.debug(reqBody);
 
 
         HttpRequest breq = new HttpRequest();
@@ -82,9 +82,10 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
         // System.debug(breq.getBody());
         HttpResponse bresp = client.send(breq);
 
-        System.debug(bresp.getBody());
+        // System.debug(bresp.getBody());
         String respBodyString = bresp.getBody().replace('\uFEFF', '');
         
+        System.debug(respBodyString);
         // //inspect the specific type of request to know what to do.
         // //the generic step - an authorizedotnetresponse rather than a specific kind 
         //AuthorizeDotNetResponse resp = new AuthorizeDotNetResponse(respBodyString);
@@ -92,8 +93,12 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
         
         System.Type t = Type.forName(responseType);
 
-        AuthorizeDotNetResponse resp = (AuthorizeDotNetResponse)JSON.deserialize(respBodyString, t);
+        if(null == t) {
+            throw new AuthorizeDotNetException('RESPONSE_ERROR: The client could not determine the appropriate type to deserialize the response ('+responseType+')');
+        }
 
+        AuthorizeDotNetResponse resp = (AuthorizeDotNetResponse)JSON.deserialize(respBodyString, t);
+        resp.setBody(respBodyString);
         
 
         return resp;

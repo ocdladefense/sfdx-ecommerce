@@ -7,4 +7,6 @@ public interface IOrderedMap {
     void addField(String key);
 
     Set<String> keySet();
+
+    void removeField(String field);
 }

@@ -88,5 +88,7 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage implement
         this.fields = fields;
     }
 
-
+    public void removeField(String field) {
+        this.fields.remove(field);
+    }
 }

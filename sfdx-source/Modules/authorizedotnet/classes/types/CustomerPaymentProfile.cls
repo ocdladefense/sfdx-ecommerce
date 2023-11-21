@@ -13,11 +13,10 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType {
     private Address billTo;
 
     private Boolean defaultPaymentProfile;
-    
-
 
     public CustomerPaymentProfile() {
-        this.fields = new Set<String>{'customerPaymentProfileId','billTo','payment','defaultPaymentProfile'};
+        this.primaryKeyField = 'customerPaymentProfileId';
+        this.fields = new Set<String>{'billTo', 'payment', 'defaultPaymentProfile', 'customerPaymentProfileId'};
     }
 
     public CustomerPaymentProfile(CreditCard card, Address billTo) {
@@ -30,8 +29,10 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType {
     Map<String,Object> tmp = new Map<String,Object>();
     tmp.put('payment', this.payment );
     tmp.put('billTo', this.billTo);
-    tmp.put('defaultPaymentProfile', this.defaultPaymentProfile);
 
+    if(null == this.defaultPaymentProfile) {
+        this.removeField('defaultPaymentProfile');
+    }
     return tmp;
   }
 
@@ -144,8 +145,6 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType {
     public Payment getPayment() {
         return payment;
     }
-    
-
 
     public Boolean getDefaultPaymentProfile() {
         return defaultPaymentProfile;
