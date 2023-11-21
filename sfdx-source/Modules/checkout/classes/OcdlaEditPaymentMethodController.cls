@@ -1,61 +1,43 @@
-public class OcdlaSavedPaymentMethodsController {
-    
+public with sharing class OcdlaEditPaymentMethodController {
     AuthorizeDotNetClient client = new AuthorizeDotNetClient();
     String customerProfileId;
     //String customerProfileId = '905372692';
+    String paymentProfileId;
 
     public Contact c {get; set;}
     public Address billingInfo {get; set;}
     public Payment paymentInfo {get; set;}
     public Boolean isDefaultPaymentMethod {get; set;}
-    public List<CustomerPaymentProfile> paymentProfiles {get; set;}
+    public CustomerPaymentProfile paymentProfile {get; set;}
     public String selectedPaymentProfileId {get; set;}
     
     
-    public OcdlaSavedPaymentMethodsController() {
+    public OcdlaEditPaymentMethodController() {
         billingInfo = new Address();
         paymentInfo = new Payment();
         client = new AuthorizeDotNetClient();
         c = [SELECT FirstName, LastName, Email, AuthorizeDotNetCustomerProfileId__c FROM Contact WHERE Id = '0037h00000u1YBpAAM'];
         customerProfileId = c.AuthorizeDotNetCustomerProfileId__c;
-        paymentProfiles = new List<CustomerPaymentProfile>();
-        // pretend that logged in users Authorize.net customer profile id is called.
-        loadPaymentProfiles(false);
-        
+        paymentProfileId = '915683841';
+
+        GetCustomerPaymentProfileRequest req = new GetCustomerPaymentProfileRequest();
+        req.setCustomerPaymentProfileId(paymentProfileId);
+        req.setCustomerProfileId('916263569');
+
+        GetCustomerPaymentProfileResponse resp = (GetCustomerPaymentProfileResponse)client.send(req);
+        paymentProfile = resp.getPaymentProfile();
+        billingInfo = paymentProfile.getBillTo();
+        paymentInfo = paymentProfile.getPayment();
     }
 
-    // Calls CreatePaymentProfile
-    
-    public void addPaymentProfile() {
-        /*
-        CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile(paymentInfo.getCreditCard(), billingInfo);
+   
         
-        paymentProfile.setDefaultPaymentProfile(isDefaultPaymentMethod);
-
-        // Create request
-        CreateCustomerPaymentProfileRequest req = new CreateCustomerPaymentProfileRequest(paymentProfile);
-        
-        // Send request
-        AuthorizeDotNetResponse resp = client.send(req);
-
-        // Handle the response
-        if (resp.success()) {
-            // Redirect or display success message
-            // ...
-            return new PageReference('/apex/SavedPaymentMethods');
-        } else {
-            // Handle errors and display messages
-
-            return null; // Stays on the current page
-        }
-        */
-    }
 
     
     public void editPaymentProfile() {
         // get the selected payment profile
         // make request with edited data
-               
+                
         
         /*
         CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile(paymentInfo.getCreditCard(), billingInfo);
@@ -66,22 +48,15 @@ public class OcdlaSavedPaymentMethodsController {
         
         AuthorizeDotNetResponse resp = client.send(req);
         */
+
+        Address billToAddress = new Address('Testy', 'Tester', 'blah 123', 'Springfield', 'OR', '97477');
+        UpdateCustomerPaymentProfileRequest req = new UpdateCustomerPaymentProfileRequest(paymentProfile, billToAddress);
+        System.debug('Edit controller 54' + req.getBody());
+        System.debug(paymentProfile.keySet());
+        UpdateCustomerPaymentProfileResponse resp = (UpdateCustomerPaymentProfileResponse)client.send(req);
+        System.debug(resp.success());
     }
 
-    
-    public void deletePaymentProfile() {
-        /*
-        DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest();
-        req.setCustomerProfileId(customerProfileId);
-        req.setCustomerPaymentProfileId(selectedPaymentProfileId);
-
-        AuthorizeDotNetResponse resp = client.send(req);
-        */
-    }
-
-    public void setDefaultPaymentProfile() {
-        editPaymentProfile();
-    }
 
     
     
@@ -100,34 +75,6 @@ public class OcdlaSavedPaymentMethodsController {
 
     public PageReference redirectToSavedPaymentMethods() {
         return new Pagereference('/apex/OcdlaSavedPaymentMethods');
-    }
-
-    public void loadPaymentProfiles(Boolean mock) {
-        //getPaymentPaymentProfiles();
-
-
-
-        // For testing
-        if(mock) {
-            this.paymentProfiles = sampleCustomerPaymentProfileList();
-        }
-        else {
-            this.paymentProfiles = getPaymentProfiles();
-        }
-        
-        //paymentProfiles = sampleEmptyCustomerPaymentProfileList();
-    }
-
-    public List<CustomerPaymentProfile> getPaymentProfiles() {
-        
-        GetCustomerProfileRequest req = new GetCustomerProfileRequest();
-        req.setCustomerProfileId(customerProfileId);
-
-        GetCustomerProfileResponse resp = (GetCustomerProfileResponse)client.send(req);
-        CustomerProfile profile = resp.getProfile();
-        List<CustomerPaymentProfile> paymentProfiles = profile.getPaymentProfiles();
-
-        return paymentProfiles;
     }
 
     // Test method
@@ -167,10 +114,4 @@ public class OcdlaSavedPaymentMethodsController {
         //return list
         return profiles;
     } 
-
-    // Test method
-    public List<CustomerPaymentProfile> sampleEmptyCustomerPaymentProfileList() {
-        List<CustomerPaymentProfile> profiles = new List<CustomerPaymentProfile>();
-        return profiles;
-    }
 }

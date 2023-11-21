@@ -108,6 +108,14 @@ public class CreditCard extends AuthorizeDotNetType {
     public void setCvv(string cvv) {
         this.cvv = cvv;
     }
+
+    public override Map<String,Object> toMap() {
+                
+        this.fields = new Set<String>{'cardNumber', 'expirationDate'};
+        String theJson = JSON.serialize(this);
+        // deserialize address String into Map<String, Object>
+        return (Map<String, Object>)JSON.deserializeUntyped(theJson);
+    }
     
 }
 

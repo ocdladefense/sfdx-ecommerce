@@ -52,23 +52,23 @@ public class JsonPayload {
         for(String key : obj.keySet()) {
 
             Object value = it.get(key);
-            System.debug(key);
+            //System.debug(key);
             // Test the type of value:
             if(value instanceof AuthorizeDotNetType) {
-                System.debug('found authnet object');
+                //System.debug('found authnet object');
                 this.writeObjectFields(key, (AuthorizeDotNetType)value);  
             } else if(value instanceof IOrderedMap) {
-                System.debug('found IOrderedMap object');
+                //System.debug('found IOrderedMap object');
                 this.writeObjectFields(key, (IOrderedMap)value);  
             } else if(value instanceof Boolean) {
-                System.debug('found boolean');
+                //System.debug('found boolean');
                 if(value == null) continue;
                 this.writeBooleanField(key, (Boolean)value); 
             } else if(value instanceof String) {
-                System.debug('string');
+                //System.debug('string');
                 this.writeStringField(key, (String)value);
             } else if(value instanceof Integer) {
-                System.debug('integer');
+                //System.debug('integer');
                 this.writeNumberField(key, (Integer)value);
             } else if(null == value) {
 

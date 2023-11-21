@@ -25,6 +25,16 @@ public class Address extends AuthorizeDotNetType {
 
     private static final String DEFAULT_COUNTRY_CODE = 'US';
 
+    public override String getPrimaryKeyField() {
+        return 'customerAddressId';
+    }
+
+    public override Set<String> keySet() {
+        return new Set<String> {
+            'firstName', 'lastName', 'company', 'address', 'city','state','zip','country','phoneNumber','faxNumber','email', 'customerAddressId'
+        };
+    }
+
 
     // Constructors-----------------
     public Address (){}
@@ -34,7 +44,7 @@ public class Address extends AuthorizeDotNetType {
     }
 
     public Address(String firstName, String lastName, String address, String city, String state, String zip, String country) {
-        this.primaryKeyField = 'customerAddressId';
+        
         this.firstName = firstName;
         this.lastName = lastName;
         this.address = address;
@@ -42,9 +52,7 @@ public class Address extends AuthorizeDotNetType {
         this.state = state;
         this.zip = zip;
         this.country = country;
-        this.fields = new Set<String> {
-            'firstName', 'lastName', 'company', 'address', 'city','state','zip','country','phoneNumber','faxNumber','email', 'customerAddressId'
-        };
+        
     }
   
 

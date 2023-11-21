@@ -182,6 +182,8 @@ public void updateCustomerShippingAddress() {
         System.assert(resp.success());
     }
 
+    OcdlaEditPaymentMethodController cont = new OcdlaEditPaymentMethodController();
+    cont.editPaymentProfile();
 
     public void getCustomerProfile(){
         GetCustomerProfileRequest req = new GetCustomerProfileRequest();

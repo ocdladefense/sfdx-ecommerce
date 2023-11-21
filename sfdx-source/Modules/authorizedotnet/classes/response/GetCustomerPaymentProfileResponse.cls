@@ -9,6 +9,7 @@ public class GetCustomerPaymentProfileResponse extends AuthorizeDotNetResponse {
     // Required for Discover, Diners Club, JCB, and China Union Pay transactions
     private Decimal originalAuthAmount;
     private Address billTo;
+    private CustomerPaymentProfile paymentProfile;
 
     // Optional
     private String refId;
@@ -100,5 +101,9 @@ public class GetCustomerPaymentProfileResponse extends AuthorizeDotNetResponse {
 
     public String getRefId() {
         return this.refId;
+    }
+
+    public CustomerPaymentProfile getPaymentProfile() {
+        return this.paymentProfile;
     }
 }

@@ -15,8 +15,7 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType{
     private Boolean defaultPaymentProfile;
 
     public CustomerPaymentProfile() {
-        this.primaryKeyField = 'customerPaymentProfileId';
-        this.fields = new Set<String>{'billTo', 'payment', 'defaultPaymentProfile', 'customerPaymentProfileId'};
+        
     }
 
     public CustomerPaymentProfile(CreditCard card, Address billTo) {
@@ -26,6 +25,8 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType{
     }
 
   public override Map<String,Object> toMap() {
+    this.primaryKeyField = 'customerPaymentProfileId';
+    this.fields = new Set<String>{'billTo', 'payment', 'defaultPaymentProfile', 'customerPaymentProfileId'};
     Map<String,Object> tmp = new Map<String,Object>();
     tmp.put('payment', this.payment );
     tmp.put('billTo', this.billTo);
