@@ -186,14 +186,16 @@ public void updateCustomerShippingAddress() {
     public void getCustomerProfile(){
         GetCustomerProfileRequest req = new GetCustomerProfileRequest();
         req.setCustomerProfileId('905372692');
-        System.debug(req.getBody());
+        //System.debug(req.getBody());
 
         AuthorizeDotNetClient client = new AuthorizeDotNetClient();
 
         GetCustomerProfileResponse resp = (GetCustomerProfileResponse)client.send(req);
-        resp.deserialize();
+        //resp.deserialize();
         CustomerProfile profile = resp.getProfile();
         List<Address> shipToList = profile.getShipToList();
+        List<CustomerPaymentProfile> paymentProfiles = profile.getPaymentProfiles();
+        //system.debug(paymentProfiles);
         system.debug('number of shipping addresses is ' + shipToList.size());
         //system.debug(profile);
 

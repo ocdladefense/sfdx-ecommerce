@@ -1,8 +1,14 @@
 <apex:page controller="OcdlaSavedPaymentMethodsController">
     <apex:form id="paymentForm">
+        <apex:pageBlock>
+                <apex:outputText>
+                    {!c.FirstName & ' ' & c.LastName}
+                </apex:outputText>
+        </apex:pageBlock>
         <apex:outputPanel rendered="{!IF(paymentProfiles.size != 0, true, false)}">
             <apex:pageBlock>
                 <apex:commandLink action="{!redirectToAddPaymentMethod}" value="Add Payment Method" />
+                
             </apex:pageBlock>
             <apex:pageBlock title="Saved Payment Methods">
                 <apex:pageBlockTable value="{!paymentProfiles}" var="profile">

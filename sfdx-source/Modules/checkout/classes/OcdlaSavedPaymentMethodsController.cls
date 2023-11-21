@@ -1,7 +1,10 @@
 public class OcdlaSavedPaymentMethodsController {
     
     AuthorizeDotNetClient client = new AuthorizeDotNetClient();
-    String customerProfileId = '905372692';
+    public Contact c {get; set;}
+
+    String customerProfileId;
+    //String customerProfileId = '905372692';
 
     public Address billingInfo {get; set;}
     public Payment paymentInfo {get; set;}
@@ -14,10 +17,11 @@ public class OcdlaSavedPaymentMethodsController {
         billingInfo = new Address();
         paymentInfo = new Payment();
         client = new AuthorizeDotNetClient();
-
+        c = [SELECT FirstName, LastName, Email, AuthorizeDotNetCustomerProfileId__c FROM Contact WHERE Id = '0037h00000u1YBpAAM'];
+        customerProfileId = c.AuthorizeDotNetCustomerProfileId__c;
         paymentProfiles = new List<CustomerPaymentProfile>();
         // pretend that logged in users Authorize.net customer profile id is called.
-        loadPaymentProfiles(customerProfileId);
+        loadPaymentProfiles(false);
         
     }
 
@@ -102,25 +106,25 @@ public class OcdlaSavedPaymentMethodsController {
 
         // For testing
         if(mock) {
-            paymentProfiles = sampleCustomerPaymentProfileList();
+            this.paymentProfiles = sampleCustomerPaymentProfileList();
         }
         else {
-            paymentProfiles = getPaymentProfiles();
+            this.paymentProfiles = getPaymentProfiles();
         }
         
         //paymentProfiles = sampleEmptyCustomerPaymentProfileList();
     }
 
     public List<CustomerPaymentProfile> getPaymentProfiles() {
-        /*
-        GetCustomerProfileRequest req = new GetCustomerProfileRequest(customerProfileId);
+        
+        GetCustomerProfileRequest req = new GetCustomerProfileRequest();
+        req.setCustomerProfileId(customerProfileId);
 
-        AuthorizeDotNetResponse resp = client.send(req);
+        GetCustomerProfileResponse resp = (GetCustomerProfileResponse)client.send(req);
+        CustomerProfile profile = resp.getProfile();
+        List<CustomerPaymentProfile> paymentProfiles = profile.getPaymentProfiles();
 
-        // get the payment profiles out of the response and add to paymentProfiles
-        */
-
-        return null;
+        return paymentProfiles;
     }
 
     // Test method

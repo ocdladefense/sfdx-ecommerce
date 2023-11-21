@@ -1,13 +1,13 @@
 public class GetCustomerProfileRequest extends AuthorizeDotNetRequest {
     //this makes a request to retrieve all the saved payment profiles for a customer
     private String customerProfileId;
-    private Boolean includeIssuerInfo = true;
+    private Boolean unmaskExpirationDate = true;
   
 
     public GetCustomerProfileRequest() {
         super('getCustomerProfile');
         this.fields = new Set<String>{
-            'customerProfileId', 'includeIssuerInfo'
+            'customerProfileId', 'unmaskExpirationDate'
         };
     }
     public GetCustomerProfileRequest(String customerProfileId){
@@ -34,12 +34,12 @@ public class GetCustomerProfileRequest extends AuthorizeDotNetRequest {
         return this.customerProfileId;
     }
 
-    public Boolean getIncludeIssuerInfo(){
-        return this.includeIssuerInfo;
+    public Boolean getUnmaskExpirationDate(){
+        return this.unmaskExpirationDate;
     }
 
-    public void setIncludeIssuerInfo(Boolean includeIssuerInfo){
-        this.includeIssuerInfo=includeIssuerInfo;
+    public void setUnmaskExpirationDate(Boolean unmaskExpirationDate){
+        this.unmaskExpirationDate=unmaskExpirationDate;
     }
 
     // public override String getBody() {
