@@ -16,8 +16,8 @@ public class OcdlaSavedPaymentMethodsController {
         client = new AuthorizeDotNetClient();
 
         paymentProfiles = new List<CustomerPaymentProfile>();
-
-        loadPaymentProfiles();
+        // pretend that logged in users Authorize.net customer profile id is called.
+        loadPaymentProfiles(customerProfileId);
         
     }
 
@@ -77,15 +77,7 @@ public class OcdlaSavedPaymentMethodsController {
     }
 
     
-    public void getPaymentPaymentProfiles() {
-        /*
-        GetCustomerProfileRequest req = new GetCustomerProfileRequest(customerProfileId);
-
-        AuthorizeDotNetResponse resp = client.send(req);
-
-        // get the payment profiles out of the response and add to paymentProfiles
-        */
-    }
+    
     
 
     
@@ -103,14 +95,32 @@ public class OcdlaSavedPaymentMethodsController {
         return new Pagereference('/apex/OcdlaSavedPaymentMethods');
     }
 
-    public void loadPaymentProfiles() {
+    public void loadPaymentProfiles(Boolean mock) {
         //getPaymentPaymentProfiles();
 
 
 
         // For testing
-        paymentProfiles = sampleCustomerPaymentProfileList();
+        if(mock) {
+            paymentProfiles = sampleCustomerPaymentProfileList();
+        }
+        else {
+            paymentProfiles = getPaymentProfiles();
+        }
+        
         //paymentProfiles = sampleEmptyCustomerPaymentProfileList();
+    }
+
+    public List<CustomerPaymentProfile> getPaymentProfiles() {
+        /*
+        GetCustomerProfileRequest req = new GetCustomerProfileRequest(customerProfileId);
+
+        AuthorizeDotNetResponse resp = client.send(req);
+
+        // get the payment profiles out of the response and add to paymentProfiles
+        */
+
+        return null;
     }
 
     // Test method
