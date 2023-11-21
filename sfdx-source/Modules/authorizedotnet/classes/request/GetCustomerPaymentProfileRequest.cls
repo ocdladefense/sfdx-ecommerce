@@ -6,6 +6,7 @@ public class GetCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
 
     public GetCustomerPaymentProfileRequest() {
         super('getCustomerPaymentProfile');
+        this.fields = new Set<String>{'customerProfileId', 'customerPaymentProfileId'};
     }
 
     public GetCustomerPaymentProfileRequest(CustomerPaymentProfile profile) {
@@ -17,15 +18,7 @@ public class GetCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
         this.customerProfileId = DEFAULT_PROFILE_ID;
         this.customerPaymentProfileId = profile.getCustomerPaymentProfileId();
         this.includeIssuerInfo = false;
-        this.requestType = 'GetCustomerPaymentProfile';
-        /*this.body = JSON.serialize(getBody());
-        
-        // Code from CreateCustomerPaymentProfileRequest BEFORE EDITS
-        String respTypeName = this.getRequestType() + 'Response'; // e.g., CreateCustomerPaymentProfileResponse
-        String respMockName = this.getRequestType() + 'MockResponse'; //e.g., CreateCustomerPaymentProfileMockResponse
-        Type t = Type.forName(this.getRequestType());
-        AuthorizeDotNetResponse resp = (AuthorizeDotNetResponse) t.newInstance();
-        */
+        this.requestType = 'getCustomerPaymentProfile';
     }
 
     public GetCustomerPaymentProfileRequest(CustomerPaymentProfile profile, Boolean includeIssuerInfo) {
@@ -34,11 +27,15 @@ public class GetCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
         this.customerProfileId = DEFAULT_PROFILE_ID;
         this.customerPaymentProfileId = profile.getCustomerPaymentProfileId();
         this.includeIssuerInfo = includeIssuerInfo;
-        this.requestType = 'GetCustomerPaymentProfile';
+        this.requestType = 'getCustomerPaymentProfile';
     }
 
     public void setCustomerProfileId(String customerProfileId) {
         this.customerProfileId = customerProfileId;
+    }
+
+    public void setCustomerPaymentProfileId(String customerPaymentProfileId) {
+        this.customerPaymentProfileId = customerPaymentProfileId;
     }
 
 
