@@ -20,49 +20,34 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
         //return this.deserialize();
         return this.body;
     }
+    // public override void setBody(String body) {
+    //     this.body = body;
+    // }
 
-    /*
-    public virtual void deserialize (){
-                //'{"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}'
-                //in sandbox testing has questionmark symbol before{"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}
-
-    
-        Map<String, Object> bodyMap = (Map<String, Object>)JSON.deserializeUntyped(this.body);
-
-        Map<String, Object> soapMessages = ( Map<String, Object>)bodyMap.get('messages');
-        //soapMessages = {"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}
-        String resultCode = (String)soapMessages.get('resultCode');
-        //resultCode = "Ok"
-        List<Object> messages = ( List<Object>)soapMessages.get('message');
-        //messages = [
-            // {"code":"I00001","text":"Successful."}
-            //]
-        Map<String, Object> message = (Map<String, Object>)messages[0];
-        //messageItem = {"code":"I00001","text":"Successful."}
-        String text = (String)message.get('text');
-        //text = 'Successful'
-        String code = (String)message.get('code');
-
-        this.temp = bodyMap;
-        this.resultCode=resultCode;
-        this.messages.add(message);
-    }
-
-    public Map<String, String> getMessage(){
-        return (Map<String, String>)messages[0];
-    }
-
-
-    */
-
-    //-------------Testing new methods
 
     public virtual void deserialize() {
-        // Deserialize the JSON string into a Map with String keys and Object values
-      
-        this.messages = (Messages)JSON.deserialize(this.getBody(), Messages.class);
-        System.debug('in authresp proper ' + this.messages);
-    }
+
+        System.debug('deserialize in auth response class');
+        
+        //when body is set through constructor this works, but messages contents are null when body is set using setter
+        //that may not be true - this code is not deserializing correctly at all
+        //all calls are entering the if code block
+
+        Messages m = (Messages)JSON.deserialize(this.getBody(), Messages.class);
+        this.messages = m;
+        System.debug('messages before null check is '+ this.messages);
+
+        //check if contents of resultCode is null
+        //this way works when body is set manually through setter
+        if(this.messages.getResultCode()==null){
+            AuthorizeDotNetResponse resp = (AuthorizeDotNetResponse)JSON.deserialize(this.getBody(), AuthorizeDotNetResponse.class);
+            this.messages = resp.getMessages();
+            System.debug('messages set after null check');
+            System.debug('messages getter is ' + this.getMessages());
+            
+        }
+
+    } 
 
     public Messages getMessages(){
         return this.messages;
@@ -79,6 +64,25 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
         return this.messages.getResultCode() == AuthorizeDotNetResponse.RESPONSE_SUCCESS;
     }
 
+    //generic ways to access a value that is at the same level as messages
+
+    public String getStringValue(String key){
+        Map<String, Object> theMap = (Map<String, Object>)JSON.deserializeUntyped(this.getBody());
+        String value = (String)theMap.get(key);
+        return value;
+    }
+
+    public Boolean getBooleanValue(String key){
+        Map<String, Object> theMap = (Map<String, Object>)JSON.deserializeUntyped(this.getBody());
+        Boolean value = (Boolean)theMap.get(key);
+        return value;
+    }
+
+    public Object getObject(String key){
+        Map<String, Object> theMap = (Map<String, Object>)JSON.deserializeUntyped(this.getBody());
+        Object value = theMap.get(key);
+        return value;
+    }
 
     public static AuthorizeDotNetResponse newFromRequestType(String requestType) {
 
@@ -88,5 +92,7 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
         System.debug('the type is '+ typeName);
         return (AuthorizeDotNetResponse)t.newInstance();
     }
+
+    
 
 }

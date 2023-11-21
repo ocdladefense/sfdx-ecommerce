@@ -8,7 +8,7 @@ public class DeleteCustomerPaymentProfileMockResponse extends AuthorizeDotNetRes
 
     //when testing for an error call setIsErrorTest
     public override String getBody() {
-        return getIsErrorTest()? errorDeletePaymentProfileResponseBody():okDeletePaymentProfileResponseBody();
+        return okDeletePaymentProfileResponseBody();
     }
    
     public static String okDeletePaymentProfileResponseBody(){

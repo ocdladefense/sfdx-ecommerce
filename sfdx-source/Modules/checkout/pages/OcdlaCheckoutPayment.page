@@ -121,7 +121,7 @@
                                             Billing Address
                                         </h2>
                                         <div id="cc-data-billing">
-                                            <c:UtilsBillingAddressFields data="{!billingData}" />
+                                            <!--c:UtilsBillingAddressFields data="{!billingData}" /-->
                                             
                                             
                                             <apex:outputPanel layout="none" rendered="{!hasShippableProducts}">

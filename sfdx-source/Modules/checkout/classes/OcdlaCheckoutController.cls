@@ -98,7 +98,8 @@ global without sharing class OcdlaCheckoutController extends CommunityController
         System.debug('Hallo!!');
         
 		
-        PageReference nextPage = Page.OcdlaCheckoutPayment;
+        //PageReference nextPage = Page.OcdlaCheckoutPayment;
+        Pagereference nextPage=null;
         Map<String,String> params = nextPage.getParameters();
         
         params.put('id', this.cartId);
@@ -138,7 +139,7 @@ global without sharing class OcdlaCheckoutController extends CommunityController
 
     
     public OcdlaCheckoutController() {
-        super('CheckoutCommunityConfig');
+        //super('CheckoutCommunityConfig');
 
 		Map<String,String> params = ApexPages.CurrentPage().getParameters();
         System.debug(params);
@@ -147,8 +148,8 @@ global without sharing class OcdlaCheckoutController extends CommunityController
         //TO DO add ref to customer profile id
         //customerProfileId='905372692';
         //note current contact's id is in AuthorizeDotNetCustomerProfileId__c in Contact
-        this.creditCards = CreditCard.retrieveSavedCards(customerProfileId);
-        this.cardOptions = CreditCard.toSelectOptions(this.creditCards);
+        //this.creditCards = CreditCard.retrieveSavedCards(customerProfileId);
+        //this.cardOptions = CreditCard.toSelectOptions(this.creditCards);
         
 
         this.stateOptions = getStateOptions();

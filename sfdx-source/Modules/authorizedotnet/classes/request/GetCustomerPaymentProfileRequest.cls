@@ -19,6 +19,7 @@ public class GetCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
         this.customerPaymentProfileId = profile.getCustomerPaymentProfileId();
         this.includeIssuerInfo = false;
         this.requestType = 'getCustomerPaymentProfile';
+        
     }
 
     public GetCustomerPaymentProfileRequest(CustomerPaymentProfile profile, Boolean includeIssuerInfo) {

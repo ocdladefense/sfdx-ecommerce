@@ -1,4 +1,4 @@
-public class Message {
+public class Message extends AuthorizeDotNetType{
 
     protected String code;
 
@@ -6,11 +6,10 @@ public class Message {
 
 
     public Message() {
-
+        this.fields = new Set<String> {
+            'code', 'text'
+        };
     }
-
-
-
 
 
     public String getCode (){

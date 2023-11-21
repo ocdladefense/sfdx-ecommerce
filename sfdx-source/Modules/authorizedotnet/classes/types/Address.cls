@@ -5,6 +5,8 @@ public class Address extends AuthorizeDotNetType {
 
     private String lastName;
 
+    private string company;
+
     private String address;
 
     private String city;
@@ -41,7 +43,7 @@ public class Address extends AuthorizeDotNetType {
         this.zip = zip;
         this.country = country;
         this.fields = new Set<String> {
-            'firstName', 'lastName', 'address', 'city','state','zip','country','phoneNumber','faxNumber','email', 'customerAddressId'
+            'firstName', 'lastName', 'company', 'address', 'city','state','zip','country','phoneNumber','faxNumber','email', 'customerAddressId'
         };
     }
   
@@ -51,6 +53,9 @@ public class Address extends AuthorizeDotNetType {
     
 
     // Getters------------------
+    public String getCustomerAddressId() {
+        return customerAddressId;
+    }
     
     public String getFirstName() {
         return firstName;
@@ -58,6 +63,10 @@ public class Address extends AuthorizeDotNetType {
 
     public String getLastName() {
         return lastName;
+    }
+
+    public String getCompany() {
+        return company;
     }
 
     public String getPhoneNumber() {
@@ -91,9 +100,12 @@ public class Address extends AuthorizeDotNetType {
     public String getCountry() {
         return country;
     }
-    
+  
 
     // Setters------------------------
+    public void setCustomerAddressId(string customerAddressId){
+        this.customerAddressId = customerAddressId;
+    }
     
     public void setPhoneNumber(string phoneNumber){
         this.phoneNumber = phoneNumber;
@@ -130,6 +142,10 @@ public class Address extends AuthorizeDotNetType {
 
     public void setCountry (string country){
         this.country = country;
+    }
+
+    public void setCompany (string company){
+        this.company = company;
     }
 
     
