@@ -8,10 +8,11 @@ public class DeleteCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
 
     public DeleteCustomerPaymentProfileRequest() {
         super('deleteCustomerPaymentProfile');
-        this.fields = new Set<String>{'customerProfileId', 'customerPaymentProfileId'};
     }
 
-
+    public override Set<String> keySet() {
+        return new Set<String>{'customerProfileId', 'customerPaymentProfileId'};
+    }
 
     public void setCustomerProfileId(String customerProfileId) {
         this.customerProfileId = customerProfileId;

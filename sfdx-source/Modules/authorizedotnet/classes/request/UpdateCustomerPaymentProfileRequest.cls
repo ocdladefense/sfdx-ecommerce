@@ -9,8 +9,13 @@ public class UpdateCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
         super('updateCustomerPaymentProfile');
         // testMode: Card data is validated using simple mathematical checks to confirm that it appears to be valid
         this.validationMode = 'testMode';
-        this.fields = new Set<String>{'customerProfileId', 'paymentProfile', 'validationMode'};
     }
+
+    public override Set<String> keySet() {
+        return new Set<String>{'customerProfileId', 'paymentProfile', 'validationMode'};
+    }
+
+
     // Might only need this constructor since billTo and payment are both in here
     public UpdateCustomerPaymentProfileRequest(CustomerPaymentProfile profile) {
         this();

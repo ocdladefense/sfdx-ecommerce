@@ -161,6 +161,65 @@ public void updateCustomerShippingAddress() {
     }
 
 
+    public void TestCustomerPaymentProfileTypes() {
+        Address billTo = new Address('Jose', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
+        CreditCard card = new CreditCard('4111111111111111','11/2024');
+        CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile(card,billTo);
+    }
+
+    public void GetCustomerPaymentProfile() {
+
+
+        GetCustomerPaymentProfileRequest req = new GetCustomerPaymentProfileRequest();
+        req.setCustomerProfileId('905372692');
+        req.setCustomerPaymentProfileId('915751777');
+        System.debug(req.getBody());
+
+        // Instantiate the client.
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+
+        GetCustomerPaymentProfileResponse resp = (GetCustomerPaymentProfileResponse)client.send(req);
+
+        System.debug(resp.getBody());
+
+
+        // These will fail.
+        // 
+        System.debug(resp.getCustomerProfileId());
+        System.debug(resp.getCustomerPaymentProfileId());
+
+        System.assert(resp.success());
+    }
+
+
+    public void createCustomerPaymentProfile() {
+
+        Address billTo = new Address('Sebastian', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
+
+        CreditCard card = new CreditCard('4111111111111122','11/2024');
+
+        CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile(card,billTo);
+        // Create an instance of the request object.
+        // Call the approppriate constructors,
+        // and any appropriate methods.
+        CreateCustomerPaymentProfileRequest req = new CreateCustomerPaymentProfileRequest(paymentProfile);
+        req.setCustomerProfileId('905372692');
+        System.debug(req.getBody());
+
+        // Instantiate the client.
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+
+        CreateCustomerPaymentProfileResponse resp = (CreateCustomerPaymentProfileResponse)client.send(req);
+
+        System.debug(resp.getBody());
+        System.debug(resp.getCustomerProfileId());
+        System.debug(resp.getCustomerPaymentProfileId());
+
+        System.assert(resp.success());
+    }
+
+
+
     public void deleteCustomerPaymentProfile() {
 
         
@@ -169,7 +228,7 @@ public void updateCustomerShippingAddress() {
         // and any appropriate methods.
         DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest();
         req.setCustomerProfileId('905372692');
-        req.setCustomerPaymentProfileId('915360041');
+        req.setCustomerPaymentProfileId('915751777');
         
 
        System.debug(req.getBody());
@@ -204,53 +263,6 @@ public void updateCustomerShippingAddress() {
     }
 
 
-    public void createCustomerPaymentProfile() {
-
-        Address billTo = new Address('Sebastian', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
-
-        CreditCard card = new CreditCard('4111111111111122','11/2024');
-
-        CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile(card,billTo);
-        // Create an instance of the request object.
-        // Call the approppriate constructors,
-        // and any appropriate methods.
-        CreateCustomerPaymentProfileRequest req = new CreateCustomerPaymentProfileRequest(paymentProfile);
-        req.setCustomerProfileId('905372692');
-        System.debug(req.getBody());
-
-        // Instantiate the client.
-        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
-
-        CreateCustomerPaymentProfileResponse resp = (CreateCustomerPaymentProfileResponse)client.send(req);
-
-        System.debug(resp.getBody());
-        System.debug(resp.getCustomerProfileId());
-        System.debug(resp.getCustomerPaymentProfileId());
-
-        System.assert(resp.success());
-    }
-
-    public void GetCustomerPaymentProfile() {
-        Address billTo = new Address('Jose', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
-        CreditCard card = new CreditCard('4111111111111111','11/2024');
-        CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile(card,billTo);
-
-        GetCustomerPaymentProfileRequest req = new GetCustomerPaymentProfileRequest(paymentProfile);
-        req.setCustomerProfileId('905372692');
-        req.setCustomerPaymentProfileId('915592271');
-        System.debug(req.getBody());
-
-        // Instantiate the client.
-        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
-
-        GetCustomerPaymentProfileResponse resp = (GetCustomerPaymentProfileResponse)client.send(req);
-
-        System.debug(resp.getBody());
-        System.debug(resp.getCustomerProfileId());
-        System.debug(resp.getCustomerPaymentProfileId());
-
-        System.assert(resp.success());
-    }
 
 
 

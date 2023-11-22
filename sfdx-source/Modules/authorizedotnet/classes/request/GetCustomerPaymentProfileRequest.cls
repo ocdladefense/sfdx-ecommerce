@@ -6,7 +6,18 @@ public class GetCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
 
     public GetCustomerPaymentProfileRequest() {
         super('getCustomerPaymentProfile');
-        this.fields = new Set<String>{'customerProfileId', 'customerPaymentProfileId'};
+    }
+
+    public override Set<String> keySet() {
+        return new Set<String>{'customerProfileId', 'customerPaymentProfileId'};
+    }
+
+    public override String getPrimaryKeyField() {
+        return 'customerPaymentProfileId';
+    }
+
+    public override String getPrimaryKeyValue() {
+        return this.customerPaymentProfileId;
     }
 
     public GetCustomerPaymentProfileRequest(CustomerPaymentProfile profile) {

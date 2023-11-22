@@ -90,6 +90,13 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage implement
         this.fields = fields;
     }
 
+    public virtual String getPrimaryKeyField() {
+        return null;
+    }
+
+    public virtual String getPrimaryKeyValue() {
+        return null;
+    }
 
     public Set<String> getIgnoredFields() {
         return this.ignoredFields;
