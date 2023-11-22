@@ -1,28 +1,40 @@
 public with sharing class OcdlaEditPaymentMethodController {
+    
+    
     AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+    
     String customerProfileId;
-    //String customerProfileId = '905372692';
+    
     String paymentProfileId;
 
     public Contact c {get; set;}
+
     public Address billingInfo {get; set;}
+
     public Payment paymentInfo {get; set;}
+
     public Boolean isDefaultPaymentMethod {get; set;}
+
     public CustomerPaymentProfile paymentProfile {get; set;}
+
     public String selectedPaymentProfileId {get; set;}
+    
+
+
+
     
     
     public OcdlaEditPaymentMethodController() {
         billingInfo = new Address();
         paymentInfo = new Payment();
         client = new AuthorizeDotNetClient();
-        c = [SELECT FirstName, LastName, Email, AuthorizeDotNetCustomerProfileId__c FROM Contact WHERE Id = '0037h00000u1YBpAAM'];
-        customerProfileId = c.AuthorizeDotNetCustomerProfileId__c;
+        // c = [SELECT FirstName, LastName, Email FROM Contact WHERE Id = '0037h00000u1YBpAAM'];
+        customerProfileId = '905372692';//c.AuthorizeDotNetCustomerProfileId__c;
         paymentProfileId = '915683841';
 
         GetCustomerPaymentProfileRequest req = new GetCustomerPaymentProfileRequest();
         req.setCustomerPaymentProfileId(paymentProfileId);
-        req.setCustomerProfileId('916263569');
+        req.setCustomerProfileId(customerProfileId);
 
         GetCustomerPaymentProfileResponse resp = (GetCustomerPaymentProfileResponse)client.send(req);
         paymentProfile = resp.getPaymentProfile();
