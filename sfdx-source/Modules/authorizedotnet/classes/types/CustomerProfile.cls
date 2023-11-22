@@ -1,4 +1,4 @@
-public class CustomerProfile extends AuthorizeDotNetType{
+public class CustomerProfile extends AuthorizeDotNetType {
     public List<CustomerPaymentProfile> paymentProfiles;
     public String profileType;
     public String customerProfileId;
@@ -7,9 +7,18 @@ public class CustomerProfile extends AuthorizeDotNetType{
     public String email;
     public List<Address> shipToList;
     
-    public CustomerProfile() {
-        this.primaryKeyField = 'customerProfileId';
-        this.fields = new Set<String> {
+    public CustomerProfile() {}
+
+    public override String getPrimaryKeyField() {
+        return 'customerProfileId';
+    }
+
+    public override String getPrimaryKeyValue() {
+        return this.customerProfileId;
+    }
+
+    public override Set<String> keySet() {
+        return new Set<String> {
             'merchantCustomerId', 'description', 'email', 'paymentProfiles','customerProfileId', 'shipToList'
         };
     }

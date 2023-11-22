@@ -8,5 +8,7 @@ public interface IOrderedMap {
 
     Set<String> keySet();
 
-    void removeField(String field);
+    void ignoreField(String field);
+
+    Set<String> getIgnoredFields();
 }

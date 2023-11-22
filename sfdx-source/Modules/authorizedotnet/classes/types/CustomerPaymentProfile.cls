@@ -14,9 +14,11 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType{
 
     private Boolean defaultPaymentProfile;
 
-    public CustomerPaymentProfile() {
-        
-    }
+
+
+
+    public CustomerPaymentProfile() {}
+
 
     public CustomerPaymentProfile(CreditCard card, Address billTo) {
         this();
@@ -24,19 +26,37 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType{
         this.payment = new Payment(card);
     }
 
-  public override Map<String,Object> toMap() {
-    this.primaryKeyField = 'customerPaymentProfileId';
-    this.fields = new Set<String>{'billTo', 'payment', 'defaultPaymentProfile', 'customerPaymentProfileId'};
-    Map<String,Object> tmp = new Map<String,Object>();
-    tmp.put('payment', this.payment );
-    tmp.put('billTo', this.billTo);
 
-    if(null == this.defaultPaymentProfile) {
-        this.removeField('defaultPaymentProfile');
+    public override String getPrimaryKeyField() {
+        return 'customerPaymentProfileId';
     }
-    return tmp;
-  }
 
+    public override String getPrimaryKeyValue() {
+        return this.customerPaymentProfileId;
+    }
+
+
+    public override Set<String> keySet() {
+        return new Set<String>{'billTo', 'payment', 'defaultPaymentProfile', 'customerPaymentProfileId'};
+    }
+
+
+    public override Map<String,Object> toMap() {
+
+        Map<String,Object> tmp = new Map<String,Object>();
+        tmp.put('payment', this.payment);
+        tmp.put('billTo', this.billTo);
+        tmp.put('defaultPaymentProfile', this.defaultPaymentProfile);
+
+        if(null == this.defaultPaymentProfile) {
+            this.ignoreField('defaultPaymentProfile');
+        }
+
+        return tmp;
+    }
+
+
+    
     
 
 
@@ -168,6 +188,6 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType{
     }
 
     public void setDefaultPaymentProfile (Boolean defaultPaymentProfile){
-        this.defaultPaymentProfile= defaultPaymentProfile;
+        this.defaultPaymentProfile = defaultPaymentProfile;
     }
 }

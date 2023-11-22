@@ -6,8 +6,11 @@ public class Payment extends AuthorizeDotNetType {
     }
 
     public Payment(CreditCard card) {
-        this.creditCard = card;
-        
+        this.creditCard = card; 
+    }
+
+    public override Set<String> keySet() {
+        return new Set<String> {'creditCard'};
     }
 
     public CreditCard getCreditCard() {
@@ -19,9 +22,7 @@ public class Payment extends AuthorizeDotNetType {
     }
 
     public override Map<String,Object> toMap() {
-        this.fields = new Set<String> {
-            'creditCard'
-        };
+
         return new Map<String,Object>{'creditCard' => this.creditCard};
     }
 }

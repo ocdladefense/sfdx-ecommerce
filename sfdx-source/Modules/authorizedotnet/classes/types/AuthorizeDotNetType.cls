@@ -1,15 +1,18 @@
 public virtual class AuthorizeDotNetType implements IOrderedMap {
 
     // This list determines the order that data will be retrieved when we iterator over
-    protected Set<String> fields { get { return keySet(); } set { fields = value; } }
+    
 
     protected Map<String, Object> data = new Map<String, Object>();
 
-    protected String primaryKeyField{ get { return getPrimaryKeyField(); } set { primaryKeyField = value; } }
+    protected String primaryKeyField;
 
-    public virtual String getPrimaryKeyField() {
-        return primaryKeyField;
-    }
+    protected Set<String> fields = new Set<String>();
+
+    protected Set<String> ignoredFields = new Set<String>();
+
+
+
 
     public AuthorizeDotNetType() {
         this.fields = new Set<String>();
@@ -25,10 +28,15 @@ public virtual class AuthorizeDotNetType implements IOrderedMap {
         return this.data.get(key);
     }
 
+
+    public virtual String getPrimaryKeyField() {
+        return null;
+    }
+
+
     // Create a getPrimaryKeyValue, gets
-    public String getPrimaryKeyValue() {
-        Map<String,Object> theMap = toMap();
-        return theMap.get(primaryKeyField) != null ? (String)theMap.get(primaryKeyField) : null;
+    public virtual String getPrimaryKeyValue() {
+        return null;
     }
 
     public void setFields(Set<String> fieldList) {
@@ -39,13 +47,19 @@ public virtual class AuthorizeDotNetType implements IOrderedMap {
         this.fields.add(key);
     }
 
-    public void removeField(String key) {
-        this.fields.remove(key);
+    public Set<String> getIgnoredFields() {
+        return this.ignoredFields;
     }
 
-    public void removePrimaryKeyField() {
-        this.fields.remove(this.primaryKeyField);
+    public void ignoreField(String fieldName) {
+        if(this.ignoredFields == null) {
+            this.ignoredFields = new Set<String>();
+        }
+
+        this.ignoredFields.add(fieldName);
     }
+
+
 
     public virtual Set<String> keySet() {
         return this.fields;

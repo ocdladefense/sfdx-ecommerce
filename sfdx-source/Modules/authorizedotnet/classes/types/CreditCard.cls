@@ -7,9 +7,7 @@ public class CreditCard extends AuthorizeDotNetType {
     private Boolean dateIsMasked;
     private String cvv;
 
-    public CreditCard() {
-        this.fields = new Set<String>{'cardNumber', 'expirationDate'};
-    }
+    public CreditCard() {}
 
     public CreditCard(String cardNumber) {
         this();
@@ -32,8 +30,15 @@ public class CreditCard extends AuthorizeDotNetType {
         this.cardNumber = cardNumber;
         this.expirationDate = expirationDate;
         this.cvv = cvv;
-        
     }
+
+
+
+    public override Set<String> keySet() {
+        return new Set<String>{'cardNumber', 'expirationDate'};
+    }
+
+    
 
     public Boolean isExpired() {
         return stringToDate() < Date.today();

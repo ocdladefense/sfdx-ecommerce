@@ -10,6 +10,8 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage implement
 
     protected Set<String> fields = new Set<String>(); 
 
+    protected Set<String> ignoredFields = new Set<String>();
+
     // protected AuthorizeDotNetType props = new AuthorizeDotNetType();
 
     public void put(String key, Object value) {
@@ -88,7 +90,19 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage implement
         this.fields = fields;
     }
 
-    public void removeField(String field) {
-        this.fields.remove(field);
+
+    public Set<String> getIgnoredFields() {
+        return this.ignoredFields;
     }
+
+    public void ignoreField(String fieldName) {
+        if(this.ignoredFields == null) {
+            this.ignoredFields = new Set<String>();
+        }
+
+        this.ignoredFields.add(fieldName);
+    }
+
+
+
 }

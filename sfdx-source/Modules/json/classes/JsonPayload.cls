@@ -31,12 +31,12 @@ public class JsonPayload {
     public void writeObjectFields(String fieldName, AuthorizeDotNetType obj) {
         String primaryKeyFieldName = obj.getPrimaryKeyField();
         String primaryKeyValue = obj.getPrimaryKeyValue();
-        IOrderedMap theMap = (IOrderedMap)obj;
+        // IOrderedMap theMap = ;
         if (primaryKeyValue == null) {
-            theMap.removeField(primaryKeyFieldName);
+            obj.ignoreField(primaryKeyFieldName);
         }
 
-        writeObjectFields(fieldName, theMap);
+        writeObjectFields(fieldName, (IOrderedMap)obj);
     }
 
     public void writeObjectFields(String fieldName, IOrderedMap obj) {
@@ -49,7 +49,10 @@ public class JsonPayload {
             gen.writeStartObject();
         }
         // iterate through the map calling gen.writeStringField() if value or if not value call gen.writeNullField()
-        for(String key : obj.keySet()) {
+        Set<String> keys = obj.keySet();
+        keys.removeAll(obj.getIgnoredFields());
+
+        for(String key : keys) {
 
             Object value = it.get(key);
             //System.debug(key);

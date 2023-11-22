@@ -29,6 +29,10 @@ public class Address extends AuthorizeDotNetType {
         return 'customerAddressId';
     }
 
+    public override String getPrimaryKeyValue() {
+        return this.customerAddressId;
+    }
+
     public override Set<String> keySet() {
         return new Set<String> {
             'firstName', 'lastName', 'company', 'address', 'city','state','zip','country','phoneNumber','faxNumber','email', 'customerAddressId'
