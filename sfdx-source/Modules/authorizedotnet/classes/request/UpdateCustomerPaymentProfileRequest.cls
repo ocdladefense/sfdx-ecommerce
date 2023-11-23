@@ -3,7 +3,8 @@ public class UpdateCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
     public CustomerPaymentProfile paymentProfile;
     public String validationMode;
     // Default profile id for our testing
-    public String DEFAULT_PROFILE_ID = '905372692';
+    //public String DEFAULT_PROFILE_ID = '905372692';
+    public String DEFAULT_PROFILE_ID = '916263569'; // Steven's sandbox customerProfileId
 
     public UpdateCustomerPaymentProfileRequest() {
         super('updateCustomerPaymentProfile');

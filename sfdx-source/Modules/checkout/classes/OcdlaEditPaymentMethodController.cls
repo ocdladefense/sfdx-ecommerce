@@ -29,8 +29,13 @@ public with sharing class OcdlaEditPaymentMethodController {
         paymentInfo = new Payment();
         client = new AuthorizeDotNetClient();
         // c = [SELECT FirstName, LastName, Email FROM Contact WHERE Id = '0037h00000u1YBpAAM'];
-        customerProfileId = '905372692';//c.AuthorizeDotNetCustomerProfileId__c;
-        paymentProfileId = '915752253';
+        //customerProfileId = '905372692';//c.AuthorizeDotNetCustomerProfileId__c;
+        //paymentProfileId = '915752253';
+        
+        // Steven's sandbox 
+        customerProfileId = '916263569';
+        paymentProfileId = '915683841';
+
 
         GetCustomerPaymentProfileRequest req = new GetCustomerPaymentProfileRequest();
         req.setCustomerPaymentProfileId(paymentProfileId);
