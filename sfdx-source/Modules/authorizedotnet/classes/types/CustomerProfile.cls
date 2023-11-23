@@ -1,5 +1,5 @@
 public class CustomerProfile extends AuthorizeDotNetType {
-    public List<CustomerPaymentProfile> paymentProfiles = new List<CustomerPaymentProfile>();
+    public List<CustomerPaymentProfile> paymentProfiles;
     public String profileType;
     public String customerProfileId;
     public String merchantCustomerId;
@@ -10,6 +10,7 @@ public class CustomerProfile extends AuthorizeDotNetType {
     public CustomerProfile() {}
 
     public CustomerProfile(CustomerPaymentProfile paymentprofile) {
+        this.paymentProfiles = new List<CustomerPaymentProfile>();
         this.paymentProfiles.add(paymentprofile);
     }
 
@@ -60,6 +61,9 @@ public class CustomerProfile extends AuthorizeDotNetType {
     }
 
     public List<CustomerPaymentProfile> getPaymentProfiles(){
+        if(this.paymentProfiles == null){
+            this.paymentProfiles = new List<CustomerPaymentProfile>();
+        }
         return this.paymentProfiles;
     }
     
@@ -87,6 +91,9 @@ public class CustomerProfile extends AuthorizeDotNetType {
         this.paymentProfiles = paymentProfiles;
     }
     public void addToPaymentProfiles(CustomerPaymentProfile paymentProfile){
+        if(this.paymentProfiles == null){
+            this.paymentProfiles = new List<CustomerPaymentProfile>();
+        }
         this.paymentProfiles.add(paymentProfile);
     }
     public List<Address> getShipToList(){

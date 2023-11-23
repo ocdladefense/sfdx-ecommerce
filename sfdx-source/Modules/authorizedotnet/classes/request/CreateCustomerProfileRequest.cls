@@ -1,10 +1,11 @@
 public class CreateCustomerProfileRequest extends AuthorizeDotNetRequest{
     private CustomerProfile profile;
-    private List<Address> shipToList = new List<Address>();
+    private List<Address> shipToList;
     private String validationMode = 'testMode';
 
     public CreateCustomerProfileRequest() {
         super('createCustomerProfile');
+        this.shipToList = new List<Address>();
         this.fields = new Set<String>{'profile', 'shipToList', 'validationMode'};
     }
 
@@ -50,6 +51,9 @@ public class CreateCustomerProfileRequest extends AuthorizeDotNetRequest{
     }
 
     public void addToShipToList (Address address){
+        if(this.shipToList ==null){
+            this.shipToList = new List<Address>();
+        }
         this.shipToList.add(address);
     }
 

@@ -6,26 +6,27 @@ public with sharing class Scratch {
         billTo.setCompany('LCC');
         CreditCard card = new CreditCard('4111111111111111', '12-2024');
 
-<<<<<<< HEAD
         CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile(card, billTo);
         //System.debug(paymentProfile);
         CustomerProfile profile = new CustomerProfile(paymentProfile);
         profile.setEmail('mara@mara.org');
+    
 
        
         CreateCustomerProfileRequest req = new CreateCustomerProfileRequest(profile);
         req.setCustomerProfile(profile);
-        system.debug(req);
+        //system.debug(req);
         Address shipTo = new Address('M.', 'Williams', '1000 10th Ave', 'Eugene', 'OR', '97401');
         req.addToShipToList(shipTo);
 
-        system.debug(req);
-=======
+        system.debug(req.getBody());
+        
+    }
+
     public void useStevensController() {
 
         OcdlaEditPaymentMethodController con = new OcdlaEditPaymentMethodController();
         con.editPaymentProfile();
->>>>>>> development
         
     }
 
@@ -66,13 +67,13 @@ public with sharing class Scratch {
         System.debug('addressId from response is ' + resp.getCustomerAddressId());
         System.debug(resp);
 
-        //for next call 916168863
+        //for next call 916356582
     }
 
 
 public void updateCustomerShippingAddress() {
         String default_custProfileId = '905372692';
-        String customerAddressId = '916168863';
+        String customerAddressId = '916356582';
         Address newAddress = new Address('Ralph', 'Williams', '19645 Andrew Lne', 'Reno', 'NV', '89521');
         newAddress.setPhoneNumber('541-555-5555');
         newAddress.setCompany('Good Dog Business');
@@ -93,14 +94,14 @@ public void updateCustomerShippingAddress() {
         System.debug('success is '+ resp.success());
         System.debug(resp);
 
-        //for next call 916168863
+        //for next call 916356582
     }
     public void updateCustomerShippingAddressWithNoChanges() {
         String default_custProfileId = '905372692';
-        String customerAddressId = '916168863';
+        String customerAddressId = '916356582';
         Address newAddress = new Address('Ralph', 'Williams', '19645 Andrew Lne', 'Reno', 'NV', '89521');
         newAddress.setPhoneNumber('541-555-5555');
-        newAddress.setCompany('Good Dog Dog Business');
+        newAddress.setCompany('Good Dog Business');
         newAddress.setCustomerAddressId(customerAddressId);
         
         updateCustomerShippingAddressRequest req = new updateCustomerShippingAddressRequest(newAddress);
@@ -123,7 +124,7 @@ public void updateCustomerShippingAddress() {
 
     public void getCustomerShippingAddress() {
         String default_custProfileId = '905372692';
-        String customerAddressId = '916168863';
+        String customerAddressId = '916356582';
        
         GetCustomerShippingAddressRequest req = new GetCustomerShippingAddressRequest();
         req.setCustomerProfileId('905372692');
@@ -149,7 +150,7 @@ public void updateCustomerShippingAddress() {
 
     public void deleteCustomerShippingAddress() {
         String default_custProfileId = '905372692';
-        String customerAddressId = '916168863';
+        String customerAddressId = '916356582';
        
         DeleteCustomerShippingAddressRequest req = new DeleteCustomerShippingAddressRequest();
         req.setCustomerProfileId(default_custProfileId);
@@ -166,20 +167,20 @@ public void updateCustomerShippingAddress() {
         
         System.debug(resp);
 
-        //try to get the deleted address by id
-        GetCustomerShippingAddressRequest req = new GetCustomerShippingAddressRequest();
-        req.setCustomerProfileId('905372692');
-        req.setCustomerAddressId('916168863');
-        //AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+        //try to get the deleted address by id 916356582 now deleted
+        // GetCustomerShippingAddressRequest req = new GetCustomerShippingAddressRequest();
+        // req.setCustomerProfileId('905372692');
+        // req.setCustomerAddressId('916356582');
+        // AuthorizeDotNetClient client = new AuthorizeDotNetClient();
 
-        GetCustomerShippingAddressResponse getResp = (GetCustomerShippingAddressResponse)client.send(req);
+        // GetCustomerShippingAddressResponse getResp = (GetCustomerShippingAddressResponse)client.send(req);
 
-        System.debug('success is '+ getResp.success());
-        Messages messages = getResp.getMessages();
-        Message message = messages.getFirstMessage();
-        String text = message.getText();
-        System.debug(text);
-        System.assertEquals(false, getResp.success(), 'the get request should come back as an error because there is no matching address id');
+        // System.debug('success is '+ getResp.success());
+        // Messages messages = getResp.getMessages();
+        // Message message = messages.getFirstMessage();
+        // String text = message.getText();
+        // System.debug(text);
+        // System.assertEquals(false, getResp.success(), 'the get request should come back as an error because there is no matching address id');
 
 
 
