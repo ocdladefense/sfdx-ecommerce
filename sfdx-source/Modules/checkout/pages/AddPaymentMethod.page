@@ -1,4 +1,4 @@
-<apex:page controller="SavedPaymentMethodsController">
+<apex:page controller="AddPaymentMethodController">
     <apex:form id="paymentMethod">
         <apex:pageBlock title="Add Payment Method">
             <apex:pageBlockSection title="Billing Information" columns="2">
@@ -14,13 +14,13 @@
             
             <apex:pageBlockSection title="Credit Card Information" columns="2">
                 <!-- Credit Card Information Fields -->
-                <apex:inputText value="{!paymentInfo.creditCard.cardNumber}">Credit Card Number: </apex:inputText>
-                <apex:inputText value="{!paymentInfo.creditCard.expirationDate}">Expiration Date: </apex:inputText>
+                <apex:inputText value="{!cardInfo.cardNumber}">Credit Card Number: </apex:inputText>
+                <apex:inputText value="{!cardInfo.expirationDate}">Expiration Date: </apex:inputText>
                 <apex:inputCheckbox value="{!isDefaultPaymentMethod}">Default Payment Method: </apex:inputCheckbox>
             </apex:pageBlockSection>
 
             <apex:pageBlockButtons>
-                <apex:commandButton value="Save" action="{!addPaymentProfile}" />
+                <apex:commandButton value="Submit" action="{!addPaymentProfile}" />
                 <apex:commandButton value="Cancel" action="{!redirectToSavedPaymentMethods}"/>
             </apex:pageBlockButtons>
         </apex:pageBlock>
