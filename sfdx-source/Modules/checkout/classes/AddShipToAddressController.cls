@@ -1,14 +1,15 @@
-public with sharing class OcdlaViewShippingAddressController {
-    
+public with sharing class AddShipToAddressController {
+   
     AuthorizeDotNetClient client;
     String customerProfileId;
     //String maraContactId = '0037h00000uAHSHAA4';
 
     public Contact c {get; set;}
+    public Address shipTo;
     public List<Address> shipToList {get; set;}
     public String selectedCustomerAddressId {get; set;}
     
-    public OcdlaViewShippingAddressController() {
+    public AddShipToAddressController() {
 
         client = new AuthorizeDotNetClient();
         c = [SELECT FirstName, LastName, Email, AuthorizeDotNetCustomerProfileId__c FROM Contact WHERE Id = '0037h00000uAHSHAA4'];
@@ -16,8 +17,8 @@ public with sharing class OcdlaViewShippingAddressController {
         
         String default_custProfileId = '905372692';
         customerProfileId=default_custProfileId;
-        shipToList = new List<Address>();
-        loadShipToList(false);
+        shipTo = new Address();
+       
     }
     public List<Address> getShipToList() {
         
@@ -55,16 +56,21 @@ public with sharing class OcdlaViewShippingAddressController {
         //paymentProfiles = sampleEmptyCustomerPaymentProfileList();
     }
 
+    public void addShipTo(){
+        return;
+    }
+
     public PageReference redirectToAddShipToAddress() {
-        return new PageReference('/apex/OcdlaAddShipToAddress');
+        return new PageReference('/apex/AddShipToAddress');
     }
 
     // public PageReference redirectToEditShipToAddress() {
-    //     return new PageReference('/apex/OcdlaEditShipToAddress');
+    //     return new PageReference('/apex/EditShipToAddress');
     // }
 
-    public PageReference redirectToSavedPaymentMethods() {
-        return new Pagereference('/apex/OcdlaViewShippingAddress');
+    public PageReference redirectToViewShippingAddress() {
+        return new Pagereference('/apex/ViewShippingAddress');
     }
+
 
 }

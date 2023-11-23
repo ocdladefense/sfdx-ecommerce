@@ -1,0 +1,10 @@
+<apex:page>
+<!-- Begin Default Content REMOVE THIS -->
+<h1>Delete a Shipping Address</h1>
+
+<!-- End Default Content REMOVE THIS -->
+<!-- <apex:pageBlockButtons>
+    <apex:commandButton value="Delete" action="{!deleteShipTo}" />
+    <apex:commandButton value="Cancel" action="{!redirectToViewShippingAddress}"/>
+</apex:pageBlockButtons> -->
+</apex:page>
