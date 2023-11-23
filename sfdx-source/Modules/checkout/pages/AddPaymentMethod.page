@@ -20,7 +20,7 @@
             </apex:pageBlockSection>
 
             <apex:pageBlockButtons>
-                <apex:commandButton value="Save" action="{!addPaymentProfile}" rerender="paymentForm"/>
+                <apex:commandButton value="Save" action="{!addPaymentProfile}" />
                 <apex:commandButton value="Cancel" action="{!redirectToSavedPaymentMethods}"/>
             </apex:pageBlockButtons>
         </apex:pageBlock>

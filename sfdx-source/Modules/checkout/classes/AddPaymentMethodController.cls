@@ -1,17 +1,27 @@
-public class AddPaymentMethodsController {
+public class AddPaymentMethodController {
     
     AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+
     String customerProfileId;
-    //String customerProfileId = '905372692';
 
     public Contact c {get; set;}
+
     public Address billingInfo {get; set;}
+
     public Payment paymentInfo {get; set;}
-    public Boolean isDefaultPaymentMethod {get; set;}
-    public List<CustomerPaymentProfile> paymentProfiles {get; set;}
-    public String selectedPaymentProfileId {get; set;}
+
     
-    public AddPaymentMethodsController() {
+    public AddPaymentMethodController() {
+        billingInfo = new Address();
+        paymentInfo = new Payment();
+        client = new AuthorizeDotNetClient();
+        // c = [SELECT FirstName, LastName, Email FROM Contact WHERE Id = '0037h00000u1YBpAAM'];
+        //customerProfileId = '905372692';//c.AuthorizeDotNetCustomerProfileId__c;
+        //paymentProfileId = '915752253';
+        
+        // Steven's sandbox 
+        customerProfileId = '916263569';
+
 
     }
 
@@ -31,7 +41,19 @@ public class AddPaymentMethodsController {
 
     // Calls CreatePaymentProfile
     
-    public void addPaymentProfile() {
+    public Pagereference addPaymentProfile() {
+
+        CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile(paymentInfo.getCreditCard(), billingInfo);
+
+        CreateCustomerPaymentProfileRequest req = new CreateCustomerPaymentProfileRequest(paymentProfile);
+        req.setCustomerProfileId(customerProfileId);
+
+        CreateCustomerPaymentProfileResponse resp = (CreateCustomerPaymentProfileResponse)client.send(req);
+
+        System.debug(resp.success());
+
+        return redirectToSavedPaymentMethods();
+
         /*
         CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile(paymentInfo.getCreditCard(), billingInfo);
         
@@ -54,16 +76,6 @@ public class AddPaymentMethodsController {
             return null; // Stays on the current page
         }
         */
-    }
-
-    
-    
-    public PageReference redirectToAddPaymentMethod() {
-        return new PageReference('/apex/AddPaymentMethod');
-    }
-
-    public PageReference redirectToEditPaymentMethod() {
-        return new PageReference('/apex/EditPaymentMethod');
     }
 
     public PageReference redirectToSavedPaymentMethods() {
