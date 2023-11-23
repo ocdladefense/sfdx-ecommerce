@@ -1,5 +1,5 @@
 public class CustomerProfile extends AuthorizeDotNetType {
-    public List<CustomerPaymentProfile> paymentProfiles;
+    public List<CustomerPaymentProfile> paymentProfiles = new List<CustomerPaymentProfile>();
     public String profileType;
     public String customerProfileId;
     public String merchantCustomerId;
@@ -8,6 +8,10 @@ public class CustomerProfile extends AuthorizeDotNetType {
     public List<Address> shipToList;
     
     public CustomerProfile() {}
+
+    public CustomerProfile(CustomerPaymentProfile paymentprofile) {
+        this.paymentProfiles.add(paymentprofile);
+    }
 
     public override String getPrimaryKeyField() {
         return 'customerProfileId';
@@ -82,7 +86,9 @@ public class CustomerProfile extends AuthorizeDotNetType {
     public void setPaymentProfiles(List<CustomerPaymentProfile> paymentProfiles) {
         this.paymentProfiles = paymentProfiles;
     }
-
+    public void addToPaymentProfiles(CustomerPaymentProfile paymentProfile){
+        this.paymentProfiles.add(paymentProfile);
+    }
     public List<Address> getShipToList(){
         return this.shipToList;
     }

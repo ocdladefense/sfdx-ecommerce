@@ -1,7 +1,26 @@
 
 public with sharing class Scratch {
 
+    public void CreateCustomerProfile(){
+        Address billTo = new Address('Mara', 'Williams', '1325 West 18th Ave', 'Eugene', 'OR', '97402');
+        billTo.setCompany('LCC');
+        CreditCard card = new CreditCard('4111111111111111', '12-2024');
 
+        CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile(card, billTo);
+        //System.debug(paymentProfile);
+        CustomerProfile profile = new CustomerProfile(paymentProfile);
+        profile.setEmail('mara@mara.org');
+
+       
+        CreateCustomerProfileRequest req = new CreateCustomerProfileRequest(profile);
+        req.setCustomerProfile(profile);
+        system.debug(req);
+        Address shipTo = new Address('M.', 'Williams', '1000 10th Ave', 'Eugene', 'OR', '97401');
+        req.addToShipToList(shipTo);
+
+        system.debug(req);
+        
+    }
 
     public void createCustomerShippingAddressFromBaseClass() {
 
@@ -11,7 +30,7 @@ public with sharing class Scratch {
         req.put('address', billTo);
         req.put('defaultShippingAddress',true);
 
-
+        
         String result = req.getBody();
 
         System.debug(result);
