@@ -55,11 +55,11 @@ public with sharing class OcdlaEditPaymentMethodController {
         
 
     
-    public void editPaymentProfile() {
+    public Pagereference editPaymentProfile() {
 
 
-        Address billToAddress = new Address('Testy', 'Tester', 'blah 123', 'Springfield', 'OR', '97477');
-        UpdateCustomerPaymentProfileRequest req = new UpdateCustomerPaymentProfileRequest(paymentProfile, billToAddress);
+        //Address billToAddress = new Address('Testy', 'Tester', 'blah 123', 'Springfield', 'OR', '97477');
+        UpdateCustomerPaymentProfileRequest req = new UpdateCustomerPaymentProfileRequest(paymentProfile, billingInfo);
         System.debug('XXXX- Payment profile id');
         System.debug(paymentProfile.getCustomerPaymentProfileId());
         System.debug('XXXX - Payment profile keySet...');
@@ -69,6 +69,8 @@ public with sharing class OcdlaEditPaymentMethodController {
 
         UpdateCustomerPaymentProfileResponse resp = (UpdateCustomerPaymentProfileResponse)client.send(req);
         System.debug(resp.success());
+        
+        return redirectToSavedPaymentMethods();
     }
 
 
