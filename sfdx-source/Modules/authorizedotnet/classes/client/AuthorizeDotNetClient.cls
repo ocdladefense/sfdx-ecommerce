@@ -42,7 +42,7 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
         req.setEndpoint( 'https' + '://'+ getDomain()+'/'+'ccAuthorize');
         req.setTimeout(CALLOUT_TIMEOUT);
         // Execute web service call here	
-     	System.debug('From send req is ' + req);
+     	// System.debug('From send req is ' + req);
         HttpResponse resp = http.send(req);
         
         return TransactionResponse.newFromResponse(resp);
@@ -85,7 +85,7 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
         // System.debug(bresp.getBody());
         String respBodyString = bresp.getBody().replace('\uFEFF', '');
         
-        System.debug(respBodyString);
+        // System.debug(respBodyString);
         // //inspect the specific type of request to know what to do.
         // //the generic step - an authorizedotnetresponse rather than a specific kind 
         //AuthorizeDotNetResponse resp = new AuthorizeDotNetResponse(respBodyString);

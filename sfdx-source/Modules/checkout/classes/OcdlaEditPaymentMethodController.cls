@@ -30,7 +30,7 @@ public with sharing class OcdlaEditPaymentMethodController {
         client = new AuthorizeDotNetClient();
         // c = [SELECT FirstName, LastName, Email FROM Contact WHERE Id = '0037h00000u1YBpAAM'];
         customerProfileId = '905372692';//c.AuthorizeDotNetCustomerProfileId__c;
-        paymentProfileId = '915683841';
+        paymentProfileId = '915752253';
 
         GetCustomerPaymentProfileRequest req = new GetCustomerPaymentProfileRequest();
         req.setCustomerPaymentProfileId(paymentProfileId);
@@ -38,6 +38,10 @@ public with sharing class OcdlaEditPaymentMethodController {
 
         GetCustomerPaymentProfileResponse resp = (GetCustomerPaymentProfileResponse)client.send(req);
         paymentProfile = resp.getPaymentProfile();
+
+        System.debug(' XXXX - RESPONSE FOR THE ACTIVE PAYMENT PROFILE');
+        System.debug(paymentProfile.getCustomerPaymentProfileId());
+
         billingInfo = paymentProfile.getBillTo();
         paymentInfo = paymentProfile.getPayment();
     }
@@ -47,24 +51,17 @@ public with sharing class OcdlaEditPaymentMethodController {
 
     
     public void editPaymentProfile() {
-        // get the selected payment profile
-        // make request with edited data
-                
-        
-        /*
-        CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile(paymentInfo.getCreditCard(), billingInfo);
-        paymentProfile.setCustomerPaymentProfileId(selectedPaymentProfileId);
-        paymentProfile.setDefaultPaymentProfile(isDefaultPaymentMethod);
 
-        UpdateCustomerPaymentProfileRequest req = new UpdateCustomerPaymentProfileRequest(paymentProfile);
-        
-        AuthorizeDotNetResponse resp = client.send(req);
-        */
 
         Address billToAddress = new Address('Testy', 'Tester', 'blah 123', 'Springfield', 'OR', '97477');
         UpdateCustomerPaymentProfileRequest req = new UpdateCustomerPaymentProfileRequest(paymentProfile, billToAddress);
-        System.debug('Edit controller 54' + req.getBody());
+        System.debug('XXXX- Payment profile id');
+        System.debug(paymentProfile.getCustomerPaymentProfileId());
+        System.debug('XXXX - Payment profile keySet...');
         System.debug(paymentProfile.keySet());
+        System.debug('XXXX - Update request body...');
+        System.debug(req.getBody());
+
         UpdateCustomerPaymentProfileResponse resp = (UpdateCustomerPaymentProfileResponse)client.send(req);
         System.debug(resp.success());
     }

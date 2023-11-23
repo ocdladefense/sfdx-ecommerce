@@ -6,6 +6,7 @@ public with sharing class Scratch {
         billTo.setCompany('LCC');
         CreditCard card = new CreditCard('4111111111111111', '12-2024');
 
+<<<<<<< HEAD
         CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile(card, billTo);
         //System.debug(paymentProfile);
         CustomerProfile profile = new CustomerProfile(paymentProfile);
@@ -19,6 +20,12 @@ public with sharing class Scratch {
         req.addToShipToList(shipTo);
 
         system.debug(req);
+=======
+    public void useStevensController() {
+
+        OcdlaEditPaymentMethodController con = new OcdlaEditPaymentMethodController();
+        con.editPaymentProfile();
+>>>>>>> development
         
     }
 
