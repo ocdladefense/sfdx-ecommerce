@@ -16,11 +16,11 @@ public class OcdlaSavedPaymentMethodsController {
         billingInfo = new Address();
         paymentInfo = new Payment();
         client = new AuthorizeDotNetClient();
-        c = [SELECT FirstName, LastName, Email, AuthorizeDotNetCustomerProfileId__c FROM Contact WHERE Id = '0037h00000u1YBpAAM'];
+        c = [SELECT FirstName, LastName, Email, AuthorizeDotNetCustomerProfileId__c FROM Contact WHERE Id = '0037h00000uAHSHAA4'];
         customerProfileId = c.AuthorizeDotNetCustomerProfileId__c;
         paymentProfiles = new List<CustomerPaymentProfile>();
         // pretend that logged in users Authorize.net customer profile id is called.
-        loadPaymentProfiles(false);
+        loadPaymentProfiles(true);
         
     }
 

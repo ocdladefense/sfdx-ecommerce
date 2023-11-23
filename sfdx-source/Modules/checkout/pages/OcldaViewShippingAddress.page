@@ -1,0 +1,26 @@
+<apex:page controller="OcdlaViewShippingAddressController">
+<!-- Begin Default Content REMOVE THIS -->
+<h1>Shipping Addresses</h1>
+<h2>
+    <apex:outputText>
+        {!c.FirstName & ' ' & c.LastName}
+    </apex:outputText>
+</h2>
+<apex:pageBlock title="Saved Shipping Addresses">
+    <apex:pageBlockTable value="{!shipToList}" var="shipTo">
+        <apex:column headerValue="Name">
+            {!shipTo.firstName & ' ' & shipTo.lastName}
+        </apex:column>
+        <apex:column value="{!shipTo.company}" headerValue="Company" />
+        <apex:column value="{!shipTo.address}" headerValue="Address" />
+        <apex:column value="{!shipTo.city}" headerValue="City" />
+        <apex:column value="{!shipTo.state}" headerValue="State" />
+        <apex:column value="{!shipTo.zip}" headerValue="Zipcode" />
+       
+
+
+    </apex:pageBlockTable>
+</apex:pageBlock>
+
+<!-- End Default Content REMOVE THIS -->
+</apex:page>
