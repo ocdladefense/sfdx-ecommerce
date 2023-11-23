@@ -1,8 +1,5 @@
 public class EditPaymentMethodController {
-    public EditPaymentMethodController() {
-
-    }
-
+    
     AuthorizeDotNetClient client = new AuthorizeDotNetClient();
     
     String customerProfileId;
