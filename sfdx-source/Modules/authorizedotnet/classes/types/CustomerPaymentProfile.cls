@@ -17,7 +17,9 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType{
 
 
 
-    public CustomerPaymentProfile() {}
+    public CustomerPaymentProfile() {
+        super();
+    }
 
 
     public CustomerPaymentProfile(CreditCard card, Address billTo) {
@@ -46,6 +48,7 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType{
         Map<String,Object> tmp = new Map<String,Object>();
         tmp.put('payment', this.payment);
         tmp.put('billTo', this.billTo);
+        tmp.put('customerPaymentProfileId', this.customerPaymentProfileId);
         tmp.put('defaultPaymentProfile', this.defaultPaymentProfile);
 
         if(null == this.defaultPaymentProfile) {

@@ -33,18 +33,9 @@ public virtual class AuthorizeDotNetType implements IOrderedMap {
         return null;
     }
 
-
     // Create a getPrimaryKeyValue, gets
     public virtual String getPrimaryKeyValue() {
         return null;
-    }
-
-    public void setFields(Set<String> fieldList) {
-        this.fields = fieldList;
-    }
-
-    public void addField(String key) {
-        this.fields.add(key);
     }
 
     public Set<String> getIgnoredFields() {
@@ -59,10 +50,17 @@ public virtual class AuthorizeDotNetType implements IOrderedMap {
         this.ignoredFields.add(fieldName);
     }
 
-
-
     public virtual Set<String> keySet() {
         return this.fields;
+    }
+
+
+    public void setFields(Set<String> fieldList) {
+        this.fields = fieldList;
+    }
+
+    public void addField(String key) {
+        this.fields.add(key);
     }
 
     public virtual Map<String,Object> toMap() {

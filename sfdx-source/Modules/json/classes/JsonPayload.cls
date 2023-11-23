@@ -31,8 +31,12 @@ public class JsonPayload {
     public void writeObjectFields(String fieldName, AuthorizeDotNetType obj) {
         String primaryKeyFieldName = obj.getPrimaryKeyField();
         String primaryKeyValue = obj.getPrimaryKeyValue();
-        // IOrderedMap theMap = ;
-        if (primaryKeyValue == null) {
+       
+
+        if(primaryKeyFieldName != null) {
+            System.debug(primaryKeyFieldName + 'is: '+ primaryKeyValue);
+        }
+        if(primaryKeyValue == null) {
             obj.ignoreField(primaryKeyFieldName);
         }
 

@@ -2,6 +2,12 @@
 public with sharing class Scratch {
 
 
+    public void useStevensController() {
+
+        OcdlaEditPaymentMethodController con = new OcdlaEditPaymentMethodController();
+        con.editPaymentProfile();
+        
+    }
 
     public void createCustomerShippingAddressFromBaseClass() {
 
