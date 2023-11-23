@@ -24,63 +24,23 @@ public class SavedPaymentMethodsController {
         
     }
 
-    // Calls CreatePaymentProfile
     
-    public void addPaymentProfile() {
-        /*
-        CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile(paymentInfo.getCreditCard(), billingInfo);
+    public Pagereference deletePaymentProfile() {
         
-        paymentProfile.setDefaultPaymentProfile(isDefaultPaymentMethod);
-
-        // Create request
-        CreateCustomerPaymentProfileRequest req = new CreateCustomerPaymentProfileRequest(paymentProfile);
-        
-        // Send request
-        AuthorizeDotNetResponse resp = client.send(req);
-
-        // Handle the response
-        if (resp.success()) {
-            // Redirect or display success message
-            // ...
-            return new PageReference('/apex/SavedPaymentMethods');
-        } else {
-            // Handle errors and display messages
-
-            return null; // Stays on the current page
-        }
-        */
-    }
-
-    
-    public void editPaymentProfile() {
-        // get the selected payment profile
-        // make request with edited data
-               
-        
-        /*
-        CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile(paymentInfo.getCreditCard(), billingInfo);
-        paymentProfile.setCustomerPaymentProfileId(selectedPaymentProfileId);
-        paymentProfile.setDefaultPaymentProfile(isDefaultPaymentMethod);
-
-        UpdateCustomerPaymentProfileRequest req = new UpdateCustomerPaymentProfileRequest(paymentProfile);
-        
-        AuthorizeDotNetResponse resp = client.send(req);
-        */
-    }
-
-    
-    public void deletePaymentProfile() {
-        /*
         DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest();
         req.setCustomerProfileId(customerProfileId);
         req.setCustomerPaymentProfileId(selectedPaymentProfileId);
 
-        AuthorizeDotNetResponse resp = client.send(req);
-        */
+        DeleteCustomerPaymentProfileResponse resp = (DeleteCustomerPaymentProfileResponse)client.send(req);
+        
+        // Forces a full page reload
+        return new Pagereference(ApexPages.currentPage().getUrl()).setRedirect(true);
     }
 
+
+    // TODO: can I call method in EditPaymentMethodController?
     public void setDefaultPaymentProfile() {
-        editPaymentProfile();
+        //editPaymentProfile();
     }
 
     

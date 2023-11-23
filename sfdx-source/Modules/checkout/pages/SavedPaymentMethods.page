@@ -23,7 +23,7 @@
                         </apex:commandLink>
                     </apex:column>
                     <apex:column>
-                        <apex:commandLink value="Delete" action="{!deletePaymentProfile}" rerender="pageBlock">
+                        <apex:commandLink value="Delete" action="{!deletePaymentProfile}">
                             <apex:param name="paymentProfileId" value="{!profile.customerPaymentProfileId}" assignTo="{!selectedPaymentProfileId}" />
                         </apex:commandLink>
                     </apex:column>
