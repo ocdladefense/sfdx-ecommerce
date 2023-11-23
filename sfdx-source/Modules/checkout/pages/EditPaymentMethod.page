@@ -1,6 +1,6 @@
-<apex:page controller="OcdlaSavedPaymentMethodsController">
+<apex:page controller="EditPaymentMethodController">
     <apex:form id="paymentMethod">
-        <apex:pageBlock title="Add Payment Method">
+        <apex:pageBlock title="Edit Payment Method">
             <apex:pageBlockSection title="Billing Information" columns="2">
                 <apex:inputText value="{!billingInfo.firstName}">First Name: </apex:inputText>
                 <apex:inputText value="{!billingInfo.lastName}">Last Name: </apex:inputText>
@@ -20,7 +20,7 @@
             </apex:pageBlockSection>
 
             <apex:pageBlockButtons>
-                <apex:commandButton value="Submit" action="{!addPaymentProfile}" rerender="paymentForm"/>
+                <apex:commandButton value="Save" action="{!editPaymentProfile}" />
                 <apex:commandButton value="Cancel" action="{!redirectToSavedPaymentMethods}"/>
             </apex:pageBlockButtons>
         </apex:pageBlock>

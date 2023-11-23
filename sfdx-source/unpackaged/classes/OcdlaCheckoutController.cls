@@ -1,4 +1,4 @@
-global without sharing class OcdlaCheckoutController extends CommunityController {
+public without sharing class OcdlaCheckoutController { //extends CommunityController {
 	
     public static Id GUEST_CHECKOUT_ACCOUNT_ID;
 
@@ -69,11 +69,12 @@ global without sharing class OcdlaCheckoutController extends CommunityController
         return this.IsPaid;
     }
 
-    private static Boolean hasShippableProducts(Id cartId){
-        List<OpportunityLineItem> lines = [SELECT Id, Product2.IsShippable__c FROM OpportunityLineItem WHERE OpportunityId = :cartId];
+    private static Boolean hasShippableProducts(Id cartId) {
+        List<OpportunityLineItem> lines = Database.query('SELECT Id, Product2.IsShippable__c FROM OpportunityLineItem WHERE OpportunityId = :cartId');
         
         for(OpportunityLineItem line :lines){
-            if(line.Product2.IsShippable__c) return True;
+            Boolean isShippable = (Boolean)line.Product2.get('IsShippable');
+            if(isShippable) return True;
         }
         
         return False;
@@ -220,15 +221,15 @@ global without sharing class OcdlaCheckoutController extends CommunityController
     }
     
     public PageReference redirectIfSobjectError(){
-		return OrgOcdla.redirectTo(OrgOcdla.SHOPPING_CART_REGENERATE_OPPORTUNITY_PAGE);
+		return null; //OrgOcdla.redirectTo(OrgOcdla.SHOPPING_CART_REGENERATE_OPPORTUNITY_PAGE);
     }
     
     @RemoteAction
-    global static Boolean attachAccount(Contact c, String oppId){
+    public static Boolean attachAccount(Contact c, String oppId){
         Id accountId;
         
         // accountId = 
-        Opportunity opp = new Opportunity(Id = oppId, AccountId = c.AccountId, Contact__c=c.Id);
+        Opportunity opp = new Opportunity(Id = oppId, AccountId = c.AccountId);//, Contact__c=c.Id);
         update opp;
         return True;
     }
@@ -259,8 +260,7 @@ global without sharing class OcdlaCheckoutController extends CommunityController
         // because it's a static function we can't use class variables like billToContact
         // UserInfo may be tied to the class and possibly not usable in static functions
         // we will have another function to get the saved CCs after getting the logged in user
-        Contact c = [SELECT FirstName, LastName, Email, MailingStreet, MailingPostalCode, MailingCity, Ocdla_Address_Line_1__c, 
-                          Ocdla_Address_Line_2__c, MailingStateCode, AccountId, Account.Name FROM Contact WHERE Id = :customerId];
+        Contact c = Database.query('SELECT FirstName, LastName, Email, MailingStreet, MailingPostalCode, MailingCity, Ocdla_Address_Line_1__c, Ocdla_Address_Line_2__c, MailingStateCode, AccountId, Account.Name FROM Contact WHERE Id = :customerId');
         
         // could probably add a check here to make sure the contact isn't empty or something
         
@@ -311,7 +311,7 @@ global without sharing class OcdlaCheckoutController extends CommunityController
         // if..else success, redirect to order confirmation page. else, "you failed"
 		// if success, calls processOrderStub first, that gets opportunity (which we wont have to do because we call all of this serverside)
         //         
-		PageReference nextPage = Page.OrderConfirmation;
+		PageReference nextPage = null;//Page.OrderConfirmation;
         Map<String,String> params = nextPage.getParameters();
         // processOrderStub() - make sure we can successfully convert the shopping cart into an order
         // Note: This does NOT create order items. We only create order items when we finalize the order.
@@ -362,7 +362,7 @@ global without sharing class OcdlaCheckoutController extends CommunityController
 
     
     @RemoteAction
-    global static List<Contact> checkOrderEmail(String email){
+    public static List<Contact> checkOrderEmail(String email){
        String out = email.trim();
         
        Map<String,String> resp = new Map<String,String>();
@@ -376,7 +376,7 @@ global without sharing class OcdlaCheckoutController extends CommunityController
     
     
     @RemoteAction
-    global static Contact generateGuestCheckoutContact(Contact c, Id oppId){
+    public static Contact generateGuestCheckoutContact(Contact c, Id oppId){
         String firstName = c.FirstName;
         String lastName = c.LastName;
         String emails = c.Email;

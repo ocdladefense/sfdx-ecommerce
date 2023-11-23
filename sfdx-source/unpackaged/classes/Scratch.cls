@@ -22,11 +22,19 @@ public with sharing class Scratch {
         system.debug(req.getBody());
         
     }
+      
 
-    public void useStevensController() {
+    public void useStevensEditController() {
 
-        OcdlaEditPaymentMethodController con = new OcdlaEditPaymentMethodController();
+        EditPaymentMethodController con = new EditPaymentMethodController();
         con.editPaymentProfile();
+        
+    }
+
+    public void useStevensAddController() {
+
+        AddPaymentMethodController con = new AddPaymentMethodController();
+        con.addPaymentProfile();
         
     }
 
@@ -268,8 +276,7 @@ public void updateCustomerShippingAddress() {
         System.assert(resp.success());
     }
 
-    OcdlaEditPaymentMethodController cont = new OcdlaEditPaymentMethodController();
-    cont.editPaymentProfile();
+    
 
     public void getCustomerProfile(){
         GetCustomerProfileRequest req = new GetCustomerProfileRequest();

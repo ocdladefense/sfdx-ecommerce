@@ -1,5 +1,4 @@
-public with sharing class OcdlaEditPaymentMethodController {
-    
+public class EditPaymentMethodController {
     
     AuthorizeDotNetClient client = new AuthorizeDotNetClient();
     
@@ -24,13 +23,18 @@ public with sharing class OcdlaEditPaymentMethodController {
 
     
     
-    public OcdlaEditPaymentMethodController() {
+    public EditPaymentMethodController() {
         billingInfo = new Address();
         paymentInfo = new Payment();
         client = new AuthorizeDotNetClient();
         // c = [SELECT FirstName, LastName, Email FROM Contact WHERE Id = '0037h00000u1YBpAAM'];
-        customerProfileId = '905372692';//c.AuthorizeDotNetCustomerProfileId__c;
-        paymentProfileId = '915752253';
+        //customerProfileId = '905372692';//c.AuthorizeDotNetCustomerProfileId__c;
+        //paymentProfileId = '915752253';
+        
+        // Steven's sandbox 
+        customerProfileId = '916263569';
+        paymentProfileId = '915683841';
+
 
         GetCustomerPaymentProfileRequest req = new GetCustomerPaymentProfileRequest();
         req.setCustomerPaymentProfileId(paymentProfileId);
@@ -50,11 +54,11 @@ public with sharing class OcdlaEditPaymentMethodController {
         
 
     
-    public void editPaymentProfile() {
+    public Pagereference editPaymentProfile() {
 
 
-        Address billToAddress = new Address('Testy', 'Tester', 'blah 123', 'Springfield', 'OR', '97477');
-        UpdateCustomerPaymentProfileRequest req = new UpdateCustomerPaymentProfileRequest(paymentProfile, billToAddress);
+        //Address billToAddress = new Address('Testy', 'Tester', 'blah 123', 'Springfield', 'OR', '97477');
+        UpdateCustomerPaymentProfileRequest req = new UpdateCustomerPaymentProfileRequest(paymentProfile, billingInfo);
         System.debug('XXXX- Payment profile id');
         System.debug(paymentProfile.getCustomerPaymentProfileId());
         System.debug('XXXX - Payment profile keySet...');
@@ -64,6 +68,8 @@ public with sharing class OcdlaEditPaymentMethodController {
 
         UpdateCustomerPaymentProfileResponse resp = (UpdateCustomerPaymentProfileResponse)client.send(req);
         System.debug(resp.success());
+        
+        return redirectToSavedPaymentMethods();
     }
 
 
@@ -75,15 +81,15 @@ public with sharing class OcdlaEditPaymentMethodController {
 
 
     public PageReference redirectToAddPaymentMethod() {
-        return new PageReference('/apex/OcdlaAddPaymentMethod');
+        return new PageReference('/apex/AddPaymentMethod');
     }
 
     public PageReference redirectToEditPaymentMethod() {
-        return new PageReference('/apex/OcdlaEditPaymentMethod');
+        return new PageReference('/apex/EditPaymentMethod');
     }
 
     public PageReference redirectToSavedPaymentMethods() {
-        return new Pagereference('/apex/OcdlaSavedPaymentMethods');
+        return new Pagereference('/apex/SavedPaymentMethods');
     }
 
     // Test method

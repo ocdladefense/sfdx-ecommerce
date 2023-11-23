@@ -58,7 +58,12 @@ public class JsonPayload {
 
         for(String key : keys) {
 
+            if(!it.containsKey(key)) {
+                throw new JsonPayloadException(JsonPayloadException.ErrorTypes.SERIALIZATION_ERROR,
+                key + ' is not present in the specified object.');
+            }
             Object value = it.get(key);
+
             //System.debug(key);
             // Test the type of value:
             if(value instanceof AuthorizeDotNetType) {

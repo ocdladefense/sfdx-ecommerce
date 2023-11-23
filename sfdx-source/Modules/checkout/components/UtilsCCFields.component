@@ -1,4 +1,4 @@
-<apex:component layout="none" controller="OcdlaCheckoutController">
+<apex:component layout="none">
     <apex:attribute name="data" type="Map" description="CC data for form inputs." />
 
     
