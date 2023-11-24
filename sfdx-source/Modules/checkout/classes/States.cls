@@ -1,4 +1,4 @@
-public with sharing class States {
+public without sharing class States {
     // will consist of state code and state name (including 'XX' for 'all states' option)
 
     private static Map<String, String> buildStateMapThing() {
