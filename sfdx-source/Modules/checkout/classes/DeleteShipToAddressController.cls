@@ -1,9 +1,9 @@
 public with sharing class DeleteShipToAddressController {
     AuthorizeDotNetClient client {get; set;}
 
-    String customerProfileId {get; set;}
+    private String customerProfileId {get; set;}
 
-    public Contact c {get; set;}
+    private Contact c {get; set;}
 
     public String selectedCustomerAddressId {get; set;}
 
@@ -22,9 +22,8 @@ public with sharing class DeleteShipToAddressController {
 
         customerProfileId = c.AuthorizeDotNetCustomerProfileId__c;
 
-        selectedCustomerAddressId = '916521213';
-
-        loadAddressToDelete();
+        selectedCustomerAddressId = getSelectedAddressIdFromUrl();
+        selectedShipTo = loadAddressToDelete();
 
     }
 
@@ -54,7 +53,11 @@ public with sharing class DeleteShipToAddressController {
         return new Pagereference('/apex/ViewShipToAddress');
     }
 
-    public void loadAddressToDelete(){
+    public string getSelectedAddressIdFromUrl() {
+        return ApexPages.currentPage().getParameters().get('customerAddressid'); 
+    } 
+
+    public Address loadAddressToDelete(){
         
         GetCustomerShippingAddressRequest req = new GetCustomerShippingAddressRequest();
         req.setCustomerProfileId(customerProfileId);
@@ -64,7 +67,10 @@ public with sharing class DeleteShipToAddressController {
 
         if (resp.success()){
             System.debug('retreived address # '+ selectedCustomerAddressId);
-            selectedShipTo =resp.getAddress();
+             return resp.getAddress();
+        }
+        else{
+            return null;
         }
 
     }

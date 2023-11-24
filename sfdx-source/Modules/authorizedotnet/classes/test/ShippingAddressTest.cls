@@ -6,19 +6,35 @@ public class ShippingAddressTest {
 
     @isTest static void deserializeGetCustomerShippingAddressResponse(){
 
-        String getResult = '{"address":{"customerAddressId":"37457091","firstName":"China","lastName":"Bayles","company":"Thyme for Tea","address":"12 Main Street","city":"Pecan Springs","state":"TX","zip":"44628","country":"US"},"subscriptionIds":["3078184"],"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}' ;
-        GetCustomerShippingAddressResponse shipResp = new GetCustomerShippingAddressResponse(getResult);
-        //System.debug(shipResp);
-        shipResp.deserialize();
-        
-        //shipResp = (GetCustomerShippingAddressResponse)JSON.deserialize(shipResp.getBody(), GetCustomerShippingAddressResponse.class);
-        //System.debug(shipResp);
-        System.debug(shipResp.getSubscriptionIds());
+        String customerprofileId='1234';
+        String customerAddressId='2345';
+        GetCustomerShippingAddressRequest req = new GetCustomerShippingAddressRequest();
+        req.setCustomerAddressId(customerAddressId);
+        req.setCustomerProfileId(customerProfileId);
+
+        string result = req.getBody();
+        Boolean idPresent = result.contains('customerAddressId');
+
+        GetCustomerShippingAddressMockResponse mockResp = new GetCustomerShippingAddressMockResponse();
+
+        if (Test.isRunningTest()){
+            Test.setMock(HttpCalloutMock.class, mockResp);
+        }
+
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+
+        GetCustomerShippingAddressResponse shipResp = (GetCustomerShippingAddressResponse)client.send(req);
+       
+        System.debug('subscribtion list is ' + shipResp.getSubscriptionIds());
         System.debug(shipResp.getAddress());
         
         Boolean success = shipResp.success();
         System.debug('success is : '+ success);
-        System.assertEquals(true, success, 'success should return true');
+        if(TEst.isRunningTest()){
+            System.assertEquals(true, success, 'success should return true');
+
+        }
+        System.assertEquals(false, success, 'success should return true');
 
     }
 
@@ -181,7 +197,7 @@ public class ShippingAddressTest {
 
     }
 
-    @isTest static void getCustomerShippingAddressRequestBody(){
+    @isTest static void getCustomerShippingAddressRequest(){
         String customerprofileId='1234';
         String customerAddressId='2345';
         GetCustomerShippingAddressRequest req = new GetCustomerShippingAddressRequest();

@@ -21,9 +21,12 @@ public with sharing class EditShipToAddressController {
         c = [SELECT FirstName, LastName, Email, AuthorizeDotNetCustomerProfileId__c FROM Contact WHERE Id = :contactForTesting];
 
         customerProfileId = c.AuthorizeDotNetCustomerProfileId__c;
-        updatedShipTo = new Address('Maglor', 'Feanorian', '214 Andrew Lane', 'Maglors-Gap', 'NV', '89521');
-        updatedShipTo.setCustomerAddressId('916521213');
-        tempId = getSelectedAddressIdFromUrl();
+       
+        selectedCustomerAddressId = getSelectedAddressIdFromUrl();
+
+        updatedShipTo=loadShipToCurrentId();
+        //updatedShipTo.setCustomerAddressId(selectedCustomerAddressId);
+
         
     }
     public String getSelectedShipToFromUrl() {
@@ -31,14 +34,51 @@ public with sharing class EditShipToAddressController {
         return temp!=null? temp : 'not found';
         
     }
+
+    public Address loadShipToCurrentId(){
+        GetCustomerShippingAddressRequest req = new GetCustomerShippingAddressRequest();
+        req.setCustomerAddressId(selectedCustomerAddressId);
+        req.setCustomerProfileId(customerProfileId);
+        System.debug(req.getBody());
+        GetCustomerShippingAddressResponse resp = (GetCustomerShippingAddressResponse)client.send(req);
+        
+        if(resp.success()){
+            System.debug('success is ' + resp.success());
+            return resp.getAddress();
+        }
+        else{
+            Messages messages = resp.getMessages();
+            Message message = messages.getFirstMessage();
+            System.debug(message.getText());
+            return null;
+        }
+    }
    
 
     public PageReference editShipTo(){
-        UpdateCustomerShippingAddressRequest req = new UpdateCustomerShippingAddressRequest(updatedShipTo);
-        req.setCustomerProfileId(this.customerProfileId);
-        req.setDefaultShippingAddress(false);
+
+        // Address shipToSubmit = updatedShipTo;
+   
+        UpdateCustomerShippingAddressRequest req = new UpdateCustomerShippingAddressRequest();
+        // System.debug(req.getBody());
+        //System.debug(updatedShipTo);
         
+        req.setCustomerProfileId(customerProfileId);
+
+        //System.debug(req.getBody());
+
+        req.setAddress(updatedShipTo);
         System.debug(req.getBody());
+        System.debug('XXXX- address id');
+        System.debug(updatedShipTo.getCustomerAddressId());
+        System.debug('XXXX - address keySet...');
+        System.debug(updatedShipTo.keySet());
+        System.debug('XXXX - Update request keys...');
+        System.debug(req.keySet());
+        System.debug('XXXX - req body...');
+        System.debug(req.getBody());
+        //req.setDefaultShippingAddress(false);
+        
         UpdateCustomerShippingAddressResponse resp = (UpdateCustomerShippingAddressResponse)client.send(req);
 
         if(resp.success()){
@@ -49,7 +89,10 @@ public with sharing class EditShipToAddressController {
             Messages messages = resp.getMessages();
             Message message = messages.getFirstMessage();
             System.debug(message.getText());
-            return new PageReference('/apex/ShipToError');
+                ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'Please enter value'));
+                return null;
+            //display error message on page and refresh page
+            //return new PageReference('/apex/ShipToError');
         }
 
     }

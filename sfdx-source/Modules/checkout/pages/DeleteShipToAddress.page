@@ -3,7 +3,7 @@
 <h1>Delete a shipping address</h1>
 
 
-<apex:form id="deleteShipTo">
+<apex:form id="selectedShipTo">
         <apex:pageBlock title="Delete Shipping Address">
             <apex:pageMessages/>
             <apex:pageBlockSection title="Shipping Information" columns="1">

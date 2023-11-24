@@ -29,7 +29,7 @@
                         </apex:commandLink>
                     </apex:column>
                     <apex:column>
-                        <apex:commandLink value="Delete" action="{!redirectToDeleteShipToAddress}">
+                        <apex:commandLink value="Delete" action="{!deleteThisAddress}">
                             <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}" assignTo="{!selectedCustomerAddressId}" />
                         </apex:commandLink>
                     </apex:column>

@@ -54,7 +54,11 @@ public class JsonPayload {
         }
         // iterate through the map calling gen.writeStringField() if value or if not value call gen.writeNullField()
         Set<String> keys = obj.keySet();
-        keys.removeAll(obj.getIgnoredFields());
+
+        //what if obj has no ignoredd fields
+        if(obj.getIgnoredFields()!=null){
+            keys.removeAll(obj.getIgnoredFields());
+        }
 
         for(String key : keys) {
 

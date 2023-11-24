@@ -11,5 +11,6 @@ public class UpdateCustomerShippingAddressResponse extends AuthorizeDotNetRespon
     //update shipping address only returns messages
     public override void deserialize(){
         super.deserialize();
+        
     }
 }

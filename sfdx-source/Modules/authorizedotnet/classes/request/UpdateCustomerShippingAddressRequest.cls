@@ -28,6 +28,11 @@ public class UpdateCustomerShippingAddressRequest extends AuthorizeDotNetRequest
         return theMap;
     }
 
+
+    public override Set<String> keySet() {
+        return new Set<String>{ 'customerProfileId', 'address', 'defaultShippingAddress'};
+    }
+    
     public void setCustomerProfileId(String customerProfileId) {
         this.customerProfileId = customerProfileId;
     }

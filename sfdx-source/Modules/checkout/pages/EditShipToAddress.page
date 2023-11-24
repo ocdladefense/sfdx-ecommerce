@@ -3,14 +3,12 @@
 <h1>Edit a shipping address 
 </h1>
 <!-- End Default Content REMOVE THIS -->
-<apex:form id="editShipTo">
+<apex:form id="updatedShipTo">
         <apex:pageBlock title="Edit Shipping Address">
-            <apex:pageBlockSection title="param testing">
-                <apex:inputText value="{!tempId}">id: </apex:inputText>
-            </apex:pageBlockSection>
+            <apex:pageMessages></apex:pageMessages>
             <apex:pageBlockSection title="Shipping Information" columns="2">
-                <apex:inputText value="{!updatedShipTo.firstName}" name="firstName">First Name: </apex:inputText>
-                <apex:inputText value="{!updatedShipTo.lastName}" name="lastName">Last Name: </apex:inputText>
+                <apex:inputText value="{!updatedShipTo.firstName}" >First Name: </apex:inputText>
+                <apex:inputText value="{!updatedShipTo.lastName}" >Last Name: </apex:inputText>
                 <apex:inputText value="{!updatedShipTo.address}">Address: </apex:inputText>
                 <apex:inputText value="{!updatedShipTo.city}">City: </apex:inputText>
                 <apex:inputText value="{!updatedShipTo.state}">State: </apex:inputText>

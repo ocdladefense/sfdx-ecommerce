@@ -36,9 +36,31 @@ public with sharing class ViewShipToAddressController {
         if(selectedCustomerAddressId!=null){
             Pagereference editPage = new PageReference('/apex/EditShipToAddress');
             editPage.setRedirect(true);
-            editPage.getParameters().put('addressId', selectedCustomerAddressId);
+            editPage.getParameters().put('customerAddressId', selectedCustomerAddressId);
             system.debug(editPage.getParameters());
             return editPage;
+        }
+        else {
+            return new PageReference('/apex/AddShipToAddress');
+
+        }
+
+        //when I test this the url is 
+        //https://ocdla--marastore--c.sandbox.vf.force.com/apex/EditShipToAddress?addressId=temp123
+    }
+
+    public PageReference deleteThisAddress() {
+        //when the user clicks edit link
+        //set the selectedCustomerAddressId
+        
+
+        //able to set a parameter
+        if(selectedCustomerAddressId!=null){
+            Pagereference deletePage = new PageReference('/apex/DeleteShipToAddress');
+            deletePage.setRedirect(true);
+            deletePage.getParameters().put('customerAddressId', selectedCustomerAddressId);
+            system.debug(deletePage.getParameters());
+            return deletePage;
         }
         else {
             return new PageReference('/apex/AddShipToAddress');
