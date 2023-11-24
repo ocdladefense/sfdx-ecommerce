@@ -1,22 +1,24 @@
 <apex:page controller="DeleteShipToAddressController">
-<!-- Begin Default Content REMOVE THIS -->
+
 <h1>Delete a shipping address</h1>
-<!-- End Default Content REMOVE THIS -->
+
+
 <apex:form id="deleteShipTo">
         <apex:pageBlock title="Delete Shipping Address">
-            <apex:pageBlockSection title="Shipping Information" columns="2">
-                <!-- <apex:inputText value="{!shipTo.firstName}">First Name: </apex:inputText>
-                <apex:inputText value="{!shipTo.lastName}">Last Name: </apex:inputText>
-                <apex:inputText value="{!shipTo.address}">Address: </apex:inputText>
-                <apex:inputText value="{!shipTo.city}">City: </apex:inputText>
-                <apex:inputText value="{!shipTo.state}">State: </apex:inputText>
-                <apex:inputText value="{!shipTo.zip}">Zip: </apex:inputText>
-                <apex:inputText value="{!shipTo.country}">Country: </apex:inputText>
-                <apex:inputText value="{!shipTo.phoneNumber}">Phone Number: </apex:inputText> -->
+            <apex:pageMessages/>
+            <apex:pageBlockSection title="Shipping Information" columns="1">
+                <apex:outputText value="{!selectedShipTo.firstName }" />
+                <apex:outputText value="{!selectedShipTo.lastName}" />
+                <apex:outputText value="{!selectedShipTo.address}" />
+                <apex:outputText value="{!selectedShipTo.city}" />
+                <apex:outputText value="{!selectedShipTo.state}" />
+                <apex:outputText value="{!selectedShipTo.zip}" />
+                <apex:outputText value="{!selectedShipTo.country}" />
+                <apex:outputText value="{!selectedShipTo.phoneNumber}" />
             </apex:pageBlockSection>
         </apex:pageBlock>
        
-        <!-- <apex:commandButton value="Submit" action="{!addShipTo}" /> -->
-            <apex:commandButton value="Cancel" action="{!redirectToViewShipToAddress}"/>
+        <apex:commandButton value="Delete this address" action="{!deleteShipTo}" />
+        <apex:commandButton value="Cancel" action="{!redirectToViewShipToAddress}"/>
     </apex:form>
 </apex:page>

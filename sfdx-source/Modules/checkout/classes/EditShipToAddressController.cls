@@ -56,4 +56,8 @@ public with sharing class EditShipToAddressController {
     public PageReference redirectToViewShipToAddress() {
         return new Pagereference('/apex/ViewShipToAddress');
     }
+
+    public string getSelectedAddressIdFromUrl() {
+        return ApexPages.currentPage().getParameters().get('customerAddressid'); 
+    } 
 }

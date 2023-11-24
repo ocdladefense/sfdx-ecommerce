@@ -16,7 +16,8 @@
             </apex:pageBlockSection>
         </apex:pageBlock>
        
-        <apex:commandButton value="Submit" action="{!editShipTo}" />
+        <apex:commandButton value="Submit" action="{!editShipTo}" >
+        </apex:commandButton>
             <apex:commandButton value="Cancel" action="{!redirectToViewShipToAddress}"/>
     </apex:form>
 </apex:page>

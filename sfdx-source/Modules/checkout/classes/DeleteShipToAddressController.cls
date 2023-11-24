@@ -7,6 +7,8 @@ public with sharing class DeleteShipToAddressController {
 
     public String selectedCustomerAddressId {get; set;}
 
+    public Address selectedShipTo {get; set;}
+
     public DeleteShipToAddressController() {
         Map <String, String> interns = new Map<String,String> {
             'johnDoeAuthDotNetId' =>'905372692',
@@ -20,8 +22,12 @@ public with sharing class DeleteShipToAddressController {
 
         customerProfileId = c.AuthorizeDotNetCustomerProfileId__c;
 
-        selectedCustomerAddressId = '916521043';
+        selectedCustomerAddressId = '916521213';
+
+        loadAddressToDelete();
+
     }
+
     public PageReference deleteShipTo() {
        
         DeleteCustomerShippingAddressRequest req = new DeleteCustomerShippingAddressRequest();
@@ -33,8 +39,6 @@ public with sharing class DeleteShipToAddressController {
         System.debug(result);
 
         DeleteCustomerShippingAddressResponse resp = (DeleteCustomerShippingAddressResponse)client.send(req);
-
-        System.debug('success is '+ resp.success());
         
         if(resp.success()){
             System.debug('success is '+ resp.success());
@@ -49,6 +53,22 @@ public with sharing class DeleteShipToAddressController {
         
         return new Pagereference('/apex/ViewShipToAddress');
     }
+
+    public void loadAddressToDelete(){
+        
+        GetCustomerShippingAddressRequest req = new GetCustomerShippingAddressRequest();
+        req.setCustomerProfileId(customerProfileId);
+        req.setCustomerAddressId(selectedCustomerAddressId);
+
+        GetCustomerShippingAddressResponse resp = (GetCustomerShippingAddressResponse)client.send(req);
+
+        if (resp.success()){
+            System.debug('retreived address # '+ selectedCustomerAddressId);
+            selectedShipTo =resp.getAddress();
+        }
+
+    }
+
     public PageReference redirectToViewShipToAddress() {
         return new Pagereference('/apex/ViewShipToAddress');
     }

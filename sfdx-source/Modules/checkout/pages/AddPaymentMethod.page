@@ -1,6 +1,7 @@
 <apex:page controller="AddPaymentMethodController">
     <apex:form id="paymentMethod">
         <apex:pageBlock title="Add Payment Method">
+            <apex:pageMessages/>
             <apex:pageBlockSection title="Billing Information" columns="2">
                 <apex:inputText value="{!billingInfo.firstName}">First Name: </apex:inputText>
                 <apex:inputText value="{!billingInfo.lastName}">Last Name: </apex:inputText>

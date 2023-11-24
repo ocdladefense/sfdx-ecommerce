@@ -23,10 +23,25 @@ public with sharing class ViewShipToAddressController {
         c = [SELECT FirstName, LastName, Email, AuthorizeDotNetCustomerProfileId__c FROM Contact WHERE Id = :contactForTesting];
 
         customerProfileId = c.AuthorizeDotNetCustomerProfileId__c;
-        
         shipToList = new List<Address>();
         loadShipToList(false);
     }
+
+    public PageReference editThisAddress() {
+        //when the user clicks edit link
+
+        // update account;
+        // PageReference secondPage = Page.mySecondPage;
+        // secondPage.setRedirect(true);
+        // secondPage.getParameters().put('id',account.id); 
+        // return secondPage; 
+        String selectedCustomerAddressId2 = 'temp123';
+        Pagereference editPage = new PageReference('/apex/EditShipToAddress');
+        editPage.setRedirect(true);
+        editPage.getParameters().put('addressId', selectedCustomerAddressId2);
+        system.debug(editPage.getParameters());
+    }
+
     public List<Address> getShipToList() {
         
         GetCustomerProfileRequest req = new GetCustomerProfileRequest();
