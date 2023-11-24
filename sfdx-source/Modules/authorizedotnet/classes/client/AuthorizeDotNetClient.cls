@@ -70,6 +70,7 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
         breq.setMethod('POST');
         breq.setHeader('Content-Type', 'application/json');
         breq.setHeader('X-Response-Type', responseType);
+        breq.setHeader('X-Request-Type', requestType);
         breq.setBody(reqBody);
         
         if(null != req.getHeaders()) {

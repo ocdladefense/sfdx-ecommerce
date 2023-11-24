@@ -20,17 +20,18 @@ public class AuthorizeDotNetServiceMock implements HttpCalloutMock {
         }*/
 
     public HttpResponse respond(HttpRequest req) {
-        System.debug('making a respond request');
+        //System.debug('making a respond request');
 
         HttpResponse resp = new HttpResponse();
         
-        String requestType = req.getRequestType();
+        String requestType = req.getHeader('X-Request-Type');
         String responseType = requestType.capitalize()+'MockResponse';
  
 
-        System.Type t = Type.forName(requestType);
+        System.Type t = Type.forName(responseType);
 
         IMockResponse mock = (IMockResponse)t.newInstance();
+
 
         resp.setHeader('Content-Type', 'application/json');
        
@@ -39,19 +40,8 @@ public class AuthorizeDotNetServiceMock implements HttpCalloutMock {
         resp.setStatusCode(200);
         String codeForDebug ='200';
         resp.setStatus('Apex generated Mock HttpResponse.');
-        // resp.setHeader('X-Request-Type')
-
-        //if is delete - call method to delete the profile with matching id paymentProfileid
-        // if (mockType=='deleteCustomerPaymentProfileMockResponse'){
-        //     this.deleteFromProfileList(req, xRequestType);
-        //     if(this.profiles.size()==4){
-        //         System.debug('checking size');
-        //         resp.setStatusCode(500);
-        //         resp.setBody(DeleteCustomerPaymentProfileMockResponse.errorDeletePaymentProfileResponseBody());
-        //         codeForDebug='500';
-        //     }
-        // }
-        System.debug('The mock response status code is ' + codeForDebug);
+ 
+        //System.debug('The mock response status code is ' + codeForDebug);
         return resp;
     }
 /*

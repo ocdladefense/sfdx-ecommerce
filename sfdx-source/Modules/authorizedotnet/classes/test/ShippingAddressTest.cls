@@ -15,10 +15,10 @@ public class ShippingAddressTest {
         string result = req.getBody();
         Boolean idPresent = result.contains('customerAddressId');
 
-        GetCustomerShippingAddressMockResponse mockResp = new GetCustomerShippingAddressMockResponse();
 
+        AuthorizeDotNetServiceMock mock = new AuthorizeDotNetServiceMock();
         if (Test.isRunningTest()){
-            Test.setMock(HttpCalloutMock.class, mockResp);
+            Test.setMock(HttpCalloutMock.class, mock);
         }
 
         AuthorizeDotNetClient client = new AuthorizeDotNetClient();
