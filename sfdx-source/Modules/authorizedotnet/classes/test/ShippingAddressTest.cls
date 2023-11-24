@@ -30,11 +30,8 @@ public class ShippingAddressTest {
         
         Boolean success = shipResp.success();
         System.debug('success is : '+ success);
-        if(TEst.isRunningTest()){
-            System.assertEquals(true, success, 'success should return true');
-
-        }
-        System.assertEquals(false, success, 'success should return true');
+        //for mock
+        System.assertEquals(true, success, 'success should return true');
 
     }
 
