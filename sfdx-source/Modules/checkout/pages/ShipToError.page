@@ -1,0 +1,5 @@
+<apex:page controller ="AddShipToAddressController">
+<!-- Begin Default Content REMOVE THIS -->
+<h1>Error</h1>
+something went wrong<!-- End Default Content REMOVE THIS -->
+</apex:page>

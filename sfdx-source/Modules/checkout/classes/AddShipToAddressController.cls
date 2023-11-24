@@ -1,22 +1,26 @@
 public with sharing class AddShipToAddressController {
    
     AuthorizeDotNetClient client;
-    String customerProfileId;
-    //String maraContactId = '0037h00000uAHSHAA4';
+    String customerProfileId {get; set;}
 
     public Contact c {get; set;}
-    public Address shipTo;
+    public Address shipTo {get; set;}
     public List<Address> shipToList {get; set;}
     public String selectedCustomerAddressId {get; set;}
     
     public AddShipToAddressController() {
-
+        Map <String, String> interns = new Map<String,String> {
+            'johnDoeAuthDotNetId' =>'905372692',
+            'maraAuthDotNetId' => '916376196',
+            'maraSfContactId' => '0037h00000uAHSHAA4'
+        };
+        String contactForTesting = interns.get('maraSfContactId');
         client = new AuthorizeDotNetClient();
-        c = [SELECT FirstName, LastName, Email, AuthorizeDotNetCustomerProfileId__c FROM Contact WHERE Id = '0037h00000uAHSHAA4'];
-        //customerProfileId = c.AuthorizeDotNetCustomerProfileId__c;
-        
-        String default_custProfileId = '905372692';
-        customerProfileId=default_custProfileId;
+
+        c = [SELECT FirstName, LastName, Email, AuthorizeDotNetCustomerProfileId__c FROM Contact WHERE Id = :contactForTesting];
+
+        customerProfileId = c.AuthorizeDotNetCustomerProfileId__c;
+    
         shipTo = new Address();
        
     }
@@ -56,8 +60,27 @@ public with sharing class AddShipToAddressController {
         //paymentProfiles = sampleEmptyCustomerPaymentProfileList();
     }
 
-    public void addShipTo(){
-        return;
+    public Pagereference addShipTo(){
+
+        Address newShipTo = new Address('Maglor', 'Feanorian', '214 Andrew Lane', 'Reno', 'NV', '89521');
+        CreateCustomerShippingAddressRequest req = new CreateCustomerShippingAddressRequest(newShipTo);
+        req.setCustomerProfileId(this.customerProfileId);
+        req.setAddress(newShipTo);
+        req.setDefaultShippingAddress(false);
+
+        CreateCustomerShippingAddressResponse resp = (CreateCustomerShippingAddressResponse)client.send(req);
+
+        if(resp.success()){
+            system.debug('new address id is ' + resp.getCustomerAddressId());
+            return redirectToViewShipToAddress();
+        }
+        else{
+            Messages messages = resp.getMessages();
+            Message message = messages.getFirstMessage();
+            System.debug(message.getText());
+            return new PageReference('/apex/ShipToError');
+
+        }
     }
 
     public PageReference redirectToAddShipToAddress() {
@@ -68,9 +91,11 @@ public with sharing class AddShipToAddressController {
     //     return new PageReference('/apex/EditShipToAddress');
     // }
 
-    public PageReference redirectToViewShippingAddress() {
-        return new Pagereference('/apex/ViewShippingAddress');
+    public PageReference redirectToViewShipToAddress() {
+        return new Pagereference('/apex/ViewShipToAddress');
     }
+
+    
 
 
 }

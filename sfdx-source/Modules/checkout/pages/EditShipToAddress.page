@@ -1,6 +1,22 @@
-<apex:page>
+<apex:page controller="EditShipToAddressController">
 <!-- Begin Default Content REMOVE THIS -->
-<h1>Congratulations</h1>
-This is your new Page
+<h1>Edit a shipping address</h1>
 <!-- End Default Content REMOVE THIS -->
+<apex:form id="editShipTo">
+        <apex:pageBlock title="Edit Shipping Address">
+            <apex:pageBlockSection title="Shipping Information" columns="2">
+                <apex:inputText value="{!shipTo.firstName}">First Name: </apex:inputText>
+                <apex:inputText value="{!shipTo.lastName}">Last Name: </apex:inputText>
+                <apex:inputText value="{!shipTo.address}">Address: </apex:inputText>
+                <apex:inputText value="{!shipTo.city}">City: </apex:inputText>
+                <apex:inputText value="{!shipTo.state}">State: </apex:inputText>
+                <apex:inputText value="{!shipTo.zip}">Zip: </apex:inputText>
+                <apex:inputText value="{!shipTo.country}">Country: </apex:inputText>
+                <apex:inputText value="{!shipTo.phoneNumber}">Phone Number: </apex:inputText>
+            </apex:pageBlockSection>
+        </apex:pageBlock>
+       
+        <apex:commandButton value="Submit" action="{!editShipTo}" />
+            <apex:commandButton value="Cancel" action="{!redirectToViewShipToAddress}"/>
+    </apex:form>
 </apex:page>

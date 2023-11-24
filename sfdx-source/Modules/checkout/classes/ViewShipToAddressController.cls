@@ -10,13 +10,20 @@ public with sharing class ViewShipToAddressController {
     public String selectedCustomerAddressId {get; set;}
     
     public ViewShipToAddressController() {
+        Map <String, String> interns = new Map<String,String> {
+            'johnDoeAuthDotNetId' =>'905372692',
+            'maraAuthDotNetId' => '916376196',
+            'maraSandBoxSfContactId' => '0037h00000uAHSHAA4'
+        };
+
+        String contactForTesting = interns.get('maraSandBoxSfContactId');
 
         client = new AuthorizeDotNetClient();
-        c = [SELECT FirstName, LastName, Email, AuthorizeDotNetCustomerProfileId__c FROM Contact WHERE Id = '0037h00000uAHSHAA4'];
-        //customerProfileId = c.AuthorizeDotNetCustomerProfileId__c;
+
+        c = [SELECT FirstName, LastName, Email, AuthorizeDotNetCustomerProfileId__c FROM Contact WHERE Id = :contactForTesting];
+
+        customerProfileId = c.AuthorizeDotNetCustomerProfileId__c;
         
-        String default_custProfileId = '905372692';
-        customerProfileId=default_custProfileId;
         shipToList = new List<Address>();
         loadShipToList(false);
     }

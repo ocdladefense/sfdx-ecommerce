@@ -1,19 +1,22 @@
 <apex:page controller="AddShipToAddressController">
+    <h1>Add a new shipping address</h1>
     <apex:form id="newShipTo">
         <apex:pageBlock title="Add Shipping Address">
             <apex:pageBlockSection title="Shipping Information" columns="2">
-                <!-- <apex:inputText value="{!shipTo.firstName}">First Name: </apex:inputText>
+                <apex:inputText value="{!shipTo.firstName}">First Name: </apex:inputText>
                 <apex:inputText value="{!shipTo.lastName}">Last Name: </apex:inputText>
+                <apex:inputText value="{!shipTo.company}">Company: </apex:inputText>
+
                 <apex:inputText value="{!shipTo.address}">Address: </apex:inputText>
                 <apex:inputText value="{!shipTo.city}">City: </apex:inputText>
                 <apex:inputText value="{!shipTo.state}">State: </apex:inputText>
                 <apex:inputText value="{!shipTo.zip}">Zip: </apex:inputText>
                 <apex:inputText value="{!shipTo.country}">Country: </apex:inputText>
-                <apex:inputText value="{!shipTo.phoneNumber}">Phone Number: </apex:inputText> -->
+                <apex:inputText value="{!shipTo.phoneNumber}">Phone Number: </apex:inputText>
             </apex:pageBlockSection>
         </apex:pageBlock>
        
-        <!-- <apex:commandButton value="Submit" action="{!addShipTo}" /> -->
-            <apex:commandButton value="Cancel" action="{!redirectToViewShippingAddress}"/>
+        <apex:commandButton value="Submit" action="{!addShipTo}" />
+        <apex:commandButton value="Cancel" action="{!redirectToViewShipToAddress}"/>
     </apex:form>
 </apex:page>
