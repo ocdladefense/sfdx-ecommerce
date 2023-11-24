@@ -39,6 +39,7 @@ public class SavedPaymentMethodsController {
 
 
     // TODO: can I call a method in EditPaymentMethodController?
+    // TODO: setDefaultPaymentMethod needs to set the selected payment method as default and set all other payment methods to not default
     //
     //
     /*
