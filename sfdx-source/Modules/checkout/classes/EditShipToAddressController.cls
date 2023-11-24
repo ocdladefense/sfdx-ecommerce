@@ -5,7 +5,7 @@ public with sharing class EditShipToAddressController {
     public Contact c {get; set;}
     public Address updatedShipTo {get; set;}
     public String selectedCustomerAddressId {get; set;}
-
+    public String tempId {get; set;}
     
     public EditShipToAddressController() {
         Map <String, String> interns = new Map<String,String> {
@@ -23,9 +23,14 @@ public with sharing class EditShipToAddressController {
         customerProfileId = c.AuthorizeDotNetCustomerProfileId__c;
         updatedShipTo = new Address('Maglor', 'Feanorian', '214 Andrew Lane', 'Maglors-Gap', 'NV', '89521');
         updatedShipTo.setCustomerAddressId('916521213');
+        tempId = getSelectedAddressIdFromUrl();
         
     }
-
+    public String getSelectedShipToFromUrl() {
+        String temp = ApexPages.currentPage().getParameters().get('addressId');
+        return temp!=null? temp : 'not found';
+        
+    }
    
 
     public PageReference editShipTo(){

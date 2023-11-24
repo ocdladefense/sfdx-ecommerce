@@ -1,9 +1,9 @@
 <apex:page controller="AddShipToAddressController">
     <h1>Add a new shipping address</h1>
-    <apex:form id="newShipTo">
+    <apex:form id="shipTo">
         <apex:pageBlock title="Add Shipping Address">
             <apex:pageBlockSection title="Shipping Information" columns="2">
-                <apex:inputText value="{!shipTo.firstName}">First Name: </apex:inputText>
+                <apex:inputText value="{!shipTo.firstName}" id="firstName">First Name: </apex:inputText>
                 <apex:inputText value="{!shipTo.lastName}">Last Name: </apex:inputText>
                 <apex:inputText value="{!shipTo.company}">Company: </apex:inputText>
 

@@ -29,17 +29,24 @@ public with sharing class ViewShipToAddressController {
 
     public PageReference editThisAddress() {
         //when the user clicks edit link
+        //set the selectedCustomerAddressId
+        
 
-        // update account;
-        // PageReference secondPage = Page.mySecondPage;
-        // secondPage.setRedirect(true);
-        // secondPage.getParameters().put('id',account.id); 
-        // return secondPage; 
-        String selectedCustomerAddressId2 = 'temp123';
-        Pagereference editPage = new PageReference('/apex/EditShipToAddress');
-        editPage.setRedirect(true);
-        editPage.getParameters().put('addressId', selectedCustomerAddressId2);
-        system.debug(editPage.getParameters());
+        //able to set a parameter
+        if(selectedCustomerAddressId!=null){
+            Pagereference editPage = new PageReference('/apex/EditShipToAddress');
+            editPage.setRedirect(true);
+            editPage.getParameters().put('addressId', selectedCustomerAddressId);
+            system.debug(editPage.getParameters());
+            return editPage;
+        }
+        else {
+            return new PageReference('/apex/AddShipToAddress');
+
+        }
+
+        //when I test this the url is 
+        //https://ocdla--marastore--c.sandbox.vf.force.com/apex/EditShipToAddress?addressId=temp123
     }
 
     public List<Address> getShipToList() {

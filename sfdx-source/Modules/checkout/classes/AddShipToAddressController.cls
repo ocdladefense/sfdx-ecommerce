@@ -62,7 +62,12 @@ public with sharing class AddShipToAddressController {
 
     public Pagereference addShipTo(){
 
-        Address newShipTo = new Address('Maglor', 'Feanorian', '214 Andrew Lane', 'Reno', 'NV', '89521');
+        //add avalidation
+        Address newShipTo = shipTo;
+        if(newShipTo.getLastName()!=null){
+            System.debug('name is not null');
+        }
+
         CreateCustomerShippingAddressRequest req = new CreateCustomerShippingAddressRequest(newShipTo);
         req.setCustomerProfileId(this.customerProfileId);
         req.setAddress(newShipTo);
@@ -81,6 +86,13 @@ public with sharing class AddShipToAddressController {
             return new PageReference('/apex/ShipToError');
 
         }
+    }
+
+    public Map<string,object> GetFormData(){
+        Map<string,object> theMap = ApexPages.currentPage().getParameters();
+        System.debug(theMap);
+        System.debug(shipTo);
+        return theMap;
     }
 
     public PageReference redirectToAddShipToAddress() {

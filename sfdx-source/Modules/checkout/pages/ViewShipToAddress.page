@@ -24,7 +24,7 @@
                     <apex:column value="{!shipTo.zip}" headerValue="Zipcode" />
                     <apex:column value="{!shipTo.customerAddressId}" headerValue="Id for Testing" />
                     <apex:column>
-                        <apex:commandLink value="Edit" action="{!redirectToEditShipToAddress}">
+                        <apex:commandLink value="Edit" action="{!editThisAddress}">
                             <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}" assignTo="{!selectedCustomerAddressId}" />
                         </apex:commandLink>
                     </apex:column>
