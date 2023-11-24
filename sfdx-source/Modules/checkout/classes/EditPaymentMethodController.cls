@@ -2,9 +2,9 @@ public class EditPaymentMethodController {
     
     AuthorizeDotNetClient client = new AuthorizeDotNetClient();
     
-    String customerProfileId;
+    public String customerProfileId;
     
-    String paymentProfileId;
+    public String paymentProfileId;
 
     public Contact c {get; set;}
 
@@ -73,7 +73,11 @@ public class EditPaymentMethodController {
     }
 
 
-    
+    public void setDefaultPaymentProfile(CustomerPaymentProfile custPayProfile) {
+        paymentProfile = custPayProfile;
+        billingInfo = custPayProfile.getBillTo();
+        editPaymentProfile();
+    }
     
     
 
