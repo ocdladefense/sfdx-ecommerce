@@ -72,6 +72,22 @@ public class SavedPaymentMethodsController {
         con.isDefaultPaymentMethod = isDefaultPaymentMethod;
         con.editPaymentProfile();
 
+
+        /*
+        for(CustomerPaymentProfile paymentProfile : paymentProfiles) {
+            if(paymentProfile.getCustomerPaymentProfileId() == selectedPaymentProfileId) {
+                con.paymentProfileId = selectedPaymentProfileId;
+                con.isDefaultPaymentMethod = isDefaultPaymentMethod; // could just hardcode value here
+            }
+            else {
+                con.paymentProfileId = paymentProfile.getCustomerPaymentProfileId();
+                con.isDefaultPaymentMethod = !isDefaultPaymentMethod;
+            }
+            con.editPaymentProfile();
+        }
+        */
+
+
         return new Pagereference(ApexPages.currentPage().getUrl()).setRedirect(true);
     }
 
