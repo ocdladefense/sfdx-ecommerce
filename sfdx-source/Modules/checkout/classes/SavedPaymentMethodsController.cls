@@ -38,11 +38,68 @@ public class SavedPaymentMethodsController {
     }
 
 
-    // TODO: can I call method in EditPaymentMethodController?
-    public void setDefaultPaymentProfile() {
+    // TODO: can I call a method in EditPaymentMethodController?
+    // TODO: setDefaultPaymentMethod needs to set the selected payment method as default and set all other payment methods to not default
+    //
+    //
+    /*
+    // Gives null reference error in JsonPayload
+    public Pagereference setDefaultPaymentProfile() {
         //editPaymentProfile();
+        CustomerPaymentProfile paymentProfile = getPaymentProfile();
+        billingInfo = paymentProfile.getBillTo();
+        System.debug('SPMController paymentProfile: ' + paymentProfile);
+        paymentProfile.setDefaultPaymentProfile(isDefaultPaymentMethod);
+        System.debug('SPMController paymentProfile.defaultPaymentProfile: ' + paymentProfile.getDefaultPaymentProfile());
+
+
+        UpdateCustomerPaymentProfileRequest req = new UpdateCustomerPaymentProfileRequest(paymentProfile, billingInfo);
+        System.debug('Test');
+        System.debug('SPMController req.getBody: ' + req.getBody());
+        System.debug('Test');
+        UpdateCustomerPaymentProfileResponse resp = (UpdateCustomerPaymentProfileResponse)client.send(req);
+        System.debug('Test');
+        
+        return new Pagereference(ApexPages.currentPage().getUrl()).setRedirect(true);
+    }
+    */
+
+    // Builds request with no errors, but no field for defaultPaymentMethod
+    public Pagereference setDefaultPaymentProfile() {
+        EditPaymentMethodController con = new EditPaymentMethodController();
+        con.customerProfileId = customerProfileId;
+        con.paymentProfileId = selectedPaymentProfileId;
+        con.isDefaultPaymentMethod = isDefaultPaymentMethod;
+        con.editPaymentProfile();
+
+
+        /*
+        for(CustomerPaymentProfile paymentProfile : paymentProfiles) {
+            if(paymentProfile.getCustomerPaymentProfileId() == selectedPaymentProfileId) {
+                con.paymentProfileId = selectedPaymentProfileId;
+                con.isDefaultPaymentMethod = isDefaultPaymentMethod; // could just hardcode value here
+            }
+            else {
+                con.paymentProfileId = paymentProfile.getCustomerPaymentProfileId();
+                con.isDefaultPaymentMethod = !isDefaultPaymentMethod;
+            }
+            con.editPaymentProfile();
+        }
+        */
+
+
+        return new Pagereference(ApexPages.currentPage().getUrl()).setRedirect(true);
     }
 
+    public CustomerPaymentProfile getPaymentProfile() {
+        GetCustomerPaymentProfileRequest req = new GetCustomerPaymentProfileRequest();
+        req.setCustomerPaymentProfileId('915683841');
+        req.setCustomerProfileId(customerProfileId);
+
+        GetCustomerPaymentProfileResponse resp = (GetCustomerPaymentProfileResponse)client.send(req);
+        CustomerPaymentProfile paymentProfile = resp.getPaymentProfile();
+        return paymentProfile;
+    }
     
     
     

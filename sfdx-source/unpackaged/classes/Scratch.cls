@@ -38,6 +38,13 @@ public with sharing class Scratch {
         
     }
 
+    public void useStevensSavedPaymentMethodsController() {
+        SavedPaymentMethodsController con = new SavedPaymentMethodsController();
+        con.isDefaultPaymentMethod = true;
+
+        con.setDefaultPaymentProfile();
+    }
+
     public void createCustomerShippingAddressFromBaseClass() {
 
         Address billTo = new Address('Jose', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');

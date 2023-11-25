@@ -13,7 +13,8 @@
             <apex:pageBlock title="Saved Payment Methods">
                 <apex:pageBlockTable value="{!paymentProfiles}" var="profile">
                     <apex:column headerValue="Name">
-                        {!profile.billTo.firstName & ' ' & profile.billTo.lastName}
+                        <!-- customerPaymentProfileId added for testing -->
+                        {!profile.billTo.firstName & ' ' & profile.billTo.lastName & ' ' & profile.customerPaymentProfileId} 
                     </apex:column>
                     <apex:column value="{!profile.payment.creditCard.cardNumber}" headerValue="Card Number" />
                     <apex:column value="{!profile.payment.creditCard.expirationDate}" headerValue="Expiration Date" />
@@ -28,7 +29,7 @@
                         </apex:commandLink>
                     </apex:column>
                     <apex:column>
-                        <apex:commandLink value="Set Default" action="{!setDefaultPaymentProfile}" rerender="pageBlock" rendered="{!IF(!profile.defaultPaymentProfile, true, false)}">
+                        <apex:commandLink value="Set Default" action="{!setDefaultPaymentProfile}" rendered="{!IF(!profile.defaultPaymentProfile, true, false)}">
                             <apex:param name="paymentProfileId" value="{!profile.customerPaymentProfileId}" assignTo="{!selectedPaymentProfileId}" />
                             <apex:param name="isDefaultPaymentMethod" value="true" assignTo="{!isDefaultPaymentMethod}" />
                         </apex:commandLink>
