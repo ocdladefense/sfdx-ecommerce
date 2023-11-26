@@ -5,7 +5,7 @@ public class ShippingAddressTest {
     }
 
     @isTest createCustomerShippingAddress(){
-
+        CreateCustomerShippingAddressMockResponse
         //request
         Address address = new Address('M.', 'Williams', '1000 10th Ave', 'Eugene', 'OR', '97401');
         CreateCustomerShippingAddressRequest req = new CreateCustomerShippingAddressRequest();
@@ -63,11 +63,15 @@ public class ShippingAddressTest {
 
 
         //client or mock
+        AuthorizeDotNetServiceMock mock = new AuthorizeDotNetServiceMock();
+        if (Test.isRunningTest()){
+            Test.setMock(HttpCalloutMock.class, mock);
+        }
+
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
 
         //response
-        String result = '{"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}' ;
-        UpdateCustomerShippingAddressResponse shipResp = new UpdateCustomerShippingAddressResponse(result);
-        shipResp.deserialize();
+        UpdateCustomerShippingAddressResponse shipResp = (UpdateCustomerShippingAddressResponse)client.send(req);
         
         Boolean success = shipResp.success();
         System.debug('success is : '+ success);
@@ -93,13 +97,17 @@ public class ShippingAddressTest {
         System.debug(result);
         System.assertEquals(true, idPresent, 'this request should have customerAddressId');
 
-        //mock or client
+        //client or mock
+        AuthorizeDotNetServiceMock mock = new AuthorizeDotNetServiceMock();
+        if (Test.isRunningTest()){
+            Test.setMock(HttpCalloutMock.class, mock);
+        }
+
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
 
         //response
-        String result = '{"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}' ;
-        DeleteCustomerShippingAddressResponse shipResp = new DeleteCustomerShippingAddressResponse(result);
-        shipResp.deserialize();
-        
+        DeleteCustomerShippingAddressResponse shipResp = (DeleteCustomerShippingAddressResponse)client.send(req);
+
         Boolean success = shipResp.success();
         System.debug('success is : '+ success);
         System.assertEquals(true, success, 'success should return true');
@@ -116,7 +124,7 @@ public class ShippingAddressTest {
         string result = req.getBody();
         Boolean idPresent = result.contains('customerAddressId');
 
-
+        //client or mock
         AuthorizeDotNetServiceMock mock = new AuthorizeDotNetServiceMock();
         if (Test.isRunningTest()){
             Test.setMock(HttpCalloutMock.class, mock);
@@ -137,9 +145,7 @@ public class ShippingAddressTest {
 
     }
 
-    @isTest getCustomerProfileShipToList(){
-
-    }
+  
     @isTest static void deserializeGetCustomerShippingAddressResponse(){
 
         String customerprofileId='1234';
@@ -304,15 +310,7 @@ public class ShippingAddressTest {
 
     }
 
-    @isTest static void deleteCustomerShippingAddressRequestBody(){
-        
-
-    }
-
-    @isTest static void getCustomerShippingAddressRequest(){
-       
-
-    }
+ 
 
 
     
