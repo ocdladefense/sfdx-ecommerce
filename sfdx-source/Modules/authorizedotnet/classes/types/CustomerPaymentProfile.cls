@@ -10,12 +10,15 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType{
 
     private String customerType;
 
-    private Address billTo;
+    public Address billTo {public get; private set;}
 
     private Boolean defaultPaymentProfile;
 
-
-
+    public String cardNumber {public get { return this.payment.getCreditCard().getCardNumber();} private set;}
+    
+    public String cardType {public get { return this.payment.getCreditCard().getType();} private set;}
+    
+    
 
     public CustomerPaymentProfile() {
         super();
@@ -68,8 +71,9 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType{
         
         CreditCard card = this.payment.getCreditCard();
 
-        String value = card.getCardNumber();
-        String label = card.isExpired() ? (value + ' (expired)') : value;
+        String cardNum = card.getCardNumber();
+        String value = this.getCustomerPaymentProfileId();
+        String label = card.isExpired() ? (cardNum + ' (expired)') : cardNum;
 
         return new SelectOption(value, label);
     }
@@ -132,7 +136,7 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType{
     }
 
     public Boolean getDefaultPaymentProfile() {
-        return defaultPaymentProfile;
+        return defaultPaymentProfile == null || False == defaultPaymentProfile ? False : True;
     }
 
     public void setCustomerPaymentProfileId(String customerPaymentProfileId) {
