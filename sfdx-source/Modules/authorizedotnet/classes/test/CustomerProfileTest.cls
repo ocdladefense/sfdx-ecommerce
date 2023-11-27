@@ -1,6 +1,6 @@
 @isTest
-public class GetCustomerProfileTest {
-    public GetCustomerProfileTest() {
+public class CustomerProfileTest {
+    public CustomerProfileTest() {
 
     }
 
