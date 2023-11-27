@@ -122,21 +122,17 @@ public class ShippingAddressTest {
         req.setCustomerProfileId('1234');
         Address newAddress = new Address('J.', 'Berna', '214 NW Monroe Ave', 'Albany', 'OR', '97330');
         newAddress.setCompany('OCDLA');
+        newAddress.setCustomerAddressId('2345');
         req.setAddress(newAddress);
 
-       
-        String result = req.getBody();
-        Integer indexMerchantAuthentication = result.indexOf('merchantAuthentication');
-        Integer indexCustomerProfileId = result.indexOf('customerProfileId');
-        Integer indexAddress = result.indexOf('address');
-        Integer indexDefaultShippingAddress= result.indexOf('defaultShippingAddress');
-        Integer startObjectMatches = result.countMatches('{');
+        Boolean currentDefault = req.getDefaultShippingAddress();
+        req.setDefaultShippingAddress(!currentDefault);
+        Assert.areNotEqual(currentDefault, req.getDefaultShippingAddress());
 
-        System.assert(indexMerchantAuthentication<indexCustomerProfileId);
-        System.assert(indexCustomerProfileId<indexAddress);
-        System.Assert(indexAddress<indexDefaultShippingAddress);
-        System.assert(4==startObjectMatches);
+        Address addressFromReq = req.getAddress();
+        System.assert('2345' == addressFromReq.getCustomerAddressId());
 
+        System.assertEquals('1234', req.getCustomerProfileId());
 
         //client or mock
         AuthorizeDotNetServiceMock mock = new AuthorizeDotNetServiceMock();
@@ -226,6 +222,22 @@ public class ShippingAddressTest {
         System.debug('success is : '+ success);
         System.assertEquals(true, success, 'success should return true');
     }
+
+    @isTest static void deserializeDeleteCustomerShippingAddressResponse(){
+        String result = '{"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}' ;
+        DeleteCustomerShippingAddressResponse shipResp = new DeleteCustomerShippingAddressResponse(result);
+        shipResp.deserialize();
+        
+        Boolean success = shipResp.success();
+        System.assertEquals(true, success, 'success should return true');
+
+        DeleteCustomerShippingAddressResponse shipResp2 = new DeleteCustomerShippingAddressResponse();
+        shipResp2.setBody(result);
+        shipResp2.deserialize();
+        Boolean success2 = shipResp2.success();
+        System.assertEquals(true, success2, 'success should return true');
+
+    }
     @isTest static void getCustomerShippingAddress(){
         //request
         String customerprofileId='1234';
@@ -233,6 +245,10 @@ public class ShippingAddressTest {
         GetCustomerShippingAddressRequest req = new GetCustomerShippingAddressRequest();
         req.setCustomerAddressId(customerAddressId);
         req.setCustomerProfileId(customerProfileId);
+
+        System.assertEquals('1234', req.getCustomerProfileId());
+        System.assertEquals('2345', req.getCustomerAddressId());
+
 
         string result = req.getBody();
         Boolean idPresent = result.contains('customerAddressId');
@@ -259,39 +275,24 @@ public class ShippingAddressTest {
         System.assertEquals(true, success, 'success should return true');
 
     }
-
-
-  //example from friday 11/24 meeting
     @isTest static void deserializeGetCustomerShippingAddressResponse(){
 
-        String customerprofileId='1234';
-        String customerAddressId='2345';
-        GetCustomerShippingAddressRequest req = new GetCustomerShippingAddressRequest();
-        req.setCustomerAddressId(customerAddressId);
-        req.setCustomerProfileId(customerProfileId);
-
-        string result = req.getBody();
-        Boolean idPresent = result.contains('customerAddressId');
-
-
-        AuthorizeDotNetServiceMock mock = new AuthorizeDotNetServiceMock();
-        if (Test.isRunningTest()){
-            Test.setMock(HttpCalloutMock.class, mock);
-        }
-
-        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
-
-        GetCustomerShippingAddressResponse shipResp = (GetCustomerShippingAddressResponse)client.send(req);
-       
-        System.debug('subscribtion list is ' + shipResp.getSubscriptionIds());
+        String getResult = '{"address":{"customerAddressId":"37457091","firstName":"China","lastName":"Bayles","company":"Thyme for Tea","address":"12 Main Street","city":"Pecan Springs","state":"TX","zip":"44628","country":"US"},"subscriptionIds":["3078184"],"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}' ;
+        GetCustomerShippingAddressResponse shipResp = new GetCustomerShippingAddressResponse(getResult);
+        //System.debug(shipResp);
+        shipResp.deserialize();
+        
+        //shipResp = (GetCustomerShippingAddressResponse)JSON.deserialize(shipResp.getBody(), GetCustomerShippingAddressResponse.class);
+        //System.debug(shipResp);
+        System.debug(shipResp.getSubscriptionIds());
         System.debug(shipResp.getAddress());
         
         Boolean success = shipResp.success();
         System.debug('success is : '+ success);
-
         System.assertEquals(true, success, 'success should return true');
 
     }
+
 
     @isTest static void deserializeCreateCustomerShippingAddressResponse(){
         //set body through constructor
@@ -327,6 +328,43 @@ public class ShippingAddressTest {
         System.debug('--------' + customerAddressId2);
         System.assertEquals(idFromResult2, customerAddressId2);
         
+    }
+
+    @isTest static void deserializeUpdateCustomerShippingAddressResponse(){
+        String result = '{"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}' ;
+        UpdateCustomerShippingAddressResponse shipResp = new UpdateCustomerShippingAddressResponse(result);
+        shipResp.deserialize();
+        
+        Boolean success = shipResp.success();
+        System.debug('success is : '+ success);
+        System.assertEquals(true, success, 'success should return true');
+
+        UpdateCustomerShippingAddressResponse shipResp2 = new UpdateCustomerShippingAddressResponse();
+        shipResp2.setBody(result);
+
+        System.assert(shipResp2.getBody()!=null);
+
+    }
+
+
+    @isTest static void messagesAndMessageConstructors(){
+        Message message = new Message();
+        message.setCode('I00001');
+        message.setText('successful message');
+        System.assertEquals('successful message', message.getText());
+
+        Messages messages = new Messages();
+        List<Message> messageList = new List<Message>();
+        messageList.add(message);
+
+        messages.setMessage(messageList);
+        System.assert(messages.getFirstMessage()!=null);
+        System.assert(messages.getMessage()!=null);
+
+        messages.setResultCode('Ok');
+        System.assertEquals('Ok', messages.getResultCode());
+
+
     }
 
 }

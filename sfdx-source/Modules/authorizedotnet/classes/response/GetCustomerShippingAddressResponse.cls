@@ -26,13 +26,13 @@ public class GetCustomerShippingAddressResponse extends AuthorizeDotNetResponse 
         return this.subscriptionIds;
     }
 
-    public void setAddress (Address address){
-        this.address = address;
-    }
+    // public void setAddress (Address address){
+    //     this.address = address;
+    // }
 
-    public void setSubscriptionIds(List<String> subscriptionIds){
-        this.subscriptionIds=subscriptionIds;
-    }
+    // public void setSubscriptionIds(List<String> subscriptionIds){
+    //     this.subscriptionIds=subscriptionIds;
+    // }
 
 
 }
