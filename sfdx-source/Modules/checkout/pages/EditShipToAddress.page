@@ -11,9 +11,11 @@
                 <apex:inputText value="{!updatedShipTo.lastName}" >Last Name: </apex:inputText>
                 <apex:inputText value="{!updatedShipTo.address}">Address: </apex:inputText>
                 <apex:inputText value="{!updatedShipTo.city}">City: </apex:inputText>
-                <apex:inputText value="{!updatedShipTo.state}">State: </apex:inputText>
+                <apex:selectList value="{!updatedShipTo.state}" size="1">State: 
+                    <apex:selectOptions value="{!stateOptions}"/>
+                </apex:selectList> 
                 <apex:inputText value="{!updatedShipTo.zip}">Zip: </apex:inputText>
-                <apex:inputText value="{!updatedShipTo.country}">Country: </apex:inputText>
+                <!--apex:inputText value="{!updatedShipTo.country}">Country: </apex:inputText-->
                 <apex:inputText value="{!updatedShipTo.phoneNumber}">Phone Number: </apex:inputText>
             </apex:pageBlockSection>
         </apex:pageBlock>

@@ -7,6 +7,7 @@ public with sharing class AddShipToAddressController {
     public Address shipTo {get; set;}
     public List<Address> shipToList {get; set;}
     public String selectedCustomerAddressId {get; set;}
+    public List<SelectOption> stateOptions {get; public set;}
     
     public AddShipToAddressController() {
         Map <String, String> interns = new Map<String,String> {
@@ -22,6 +23,8 @@ public with sharing class AddShipToAddressController {
         customerProfileId = c.AuthorizeDotNetCustomerProfileId__c;
     
         shipTo = new Address();
+
+        this.stateOptions = getStateOptions();
        
     }
     public List<Address> getShipToList() {
@@ -111,7 +114,7 @@ public with sharing class AddShipToAddressController {
         return new Pagereference('/apex/ViewShipToAddress');
     }
 
-    private List<SelectOption> getStateOptions() {
+    public List<SelectOption> getStateOptions() {
         List<SelectOption> stateOptions = States.getAsSelectOptions();
 
         return stateOptions;

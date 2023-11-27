@@ -5,7 +5,7 @@ public with sharing class EditShipToAddressController {
     public Contact c {get; set;}
     public Address updatedShipTo {get; set;}
     public String selectedCustomerAddressId {get; set;}
-    public String tempId {get; set;}
+    public List<SelectOption> stateOptions {get; public set;}
     
     public EditShipToAddressController() {
         Map <String, String> interns = new Map<String,String> {
@@ -25,7 +25,8 @@ public with sharing class EditShipToAddressController {
         selectedCustomerAddressId = getSelectedAddressIdFromUrl();
 
         updatedShipTo=loadShipToCurrentId();
-        //updatedShipTo.setCustomerAddressId(selectedCustomerAddressId);
+
+        this.stateOptions = getStateOptions();
 
         
     }
@@ -109,7 +110,7 @@ public with sharing class EditShipToAddressController {
         return ApexPages.currentPage().getParameters().get('customerAddressid'); 
     } 
 
-    private List<SelectOption> getStateOptions() {
+    public List<SelectOption> getStateOptions() {
         List<SelectOption> stateOptions = States.getAsSelectOptions();
 
         return stateOptions;
