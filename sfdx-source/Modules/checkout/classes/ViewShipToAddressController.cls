@@ -1,32 +1,34 @@
 public with sharing class ViewShipToAddressController {
 
     
-    AuthorizeDotNetClient client;
+    private static AuthorizeDotNetClient client;
+    
     String customerProfileId;
-    //String maraContactId = '0037h00000uAHSHAA4';
 
     public Contact c {get; set;}
+    
     public List<Address> shipToList {get; set;}
+    
     public String selectedCustomerAddressId {get; set;}
     
+    private static final Boolean mock = False;
+    
+    
+    
     public ViewShipToAddressController() {
-        Map <String, String> interns = new Map<String,String> {
-            'johnDoeAuthDotNetId' =>'905372692',
-            'maraAuthDotNetId' => '916376196',
-            'maraSandBoxSfContactId' => '0037h00000uAHSHAA4'
-        };
 
-        String contactForTesting = interns.get('maraSandBoxSfContactId');
-
-        client = new AuthorizeDotNetClient();
-
-        c = [SELECT FirstName, LastName, Email, AuthorizeDotNetCustomerProfileId__c FROM Contact WHERE Id = :contactForTesting];
-
-        customerProfileId = c.AuthorizeDotNetCustomerProfileId__c;
-        shipToList = new List<Address>();
-        loadShipToList(false);
+           
+            client = new AuthorizeDotNetClient();
+        
+        customerProfileId = CurrentCustomer.getCustomerProfileId();
+        
+        this.shipToList = mock ? sampleCustomerShipToList() : getShipToList(customerProfileId);
     }
+    
 
+
+    
+    
     public PageReference editThisAddress() {
         //when the user clicks edit link
         //set the selectedCustomerAddressId
@@ -71,7 +73,7 @@ public with sharing class ViewShipToAddressController {
         //https://ocdla--marastore--c.sandbox.vf.force.com/apex/EditShipToAddress?addressId=temp123
     }
 
-    public List<Address> getShipToList() {
+    public static List<Address> getShipToList(String customerProfileId) {
         
         GetCustomerProfileRequest req = new GetCustomerProfileRequest();
         req.setCustomerProfileId(customerProfileId);
@@ -83,7 +85,17 @@ public with sharing class ViewShipToAddressController {
         return shipToList;
     }
 
-    public List<Address> sampleCustomerShipToList(){
+    
+    
+
+
+    
+    
+
+    
+    
+    
+    public static List<Address> sampleCustomerShipToList() {
         List<Address> addressList = new List<Address>();
         Address shipTo1 = new Address('Ralph', 'Williams', '19645 Andrew Ln', 'Reno', 'NV', '89521');
         Address ShipTo2 = new Address('Sebastian', 'Williams-Wilson', '200 Mountain View Dr.', 'Reno', 'NV', '89511');
@@ -93,18 +105,8 @@ public with sharing class ViewShipToAddressController {
 
         return addressList;
     }
-
-    public void loadShipToList(Boolean mock) {
-       
-        // For testing
-        if(mock) {
-            this.shipToList = sampleCustomerShipToList();
-        }
-        else {
-            this.shipToList = getShipToList();
-        }
-        
-    }
+    
+    
 
     public PageReference redirectToAddShipToAddress() {
         return new PageReference('/apex/AddShipToAddress');

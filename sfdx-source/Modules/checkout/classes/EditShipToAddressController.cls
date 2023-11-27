@@ -1,62 +1,55 @@
 public with sharing class EditShipToAddressController {
+    
     AuthorizeDotNetClient client {get; set;}
+    
     String customerProfileId {get; set;}
 
     public Contact c {get; set;}
-    public Address updatedShipTo {get; set;}
+    
+    public Address shipTo {get; set;}
+    
     public String selectedCustomerAddressId {get; set;}
+    
     public List<SelectOption> stateOptions {get; public set;}
     
+    
+    
+    
+    
     public EditShipToAddressController() {
-        Map <String, String> interns = new Map<String,String> {
-            'johnDoeAuthDotNetId' =>'905372692',
-            'maraAuthDotNetId' => '916376196',
-            'maraSandBoxSfContactId' => '0037h00000uAHSHAA4'
-        };
 
-        String contactForTesting = interns.get('maraSandBoxSfContactId');
+        customerProfileId = CurrentCustomer.getCustomerProfileId();
+       	this.selectedCustomerAddressId = ApexPages.currentPage().getParameters().get('addressId');
+  
 
-        client = new AuthorizeDotNetClient();
-
-        c = [SELECT FirstName, LastName, Email, AuthorizeDotNetCustomerProfileId__c FROM Contact WHERE Id = :contactForTesting];
-
-        customerProfileId = c.AuthorizeDotNetCustomerProfileId__c;
-       
-        selectedCustomerAddressId = getSelectedAddressIdFromUrl();
-
-        updatedShipTo=loadShipToCurrentId();
+        shipTo = loadShipTo(selectedCustomerAddressId);
 
         this.stateOptions = getStateOptions();
-
-        
-    }
-    public String getSelectedShipToFromUrl() {
-        String temp = ApexPages.currentPage().getParameters().get('addressId');
-        return temp!=null? temp : 'not found';
-        
+        // Also we need something for dates.
     }
 
-    public Address loadShipToCurrentId(){
+
+    public Address loadShipTo(String addressId){
         GetCustomerShippingAddressRequest req = new GetCustomerShippingAddressRequest();
-        req.setCustomerAddressId(selectedCustomerAddressId);
+        req.setCustomerAddressId(addressId);
         req.setCustomerProfileId(customerProfileId);
         System.debug(req.getBody());
         GetCustomerShippingAddressResponse resp = (GetCustomerShippingAddressResponse)client.send(req);
         
-        if(resp.success()){
+        if(resp.success()) {
             System.debug('success is ' + resp.success());
             return resp.getAddress();
         }
-        else{
+        else {
             Messages messages = resp.getMessages();
             Message message = messages.getFirstMessage();
-            System.debug(message.getText());
-            return null;
+            
+            throw new CheckoutException(message.getText());
         }
     }
    
 
-    public PageReference editShipTo(){
+    public PageReference editShipTo() {
 
         // Address shipToSubmit = updatedShipTo;
    
@@ -68,12 +61,12 @@ public with sharing class EditShipToAddressController {
 
         //System.debug(req.getBody());
 
-        req.setAddress(updatedShipTo);
+        req.setAddress(shipTo);
         System.debug(req.getBody());
         System.debug('XXXX- address id');
-        System.debug(updatedShipTo.getCustomerAddressId());
+        System.debug(shipTo.getCustomerAddressId());
         System.debug('XXXX - address keySet...');
-        System.debug(updatedShipTo.keySet());
+        System.debug(shipTo.keySet());
         System.debug('XXXX - Update request keys...');
         System.debug(req.keySet());
         System.debug('XXXX - req body...');
@@ -82,21 +75,24 @@ public with sharing class EditShipToAddressController {
         
         UpdateCustomerShippingAddressResponse resp = (UpdateCustomerShippingAddressResponse)client.send(req);
 
-        if(resp.success()){
+        if(resp.success()) {
             System.debug('success is ' + resp.success());
             return redirectToViewShipToAddress();
         }
-        else{
+        else {
             Messages messages = resp.getMessages();
             Message message = messages.getFirstMessage();
             System.debug(message.getText());
-                ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'Please enter value'));
-                return null;
+            ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'Please enter value'));
+            return null;
             //display error message on page and refresh page
             //return new PageReference('/apex/ShipToError');
         }
 
     }
+    
+    
+    
     public Address sampleShipToAddress(){
         Address shipToSample = new Address('Sebastian', 'Williams-Wilson', '200 Mountain View Dr.', 'Reno', 'NV', '89511');
         return shipToSample;
@@ -106,9 +102,7 @@ public with sharing class EditShipToAddressController {
         return new Pagereference('/apex/ViewShipToAddress');
     }
 
-    public string getSelectedAddressIdFromUrl() {
-        return ApexPages.currentPage().getParameters().get('customerAddressid'); 
-    } 
+
 
     public List<SelectOption> getStateOptions() {
         List<SelectOption> stateOptions = States.getAsSelectOptions();
