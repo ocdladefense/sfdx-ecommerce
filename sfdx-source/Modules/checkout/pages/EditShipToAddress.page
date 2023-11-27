@@ -9,6 +9,7 @@
             <apex:pageBlockSection title="Shipping Information" columns="2">
                 <apex:inputText value="{!updatedShipTo.firstName}" >First Name: </apex:inputText>
                 <apex:inputText value="{!updatedShipTo.lastName}" >Last Name: </apex:inputText>
+                <apex:inputText value="{!updatedShipTo.company}" >Company: </apex:inputText>
                 <apex:inputText value="{!updatedShipTo.address}">Address: </apex:inputText>
                 <apex:inputText value="{!updatedShipTo.city}">City: </apex:inputText>
                 <apex:selectList value="{!updatedShipTo.state}" size="1">State: 
