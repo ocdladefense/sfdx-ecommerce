@@ -4,7 +4,7 @@ public class ShippingAddressTest {
 
     }
 
-    @isTest static void createCustomerShippingAddress(){
+    @isTest static void createCustomerShippingAddressDefaultConstructor(){
         //request is connected?
         Address address = new Address('M.', 'Williams', '1000 10th Ave', 'Eugene', 'OR', '97401');
         CreateCustomerShippingAddressRequest req = new CreateCustomerShippingAddressRequest();
@@ -39,9 +39,84 @@ public class ShippingAddressTest {
         System.assertEquals(codeFromResult, messageList[0].getCode());
     }
 
+    @isTest static void createCustomerShippingAddress(){
+        //request is connected?
+        Address theAddress = new Address('M.', 'Williams', '1000 10th Ave', 'Eugene', 'OR', '97401');
+        CreateCustomerShippingAddressRequest req = new CreateCustomerShippingAddressRequest(theAddress);
+        req.setAddress(theAddress);
+        req.setCustomerProfileId('1234');
+
+        if(req.getDefaultShippingAddress()==false || req.getDefaultShippingAddress()==null){
+            req.setDefaultShippingAddress(true);
+        }
+
+        System.assert(req.getAddress()!= null);
+        System.assert(req.getCustomerProfileId()=='1234');
+
+        string result = req.getBody();
+        Boolean idPresent = result.contains('customerAddressId');
+
+        System.assertEquals(false, idPresent, 'this request should not have customerAddressId');
+
+        //client or mock
+        AuthorizeDotNetServiceMock mock = new AuthorizeDotNetServiceMock();
+        if (Test.isRunningTest()){
+            Test.setMock(HttpCalloutMock.class, mock);
+        }
+
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+
+        //response
+        CreateCustomerShippingAddressResponse shipResp = (CreateCustomerShippingAddressResponse)client.send(req);
+
+        Boolean success = shipResp.success();
+        System.assertEquals(true, success, 'success should return true');
+
+        String idFromResult = '126406';
+        System.assertEquals(idFromResult, shipResp.getCustomerAddressId());
+
+        String codeFromResult = 'I00001';
+        Messages messages = shipResp.getMessages();
+        List<Message> messageList = messages.getMessage();
+        System.assertEquals(codeFromResult, messageList[0].getCode());
+    }
+
 
 
     @isTest static void updateCustomerShippingAddress(){
+        //request
+        Address newAddress = new Address('J.', 'Berna', '214 NW Monroe Ave', 'Albany', 'OR', '97330');
+        newAddress.setCompany('OCDLA');
+        newAddress.setfaxNumber('555-555-5555');
+        newAddress.setPhoneNumber('556-556-6666');
+        UpdateCustomerShippingAddressRequest req = new UpdateCustomerShippingAddressRequest(newAddress);
+        req.setCustomerProfileId('1234');
+        req.setDefaultShippingAddress(true);
+
+        //client or mock
+        AuthorizeDotNetServiceMock mock = new AuthorizeDotNetServiceMock();
+        if (Test.isRunningTest()){
+            Test.setMock(HttpCalloutMock.class, mock);
+        }
+
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+
+        //response
+        UpdateCustomerShippingAddressResponse shipResp = (UpdateCustomerShippingAddressResponse)client.send(req);
+        
+        Boolean success = shipResp.success();
+        System.debug('success is : '+ success);
+        System.assertEquals(true, success, 'success should return true');
+
+
+        String codeFromResult = 'I00001';
+        Messages messages = shipResp.getMessages();
+        List<Message> messageList = messages.getMessage();
+        System.assertEquals(codeFromResult, messageList[0].getCode());
+
+    }
+
+    @isTest static void updateCustomerShippingAddressDefaultConstructor(){
         //request
         UpdateCustomerShippingAddressRequest req = new UpdateCustomerShippingAddressRequest();
         req.setCustomerProfileId('1234');
@@ -100,6 +175,10 @@ public class ShippingAddressTest {
 
         System.assertEquals(true, idPresent, 'this request should have customerAddressId');
 
+        System.assertEquals('1234', req.getCustomerProfileId());
+        System.assertEquals('3456', req.getCustomerAddressId());
+
+
         //client or mock
         AuthorizeDotNetServiceMock mock = new AuthorizeDotNetServiceMock();
         if (Test.isRunningTest()){
@@ -121,7 +200,32 @@ public class ShippingAddressTest {
         List<Message> messageList = messages.getMessage();
         System.assertEquals(codeFromResult, messageList[0].getCode());
     }
+    @isTest static void deleteCustomerShippingAddressDefaultConstructor(){
+        
+        //request
+        Address theAddress = new Address('M.', 'Williams', '1000 10th Ave', 'The Moon', 'OR', '97401');
+        theAddress.setCustomerAddressId('3456');
 
+        DeleteCustomerShippingAddressRequest req = new DeleteCustomerShippingAddressRequest();
+
+        req.setCustomerAddressId(theAddress.getCustomerAddressId());
+        req.setCustomerProfileId('1234');
+        
+        //client or mock
+        AuthorizeDotNetServiceMock mock = new AuthorizeDotNetServiceMock();
+        if (Test.isRunningTest()){
+            Test.setMock(HttpCalloutMock.class, mock);
+        }
+
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+
+        //response
+        DeleteCustomerShippingAddressResponse shipResp = (DeleteCustomerShippingAddressResponse)client.send(req);
+
+        Boolean success = shipResp.success();
+        System.debug('success is : '+ success);
+        System.assertEquals(true, success, 'success should return true');
+    }
     @isTest static void getCustomerShippingAddress(){
         //request
         String customerprofileId='1234';
@@ -187,6 +291,42 @@ public class ShippingAddressTest {
 
         System.assertEquals(true, success, 'success should return true');
 
+    }
+
+    @isTest static void deserializeCreateCustomerShippingAddressResponse(){
+        //set body through constructor
+        //included for code coverage on CreateCustomerShippingAddressResponse
+        String result = '{"customerAddressId":"126406","messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}' ;
+        
+        CreateCustomerShippingAddressResponse shipResp = new CreateCustomerShippingAddressResponse(result);
+        shipResp.deserialize();
+        
+        Boolean success = shipResp.success();
+        System.debug('success is : '+ success);
+        //System.assertEquals(true, success, 'success should return true');
+
+        String idFromResult = '126406';
+        String customerAddressId = shipResp.getCustomerAddressId();
+        System.debug('--------' + customerAddressId);
+        System.assertEquals(idFromResult, customerAddressId);
+
+        //set body through setter
+        String result2 = '{"customerAddressId":"126406","messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}' ;
+    
+        CreateCustomerShippingAddressResponse shipResp2 = new CreateCustomerShippingAddressResponse();
+        shipResp2.setBody(result2);
+        shipResp2.deserialize();
+        
+        Boolean success2 = shipResp2.success();
+        System.debug('success2 is : '+ success2);
+        //System.assertEquals(true, success, 'success should return true');
+
+        String idFromResult2 = '126406';
+        System.debug('--------');
+        String customerAddressId2 = shipResp2.getCustomerAddressId();
+        System.debug('--------' + customerAddressId2);
+        System.assertEquals(idFromResult2, customerAddressId2);
+        
     }
 
 }
