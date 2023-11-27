@@ -4,15 +4,15 @@
   "packageDirectories": [
     {
       "path": "sfdx-source/Modules/http",
-      "package": "Http",
+      "package": "LibHttp",
       "versionName": "ver 0.1",
       "versionNumber": "0.1.0.NEXT",
       "default": false,
       "versionDescription": ""
     },
     {
-      "path": "sfdx-source/Modules/json",
-      "package": "Json",
+      "path": "sfdx-source/Modules/serialization",
+      "package": "LibSerialization",
       "versionName": "ver 0.1",
       "versionNumber": "0.1.0.NEXT",
       "default": false,
@@ -28,20 +28,23 @@
     },
     {
       "path": "sfdx-source/Modules/authorizedotnet",
-      "package": "AuthorizeDotNet",
+      "package": "AuthorizeDotNetApi",
       "versionName": "ver 0.1",
       "versionNumber": "0.1.0.NEXT",
       "default": false,
       "versionDescription": "",
       "dependencies": [
         {
-            "package": "Http"
+          "package": "LibHttp",
+          "versionNumber": "0.1.0.LATEST"
         },
         {
-            "package": "Json"
+          "package": "LibSerialization",
+          "versionNumber": "0.1.0.LATEST"
         },
         {
-            "package": "EcommercePayment"
+          "package": "EcommercePayment",
+          "versionNumber": "0.1.0.LATEST"
         }
       ]
     },
@@ -54,7 +57,8 @@
       "versionDescription": "",
       "dependencies": [
         {
-            "package": "Http"
+          "package": "Http",
+          "versionNumber": "0.1.0.LATEST"
         }
       ]
     },
@@ -67,7 +71,12 @@
       "versionDescription": "",
       "dependencies": [
         {
-            "package": "EcommercePayment"
+          "package": "EcommercePayment",
+          "versionNumber": "0.1.0.LATEST"
+        },
+        {
+          "package": "AuthorizeDotNetApi",
+          "versionNumber": "0.1.0.LATEST"
         }
       ]
     },
@@ -89,6 +98,12 @@
     "EcommercePayment@0.1.0-6": "04t3h0000043wfvAAA",
     "EcommercePayment@0.1.0-7": "04t3h0000043wg0AAA",
     "Http": "0Ho3h000000GmkoCAC",
-    "QuickBooks": "0Ho3h000000GmktCAC"
+    "QuickBooks": "0Ho3h000000GmktCAC",
+    "AuthorizeDotNetApi": "0Ho3h0000008OmJCAU",
+    "LibJson": "0Ho3h0000008OmOCAU",
+    "LibSerialization": "0Ho3h0000008OmTCAU",
+    "LibSerialization@0.1.0-1": "04t3h000004Vc7dAAC",
+    "LibHttp": "0Ho3h0000008OmYCAU",
+    "LibHttp@0.1.0-1": "04t3h000004Vc7iAAC"
   }
 }
