@@ -25,7 +25,18 @@ public class AuthorizeDotNetServiceMock implements HttpCalloutMock {
         HttpResponse resp = new HttpResponse();
         
         String requestType = req.getHeader('X-Request-Type');
-        String responseType = requestType.capitalize()+'MockResponse';
+        String responseType;
+        
+        //UpdateCustomerShippingAddressMockResponse (and Delete, Create versions) exceed 40 character limit for class name
+        //if statement to catch those request types and append shorter 'MockResp' 
+
+        if(requestType.contains('CustomerShippingAddress')){
+            responseType = requestType.capitalize()+'MockResp';
+        }
+        else{
+            responseType = requestType.capitalize()+'MockResponse';
+        }
+       
  
 
         System.Type t = Type.forName(responseType);
