@@ -1,30 +1,68 @@
 public class SavedPaymentMethodsController {
     
-    AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+    AuthorizeDotNetClient client;
+
     String customerProfileId;
     //String customerProfileId = '905372692';
 
     public Contact c {get; set;}
+
     public Address billingInfo {get; set;}
+
     public Payment paymentInfo {get; set;}
+
     public Boolean isDefaultPaymentMethod {get; set;}
+
+    private CustomerProfile profile {public get; private set;}
+
     public List<CustomerPaymentProfile> paymentProfiles {get; set;}
+
     public String selectedPaymentProfileId {get; set;}
     
     
+
+
     public SavedPaymentMethodsController() {
         billingInfo = new Address();
         paymentInfo = new Payment();
+        Boolean useMock = False;
+
         client = new AuthorizeDotNetClient();
-        c = [SELECT FirstName, LastName, Email, AuthorizeDotNetCustomerProfileId__c FROM Contact WHERE Id = '0037h00000uAHSHAA4'];
-        customerProfileId = c.AuthorizeDotNetCustomerProfileId__c;
+
+        String stevensTestContactId = '0037h00000uAHSHAA4';
+        String contactId = '';
+
+        c = Database.query('SELECT FirstName, LastName, Email, AuthorizeDotNetCustomerProfileId__c FROM Contact WHERE Id = :contactId');
+
+        customerProfileId = (String)c.get('AuthorizeDotNetCustomerProfileId__c');
+
         paymentProfiles = new List<CustomerPaymentProfile>();
         // pretend that logged in users Authorize.net customer profile id is called.
-        loadPaymentProfiles(true);
         
+        if(!useMock) {
+            GetCustomerProfileRequest req = new GetCustomerProfileRequest();
+            req.setCustomerProfileId(customerProfileId);
+
+            GetCustomerProfileResponse resp = (GetCustomerProfileResponse)client.send(req);
+            this.profile = resp.getProfile();
+            this.paymentProfiles = profile.getPaymentProfiles();
+        }
+        else {
+            this.paymentProfiles = this.loadPaymentProfiles(useMock);
+        }
     }
 
     
+
+    public void loadPaymentProfiles(Boolean mock) {
+
+        return mock ? sampleCustomerPaymentProfileList() : getPaymentProfiles();
+    }
+
+
+
+
+
     public Pagereference deletePaymentProfile() {
         
         DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest();
@@ -119,33 +157,7 @@ public class SavedPaymentMethodsController {
         return new Pagereference('/apex/SavedPaymentMethods');
     }
 
-    public void loadPaymentProfiles(Boolean mock) {
-        //getPaymentPaymentProfiles();
-
-
-
-        // For testing
-        if(mock) {
-            this.paymentProfiles = sampleCustomerPaymentProfileList();
-        }
-        else {
-            this.paymentProfiles = getPaymentProfiles();
-        }
-        
-        //paymentProfiles = sampleEmptyCustomerPaymentProfileList();
-    }
-
-    public List<CustomerPaymentProfile> getPaymentProfiles() {
-        
-        GetCustomerProfileRequest req = new GetCustomerProfileRequest();
-        req.setCustomerProfileId(customerProfileId);
-
-        GetCustomerProfileResponse resp = (GetCustomerProfileResponse)client.send(req);
-        CustomerProfile profile = resp.getProfile();
-        List<CustomerPaymentProfile> paymentProfiles = profile.getPaymentProfiles();
-
-        return paymentProfiles;
-    }
+    
 
     // Test method
     public List<CustomerPaymentProfile> sampleCustomerPaymentProfileList(){

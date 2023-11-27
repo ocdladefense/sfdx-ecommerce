@@ -64,53 +64,14 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType{
 
 
 
-    public static List<SelectOption> toSelectOptions(List<CreditCard> cards) {
-        System.debug('Input Cards: ' + cards);
-        List<SelectOption> cardValues = new List<SelectOption>();
+    public SelectOption toSelectOption() {
+        
+        CreditCard card = this.payment.getCreditCard();
 
-        // original loop to populate select options
-        /*
-        for (CreditCard card : cards) {
-            String viewableCardNum;
-            String expDate = card.getExpirationDate();
-            List<string> splitExp = exp.split('-');
-            String year = splitExp[0];
-            String month = splitExp[1];
-            expDate = month + '/' + year;
-            if(isExpired(card)) {
-                viewableCardNum = card.getCardNumber();
-                viewableCardNum = viewableCardNum + '(expired)';
-            }
-            cardValues.add(new SelectOption(card.getId(), viewableCardNum));
-            if (card.getIsDefault())
-            {
-                defaultCard = card;
-            }
-        }   
-        */
+        String value = card.getCardNumber();
+        String label = card.isExpired() ? (value + ' (expired)') : value;
 
-        // updated loop to populate select options
-        for (CreditCard card : cards) {
-            String viewableCardNum = card.getCardNumber();
-            if(card.isExpired()) {
-                viewableCardNum = viewableCardNum + '(expired)';
-            }
-            //cardValues.add(new SelectOption(String.valueOf(card.getId()), viewableCardNum));
-            
-            // ---TODO---
-            // fix later after defaultCard is fully investigated in OcdlaCheckoutController
-            // currently not needed for testing
-            /*
-            if (card.getIsDefault())
-            {
-                defaultCard = card;
-            }
-            */
-        }
-
-        cardValues.add(new SelectOption('newCard', 'Add New Card'));
-        System.debug('Output SelectOptions: ' + cardValues);
-        return cardValues;
+        return new SelectOption(value, label);
     }
 
     
