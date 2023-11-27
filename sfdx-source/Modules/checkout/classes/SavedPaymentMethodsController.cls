@@ -13,7 +13,7 @@ public class SavedPaymentMethodsController {
 
     public Boolean isDefaultPaymentMethod {get; set;}
 
-    private CustomerProfile profile {public get; private set;}
+    public CustomerProfile profile {public get; private set;}
 
     public List<CustomerPaymentProfile> paymentProfiles {get; set;}
 
@@ -48,16 +48,11 @@ public class SavedPaymentMethodsController {
             this.paymentProfiles = profile.getPaymentProfiles();
         }
         else {
-            this.paymentProfiles = this.loadPaymentProfiles(useMock);
+            this.paymentProfiles = sampleCustomerPaymentProfileList();
         }
     }
 
     
-
-    public void loadPaymentProfiles(Boolean mock) {
-
-        return mock ? sampleCustomerPaymentProfileList() : getPaymentProfiles();
-    }
 
 
 
