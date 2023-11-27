@@ -64,7 +64,7 @@
     },
     {
       "path": "sfdx-source/Modules/checkout",
-      "package": "OCDLACheckout",
+      "package": "EcommerceCheckout",
       "versionName": "ver 0.1",
       "versionNumber": "0.1.0.NEXT",
       "default": false,
@@ -104,6 +104,7 @@
     "LibSerialization": "0Ho3h0000008OmTCAU",
     "LibSerialization@0.1.0-1": "04t3h000004Vc7dAAC",
     "LibHttp": "0Ho3h0000008OmYCAU",
-    "LibHttp@0.1.0-1": "04t3h000004Vc7iAAC"
+    "LibHttp@0.1.0-1": "04t3h000004Vc7iAAC",
+    "EcommerceCheckout": "0Ho3h0000008OmdCAE"
   }
 }
