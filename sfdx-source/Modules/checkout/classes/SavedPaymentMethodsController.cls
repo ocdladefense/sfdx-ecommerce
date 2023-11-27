@@ -1,9 +1,8 @@
 public class SavedPaymentMethodsController {
     
-    AuthorizeDotNetClient client;
+    private AuthorizeDotNetClient client;
 
-    String customerProfileId;
-    //String customerProfileId = '905372692';
+    private String customerProfileId;
 
     public Contact c {get; set;}
 
@@ -15,12 +14,14 @@ public class SavedPaymentMethodsController {
 
     public CustomerProfile customerProfile {public get; private set;}
 
-    public List<CustomerPaymentProfile> paymentProfiles {get; set;}
+    transient private List<CustomerPaymentProfile> paymentProfiles;
+    
+    private CustomerPaymentProfileCollection paymentProfileCollection;
 
     public String selectedPaymentProfileId {get; set;}
     
     
-
+ 
 
     public SavedPaymentMethodsController() {
         billingInfo = new Address();
@@ -28,16 +29,10 @@ public class SavedPaymentMethodsController {
         Boolean useMock = False;
 
         client = new AuthorizeDotNetClient();
-
-        String stevensTestContactId = '0037h00000uAHSHAA4';
-        String contactId = '';
-
-        c = Database.query('SELECT FirstName, LastName, Email, AuthorizeDotNetCustomerProfileId__c FROM Contact WHERE Id = :contactId');
-
-        customerProfileId = (String)c.get('AuthorizeDotNetCustomerProfileId__c');
-
+        
         paymentProfiles = new List<CustomerPaymentProfile>();
         // pretend that logged in users Authorize.net customer profile id is called.
+        customerProfileId = CurrentCustomer.getCustomerProfileId();
         
         if(!useMock) {
             GetCustomerProfileRequest req = new GetCustomerProfileRequest();
@@ -46,6 +41,7 @@ public class SavedPaymentMethodsController {
             GetCustomerProfileResponse resp = (GetCustomerProfileResponse)client.send(req);
             this.customerProfile = resp.getProfile();
             this.paymentProfiles = this.customerProfile.getPaymentProfiles();
+            this.paymentProfileCollection = new CustomerPaymentProfileCollection(this.paymentProfiles);
         }
         else {
             this.paymentProfiles = sampleCustomerPaymentProfileList();
@@ -53,6 +49,31 @@ public class SavedPaymentMethodsController {
     }
 
     
+
+    // Builds request with no errors, but no field for defaultPaymentMethod
+    public Pagereference setDefaultPaymentProfile() {
+        
+        Map<String,String> params = ApexPages.currentPage().getParameters();
+        String paymentProfileId = params.get('paymentProfileId');
+        
+        CustomerPaymentProfile selected = this.paymentProfileCollection.get(paymentProfileId);
+        selected.setDefault();
+        
+        UpdateCustomerPaymentProfileRequest req = new UpdateCustomerPaymentProfileRequest(selected);
+        req.setCustomerProfileId(this.customerProfileId);
+
+        System.debug(req.getBody());
+
+        UpdateCustomerPaymentProfileResponse resp = (UpdateCustomerPaymentProfileResponse)client.send(req);
+
+        System.debug(resp.getBody());
+        
+        return null;
+    }
+    
+    public List<CustomerPaymentProfile> getPaymentProfiles() {
+        return this.paymentProfileCollection.getAsList();
+    }
 
 
 
@@ -96,16 +117,15 @@ public class SavedPaymentMethodsController {
         return new Pagereference(ApexPages.currentPage().getUrl()).setRedirect(true);
     }
     */
-
-    // Builds request with no errors, but no field for defaultPaymentMethod
-    public Pagereference setDefaultPaymentProfile() {
+    
+        /*
         EditPaymentMethodController con = new EditPaymentMethodController();
         con.customerProfileId = customerProfileId;
         con.paymentProfileId = selectedPaymentProfileId;
         con.isDefaultPaymentMethod = isDefaultPaymentMethod;
         con.editPaymentProfile();
-
-
+		*/
+		
         /*
         for(CustomerPaymentProfile paymentProfile : paymentProfiles) {
             if(paymentProfile.getCustomerPaymentProfileId() == selectedPaymentProfileId) {
@@ -121,8 +141,7 @@ public class SavedPaymentMethodsController {
         */
 
 
-        return new Pagereference(ApexPages.currentPage().getUrl()).setRedirect(true);
-    }
+    
 
     public CustomerPaymentProfile getPaymentProfile() {
         GetCustomerPaymentProfileRequest req = new GetCustomerPaymentProfileRequest();
