@@ -13,7 +13,7 @@ public class SavedPaymentMethodsController {
 
     public Boolean isDefaultPaymentMethod {get; set;}
 
-    public CustomerProfile profile {public get; private set;}
+    public CustomerProfile customerProfile {public get; private set;}
 
     public List<CustomerPaymentProfile> paymentProfiles {get; set;}
 
@@ -44,8 +44,8 @@ public class SavedPaymentMethodsController {
             req.setCustomerProfileId(customerProfileId);
 
             GetCustomerProfileResponse resp = (GetCustomerProfileResponse)client.send(req);
-            this.profile = resp.getProfile();
-            this.paymentProfiles = profile.getPaymentProfiles();
+            this.customerProfile = resp.getProfile();
+            this.paymentProfiles = this.customerProfile.getPaymentProfiles();
         }
         else {
             this.paymentProfiles = sampleCustomerPaymentProfileList();
