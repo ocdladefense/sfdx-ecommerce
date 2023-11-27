@@ -82,8 +82,12 @@ public with sharing class AddShipToAddressController {
         else{
             Messages messages = resp.getMessages();
             Message message = messages.getFirstMessage();
-            System.debug(message.getText());
-            return new PageReference('/apex/ShipToError');
+            String messageText = message.getText();
+            
+            ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,messageText));
+            return null;
+        //display error message on page and refresh page
+        //return new PageReference('/apex/ShipToError');
 
         }
     }
@@ -107,7 +111,12 @@ public with sharing class AddShipToAddressController {
         return new Pagereference('/apex/ViewShipToAddress');
     }
 
-    
+    private List<SelectOption> getStateOptions() {
+        List<SelectOption> stateOptions = States.getAsSelectOptions();
+
+        return stateOptions;
+    }
+
 
 
 }

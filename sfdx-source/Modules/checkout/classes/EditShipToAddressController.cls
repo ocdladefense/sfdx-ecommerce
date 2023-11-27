@@ -108,4 +108,11 @@ public with sharing class EditShipToAddressController {
     public string getSelectedAddressIdFromUrl() {
         return ApexPages.currentPage().getParameters().get('customerAddressid'); 
     } 
+
+    private List<SelectOption> getStateOptions() {
+        List<SelectOption> stateOptions = States.getAsSelectOptions();
+
+        return stateOptions;
+    }
+
 }

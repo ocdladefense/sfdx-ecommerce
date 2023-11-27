@@ -1,19 +1,8 @@
-<apex:page controller="AddShipToAddressController">
-    <h1>Add a new shipping address</h1>
-
-    
-    <apex:form id="shipTo">
-        <apex:pageBlock title="Add Shipping Address">
-            <apex:messages></apex:messages>
-            <apex:pageBlockSection title="Shipping Information" columns="2">
-                <apex:inputText value="{!shipTo.firstName}" id="firstName">First Name: </apex:inputText>
-                <apex:inputText value="{!shipTo.lastName}">Last Name: </apex:inputText>
-                <apex:inputText value="{!shipTo.company}">Company: </apex:inputText>
-
-                <apex:inputText value="{!shipTo.address}">Address: </apex:inputText>
-                <apex:inputText value="{!shipTo.city}">City: </apex:inputText>
-                <apex:selectList value="{!shipTo.state}">State: 
-                    <apex:selectOption itemValue="OR" itemLabel="Oregon"/>
+<apex:component>
+    <!--apex:selectList id="chooseColor" itemValue="{!string}" size="1"
+        <apex:selectapex:selectOption itemitemValue="red" itemLabel="Red"/>
+    </apex:selectList--> 
+    <apex:selectOption itemValue="OR" itemLabel="Oregon"/>
     <apex:selectOption itemValue="WA" itemLabel="Washington"/>
     <apex:selectOption itemValue="CA" itemLabel="California"/>
     <apex:selectOption itemValue="ID" itemLabel="Idaho"/>
@@ -70,20 +59,5 @@
     <apex:selectOption itemValue="WI" itemLabel="Wisconsin"/>
     <apex:selectOption itemValue="WY" itemLabel="Wyoming"/>
     <apex:selectOption itemValue="DC" itemLabel="Washington DC"/>
-                </apex:selectList> 
 
-                <apex:inputText value="{!shipTo.zip}">Zip: </apex:inputText>
-                <apex:inputText value="{!shipTo.country}">Country: </apex:inputText>
-                <apex:inputText value="{!shipTo.phoneNumber}">Phone Number: </apex:inputText>
-            </apex:pageBlockSection>
-        </apex:pageBlock>
-        <div class="cc-data">
-            <label for="ShippingStateCode">Shipping State</label>
-            <select id="ShippingStateCode" name="ShippingStateCode">
-                <c:UtilStatesAsOptions />
-            </select>
-        </div>
-        <apex:commandButton value="Submit" action="{!addShipTo}" />
-        <apex:commandButton value="Cancel" action="{!redirectToViewShipToAddress}"/>
-    </apex:form>
-</apex:page>
+</apex:component>
