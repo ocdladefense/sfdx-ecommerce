@@ -52,6 +52,14 @@ public class UpdateCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
         this.customerProfileId = customerProfileId;
     }
 
+    public void setCustomerPaymentProfileId(String paymentProfileId) {
+        this.paymentProfile.setCustomerPaymentProfileId(paymentProfileId);
+    }
+
+    public void setIsDefault(Boolean isDefault) {
+        this.paymentProfile.setDefaultPaymentProfile(isDefault);
+    }
+
     public override Map<String,Object> toMap() {
         Map<String,Object> tmp = new Map<String,Object>();
         tmp.put('customerProfileId', this.customerProfileId);
