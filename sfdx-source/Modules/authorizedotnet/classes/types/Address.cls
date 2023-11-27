@@ -1,43 +1,36 @@
 public class Address extends AuthorizeDotNetType {
     private String customerAddressId;
     
-    private String firstName;
+    public String firstName {get; set;}
 
-    private String lastName;
+    public String lastName {get; set;}
 
-    private string company;
+    public string company {get; set;}
 
-    private String address;
+    public String address {get; set;}
 
-    private String city;
+    public String city {get; set;}
 
-    private String state;
+    public String state {get; set;}
 
-    private String zip;
+    public String zip {get; set;}
 
-    private String country;
+    public String country {get; set;}
 
-    private String phoneNumber;
+    private String phoneNumber {get; set;}
 
-    private String faxNumber;
+    private String faxNumber {get; set;}
 
-    private String email;
-
+    public String email {get; set;}
+    
+    public Boolean defaultShippingAddress {get; set;}
+    
     private static final String DEFAULT_COUNTRY_CODE = 'US';
 
-    public override String getPrimaryKeyField() {
-        return 'customerAddressId';
-    }
+    
 
-    public override String getPrimaryKeyValue() {
-        return this.customerAddressId;
-    }
+    
 
-    public override Set<String> keySet() {
-        return new Set<String> {
-            'firstName', 'lastName', 'company', 'address', 'city','state','zip','country','phoneNumber','faxNumber','email', 'customerAddressId'
-        };
-    }
 
 
     // Constructors-----------------
@@ -59,6 +52,25 @@ public class Address extends AuthorizeDotNetType {
         
     }
   
+    
+    
+    public override String getPrimaryKeyField() {
+        return 'customerAddressId';
+    }
+
+    public override String getPrimaryKeyValue() {
+        return this.customerAddressId;
+    }
+
+    public override Set<String> keySet() {
+        return new Set<String> {
+            'firstName', 'lastName', 'company', 'address', 'city','state','zip','country','phoneNumber','faxNumber','email', 'customerAddressId'
+        };
+    }
+    
+    public Boolean isDefault() {
+        return null != this.defaultShippingAddress && this.defaultShippingAddress == True;
+    }
 
     // Static Methods------------------------------
 
@@ -160,5 +172,8 @@ public class Address extends AuthorizeDotNetType {
         this.company = company;
     }
 
+    public override String toString() {
+        return firstName + ' ' + lastName + ', ' + address;
+    }
     
 }

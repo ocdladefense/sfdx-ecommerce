@@ -1,12 +1,20 @@
 public class CreditCard extends AuthorizeDotNetType {
 
     private String cardNumber;
+    
     private String expirationDate;
+    
     private String unmaskedExpirationDate;
-    private String cardType;
+    
+    public String cardType {public get{ return getType(); }}
+    
     private Boolean dateIsMasked;
+    
     private String cvv;
 
+    
+    
+    
     public CreditCard() {}
 
     public CreditCard(String cardNumber) {
@@ -65,26 +73,25 @@ public class CreditCard extends AuthorizeDotNetType {
     }
 
     public String getType() {
-        if(this.cardType==null)
-        {
-            if (cardNumber.startsWith('4')) {
-                return 'Visa';
-            }
-            else if(cardNumber.startsWith('5')){
-                return 'Mastercard';
-            }
-            else if (cardNumber.startsWith('6')){
-                return 'Discover';
-            }
-            else if (cardNumber.startsWith('34') || cardNumber.startsWith('37')){
-                return 'American Express';
-            }
-            else {
-                return 'Unknown';
-            }
+
+        if(null == cardNumber) {
+            return 'Unknown';
         }
-        return this.cardType;
-        
+        if (cardNumber.startsWith('4')) {
+            return 'Visa';
+        }
+        else if(cardNumber.startsWith('5')){
+            return 'Mastercard';
+        }
+        else if (cardNumber.startsWith('6')){
+            return 'Discover';
+        }
+        else if (cardNumber.startsWith('34') || cardNumber.startsWith('37')){
+            return 'American Express';
+        }
+        else {
+            return 'Unknown';
+        }
     }
 
     public Boolean isValid() {
@@ -110,17 +117,16 @@ public class CreditCard extends AuthorizeDotNetType {
     public void setExpirationDate (String expirationDate){
         this.expirationDate=expirationDate;
     }
+    
     public void setCvv(string cvv) {
         this.cvv = cvv;
     }
 
     public override Map<String,Object> toMap() {
-                
-        this.fields = new Set<String>{'cardNumber', 'expirationDate'};
+
         String theJson = JSON.serialize(this);
-        // deserialize address String into Map<String, Object>
+
         return (Map<String, Object>)JSON.deserializeUntyped(theJson);
     }
     
 }
-
