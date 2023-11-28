@@ -1,6 +1,7 @@
 public class CustomerPaymentProfileCollection {
 
     private List<CustomerPaymentProfile> paymentProfiles;
+    private Map<String, CustomerPaymentProfile> theMap = new Map<String, CustomerPaymentProfile>(); 
     
     
     
@@ -14,7 +15,7 @@ public class CustomerPaymentProfileCollection {
        	List<CustomerPaymentProfile> defaultCardFirst = new List<CustomerPaymentProfile>();
         
         for(CustomerPaymentProfile profile : tmp) {
-
+            theMap.put(profile.getCustomerPaymentProfileId(), profile);
             
             if(profile.getDefaultPaymentProfile()) {
                 defaultCardFirst.add(profile);
@@ -24,6 +25,7 @@ public class CustomerPaymentProfileCollection {
             	
                 options.add(profile);
             }
+
         }
         
         // Effectively appends others *after the default option,
@@ -47,13 +49,6 @@ public class CustomerPaymentProfileCollection {
     }
 
     public CustomerPaymentProfile get(String paymentProfileId) {
-        CustomerPaymentProfile matchingPaymentProfile;
-        for(CustomerPaymentProfile paymentProfile : paymentProfiles) {
-            if(paymentProfile.getCustomerPaymentProfileId() == paymentProfileId) {
-                matchingPaymentProfile = paymentProfile;
-            }
-        }
-
-        return matchingPaymentProfile;
+        return theMap.get(paymentProfileId);
     }
 }
