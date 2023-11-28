@@ -83,7 +83,8 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
         // System.debug(breq.getBody());
         HttpResponse bresp = client.send(breq);
 
-        // System.debug(bresp.getBody());
+        System.debug(bresp.getBody());
+        
         String respBodyString = bresp.getBody().replace('\uFEFF', '');
         
         // System.debug(respBodyString);
@@ -100,6 +101,7 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
 
         AuthorizeDotNetResponse resp = (AuthorizeDotNetResponse)JSON.deserialize(respBodyString, t);
         resp.setBody(respBodyString);
+        System.debug(resp.getBody());
         
 
         return resp;

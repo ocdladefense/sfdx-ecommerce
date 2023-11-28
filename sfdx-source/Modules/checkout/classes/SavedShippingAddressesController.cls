@@ -33,10 +33,10 @@ public with sharing class SavedShippingAddressesController {
         //when the user clicks edit link
         //set the selectedCustomerAddressId
         
-        string customerAddressID = Apexpages.currentPage().getParameters().get('customerAddressID');
+        string customerAddressId = Apexpages.currentPage().getParameters().get('customerAddressId');
 
         //able to set a parameter
-        if(selectedCustomerAddressId!=null){
+        if(customerAddressId!=null){
             Pagereference editPage = new PageReference('/apex/EditShippingAddress');
             editPage.setRedirect(true);
             editPage.getParameters().put('customerAddressId', customerAddressId);

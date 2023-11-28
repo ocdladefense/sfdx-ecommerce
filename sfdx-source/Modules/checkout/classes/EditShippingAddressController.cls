@@ -8,21 +8,25 @@ public with sharing class EditShippingAddressController {
     
     public Address shipTo {get; set;}
     
-    public String selectedCustomerAddressId {get; set;}
+    public String customerAddressId {get; set;}
     
     public List<SelectOption> stateOptions {get; public set;}
     
     
     
-    
-    
     public EditShippingAddressController() {
+        this.client = new AuthorizeDotNetClient();
 
         customerProfileId = CurrentCustomer.getCustomerProfileId();
-       	this.selectedCustomerAddressId = ApexPages.currentPage().getParameters().get('addressId');
+
+       	this.customerAddressId = ApexPages.currentPage().getParameters().get('customerAddressId');
+
+        if(this.customerAddressId==null){
+            throw new CheckoutException();
+        }
   
 
-        shipTo = loadShipTo(selectedCustomerAddressId);
+        shipTo = loadShipTo(customerAddressId);
 
         this.stateOptions = getStateOptions();
         // Also we need something for dates.
@@ -35,7 +39,7 @@ public with sharing class EditShippingAddressController {
         req.setCustomerProfileId(customerProfileId);
         System.debug(req.getBody());
         GetCustomerShippingAddressResponse resp = (GetCustomerShippingAddressResponse)client.send(req);
-        
+       
         if(resp.success()) {
             System.debug('success is ' + resp.success());
             return resp.getAddress();

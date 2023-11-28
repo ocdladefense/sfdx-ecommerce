@@ -19,7 +19,7 @@ public with sharing class DeleteCustomerPaymentProfileTest {
 
     }
     @isTest static void deserializeGetCustomerProfileResponse(){
-    String respBodyString = AuthorizeDotNetServiceMock.sampleGetCustomerProfileRespBody();
+    String respBodyString = '';
     
     String responseType = 'GetCustomerProfileResponse';
     System.Type t = Type.forName(responseType);
