@@ -56,6 +56,7 @@ public class SavedPaymentMethodsController {
         Map<String,String> params = ApexPages.currentPage().getParameters();
         String paymentProfileId = params.get('paymentProfileId');
         
+        // Gets a paymentProfile from the paymentProfileCollection by paymentProfileId
         CustomerPaymentProfile selected = this.paymentProfileCollection.get(paymentProfileId);
         selected.setDefault();
         

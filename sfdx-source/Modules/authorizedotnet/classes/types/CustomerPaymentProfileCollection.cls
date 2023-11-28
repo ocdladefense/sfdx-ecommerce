@@ -45,4 +45,15 @@ public class CustomerPaymentProfileCollection {
     public Integer size() {
         return null == this.paymentProfiles ? 0 : this.paymentProfiles.size();
     }
+
+    public CustomerPaymentProfile get(String paymentProfileId) {
+        CustomerPaymentProfile matchingPaymentProfile;
+        for(CustomerPaymentProfile paymentProfile : paymentProfiles) {
+            if(paymentProfile.getCustomerPaymentProfileId() == paymentProfileId) {
+                matchingPaymentProfile = paymentProfile;
+            }
+        }
+
+        return matchingPaymentProfile;
+    }
 }
