@@ -1,7 +1,10 @@
 <apex:component>
     <!--apex:selectList id="chooseColor" itemValue="{!string}" size="1"
         <apex:selectapex:selectOption itemitemValue="red" itemLabel="Red"/>
+        value="{!shipTo.state}"
     </apex:selectList--> 
+
+    <apex:selectList value="{!shipTo.state}" size="1">State:
     <apex:selectOption itemValue="OR" itemLabel="Oregon"/>
     <apex:selectOption itemValue="WA" itemLabel="Washington"/>
     <apex:selectOption itemValue="CA" itemLabel="California"/>
@@ -59,5 +62,5 @@
     <apex:selectOption itemValue="WI" itemLabel="Wisconsin"/>
     <apex:selectOption itemValue="WY" itemLabel="Wyoming"/>
     <apex:selectOption itemValue="DC" itemLabel="Washington DC"/>
-
+</apex:selectList>
 </apex:component>

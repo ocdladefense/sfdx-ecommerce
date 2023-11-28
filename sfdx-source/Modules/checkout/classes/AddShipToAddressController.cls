@@ -10,17 +10,8 @@ public with sharing class AddShipToAddressController {
     public List<SelectOption> stateOptions {get; public set;}
     
     public AddShipToAddressController() {
-        Map <String, String> interns = new Map<String,String> {
-            'johnDoeAuthDotNetId' =>'905372692',
-            'maraAuthDotNetId' => '916376196',
-            'maraSfContactId' => '0037h00000uAHSHAA4'
-        };
-        String contactForTesting = interns.get('maraSfContactId');
-        client = new AuthorizeDotNetClient();
 
-        c = [SELECT FirstName, LastName, Email, AuthorizeDotNetCustomerProfileId__c FROM Contact WHERE Id = :contactForTesting];
-
-        customerProfileId = c.AuthorizeDotNetCustomerProfileId__c;
+        customerProfileId = CurrentCustomer.getCustomerProfileId();
     
         shipTo = new Address();
 

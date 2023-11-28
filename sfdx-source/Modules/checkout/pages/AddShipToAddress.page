@@ -15,6 +15,7 @@
                 
                 <apex:selectList value="{!shipTo.state}" size="1">State: 
                     <apex:selectOptions value="{!stateOptions}"/>
+                    <!-- <c:StateDropdown></c:StateDropdown> -->
                 </apex:selectList> 
                 <apex:inputText value="{!shipTo.zip}">Zip: </apex:inputText>
                 <!--apex:inputText value="{!shipTo.country}">Country: </apex:inputText-->
