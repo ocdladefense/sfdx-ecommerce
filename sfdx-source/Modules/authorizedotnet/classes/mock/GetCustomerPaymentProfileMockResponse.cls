@@ -4,47 +4,18 @@ public class GetCustomerPaymentProfileMockResponse extends AuthorizeDotNetRespon
 
     }
     
-    public String getBody(String custProfileId) {
-        
-        body = JSON.serialize(getCustomerProfileSuccessResponse());
-        return body;
+    public override String getBody() {
+        return JSON.serialize(getCustomerPaymentProfileSuccessResponse());
     }
 
-    public Object getCustomerProfileSuccessResponse() {
+    public Object getCustomerPaymentProfileSuccessResponse() {
         // construct a response of type Map<String, Object> that is consistant with the sample response in the documentation
         // will move this work to authorizedotnetclient class
 
         // Constructs the paymentProfile string
-        Map<String,Object> creditCard = new Map<String,Object> {
-            'cardNumber' => 'XXXX1111',
-            'expirationDate' => 'XXXX',
-            'cardType' => 'Visa',
-            'issuerNumber' => '411111'
-        };
-
-        Map<String,Object> billTo = new Map<String,Object>{
-            'phoneNumber' => '000-000-0000',
-            'firstName' => 'John',
-            'lastName' => 'Doe',
-            'address' => '123 Main St.',
-            'city' => 'Bellevue',
-            'state' => 'WA',
-            'zip' => '98004',
-            'country' => 'US'
-        };
-
-        Map<String,Object> payment = new Map<String,Object>{
-            'creditCard' => creditCard,
-            'originalNetworkTransId' => '0TN1VE648DFCJSHQ81GZH9F',
-            'originalAuthAmount' => 0,
-            'billTo' => billTo
-        };
-
-        Map<String,Object> paymentProfile = new Map<String,Object>{
-            'customerProfileId' => '527262',
-            'customerPaymentProfileId' => '87',
-            'payment' => payment
-        };
+        CreditCard creditCard = new CreditCard('XXXX1111', 'XXXX');
+        Address billTo = new Address('John', 'Doe', '123 Main St.', 'Bellevue', 'WA', '98004');
+        CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile(creditCard, billTo);
 
         // Constructs the message list
         List<Map<String, String>> messageList = new List<Map<String, String>>{
@@ -66,7 +37,7 @@ public class GetCustomerPaymentProfileMockResponse extends AuthorizeDotNetRespon
             'messages' => messages
         };
         
-        return response;  // Casting Map<String, Object> to Object
+        return paymentProfile;  // Casting Map<String, Object> to Object
     }
 
     public Object createCustomerProfileErrorResponse() {

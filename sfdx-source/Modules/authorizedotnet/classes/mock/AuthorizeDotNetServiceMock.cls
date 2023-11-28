@@ -40,13 +40,19 @@ public class AuthorizeDotNetServiceMock implements HttpCalloutMock {
  
 
         System.Type t = Type.forName(responseType);
-
+        if(t == null) {
+            throw new AuthorizeDotNetException('could not find type matching to ' + responseType);
+        }
         IMockResponse mock = (IMockResponse)t.newInstance();
 
 
         resp.setHeader('Content-Type', 'application/json');
        
-
+        String theBody = mock.getBody();
+        System.debug(theBody);
+        if(theBody == null) {
+            throw new AuthorizeDotNetException('mock.getBody should not return a null value. ' + responseType);
+        }
         resp.setBody(mock.getBody());
         resp.setStatusCode(200);
         String codeForDebug ='200';
