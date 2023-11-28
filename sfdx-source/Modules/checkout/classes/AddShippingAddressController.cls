@@ -1,4 +1,4 @@
-public with sharing class AddShipToAddressController {
+public with sharing class AddShippingAddressController {
    
     AuthorizeDotNetClient client;
     String customerProfileId {get; set;}
@@ -9,7 +9,7 @@ public with sharing class AddShipToAddressController {
     public String selectedCustomerAddressId {get; set;}
     public List<SelectOption> stateOptions {get; public set;}
     
-    public AddShipToAddressController() {
+    public AddShippingAddressController() {
 
         customerProfileId = CurrentCustomer.getCustomerProfileId();
     
@@ -71,7 +71,7 @@ public with sharing class AddShipToAddressController {
 
         if(resp.success()){
             system.debug('new address id is ' + resp.getCustomerAddressId());
-            return redirectToViewShipToAddress();
+            return redirectToSavedShippingAddresses();
         }
         else{
             Messages messages = resp.getMessages();
@@ -93,16 +93,13 @@ public with sharing class AddShipToAddressController {
         return theMap;
     }
 
-    public PageReference redirectToAddShipToAddress() {
-        return new PageReference('/apex/AddShipToAddress');
+    public PageReference redirectToAddShippingAddress() {
+        return new PageReference('/apex/AddShippingAddress');
     }
 
-    // public PageReference redirectToEditShipToAddress() {
-    //     return new PageReference('/apex/EditShipToAddress');
-    // }
 
-    public PageReference redirectToViewShipToAddress() {
-        return new Pagereference('/apex/ViewShipToAddress');
+    public PageReference redirectToSavedShippingAddresses() {
+        return new Pagereference('/apex/SavedShippingAddresses');
     }
 
     public List<SelectOption> getStateOptions() {

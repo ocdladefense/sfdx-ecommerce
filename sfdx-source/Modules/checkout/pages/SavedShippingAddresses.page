@@ -1,4 +1,4 @@
-<apex:page controller="ViewShipToAddressController">
+<apex:page controller="SavedShippingAddressesController">
 
 <h1>Shipping Addresses</h1>
 <apex:form id="ShipToForm">
@@ -9,7 +9,7 @@
         </apex:pageBlock>
         <apex:outputPanel rendered="{!IF(shipToList.size != 0, true, false)}">
             <apex:pageBlock>
-                <apex:commandLink action="{!redirectToAddShipToAddress}" value="Add new Shipping Address" />
+                <apex:commandLink action="{!redirectToAddShippingAddress}" value="Add New Shipping Address" />
                 
             </apex:pageBlock>
             <apex:pageBlock title="Shipping Addresses">
@@ -25,12 +25,12 @@
                     <apex:column value="{!shipTo.customerAddressId}" headerValue="Id for Testing" />
                     <apex:column>
                         <apex:commandLink value="Edit" action="{!editThisAddress}">
-                            <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}" assignTo="{!selectedCustomerAddressId}" />
+                            <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}"/>
                         </apex:commandLink>
                     </apex:column>
                     <apex:column>
                         <apex:commandLink value="Delete" action="{!deleteThisAddress}">
-                            <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}" assignTo="{!selectedCustomerAddressId}" />
+                            <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}"/>
                         </apex:commandLink>
                     </apex:column>
                 </apex:pageBlockTable>
@@ -38,7 +38,7 @@
         </apex:outputPanel>
         <apex:outputPanel rendered="{!IF(shipToList.size == 0, true, false)}">
             <apex:pageBlock>
-                <apex:commandLink action="{!redirectToAddShipToAddress}" value="Add Shipping Address"/>
+                <apex:commandLink action="{!redirectToAddShippingAddress}" value="Add New Shipping Address"/>
             </apex:pageBlock>
         </apex:outputPanel>
     </apex:form>

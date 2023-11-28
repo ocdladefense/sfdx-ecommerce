@@ -1,4 +1,4 @@
-public with sharing class ViewShipToAddressController {
+public with sharing class SavedShippingAddressesController {
 
     
     private static AuthorizeDotNetClient client;
@@ -15,7 +15,7 @@ public with sharing class ViewShipToAddressController {
     
     
     
-    public ViewShipToAddressController() {
+    public SavedShippingAddressesController() {
 
            
             client = new AuthorizeDotNetClient();
@@ -33,44 +33,46 @@ public with sharing class ViewShipToAddressController {
         //when the user clicks edit link
         //set the selectedCustomerAddressId
         
+        string customerAddressID = Apexpages.currentPage().getParameters().get('customerAddressID');
 
         //able to set a parameter
         if(selectedCustomerAddressId!=null){
-            Pagereference editPage = new PageReference('/apex/EditShipToAddress');
+            Pagereference editPage = new PageReference('/apex/EditShippingAddress');
             editPage.setRedirect(true);
-            editPage.getParameters().put('customerAddressId', selectedCustomerAddressId);
+            editPage.getParameters().put('customerAddressId', customerAddressId);
             system.debug(editPage.getParameters());
             return editPage;
         }
         else {
-            return new PageReference('/apex/AddShipToAddress');
+            return new PageReference('/apex/AddShippingAddress');
 
         }
-
-        //when I test this the url is 
-        //https://ocdla--marastore--c.sandbox.vf.force.com/apex/EditShipToAddress?addressId=temp123
     }
 
     public PageReference deleteThisAddress() {
-        //when the user clicks edit link
-        //set the selectedCustomerAddressId
+        //delete directly
+        DeleteCustomerShippingAddressRequest req = new DeleteCustomerShippingAddressRequest();
+        req.setCustomerProfileId(customerProfileId);
+        req.setCustomerAddressId(selectedCustomerAddressId);
+
+        String result = req.getBody();
+
+        System.debug(result);
+
+        DeleteCustomerShippingAddressResponse resp = (DeleteCustomerShippingAddressResponse)client.send(req);
         
-
-        //able to set a parameter
-        if(selectedCustomerAddressId!=null){
-            Pagereference deletePage = new PageReference('/apex/DeleteShipToAddress');
-            deletePage.setRedirect(true);
-            deletePage.getParameters().put('customerAddressId', selectedCustomerAddressId);
-            system.debug(deletePage.getParameters());
-            return deletePage;
+        if(resp.success()){
+            System.debug('success is '+ resp.success());
+            System.debug(selectedCustomerAddressId + ' has been deleted');
         }
-        else {
-            return new PageReference('/apex/AddShipToAddress');
-
+        else{
+            Messages messages = resp.getMessages();
+            Message message = messages.getFirstMessage();
+            System.debug(message.getText());
+            return new PageReference('/apex/ShipToError');
         }
-
-        //when I test this the url is 
-        //https://ocdla--marastore--c.sandbox.vf.force.com/apex/EditShipToAddress?addressId=temp123
+        
+        return new Pagereference('/apex/SavedShippingAddresses');
     }
 
     public static List<Address> getShipToList(String customerProfileId) {
@@ -86,15 +88,6 @@ public with sharing class ViewShipToAddressController {
     }
 
     
-    
-
-
-    
-    
-
-    
-    
-    
     public static List<Address> sampleCustomerShipToList() {
         List<Address> addressList = new List<Address>();
         Address shipTo1 = new Address('Ralph', 'Williams', '19645 Andrew Ln', 'Reno', 'NV', '89521');
@@ -108,20 +101,20 @@ public with sharing class ViewShipToAddressController {
     
     
 
-    public PageReference redirectToAddShipToAddress() {
-        return new PageReference('/apex/AddShipToAddress');
+    public PageReference redirectToAddShippingAddress() {
+        return new PageReference('/apex/AddShippingAddress');
     }
 
-    public PageReference redirectToEditShipToAddress() {
-        return new PageReference('/apex/EditShipToAddress');
+    public PageReference redirectToEditShippingAddress() {
+        return new PageReference('/apex/EditShippingAddress');
     }
 
     public PageReference redirectToDeleteShipToAddress() {
         return new PageReference('/apex/DeleteShipToAddress');
     }
 
-    public PageReference redirectToViewShipToAddress() {
-        return new Pagereference('/apex/ViewShipToAddress');
+    public PageReference redirectToSavedShippingAddresses() {
+        return new Pagereference('/apex/SavedShippingAddresses');
     }
 
 }

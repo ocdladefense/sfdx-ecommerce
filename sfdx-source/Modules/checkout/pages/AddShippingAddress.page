@@ -1,4 +1,4 @@
-<apex:page controller="AddShipToAddressController">
+<apex:page controller="AddShippingAddressController">
     <h1>Add a new shipping address</h1>
 
     
@@ -23,6 +23,6 @@
             </apex:pageBlockSection>
         </apex:pageBlock>
         <apex:commandButton value="Submit" action="{!addShipTo}" />
-        <apex:commandButton value="Cancel" action="{!redirectToViewShipToAddress}"/>
+        <apex:commandButton value="Cancel" action="{!redirectToSavedShippingAddresses}"/>
     </apex:form>
 </apex:page>
