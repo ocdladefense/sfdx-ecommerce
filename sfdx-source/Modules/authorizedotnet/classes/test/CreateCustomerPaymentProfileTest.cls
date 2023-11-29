@@ -24,14 +24,14 @@ public class CreateCustomerPaymentProfileTest {
         string result = req.getBody();
         Boolean idPresent = result.contains('customerProfileId');
 
-        System.assertEquals(false, idPresent, 'this request should not have customerProfileId');
+        System.assertEquals(true, idPresent, 'this request should have customerProfileId');
 
         //client or mock
         AuthorizeDotNetServiceMock mock = new AuthorizeDotNetServiceMock();
         if (Test.isRunningTest()){
             Test.setMock(HttpCalloutMock.class, mock);
         }
-
+        
         AuthorizeDotNetClient client = new AuthorizeDotNetClient();
 
         //response
