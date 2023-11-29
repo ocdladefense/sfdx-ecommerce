@@ -1,12 +1,15 @@
 <apex:page controller="AddPaymentMethodController">
     <apex:form id="paymentMethod">
         <apex:pageBlock title="Add Payment Method">
+        <apex:pageMessages/>
 
         <c:CustomerPaymentProfileForm billingInfo="{!billTo}"></c:CustomerPaymentProfileForm>
+
         <apex:pageBlockButtons>
-                    <apex:commandButton value="Submit" action="{!addPaymentProfile}" />
-                    <apex:commandButton value="Cancel" action="{!redirectToSavedPaymentMethods}"/>
+                <apex:commandButton value="Submit" action="{!addPaymentProfile}" />
+                <apex:commandButton value="Cancel" action="{!redirectToSavedPaymentMethods}" />
         </apex:pageBlockButtons>
+
     </apex:pageBlock>
     </apex:form>
 </apex:page>
