@@ -18,6 +18,10 @@
                 <apex:inputText value="{!shipTo.zip}">Zip: </apex:inputText>
                 <!--apex:inputText value="{!shipTo.country}">Country: </apex:inputText-->
                 <apex:inputText value="{!shipTo.phoneNumber}">Phone Number: </apex:inputText>
+                <apex:outputText value="{!shipTo.defaultShippingAddress}"> </apex:outputText>
+            </apex:pageBlockSection>
+            <apex:pageBlockSection>
+                <apex:inputCheckbox value="{!shipTo.defaultShippingAddress}"></apex:inputCheckbox>
             </apex:pageBlockSection>
         </apex:pageBlock>
        

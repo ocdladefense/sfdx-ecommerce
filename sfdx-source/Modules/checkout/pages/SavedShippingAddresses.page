@@ -7,11 +7,85 @@
                     {!c.FirstName & ' ' & c.LastName}
                 </apex:outputText>
         </apex:pageBlock>
-        <apex:outputPanel rendered="{!IF(shipToList.size != 0, true, false)}">
+        <!-- <apex:outputPanel rendered="true"> -->
+            <apex:outputPanel rendered="{!IF(shipToList.size != 0, true, false)}">
+
             <apex:pageBlock>
                 <apex:commandLink action="{!redirectToAddShippingAddress}" value="Add New Shipping Address" />
                 
             </apex:pageBlock>
+
+            <div class="content">
+                <!-- <apex:repeat value="{!shipToList}" var="shipTo" rendered="true"> -->
+
+                <apex:repeat value="{!shipToList}" var ="shipTo" rendered="{!IF(shipToList.size != 0, true, false)}">
+                    <div style="margin: 1.5em" class="select">
+                        <span class="card-data">{!shipTo.firstName & ' ' & shipTo.lastName}</span>
+                        <br />
+                        <span class="card-data">{!shipTo.company}</span>
+                        <br />
+                        <span class="card-data">{!shipTo.address}</span>
+                        <br />
+                        <span class="card-data" >{!shipTo.city & ', '& shipTo.state & ' '&  shipTo.zip}</span>
+    
+                        <br />
+
+                        <div class="actions">
+                            <apex:commandLink value="Edit" action="{!editThisAddress}">
+                                <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}"/>
+                            </apex:commandLink>
+                            <apex:commandLink value="Delete" action="{!deleteThisAddress}">
+                                <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}"/>
+                            </apex:commandLink>
+
+                            
+                            <!-- 
+                                method in controller
+                                <apex:outputText value="Default shipping address" rendered="{!IF(isDefaultShippingAddress, true, false)}">
+                                <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}" />
+                            </apex:outputText> -->
+                            <!--
+                                getter on indiv address 
+                                <apex:outputText value="Default shipping address" rendered="{!IF(!shipTo.getDefaultShippingAddress, true, false)}">
+                                <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}" />
+                            </apex:outputText> -->
+                            
+                        </div>
+                    </div>
+                </apex:repeat>
+                <!-- <apex:repeat value="{!shipToCollection}" var="shipTo" rendered="{!IF(shipToList.size != 0, true, false)}">
+    
+                    <div class="select">
+    
+                        <span class="card-data">{!shipTo.firstName & ' ' & shipTo.lastName}</span>
+                        <br />
+                        <span class="card-data">{!shipTo.company}</span>
+                        <span class="card-data">{!shipTo.address}</span>
+                        <span class="card-data">{!shipTo.city & ', ' & shipTo.state & ' ' shipTo.zip}</span>
+    
+                        <br />
+    
+                        <div class="actions">
+                            <apex:commandLink value="Edit" action="{!editThisAddress}">
+                                <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}"/>
+                            </apex:commandLink>
+                            <apex:commandLink value="Delete" action="{!deleteThisAddress}">
+                                <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}"/>
+                            </apex:commandLink>
+
+    
+                            <apex:commandLink value="Set Default" oncomplete="refreshPage();" action="{!setDefaultShipToAddress}" rendered="{!IF(!shipTo.defaultShippingAddress, true, false)}">
+                                <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}" />
+                            </apex:commandLink>
+    
+                            <apex:outputText value="Default shipping address" rendered="{!IF(shipTo.defaultShippingAddress, true, false)}" />
+    
+                        </div>
+    
+                    </div>
+                </apex:repeat> -->
+            </div>
+    
             <apex:pageBlock title="Shipping Addresses">
                 <apex:pageBlockTable value="{!shipToList}" var="shipTo">
                     <apex:column headerValue="Name">
@@ -40,6 +114,6 @@
             <apex:pageBlock>
                 <apex:commandLink action="{!redirectToAddShippingAddress}" value="Add New Shipping Address"/>
             </apex:pageBlock>
-        </apex:outputPanel>
+        </apex:outputPanel> 
     </apex:form>
 </apex:page>

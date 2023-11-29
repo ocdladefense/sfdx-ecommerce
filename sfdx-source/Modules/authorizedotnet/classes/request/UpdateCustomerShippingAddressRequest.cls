@@ -4,7 +4,7 @@ public class UpdateCustomerShippingAddressRequest extends AuthorizeDotNetRequest
 
     private Address address;
 
-    private Boolean defaultShippingAddress = false;
+    private Boolean defaultShippingAddress;
     
     public UpdateCustomerShippingAddressRequest() {
         super('updateCustomerShippingAddress');

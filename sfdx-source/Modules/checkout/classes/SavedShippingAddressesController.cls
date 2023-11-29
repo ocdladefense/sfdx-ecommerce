@@ -8,6 +8,8 @@ public with sharing class SavedShippingAddressesController {
     public Contact c {get; set;}
     
     public List<Address> shipToList {get; set;}
+
+    public AddressCollection shipToCollection {get; set;}
     
     public String selectedCustomerAddressId {get; set;}
     
@@ -18,11 +20,16 @@ public with sharing class SavedShippingAddressesController {
     public SavedShippingAddressesController() {
 
            
-            client = new AuthorizeDotNetClient();
+        client = new AuthorizeDotNetClient();
         
         customerProfileId = CurrentCustomer.getCustomerProfileId();
+
+        this.shipToCollection = getShipToCollection(customerProfileId);
         
-        this.shipToList = mock ? sampleCustomerShipToList() : getShipToList(customerProfileId);
+        this.shipToList = mock ? sampleCustomerShipToList() : this.shipToCollection.getAsList();
+
+       
+
     }
     
 
@@ -82,12 +89,22 @@ public with sharing class SavedShippingAddressesController {
 
         GetCustomerProfileResponse resp = (GetCustomerProfileResponse)client.send(req);
         CustomerProfile profile = resp.getProfile();
-        List<Address> shipToList = profile.getShipToList();
+        AddressCollection collection = new AddressCollection(profile.getShipToList());
 
-        return shipToList;
+        return collection.getAsList();
     }
 
-    
+    public static AddressCollection getShipToCollection(String customerProfileId) {
+        
+        GetCustomerProfileRequest req = new GetCustomerProfileRequest();
+        req.setCustomerProfileId(customerProfileId);
+
+        GetCustomerProfileResponse resp = (GetCustomerProfileResponse)client.send(req);
+        CustomerProfile profile = resp.getProfile();
+        AddressCollection collection = new AddressCollection(profile.getShipToList());
+
+        return collection;
+    }
     public static List<Address> sampleCustomerShipToList() {
         List<Address> addressList = new List<Address>();
         Address shipTo1 = new Address('Ralph', 'Williams', '19645 Andrew Ln', 'Reno', 'NV', '89521');
@@ -99,8 +116,16 @@ public with sharing class SavedShippingAddressesController {
         return addressList;
     }
     
-    
+    public Boolean setDefaultShipToAddress(){
+        return null;
+    }
+    public Boolean isDefaultShippingAddress() {
+        string customerAddressId = Apexpages.currentPage().getParameters().get('customerAddressId');
 
+        String defaultAddressId = shipToCollection.getDefault().getCustomerAddressId();
+        return defaultAddressId == customerAddressId? true : false;
+    }
+  
     public PageReference redirectToAddShippingAddress() {
         return new PageReference('/apex/AddShippingAddress');
     }

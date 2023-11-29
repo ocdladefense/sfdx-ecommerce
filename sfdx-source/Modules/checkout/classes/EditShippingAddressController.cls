@@ -62,7 +62,7 @@ public with sharing class EditShippingAddressController {
         //System.debug(updatedShipTo);
         
         req.setCustomerProfileId(customerProfileId);
-
+        req.setDefaultShippingAddress(shipTo.defaultShippingAddress);
         //System.debug(req.getBody());
 
         req.setAddress(shipTo);

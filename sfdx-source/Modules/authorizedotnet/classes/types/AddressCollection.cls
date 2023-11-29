@@ -1,6 +1,6 @@
 public class AddressCollection {
 
-    private List<Address> addresses;
+    public List<Address> addresses;
     
     
     
@@ -43,6 +43,10 @@ public class AddressCollection {
     }
     
     public Integer size() {
+        return null == this.addresses ? 0 : this.addresses.size();
+    }
+
+    public Integer getsSize() {
         return null == this.addresses ? 0 : this.addresses.size();
     }
 }

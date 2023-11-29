@@ -124,7 +124,11 @@ public class Address extends AuthorizeDotNetType {
     public String getCountry() {
         return country;
     }
-  
+
+    public Boolean getDefaultShippingAddress(){
+        return this.defaultShippingAddress!=null && this.defaultShippingAddress==true? true : false;
+    }
+
 
     // Setters------------------------
     public void setCustomerAddressId(string customerAddressId){
