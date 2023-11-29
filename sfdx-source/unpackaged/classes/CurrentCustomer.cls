@@ -27,12 +27,20 @@ public class CurrentCustomer {
 //c = [SELECT FirstName, LastName, Email, AuthorizeDotNetCustomerProfileId__c FROM Contact WHERE Id = '0037h00000u1YBpAAM'];
 //customerProfileId = c.AuthorizeDotNetCustomerProfileId__c;
 
-    
-public static String    getCustomerProfileId() {
+        
+    public static String    getCustomerProfileId() {
        String customerProfileId = ApexPages.currentPage().getParameters().get('customerProfileId');
-		customerProfileId = null == customerProfileId ? '916263569' : customerProfileId;
+       customerProfileId = null == customerProfileId ? '916263569' : customerProfileId;
+        
+       return customerProfileId;
+    }
     
-    return customerProfileId;
     
-}
+    public static Contact getContact() {
+        
+        return [SELECT FirstName, LastName, Email FROM Contact WHERE Id = '0037h00000u1YBpAAM'];
+        //customerProfileId = '905372692';//c.AuthorizeDotNetCustomerProfileId__c;
+        //paymentProfileId = '915752253';
+        
+    }
 }
