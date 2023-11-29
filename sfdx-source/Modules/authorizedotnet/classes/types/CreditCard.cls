@@ -54,9 +54,10 @@ public class CreditCard extends AuthorizeDotNetType {
 
     public Date stringToDate() {
         String exp = this.expirationDate;
-        List<String> splitExp = exp.split('-');
-        String year = splitExp[0];
-        String month = splitExp[1];
+        //List<String> splitExp = exp.split('-'); - old divider, using / now
+        List<String> splitExp = exp.split('/');
+        String year = splitExp[1]; // was index 0
+        String month = splitExp[0]; // was index 1
         String expDate = month + '/01/' + year;
         Date realDate = Date.parse(expDate);
 
@@ -67,7 +68,9 @@ public class CreditCard extends AuthorizeDotNetType {
         Integer year = expDate.year();
         Integer month = expDate.month();
         // Format as 'YYYY-MM'
-        String formattedDate = String.valueOf(year) + '-' + (month < 10 ? '0' + String.valueOf(month) : String.valueOf(month));
+        //String formattedDate = String.valueOf(year) + '-' + (month < 10 ? '0' + String.valueOf(month) : String.valueOf(month));
+        // New format as MM/YYYY
+        String formattedDate = (month < 10 ? '0' + String.valueOf(month) : String.valueOf(month)) + '/' + String.valueOf(year);
         return formattedDate;
 
     }

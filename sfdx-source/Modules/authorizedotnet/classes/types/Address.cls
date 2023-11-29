@@ -97,7 +97,7 @@ public class Address extends AuthorizeDotNetType {
         return phoneNumber;
     }
 
-    public String getfaxNumber() {
+    public String getFaxNumber() {
         return faxNumber;
     }
 
