@@ -6,7 +6,7 @@ public class AddPaymentMethodController {
 
     public Contact c {get; set;}
 
-    public Address billingInfo {get; set;}
+    public MyAddress billTo {get; set;}
 
     public CreditCard cardInfo {get; set;}
 
@@ -16,7 +16,7 @@ public class AddPaymentMethodController {
 
    
     public AddPaymentMethodController() {
-        billingInfo = new Address();
+        billTo = new MyAddress();
         cardInfo = new CreditCard();
         paymentProfile = new CustomerPaymentProfile();
         client = new AuthorizeDotNetClient();
@@ -32,7 +32,7 @@ public class AddPaymentMethodController {
 
     /*
     public SavedPaymentMethodsController() {
-        billingInfo = new Address();
+        billTo = new MyAddress();
         paymentInfo = new Payment();
         client = new AuthorizeDotNetClient();
         c = [SELECT FirstName, LastName, Email, AuthorizeDotNetCustomerProfileId__c FROM Contact WHERE Id = '0037h00000u1YBpAAM'];
@@ -47,8 +47,10 @@ public class AddPaymentMethodController {
     // Calls CreatePaymentProfile
     
     public Pagereference addPaymentProfile() {
-        
-        paymentProfile = new CustomerPaymentProfile(cardInfo, billingInfo);
+        System.debug(billTo); // these values are coming from the component and we want to make sure they are being sent to controller.
+
+        /*
+        paymentProfile = new CustomerPaymentProfile(cardInfo, billTo);
         paymentProfile.setDefaultPaymentProfile(isDefaultPaymentMethod);
 
         CreateCustomerPaymentProfileRequest req = new CreateCustomerPaymentProfileRequest(paymentProfile);
@@ -62,7 +64,7 @@ public class AddPaymentMethodController {
 
         return redirectToSavedPaymentMethods();
 
-        /*
+        
         
         // Handle the response
         if (resp.success()) {
@@ -75,6 +77,7 @@ public class AddPaymentMethodController {
             return null; // Stays on the current page
         }
         */
+        return null;
     }
 
     public PageReference redirectToSavedPaymentMethods() {

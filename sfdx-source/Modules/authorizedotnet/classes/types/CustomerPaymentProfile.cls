@@ -158,4 +158,8 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType{
     public void setDefaultPaymentProfile (Boolean defaultPaymentProfile){
         this.defaultPaymentProfile = defaultPaymentProfile;
     }
+
+    public void setDefault() {
+        setDefaultPaymentProfile(true);
+    }
 }
