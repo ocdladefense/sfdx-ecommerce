@@ -1,4 +1,4 @@
-public class Transaction extends AuthorizeDotNetType {
+public class AuthNetTransaction extends AuthorizeDotNetType {
     
 
     private String transactionType = 'authCaptureTransaction';
@@ -7,17 +7,23 @@ public class Transaction extends AuthorizeDotNetType {
 
     private String currencyCode = 'USD';
 
-    private Map<String,String> profile;
+    private Map<String,Object> profile;
+
+    private Payment payment;
 
 
 
 
-    public Transaction() {}
+    public AuthNetTransaction() {}
 
 
 
-    public Transaction(Decimal amount) {
+    public AuthNetTransaction(Decimal amount) {
         this.amount = amount;
+    }
+
+    public void payWith(String cardNumber, String expDate) {
+        this.payment = new Payment(new CreditCard(cardNumber,expDate));
     }
 
     
@@ -30,12 +36,12 @@ public class Transaction extends AuthorizeDotNetType {
     
     public void setBillToAddress(Map<String,String> address) {
         
-        this.billto = address;
+        // this.billto = address;
     }
     
     
     public void setShipToAddress(Map<String,String> address) {
-        this.shipto = address;
+        // this.shipto = address;
     }
     
 
@@ -45,9 +51,9 @@ public class Transaction extends AuthorizeDotNetType {
     }
 
 
-    public static CreateTransactionRequest newFromCustomerPaymentProfile(String customerProfileId, String customerPaymentProfileId) {
+    public static AuthNetTransaction newFromCustomerPaymentProfile(String customerProfileId, String customerPaymentProfileId) {
 
-        CreateTransactionRequest req = new CreateTransactionRequest();
+        AuthNetTransaction t = new AuthNetTransaction();
 
         Map<String,Object> profile = new Map<String,Object>();
         profile.put('customerProfileId', customerProfileId);
@@ -57,9 +63,9 @@ public class Transaction extends AuthorizeDotNetType {
 
         profile.put('paymentProfile', paymentProfile);
 
-        req.profile = profile;
+        t.profile = profile;
         
-        return req;
+        return t;
     }
 
     
