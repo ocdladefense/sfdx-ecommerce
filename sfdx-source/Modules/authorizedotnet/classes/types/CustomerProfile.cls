@@ -103,4 +103,14 @@ public class CustomerProfile extends AuthorizeDotNetType {
     public void setShipToList(List<Address> shipToList) {
         this.shipToList = shipToList;
     }
+
+    public CustomerPaymentProfile getDefaultPaymentProfile() {
+        for(CustomerPaymentProfile paymentProfile : this.paymentProfiles) {
+            if(paymentProfile.getDefaultPaymentProfile()) {
+                return paymentProfile;
+            }
+        }
+
+        return null;
+    }
 }

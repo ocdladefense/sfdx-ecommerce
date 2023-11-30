@@ -1,4 +1,4 @@
-public class AuthorizeDotNetClient extends HttpClient implements IPaymentGatewayClient {
+public class AuthorizeDotNetClient extends HttpClient {
       	
     //can be used in production and testing
     
@@ -31,22 +31,7 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
         this.url = url;
     }
     
-    @TestVisible
-    public TransactionResponse send(TransactionRequest reqn){
-        Http http = new Http();
-        
-        HttpRequest req = reqn.toHttpRequest();
-        
-        //Set HTTPRequest header properties
-        req.setHeader('Host', getDomain());
-        req.setEndpoint( 'https' + '://'+ getDomain()+'/'+'ccAuthorize');
-        req.setTimeout(CALLOUT_TIMEOUT);
-        // Execute web service call here	
-     	// System.debug('From send req is ' + req);
-        HttpResponse resp = http.send(req);
-        
-        return TransactionResponse.newFromResponse(resp);
-    } 
+
 
 
 
@@ -86,20 +71,19 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
         // System.debug(bresp.getBody());
         String respBodyString = bresp.getBody().replace('\uFEFF', '');
         
-        // System.debug(respBodyString);
-        // //inspect the specific type of request to know what to do.
-        // //the generic step - an authorizedotnetresponse rather than a specific kind 
-        //AuthorizeDotNetResponse resp = new AuthorizeDotNetResponse(respBodyString);
-        // DeleteCustomerPaymentProfile
         
         System.Type t = Type.forName(responseType);
 
         if(null == t) {
-            throw new AuthorizeDotNetException('RESPONSE_ERROR: The client could not determine the appropriate type to deserialize the response ('+responseType+')');
+            System.debug('AUTHNET_CLIENT_WARNING: The client could not determine the appropriate type to deserialize the response.  Class `'+responseType+'` not found.');
+            t = Type.forName('AuthorizeDotNetResponse');
         }
 
-        AuthorizeDotNetResponse resp = (AuthorizeDotNetResponse)JSON.deserialize(respBodyString, t);
-        resp.setBody(respBodyString);
+        Object forFormat = JSON.deserializeUntyped(respBodyString);
+        String formatted = JSON.serializePretty(forFormat);
+
+        AuthorizeDotNetResponse resp = (AuthorizeDotNetResponse)JSON.deserialize(formatted, t);
+        resp.setBody(formatted);
         
 
         return resp;
