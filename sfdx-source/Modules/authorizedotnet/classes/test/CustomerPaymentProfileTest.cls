@@ -104,4 +104,27 @@ public class CustomerPaymentProfileTest {
         System.assertEquals(zipCode, address.getZip());
         System.assertEquals(country, address.getCountry());
     }
+
+    @isTest static void paymentProfileGettersAndSetters() {
+        // Initiailizing variables
+        Address address = new Address('Sebastian', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
+        CreditCard card = new CreditCard('4111111111111122','11/2024');
+        Payment payment = new Payment(card);
+        CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile();
+        Map<String,Object> testMap = new Map<String,Object>();
+
+        // Assert 
+        System.assertEquals(null, paymentProfile.getPayment());
+        System.assertEquals(null, paymentProfile.getBillTo());
+
+        // Setters
+        paymentProfile.setBillTo(address);
+        paymentProfile.setPayment(payment);
+        paymentProfile.setCard(card);
+
+        // Getters
+        paymentProfile.getBillTo();
+        paymentProfile.getPayment();
+        paymentProfile.getPayment().getCreditCard();
+    }
 }
