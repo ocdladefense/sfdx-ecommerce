@@ -11,7 +11,7 @@ public with sharing class SavedShippingAddressesController {
 
     public AddressCollection shipToCollection {get; set;}
     
-    public String selectedCustomerAddressId {get; set;}
+    public String customerAddressId {get; set;}
     
     private static final Boolean mock = False;
     
@@ -38,7 +38,7 @@ public with sharing class SavedShippingAddressesController {
     
     public PageReference editThisAddress() {
         //when the user clicks edit link
-        //set the selectedCustomerAddressId
+        //set the customerAddressId
         
         string customerAddressId = Apexpages.currentPage().getParameters().get('customerAddressId');
 
@@ -60,17 +60,20 @@ public with sharing class SavedShippingAddressesController {
         //delete directly
         DeleteCustomerShippingAddressRequest req = new DeleteCustomerShippingAddressRequest();
         req.setCustomerProfileId(customerProfileId);
-        req.setCustomerAddressId(selectedCustomerAddressId);
+
+        customerAddressId = Apexpages.currentPage().getParameters().get('customerAddressId');
+
+        req.setCustomerAddressId(customerAddressId);
 
         String result = req.getBody();
 
         System.debug(result);
 
-        DeleteCustomerShippingAddressResponse resp = (DeleteCustomerShippingAddressResponse)client.send(req);
+        AuthorizeDotNetResponse resp = (AuthorizeDotNetResponse)client.send(req);
         
         if(resp.success()){
             System.debug('success is '+ resp.success());
-            System.debug(selectedCustomerAddressId + ' has been deleted');
+            System.debug(customerAddressId + ' has been deleted');
         }
         else{
             Messages messages = resp.getMessages();

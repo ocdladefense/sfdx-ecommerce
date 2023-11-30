@@ -34,11 +34,14 @@
     
                         <br />
 
-                        <div class="actions">
+                        <div class="actions" style="margin-right:1.5em">
                             <apex:commandLink value="Edit" action="{!editThisAddress}">
                                 <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}"/>
                             </apex:commandLink>
-                            <apex:commandLink value="Delete" action=”{!deleteThisAddress}” onClick="if (!confirmDelete()) return false;">
+                            <apex:commandLink value="Edit" action="{!deleteThisAddress}">
+                                <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}"/>
+                            </apex:commandLink>
+                            <apex:commandLink value="Test" action="{!editThisAddress}">
                                 <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}"/>
                             </apex:commandLink>
 
