@@ -6,7 +6,7 @@ public class CreateCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
 
 
     public CreateCustomerPaymentProfileRequest() {
-        super('createCustomerPaymentProfileRequest');
+        super('createCustomerPaymentProfile');
         this.fields = new Set<String>{'customerProfileId', 'paymentProfile'};
     }
 

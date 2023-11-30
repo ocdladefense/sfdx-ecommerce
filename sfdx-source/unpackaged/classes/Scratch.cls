@@ -214,7 +214,7 @@ public void updateCustomerShippingAddress() {
 
         GetCustomerPaymentProfileRequest req = new GetCustomerPaymentProfileRequest();
         req.setCustomerProfileId('905372692');
-        req.setCustomerPaymentProfileId('915751777');
+        req.setCustomerPaymentProfileId('915890663');
         System.debug(req.getBody());
 
         // Instantiate the client.
@@ -260,7 +260,32 @@ public void updateCustomerShippingAddress() {
         System.assert(resp.success());
     }
 
+    public void UpdateCustomerPaymentProfile() {
+        GetCustomerPaymentProfileRequest req = new GetCustomerPaymentProfileRequest();
+        req.setCustomerProfileId('905372692');
+        req.setCustomerPaymentProfileId('915890663');
+        // 915751777
+        System.debug(req.getBody());
 
+        // Instantiate and send the client.
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+        GetCustomerPaymentProfileResponse resp = (GetCustomerPaymentProfileResponse)client.send(req);
+        System.debug(resp.getBody());
+
+        // Set variables to values for updating.
+        Address billTo = new Address('Sebastian', 'Berna', '456 W Candice St', 'Springfield', 'OR', '97404');
+        CreditCard card = new CreditCard('4111111111111122','11/2024');
+        CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile(card,billTo);
+
+        UpdateCustomerPaymentProfileRequest updReq = new UpdateCustomerPaymentProfileRequest(paymentProfile, billTo, card);
+        updReq.setCustomerProfileId('905372692');
+        updReq.setCustomerPaymentProfileId('915890663');
+        System.debug(updReq.getBody());
+
+        UpdateCustomerPaymentProfileResponse updResp = (UpdateCustomerPaymentProfileResponse)client.send(updReq);
+
+        System.debug(updResp.getBody());
+    }
 
     public void deleteCustomerPaymentProfile() {
 
@@ -297,8 +322,8 @@ public void updateCustomerShippingAddress() {
         CustomerProfile profile = resp.getProfile();
         List<Address> shipToList = profile.getShipToList();
         List<CustomerPaymentProfile> paymentProfiles = profile.getPaymentProfiles();
-        //system.debug(paymentProfiles);
-        system.debug('number of shipping addresses is ' + shipToList.size());
+        system.debug(paymentProfiles);
+        //system.debug('number of shipping addresses is ' + shipToList.size());
         //system.debug(profile);
 
     }
