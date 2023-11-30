@@ -27,6 +27,7 @@ public class SavedPaymentMethodsController {
         billingInfo = new Address();
         paymentInfo = new Payment();
         Boolean useMock = False;
+        
 
         client = new AuthorizeDotNetClient();
         
@@ -157,7 +158,16 @@ public class SavedPaymentMethodsController {
     
     
     
+    public Pagereference redirectToPaymentMethod() {
+        Map<String,String> params = ApexPages.currentPage().getParameters();
+        String action = params.get('action');
 
+        Pagereference PaymentMethodPage = new PageReference('/apex/PaymentMethod');
+        PaymentMethodPage.setRedirect(true);
+        PaymentMethodPage.getParameters().put('action', action);
+
+        return PaymentMethodPage;
+    }
     
 
 

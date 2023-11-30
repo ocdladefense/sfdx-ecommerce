@@ -4,7 +4,9 @@
 
 {!c.FirstName & ' ' & c.LastName}
 
-<apex:commandLink action="{!redirectToAddPaymentMethod}" value="Add Payment Method" />
+<apex:commandLink action="{!redirectToPaymentMethod}" value="Add Payment Method">
+    <apex:param name="action" value="new" />
+</apex:commandLink>
 
 
 
@@ -24,13 +26,14 @@
             <div class="actions">
 
 
-                <apex:commandLink value="Edit" action="{!redirectToEditPaymentMethod}">
-                    <apex:param name="paymentProfileId" value="{!profile.customerPaymentProfileId}" assignTo="{!selectedPaymentProfileId}" />
+                <apex:commandLink value="Edit" action="{!redirectToPaymentMethod}">
+                    <apex:param name="action" value="update" />
+                    <apex:param name="paymentProfileId" value="{!profile.customerPaymentProfileId}" />
                 </apex:commandLink>
 
 
                 <apex:commandLink value="Delete" action="{!deletePaymentProfile}">
-                    <apex:param name="paymentProfileId" value="{!profile.customerPaymentProfileId}" assignTo="{!selectedPaymentProfileId}" />
+                    <apex:param name="paymentProfileId" value="{!profile.customerPaymentProfileId}"  />
                 </apex:commandLink>
 
                 <apex:commandLink value="Set Default" oncomplete="refreshPage();" action="{!setDefaultPaymentProfile}" rendered="{!IF(!profile.defaultPaymentProfile, true, false)}">

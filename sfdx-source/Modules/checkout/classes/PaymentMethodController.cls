@@ -23,6 +23,7 @@ public class PaymentMethodController {
         
         Map<String,String> params = ApexPages.currentPage().getParameters();
         String action = params.get('action');
+        System.debug('PaymentMethodController action: ' + action); 
         
         // Only provided when editing.
         String paymentProfileId = params.get('paymentProfileId');
