@@ -53,7 +53,7 @@ public class AuthorizeDotNetClient extends HttpClient implements IPaymentGateway
 public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
        
         Http client = new Http();
-
+    
         String requestType = req.getRequestType();
         String responseType = requestType.capitalize()+'Response';
        

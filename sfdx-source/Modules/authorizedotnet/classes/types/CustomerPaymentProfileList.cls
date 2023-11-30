@@ -1,10 +1,10 @@
-public class CustomerPaymentProfileCollection {
+public class CustomerPaymentProfileList {
 
     private List<CustomerPaymentProfile> paymentProfiles;
     
     
     
-    public CustomerPaymentProfileCollection(List<CustomerPaymentProfile> profiles) {
+    public CustomerPaymentProfileList(List<CustomerPaymentProfile> profiles) {
         
         List<CustomerPaymentProfile> tmp = profiles;
         
