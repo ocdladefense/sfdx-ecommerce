@@ -33,12 +33,16 @@
                         <span class="card-data" >{!shipTo.city & ', '& shipTo.state & ' '&  shipTo.zip}</span>
     
                         <br />
+                        <span>{!shipTo.customerAddressId}</span>
 
-                        <div class="actions" style="margin-right:1.5em">
-                            <apex:commandLink value="Edit" action="{!editThisAddress}">
-                                <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}"/>
-                            </apex:commandLink>
-                            <apex:commandLink value="Edit" action="{!deleteThisAddress}">
+                        <div class="actions" >
+                            <div style="margin-right:1.5em">
+                                <apex:commandLink value="Edit" action="{!editThisAddress}">
+                                    <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}"/>
+                                </apex:commandLink>
+                            </div>
+
+                            <apex:commandLink value="Delete" action="{!deleteThisAddress}">
                                 <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}"/>
                             </apex:commandLink>
                             <apex:commandLink value="Test" action="{!editThisAddress}">

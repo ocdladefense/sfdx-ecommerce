@@ -1,8 +1,8 @@
 public with sharing class SavedShippingAddressesController {
 
-    
-    private static AuthorizeDotNetClient client;
-    
+    AuthorizeDotNetClient client {get; set;}
+
+
     String customerProfileId;
 
     public Contact c {get; set;}
@@ -18,22 +18,17 @@ public with sharing class SavedShippingAddressesController {
     
     
     public SavedShippingAddressesController() {
-
            
-        client = new AuthorizeDotNetClient();
-        
+        this.client = new AuthorizeDotNetClient();
+     
+
         customerProfileId = CurrentCustomer.getCustomerProfileId();
 
         this.shipToCollection = getShipToCollection(customerProfileId);
         
         this.shipToList = mock ? sampleCustomerShipToList() : this.shipToCollection.getAsList();
 
-       
-
     }
-    
-
-
     
     
     public PageReference editThisAddress() {
@@ -57,6 +52,7 @@ public with sharing class SavedShippingAddressesController {
     }
 
     public PageReference deleteThisAddress() {
+
         //delete directly
         DeleteCustomerShippingAddressRequest req = new DeleteCustomerShippingAddressRequest();
         req.setCustomerProfileId(customerProfileId);
@@ -64,16 +60,23 @@ public with sharing class SavedShippingAddressesController {
         customerAddressId = Apexpages.currentPage().getParameters().get('customerAddressId');
 
         req.setCustomerAddressId(customerAddressId);
-
         String result = req.getBody();
-
-        System.debug(result);
+        Boolean isClientNull = client ==null;
+        if(isClientNull){
+            AuthorizeDotNetClient tempClient = new AuthorizeDotNetClient();
+            AuthorizeDotNetResponse resp = (AuthorizeDotNetResponse)client.send(req);
+            ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'Unable to delete this address. Client was null initially '));
+            return null;
+        }
+        //System.debug();
 
         AuthorizeDotNetResponse resp = (AuthorizeDotNetResponse)client.send(req);
         
         if(resp.success()){
             System.debug('success is '+ resp.success());
             System.debug(customerAddressId + ' has been deleted');
+            ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'Address has been delete through intial client'));
+            return null;
         }
         else{
             Messages messages = resp.getMessages();
@@ -83,27 +86,29 @@ public with sharing class SavedShippingAddressesController {
             return null;
         }
         
-        return new Pagereference('/apex/SavedShippingAddresses');
+        // return new Pagereference('/apex/SavedShippingAddresses');
+        //return new Pagereference('/apex/AddShippingAddress');
+
     }
 
-    public static List<Address> getShipToList(String customerProfileId) {
+    // public static List<Address> getShipToList(String customerProfileId) {
+        
+    //     GetCustomerProfileRequest req = new GetCustomerProfileRequest();
+    //     req.setCustomerProfileId(customerProfileId);
+
+    //     GetCustomerProfileResponse resp = (GetCustomerProfileResponse)client.send(req);
+    //     CustomerProfile profile = resp.getProfile();
+    //     AddressCollection collection = new AddressCollection(profile.getShipToList());
+
+    //     return collection.getAsList();
+    // }
+
+    public AddressCollection getShipToCollection(String customerProfileId) {
         
         GetCustomerProfileRequest req = new GetCustomerProfileRequest();
         req.setCustomerProfileId(customerProfileId);
-
-        GetCustomerProfileResponse resp = (GetCustomerProfileResponse)client.send(req);
-        CustomerProfile profile = resp.getProfile();
-        AddressCollection collection = new AddressCollection(profile.getShipToList());
-
-        return collection.getAsList();
-    }
-
-    public static AddressCollection getShipToCollection(String customerProfileId) {
-        
-        GetCustomerProfileRequest req = new GetCustomerProfileRequest();
-        req.setCustomerProfileId(customerProfileId);
-
-        GetCustomerProfileResponse resp = (GetCustomerProfileResponse)client.send(req);
+        //AuthorizeDotNetClient tempClient = new AuthorizeDotNetClient();
+        GetCustomerProfileResponse resp = (GetCustomerProfileResponse) this.client.send(req);
         CustomerProfile profile = resp.getProfile();
         AddressCollection collection = new AddressCollection(profile.getShipToList());
 

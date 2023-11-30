@@ -1,6 +1,6 @@
 public with sharing class AddShippingAddressController {
    
-    AuthorizeDotNetClient client;
+    AuthorizeDotNetClient client {get; set;}
     String customerProfileId {get; set;}
 
     public Contact c {get; set;}
@@ -10,6 +10,7 @@ public with sharing class AddShippingAddressController {
     public List<SelectOption> stateOptions {get; public set;}
     
     public AddShippingAddressController() {
+        this.client = new AuthorizeDotNetClient();
 
         customerProfileId = CurrentCustomer.getCustomerProfileId();
     
