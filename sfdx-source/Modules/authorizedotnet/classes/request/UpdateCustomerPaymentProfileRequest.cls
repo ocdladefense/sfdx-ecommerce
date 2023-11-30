@@ -9,11 +9,11 @@ public class UpdateCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
     public UpdateCustomerPaymentProfileRequest() {
         super('updateCustomerPaymentProfile');
         // testMode: Card data is validated using simple mathematical checks to confirm that it appears to be valid
-        this.validationMode = 'testMode';
+        //this.validationMode = 'testMode';
     }
 
     public override Set<String> keySet() {
-        return new Set<String>{'customerProfileId', 'paymentProfile', 'validationMode'};
+        return new Set<String>{'customerProfileId', 'paymentProfile'};
     }
 
 
@@ -56,7 +56,10 @@ public class UpdateCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
         Map<String,Object> tmp = new Map<String,Object>();
         tmp.put('customerProfileId', this.customerProfileId);
         tmp.put('paymentProfile', this.paymentProfile);
-        tmp.put('validationMode', this.validationMode);
+        if(this.validationMode != null) {
+            tmp.put('validationMode', this.validationMode);
+        }
+        
 
         return tmp;
     }

@@ -20,18 +20,17 @@
                     <apex:column value="{!profile.payment.creditCard.expirationDate}" headerValue="Expiration Date" />
                     <apex:column>
                         <apex:commandLink value="Edit" action="{!redirectToEditPaymentMethod}">
-                            <apex:param name="paymentProfileId" value="{!profile.customerPaymentProfileId}" assignTo="{!selectedPaymentProfileId}" />
+                            <apex:param name="paymentProfileId" value="{!profile.customerPaymentProfileId}" />
                         </apex:commandLink>
                     </apex:column>
                     <apex:column>
                         <apex:commandLink value="Delete" action="{!deletePaymentProfile}">
-                            <apex:param name="paymentProfileId" value="{!profile.customerPaymentProfileId}" assignTo="{!selectedPaymentProfileId}" />
+                            <apex:param name="paymentProfileId" value="{!profile.customerPaymentProfileId}" />
                         </apex:commandLink>
                     </apex:column>
                     <apex:column>
-                        <apex:commandLink value="Set Default" action="{!setDefaultPaymentProfile}" rendered="{!IF(!profile.defaultPaymentProfile, true, false)}">
-                            <apex:param name="paymentProfileId" value="{!profile.customerPaymentProfileId}" assignTo="{!selectedPaymentProfileId}" />
-                            <apex:param name="isDefaultPaymentMethod" value="true" assignTo="{!isDefaultPaymentMethod}" />
+                        <apex:commandLink value="Set Default" oncomplete="refreshPage();" action="{!setDefaultPaymentProfile}" rendered="{!IF(!profile.defaultPaymentProfile, true, false)}">
+                            <apex:param name="paymentProfileId" value="{!profile.customerPaymentProfileId}" />
                         </apex:commandLink>
                         <apex:outputText value="Default payment method" rendered="{!IF(profile.defaultPaymentProfile, true, false)}"/>
                     </apex:column>
@@ -44,4 +43,9 @@
             </apex:pageBlock>
         </apex:outputPanel>
     </apex:form>
+    <script>
+        function refreshPage() {
+            window.location.reload(true);
+        }
+    </script>
 </apex:page>

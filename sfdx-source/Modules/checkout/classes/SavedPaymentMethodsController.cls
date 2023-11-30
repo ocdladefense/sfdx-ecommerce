@@ -54,8 +54,10 @@ public class SavedPaymentMethodsController {
     public Pagereference setDefaultPaymentProfile() {
         
         Map<String,String> params = ApexPages.currentPage().getParameters();
+        System.debug(params);
         String paymentProfileId = params.get('paymentProfileId');
         
+        // Gets a paymentProfile from the paymentProfileCollection by paymentProfileId
         CustomerPaymentProfile selected = this.paymentProfileCollection.get(paymentProfileId);
         selected.setDefault();
         
@@ -164,7 +166,13 @@ public class SavedPaymentMethodsController {
     }
 
     public PageReference redirectToEditPaymentMethod() {
-        return new PageReference('/apex/EditPaymentMethod');
+        Pagereference editPage = new PageReference('/apex/EditPaymentMethod');
+        editPage.setRedirect(true);
+        editPage.getParameters().put('paymentProfileId', selectedPaymentProfileId);
+        system.debug(editPage.getParameters());
+        return editPage;
+
+        //return new PageReference('/apex/EditPaymentMethod');
     }
 
     public PageReference redirectToSavedPaymentMethods() {

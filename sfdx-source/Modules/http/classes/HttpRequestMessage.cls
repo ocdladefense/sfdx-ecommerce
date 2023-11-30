@@ -92,4 +92,24 @@ public virtual class HttpRequestMessage extends HttpMessage {
     } 
 
 
+    public String formatBody(String fieldName,String fieldValue){
+        return fieldName+'='+EncodingUtil.urlEncode(fieldValue, 'UTF-8');
+    }
+    
+	// parameter acts like a clone()    
+    public String formatBody(Map<String,String> ccVals){
+        List<String> postBody = new List<String>();
+        
+        if(null == ccVals) return null;
+        
+        for(String key: ccVals.keySet()) {
+            if('' == key) continue;
+            if(null == ccVals.get(key)) continue;
+            postBody.add(key+'='+EncodingUtil.urlEncode(ccVals.get(key), 'UTF-8'));
+        }
+
+        return String.join(postBody,'&');                 
+    }
+
+
 }

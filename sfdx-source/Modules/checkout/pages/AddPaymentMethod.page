@@ -1,29 +1,15 @@
 <apex:page controller="AddPaymentMethodController">
     <apex:form id="paymentMethod">
         <apex:pageBlock title="Add Payment Method">
-            <apex:pageMessages/>
-            <apex:pageBlockSection title="Billing Information" columns="2">
-                <apex:inputText value="{!billingInfo.firstName}">First Name: </apex:inputText>
-                <apex:inputText value="{!billingInfo.lastName}">Last Name: </apex:inputText>
-                <apex:inputText value="{!billingInfo.address}">Address: </apex:inputText>
-                <apex:inputText value="{!billingInfo.city}">City: </apex:inputText>
-                <apex:inputText value="{!billingInfo.state}">State: </apex:inputText>
-                <apex:inputText value="{!billingInfo.zip}">Zip: </apex:inputText>
-                <apex:inputText value="{!billingInfo.country}">Country: </apex:inputText>
-                <apex:inputText value="{!billingInfo.phoneNumber}">Phone Number: </apex:inputText>
-            </apex:pageBlockSection>
-            
-            <apex:pageBlockSection title="Credit Card Information" columns="2">
-                <!-- Credit Card Information Fields -->
-                <apex:inputText value="{!cardInfo.cardNumber}">Credit Card Number: </apex:inputText>
-                <apex:inputText value="{!cardInfo.expirationDate}">Expiration Date: </apex:inputText>
-                <apex:inputCheckbox value="{!isDefaultPaymentMethod}">Default Payment Method: </apex:inputCheckbox>
-            </apex:pageBlockSection>
+        <apex:pageMessages/>
 
-            <apex:pageBlockButtons>
+        <c:CustomerPaymentProfileForm billingInfo="{!billTo}"></c:CustomerPaymentProfileForm>
+
+        <apex:pageBlockButtons>
                 <apex:commandButton value="Submit" action="{!addPaymentProfile}" />
-                <apex:commandButton value="Cancel" action="{!redirectToSavedPaymentMethods}"/>
-            </apex:pageBlockButtons>
-        </apex:pageBlock>
+                <apex:commandButton value="Cancel" action="{!redirectToSavedPaymentMethods}" />
+        </apex:pageBlockButtons>
+
+    </apex:pageBlock>
     </apex:form>
 </apex:page>
