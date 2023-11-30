@@ -18,7 +18,7 @@ public class SavedPaymentMethodsController {
     
     private CustomerPaymentProfileCollection paymentProfileCollection;
 
-    public String selectedPaymentProfileId {get; set;}
+    //public String selectedPaymentProfileId {get; set;}
     
     
  
@@ -86,7 +86,7 @@ public class SavedPaymentMethodsController {
         
         DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest();
         req.setCustomerProfileId(customerProfileId);
-        req.setCustomerPaymentProfileId(selectedPaymentProfileId);
+        //req.setCustomerPaymentProfileId(selectedPaymentProfileId);
 
         DeleteCustomerPaymentProfileResponse resp = (DeleteCustomerPaymentProfileResponse)client.send(req);
         
@@ -161,10 +161,12 @@ public class SavedPaymentMethodsController {
     public Pagereference redirectToPaymentMethod() {
         Map<String,String> params = ApexPages.currentPage().getParameters();
         String action = params.get('action');
+        String selectedPaymentProfileId = params.get('paymentProfileId');
 
         Pagereference PaymentMethodPage = new PageReference('/apex/PaymentMethod');
         PaymentMethodPage.setRedirect(true);
         PaymentMethodPage.getParameters().put('action', action);
+        PaymentMethodPage.getParameters().put('paymentProfileId', selectedPaymentProfileId);
 
         return PaymentMethodPage;
     }
@@ -175,6 +177,7 @@ public class SavedPaymentMethodsController {
         return new PageReference('/apex/AddPaymentMethod');
     }
 
+    /*
     public PageReference redirectToEditPaymentMethod() {
         Pagereference editPage = new PageReference('/apex/EditPaymentMethod');
         editPage.setRedirect(true);
@@ -184,6 +187,7 @@ public class SavedPaymentMethodsController {
 
         //return new PageReference('/apex/EditPaymentMethod');
     }
+    */
 
     public PageReference redirectToSavedPaymentMethods() {
         return new Pagereference('/apex/SavedPaymentMethods');
