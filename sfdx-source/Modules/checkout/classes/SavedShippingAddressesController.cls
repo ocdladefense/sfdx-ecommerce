@@ -61,14 +61,11 @@ public with sharing class SavedShippingAddressesController {
 
         req.setCustomerAddressId(customerAddressId);
         String result = req.getBody();
+
         Boolean isClientNull = client ==null;
         if(isClientNull){
-            AuthorizeDotNetClient tempClient = new AuthorizeDotNetClient();
-            AuthorizeDotNetResponse resp = (AuthorizeDotNetResponse)client.send(req);
-            ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'Unable to delete this address. Client was null initially '));
-            return null;
+            throw new CheckoutException('AuthorizeDotNetClient must not be null');
         }
-        //System.debug();
 
         AuthorizeDotNetResponse resp = (AuthorizeDotNetResponse)client.send(req);
         
@@ -91,23 +88,15 @@ public with sharing class SavedShippingAddressesController {
 
     }
 
-    // public static List<Address> getShipToList(String customerProfileId) {
-        
-    //     GetCustomerProfileRequest req = new GetCustomerProfileRequest();
-    //     req.setCustomerProfileId(customerProfileId);
-
-    //     GetCustomerProfileResponse resp = (GetCustomerProfileResponse)client.send(req);
-    //     CustomerProfile profile = resp.getProfile();
-    //     AddressCollection collection = new AddressCollection(profile.getShipToList());
-
-    //     return collection.getAsList();
-    // }
-
     public AddressCollection getShipToCollection(String customerProfileId) {
         
         GetCustomerProfileRequest req = new GetCustomerProfileRequest();
         req.setCustomerProfileId(customerProfileId);
         //AuthorizeDotNetClient tempClient = new AuthorizeDotNetClient();
+        Boolean isClientNull = client==null;
+        if(isClientNull){
+            throw new CheckoutException('AuthorizeDotNetClient must not be null');
+        }
         GetCustomerProfileResponse resp = (GetCustomerProfileResponse) this.client.send(req);
         CustomerProfile profile = resp.getProfile();
         AddressCollection collection = new AddressCollection(profile.getShipToList());

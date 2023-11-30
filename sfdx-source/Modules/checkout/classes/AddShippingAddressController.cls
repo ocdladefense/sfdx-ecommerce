@@ -23,7 +23,10 @@ public with sharing class AddShippingAddressController {
         
         GetCustomerProfileRequest req = new GetCustomerProfileRequest();
         req.setCustomerProfileId(customerProfileId);
-
+        Boolean isClientNull = client==null;
+        if(isClientNull){
+            throw new CheckoutException('AuthorizeDotNetClient must not be null');
+        }
         GetCustomerProfileResponse resp = (GetCustomerProfileResponse)client.send(req);
         CustomerProfile profile = resp.getProfile();
         List<Address> shipToList = profile.getShipToList();
@@ -67,6 +70,11 @@ public with sharing class AddShippingAddressController {
         req.setCustomerProfileId(this.customerProfileId);
         req.setAddress(newShipTo);
         req.setDefaultShippingAddress(false);
+
+        Boolean isClientNull = client==null;
+        if(isClientNull){
+            throw new CheckoutException('AuthorizeDotNetClient must not be null');
+        }
 
         CreateCustomerShippingAddressResponse resp = (CreateCustomerShippingAddressResponse)client.send(req);
 
