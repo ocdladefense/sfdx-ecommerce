@@ -1,5 +1,9 @@
 <apex:page controller="SavedShippingAddressesController">
-
+    <script type='text/javascript'>
+        function confirmDelete() {
+        return confirm(‘Are you sure you want to Delete this address’);
+        }
+        </script>
 <h1>Shipping Addresses</h1>
 <apex:form id="ShipToForm">
         <apex:pageBlock>
@@ -17,7 +21,7 @@
 
             <div class="content">
                 <!-- <apex:repeat value="{!shipToList}" var="shipTo" rendered="true"> -->
-
+                <apex:pageMessages></apex:pageMessages>
                 <apex:repeat value="{!shipToList}" var ="shipTo" rendered="{!IF(shipToList.size != 0, true, false)}">
                     <div style="margin: 1.5em" class="select">
                         <span class="card-data">{!shipTo.firstName & ' ' & shipTo.lastName}</span>
@@ -34,13 +38,15 @@
                             <apex:commandLink value="Edit" action="{!editThisAddress}">
                                 <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}"/>
                             </apex:commandLink>
-                            <apex:commandLink value="Delete" action="{!deleteThisAddress}">
+                            <apex:commandLink value="Delete" action=”{!deleteThisAddress}” onClick="if (!confirmDelete()) return false;">
                                 <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}"/>
                             </apex:commandLink>
 
                             
                             <!-- 
                                 method in controller
+                                
+                                onClick={!IF(confirm('Are you sure you want to delete this address?')){!deleteThisAddres();}}
                                 <apex:outputText value="Default shipping address" rendered="{!IF(isDefaultShippingAddress, true, false)}">
                                 <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}" />
                             </apex:outputText> -->

@@ -76,7 +76,8 @@ public with sharing class SavedShippingAddressesController {
             Messages messages = resp.getMessages();
             Message message = messages.getFirstMessage();
             System.debug(message.getText());
-            return new PageReference('/apex/ShipToError');
+            ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'Unable to delete this address. ' + message.getText()));
+            return null;
         }
         
         return new Pagereference('/apex/SavedShippingAddresses');
@@ -134,9 +135,6 @@ public with sharing class SavedShippingAddressesController {
         return new PageReference('/apex/EditShippingAddress');
     }
 
-    public PageReference redirectToDeleteShipToAddress() {
-        return new PageReference('/apex/DeleteShipToAddress');
-    }
 
     public PageReference redirectToSavedShippingAddresses() {
         return new Pagereference('/apex/SavedShippingAddresses');
