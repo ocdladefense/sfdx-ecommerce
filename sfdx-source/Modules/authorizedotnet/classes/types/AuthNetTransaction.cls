@@ -32,19 +32,19 @@ public class AuthNetTransaction extends AuthorizeDotNetType {
         this.payment = new Payment(new CreditCard(cardNumber,expDate));
     }
 
-    public void payWith(CustomerProfile profile) {
+    public void useCustomerProfile(CustomerProfile profile) {
 
         if(null != this.payment) {
             throw new AuthorizeDotNetTypeException('MALFORMED_PROPERTIES_ERROR: Payment already set.');
         }
 
-        CustomerPaymentProfile paymentProfile = profile.getDefaultPaymentProfile();
+        CustomerPaymentProfile defaultPaymentMethod = profile.getDefaultPaymentProfile();
 
         // when paying with a customer payment profile,
         // what data is required and which properties are populated?
         this.profile = new Map<String,Object>();
         this.profile.put('customerProfileId', profile.getCustomerProfileId());
-        this.profile.put('paymentProfile', new Map<String,String>{'paymentProfileId' => paymentProfile.getCustomerPaymentProfileId()});
+        this.profile.put('paymentProfile', new Map<String,String>{'paymentProfileId' => defaultPaymentMethod.getCustomerPaymentProfileId()});
     }
 
     
@@ -53,7 +53,18 @@ public class AuthNetTransaction extends AuthorizeDotNetType {
     }
 
     public override Set<String> keySet() {
-        return new Set<String>{'transactionType','amount','currencyCode','payment'};
+        
+        Set<String> fields = new Set<String>{'transactionType','amount','currencyCode'};
+        
+        if(null != this.payment) {
+            fields.add('payment');
+        }
+
+        if(null != this.profile) {
+            fields.add('profile');
+        }
+
+        return fields;
     }
     
     public override Map<String,Object> toMap() {
@@ -62,6 +73,7 @@ public class AuthNetTransaction extends AuthorizeDotNetType {
         theMap.put('amount', this.amount);
         theMap.put('currencyCode', this.currencyCode);
         theMap.put('payment', this.payment);
+        theMap.put('profile', this.profile);
 
         return theMap;
     }
