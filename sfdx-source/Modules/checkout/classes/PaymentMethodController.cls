@@ -52,7 +52,7 @@ public class PaymentMethodController {
         } else {
             paymentProfile = doLoadAction(paymentProfileId);
         	Address addy = paymentProfile.getBillTo();
-            transferAddress(addy);
+            billTo = addy.getAsAuthNetAddress();
             System.debug('PaymentMethodController firstName: ' + addy.getFirstName());
         	cardInfo = paymentProfile.getCard();  
         }
@@ -123,15 +123,4 @@ public class PaymentMethodController {
         return new PageReference('/apex/SavedPaymentMethods');
     }
 
-    public void transferAddress(Address addy) {
-        billTo = new AuthNetAddress();
-        billTo.setFirstName(addy.getFirstName());
-        billTo.setLastName(addy.getFirstName());
-        billTo.setAddress(addy.getAddress());
-        billTo.setCity(addy.getCity());
-        billTo.setState(addy.getState());
-        billTo.setZip(addy.getZip());
-        billTo.setCountry(addy.getCountry());
-        billTo.setPhoneNumber(addy.getPhoneNumber());
-    }
 }
