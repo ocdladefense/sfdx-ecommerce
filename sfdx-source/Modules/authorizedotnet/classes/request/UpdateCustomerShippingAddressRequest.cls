@@ -20,6 +20,12 @@ public class UpdateCustomerShippingAddressRequest extends AuthorizeDotNetRequest
 
         
     public override Map<String,Object> toMap() {
+        if(this.defaultShippingAddress==null){
+            this.defaultShippingAddress=false;
+        }
+        if(this.customerProfileId==null){
+            throw new AuthorizeDotNetException('customerProfileId must not be null');
+        }
         Map<String,Object> theMap = new Map<String,Object>();
         theMap.put('address', this.address);
         theMap.put('customerProfileId', this.customerProfileId);

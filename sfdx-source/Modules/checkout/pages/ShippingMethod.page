@@ -11,11 +11,15 @@
                 <apex:inputCheckbox value="{!isDefaultShippingAddress}" label= "Default Shipping Address"> </apex:inputCheckbox>
             </apex:pageBlockSection>
 
-            <apex:pageBlockButtons>
+            <apex:pageBlockButtons rendered="{!IF(action=='new', true, false)}">
                 <apex:commandButton value="Add" action="{!doCreateAction}" />
-                <apex:commandButton value="Update" action="{!doEditAction}" />
                 <apex:commandButton value="Cancel" action="{!cancel}" />
             </apex:pageBlockButtons>
+            <apex:pageBlockButtons rendered="{!IF(action=='update', true, false)}">
+                <apex:commandButton value="{!shipTo.customerAddressId}" action="{!doEditAction}">Update</apex:commandButton>
+                <apex:commandButton value="Cancel" action="{!cancel}" />
+            </apex:pageBlockButtons>
+
 
         </apex:pageBlock>
     </apex:form>

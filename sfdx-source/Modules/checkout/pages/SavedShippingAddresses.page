@@ -15,7 +15,9 @@
             <apex:outputPanel rendered="{!IF(shipToList.size != 0, true, false)}">
 
             <apex:pageBlock >
-                <apex:commandLink action="{!redirectToShippingMethod}" value="Add New Shipping Address" />
+                <apex:commandLink action="{!setShippingMethod}" value="Add New Shipping Address">
+                    <apex:param name="action" value="new"/>
+                </apex:commandLink>
                 
             </apex:pageBlock>
 
@@ -37,8 +39,9 @@
 
                         <div class="actions" style= "display:flex;" >
                             <div style="margin-right:1.5em;">
-                                <apex:commandLink value="Edit" action="{!editThisAddress}">
-                                    <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}"/>
+                                <apex:commandLink value="Edit" action="{!setShippingMethod}">
+                                    <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}"/>    
+                                    <apex:param name="action" value="update"/>
                                 </apex:commandLink>
                             </div>
                 

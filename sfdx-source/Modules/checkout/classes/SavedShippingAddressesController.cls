@@ -38,7 +38,24 @@ public with sharing class SavedShippingAddressesController {
         
 
     }
+    public PageReference setShippingMethod(){
+        Map<String,String> params = ApexPages.currentPage().getParameters();
+        String action = params.get('action');
+        String customerAddressId = params.get('customerAddressId');
+        System.debug(customerAddressId);
+
+        System.debug('action = ' + action + ' id = '+ customerAddressId);
+
+        Pagereference ShippingMethodPage = new PageReference('/apex/ShippingMethod');
+        ShippingMethodPage.setRedirect(true);
+        ShippingMethodPage.getParameters().put('action', action);
+        if(customerAddressId!=null){
+            ShippingMethodPage.getParameters().put('customerAddressId', customerAddressId);
     
+        }
+
+        return ShippingMethodPage;
+    }
     
     public PageReference editThisAddress() {
         //when the user clicks edit link
