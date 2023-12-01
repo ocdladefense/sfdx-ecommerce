@@ -48,11 +48,12 @@ public with sharing class SavedShippingAddressesController {
 
         //able to set a parameter
         if(customerAddressId!=null){
-            Pagereference editPage = new PageReference('/apex/EditShippingAddress');
-            editPage.setRedirect(true);
-            editPage.getParameters().put('customerAddressId', customerAddressId);
-            system.debug(editPage.getParameters());
-            return editPage;
+            Pagereference page = new PageReference('/apex/ShippingMethod');
+            page.setRedirect(true);
+            page.getParameters().put('customerAddressId', customerAddressId);
+            page.getParameters().put('action', 'update');
+            system.debug(page.getParameters());
+            return page;
         }
         else {
             return new PageReference('/apex/AddShippingAddress');
@@ -90,7 +91,7 @@ public with sharing class SavedShippingAddressesController {
             ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'Unable to delete this address. ' + message.getText()));
             return null;
         }
-        
+
 
     }
 
@@ -138,6 +139,10 @@ public with sharing class SavedShippingAddressesController {
   
     public PageReference redirectToAddShippingAddress() {
         return new PageReference('/apex/AddShippingAddress');
+    }
+
+    public PageReference redirectToShippingMethod() {
+        return new PageReference('/apex/ShippingMethod');
     }
 
     public PageReference redirectToEditShippingAddress() {

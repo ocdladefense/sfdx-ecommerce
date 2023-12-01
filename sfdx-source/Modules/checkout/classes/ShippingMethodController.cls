@@ -15,8 +15,6 @@ public with sharing class ShippingMethodController {
 
     public ShippingMethodController() {
 
-        shipTo = new AuthNetAddress();
-
         customerProfileId = CurrentCustomer.getCustomerProfileId();
 
         Map<String,String> params = ApexPages.currentPage().getParameters();
@@ -25,11 +23,7 @@ public with sharing class ShippingMethodController {
         
         // Only provided when editing.
         String customerAddressId = params.get('customerAddressId');
-      
-        // More testing.
-        // if(null == customerAddressId) {
-        //     customerAddressId = '915907992';
-        // }
+    
         
 		client = new AuthorizeDotNetClient();
         
@@ -41,8 +35,16 @@ public with sharing class ShippingMethodController {
         //     Address address = doLoadAction(customerAddressId);
         //     transferAddress(address);
         // }
+
+        shipTo = new AuthNetAddress();
+        this.title='Add a new shipping address';
+
+        if(customerAddressId!=null){
+            Address address = doLoadAction(customerAddressId);
+            transferAddress(address);
+            this.title = 'Edit Shipping Address';
+        }
         
-        String title = 'Add New Shipping Address';
         
     }
     
@@ -65,10 +67,15 @@ public with sharing class ShippingMethodController {
  
 
 
-    // Calls CreatePaymentProfile
+    // Calls CreateShippingAddress
     
     public Pagereference doCreateAction() {
         //CreateCustomerShippingAddressRequest req = new CreateCustomerShippingAddressRequest(shipTo.getAsAddress());
+        if(shipTo.zip==null || shipTo.zip==''){
+            ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'Please enter a zip code. ' ));
+            return null;
+        }
+        
         //create request has authnetaddress right now
         CreateCustomerShippingAddressRequest req = new CreateCustomerShippingAddressRequest(shipTo);
         req.setCustomerProfileId(customerProfileId);
@@ -83,23 +90,41 @@ public with sharing class ShippingMethodController {
 
         CreateCustomerShippingAddressResponse resp = (CreateCustomerShippingAddressResponse)client.send(req);
 
-        System.debug(resp.success());
+        if(resp.success()){
+            system.debug('new address id is ' + resp.getCustomerAddressId());
+            return new PageReference('/apex/SavedShippingAddresses');
+        }
+        else{
+            Messages messages = resp.getMessages();
+            Message message = messages.getFirstMessage();
+            String messageText = message.getText();
+            
+            ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING, 'Unable to add this address. ' + messageText));
+            return null;
 
-        return new PageReference('/apex/SavedShippingAddresses');
+        }
+
     }
     
     
     public Pagereference doEditAction() {
 
-
-        //Address billToAddress = new Address('Testy', 'Tester', 'blah 123', 'Springfield', 'OR', '97477');
         UpdateCustomerShippingAddressRequest req = new UpdateCustomerShippingAddressRequest (shipTo.getAsAddress());
         System.debug(req.getBody());
 
         UpdateCustomerShippingAddressResponse resp = (UpdateCustomerShippingAddressResponse)client.send(req);
         System.debug(resp.success());
-        
-        return new PageReference('/apex/SavedShippingAddresses');
+
+        if(resp.success()){
+            return new PageReference('/apex/SavedShippingAddresses');
+        }
+        else{
+            Messages messages = resp.getMessages();
+            Message message = messages.getFirstMessage();
+            System.debug(message.getText());
+            ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'Unable to update this address. ' + message.getText()));
+            return null;
+        }
     }
 
     

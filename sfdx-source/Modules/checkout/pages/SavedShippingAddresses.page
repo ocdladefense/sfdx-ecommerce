@@ -6,23 +6,23 @@
         </script>
 <h1>Shipping Addresses</h1>
 <apex:form id="ShipToForm">
-        <apex:pageBlock>
-                <apex:outputText>
+        <apex:pageBlock >
+                <apex:outputText >
                     {!c.FirstName & ' ' & c.LastName}
                 </apex:outputText>
         </apex:pageBlock>
         <!-- <apex:outputPanel rendered="true"> -->
             <apex:outputPanel rendered="{!IF(shipToList.size != 0, true, false)}">
 
-            <apex:pageBlock>
-                <apex:commandLink action="{!redirectToAddShippingAddress}" value="Add New Shipping Address" />
+            <apex:pageBlock >
+                <apex:commandLink action="{!redirectToShippingMethod}" value="Add New Shipping Address" />
                 
             </apex:pageBlock>
 
             <div class="content">
                 <!-- <apex:repeat value="{!shipToList}" var="shipTo" rendered="true"> -->
-                <apex:pageMessages></apex:pageMessages>
-                <apex:repeat value="{!shipToList}" var ="shipTo" rendered="{!IF(shipToList.size != 0, true, false)}">
+                <apex:pageMessages ></apex:pageMessages>
+                <apex:repeat value="{!shipToList}" var="shipTo" rendered="{!IF(shipToList.size != 0, true, false)}">
                     <div style="margin: 1.5em" class="select">
                         <span class="card-data">{!shipTo.firstName & ' ' & shipTo.lastName}</span>
                         <br />
@@ -69,9 +69,9 @@
             </div>
             </apex:outputPanel>
             <apex:outputPanel rendered="{!IF(shipToList.size == 0, true, false)}">
-                <apex:pageBlock>
+                <apex:pageBlock >
                     <div>No saved shipping addresses available. Please add an address.</div>
-                    <apex:commandLink action="{!redirectToAddShippingAddress}" value="Add New Shipping Address" />
+                    <apex:commandLink action="{!redirectToShippingMethod}" value="Add New Shipping Address" />
                 </apex:pageBlock>
             </apex:outputPanel>
     </apex:form>
