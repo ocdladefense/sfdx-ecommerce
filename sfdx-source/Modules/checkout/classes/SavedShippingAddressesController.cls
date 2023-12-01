@@ -25,8 +25,17 @@ public with sharing class SavedShippingAddressesController {
         customerProfileId = CurrentCustomer.getCustomerProfileId();
 
         this.shipToCollection = getShipToCollection(customerProfileId);
+
+        if(this.shipToCollection==null){
+            this.shipToCollection= new AddressCollection();
+            system.debug('no list');
+            ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'Address list is ' + this.shipToCollection.getAsList().size()));
+            this.shipToList =new List<Address>();
+        }
+        else{
+            this.shipToList = mock ? sampleCustomerShipToList() : this.shipToCollection.getAsList();
+        }
         
-        this.shipToList = mock ? sampleCustomerShipToList() : this.shipToCollection.getAsList();
 
     }
     
@@ -70,10 +79,9 @@ public with sharing class SavedShippingAddressesController {
         AuthorizeDotNetResponse resp = (AuthorizeDotNetResponse)client.send(req);
         
         if(resp.success()){
-            System.debug('success is '+ resp.success());
             System.debug(customerAddressId + ' has been deleted');
-            ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'Address has been delete through intial client'));
-            return null;
+            return new Pagereference(ApexPages.currentPage().getUrl()).setRedirect(true);
+
         }
         else{
             Messages messages = resp.getMessages();
@@ -83,8 +91,6 @@ public with sharing class SavedShippingAddressesController {
             return null;
         }
         
-        // return new Pagereference('/apex/SavedShippingAddresses');
-        //return new Pagereference('/apex/AddShippingAddress');
 
     }
 
@@ -99,6 +105,12 @@ public with sharing class SavedShippingAddressesController {
         }
         GetCustomerProfileResponse resp = (GetCustomerProfileResponse) this.client.send(req);
         CustomerProfile profile = resp.getProfile();
+        if(profile.getShipToList()==null){
+            // ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'No saved addresses found. Please add an address.'));
+            // return new Pagereference('/apex/AddShippingAddress');
+            return null;
+
+        }
         AddressCollection collection = new AddressCollection(profile.getShipToList());
 
         return collection;

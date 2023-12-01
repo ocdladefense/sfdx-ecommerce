@@ -1,66 +1,69 @@
 <apex:component>
-    <!--apex:selectList id="chooseColor" itemValue="{!string}" size="1"
-        <apex:selectapex:selectOption itemitemValue="red" itemLabel="Red"/>
-        value="{!shipTo.state}"
-    </apex:selectList--> 
+        <apex:attribute name="a" type="AuthNetAddress" required="true" description="Address of type MyAddress, distinguished from the build-in Salesforce Address class."></apex:attribute>
+        <apex:attribute name="title" type="String" description="The title to be d" default="Enter address" />
 
-    <apex:selectList value="{!shipTo.state}" size="1">State:
-    <apex:selectOption itemValue="OR" itemLabel="Oregon"/>
-    <apex:selectOption itemValue="WA" itemLabel="Washington"/>
-    <apex:selectOption itemValue="CA" itemLabel="California"/>
-    <apex:selectOption itemValue="ID" itemLabel="Idaho"/>
-    <apex:selectOption itemValue="HI" itemLabel="Hawaii"/>
-    <apex:selectOption itemDisabled="true" itemValue="XX" itemLabel="--- ALL STATES ---"/>
-    <apex:selectOption itemValue="AL" itemLabel="Alabama"/>
-    <apex:selectOption itemValue="AK" itemLabel="Alaska"/>
-    <apex:selectOption itemValue="AZ" itemLabel="Arizona"/>
-    <apex:selectOption itemValue="AR" itemLabel="Arkansas"/>
-    <apex:selectOption itemValue="CA" itemLabel="California"/>
-    <apex:selectOption itemValue="CO" itemLabel="Colorado"/>
-    <apex:selectOption itemValue="CT" itemLabel="Connecticut"/>
-    <apex:selectOption itemValue="DE" itemLabel="Delaware"/>
-    <apex:selectOption itemValue="FL" itemLabel="Florida"/>
-    <apex:selectOption itemValue="GA" itemLabel="Georgia"/>
-    <apex:selectOption itemValue="HI" itemLabel="Hawaii"/>
-    <apex:selectOption itemValue="ID" itemLabel="Idaho"/>
-    <apex:selectOption itemValue="IL" itemLabel="Illinois"/>
-    <apex:selectOption itemValue="IN" itemLabel="Indiana"/>
-    <apex:selectOption itemValue="IA" itemLabel="Iowa"/>
-    <apex:selectOption itemValue="KS" itemLabel="Kansas"/>
-    <apex:selectOption itemValue="KY" itemLabel="Kentucky"/>
-    <apex:selectOption itemValue="LA" itemLabel="Louisiana"/>
-    <apex:selectOption itemValue="ME" itemLabel="Maine"/>
-    <apex:selectOption itemValue="MD" itemLabel="Maryland"/>
-    <apex:selectOption itemValue="MA" itemLabel="Massachusetts"/>
-    <apex:selectOption itemValue="MI" itemLabel="Michigan"/>
-    <apex:selectOption itemValue="MN" itemLabel="Minnesota"/>
-    <apex:selectOption itemValue="MS" itemLabel="Mississippi"/>
-    <apex:selectOption itemValue="MO" itemLabel="Missouri"/>
-    <apex:selectOption itemValue="MT" itemLabel="Montana"/>
-    <apex:selectOption itemValue="NE" itemLabel="Nebraska"/>
-    <apex:selectOption itemValue="NV" itemLabel="Nevada"/>
-    <apex:selectOption itemValue="NH" itemLabel="New Hampshire"/>
-    <apex:selectOption itemValue="NJ" itemLabel="New Jersey"/>
-    <apex:selectOption itemValue="NM" itemLabel="New Mexico"/>
-    <apex:selectOption itemValue="NY" itemLabel="New York"/>
-    <apex:selectOption itemValue="NC" itemLabel="North Carolina"/>
-    <apex:selectOption itemValue="ND" itemLabel="North Dakota"/>
-    <apex:selectOption itemValue="OH" itemLabel="Ohio"/>
-    <apex:selectOption itemValue="OK" itemLabel="Oklahoma"/>
-    <apex:selectOption itemValue="OR" itemLabel="Oregon"/>
-    <apex:selectOption itemValue="PA" itemLabel="Pennsylvania"/>
-    <apex:selectOption itemValue="RI" itemLabel="Rhode Island"/>
-    <apex:selectOption itemValue="SC" itemLabel="South Carolina"/>
-    <apex:selectOption itemValue="SD" itemLabel="South Dakota"/>
-    <apex:selectOption itemValue="TN" itemLabel="Tennessee"/>
-    <apex:selectOption itemValue="TX" itemLabel="Texas"/>
-    <apex:selectOption itemValue="UT" itemLabel="Utah"/>
-    <apex:selectOption itemValue="VT" itemLabel="Vermont"/>
-    <apex:selectOption itemValue="VA" itemLabel="Virginia"/>
-    <apex:selectOption itemValue="WA" itemLabel="Washington"/>
-    <apex:selectOption itemValue="WV" itemLabel="West Virginia"/>
-    <apex:selectOption itemValue="WI" itemLabel="Wisconsin"/>
-    <apex:selectOption itemValue="WY" itemLabel="Wyoming"/>
-    <apex:selectOption itemValue="DC" itemLabel="Washington DC"/>
-</apex:selectList>
+        <!--apex:selectList id="chooseColor" itemValue="{!string}" size="1"
+            <apex:selectapex:selectOption itemitemValue="red" itemLabel="Red"/>
+            value="{!shipTo.state}"S
+        </apex:selectList--> 
+
+    <apex:selectList value="{!a.state}" size="1">State:
+        <apex:selectOption itemValue="OR" itemLabel="Oregon"/>
+        <apex:selectOption itemValue="WA" itemLabel="Washington"/>
+        <apex:selectOption itemValue="CA" itemLabel="California"/>
+        <apex:selectOption itemValue="ID" itemLabel="Idaho"/>
+        <apex:selectOption itemValue="HI" itemLabel="Hawaii"/>
+        <apex:selectOption itemDisabled="true" itemValue="XX" itemLabel="--- ALL STATES ---"/>
+        <apex:selectOption itemValue="AL" itemLabel="Alabama"/>
+        <apex:selectOption itemValue="AK" itemLabel="Alaska"/>
+        <apex:selectOption itemValue="AZ" itemLabel="Arizona"/>
+        <apex:selectOption itemValue="AR" itemLabel="Arkansas"/>
+        <apex:selectOption itemValue="CA" itemLabel="California"/>
+        <apex:selectOption itemValue="CO" itemLabel="Colorado"/>
+        <apex:selectOption itemValue="CT" itemLabel="Connecticut"/>
+        <apex:selectOption itemValue="DE" itemLabel="Delaware"/>
+        <apex:selectOption itemValue="FL" itemLabel="Florida"/>
+        <apex:selectOption itemValue="GA" itemLabel="Georgia"/>
+        <apex:selectOption itemValue="HI" itemLabel="Hawaii"/>
+        <apex:selectOption itemValue="ID" itemLabel="Idaho"/>
+        <apex:selectOption itemValue="IL" itemLabel="Illinois"/>
+        <apex:selectOption itemValue="IN" itemLabel="Indiana"/>
+        <apex:selectOption itemValue="IA" itemLabel="Iowa"/>
+        <apex:selectOption itemValue="KS" itemLabel="Kansas"/>
+        <apex:selectOption itemValue="KY" itemLabel="Kentucky"/>
+        <apex:selectOption itemValue="LA" itemLabel="Louisiana"/>
+        <apex:selectOption itemValue="ME" itemLabel="Maine"/>
+        <apex:selectOption itemValue="MD" itemLabel="Maryland"/>
+        <apex:selectOption itemValue="MA" itemLabel="Massachusetts"/>
+        <apex:selectOption itemValue="MI" itemLabel="Michigan"/>
+        <apex:selectOption itemValue="MN" itemLabel="Minnesota"/>
+        <apex:selectOption itemValue="MS" itemLabel="Mississippi"/>
+        <apex:selectOption itemValue="MO" itemLabel="Missouri"/>
+        <apex:selectOption itemValue="MT" itemLabel="Montana"/>
+        <apex:selectOption itemValue="NE" itemLabel="Nebraska"/>
+        <apex:selectOption itemValue="NV" itemLabel="Nevada"/>
+        <apex:selectOption itemValue="NH" itemLabel="New Hampshire"/>
+        <apex:selectOption itemValue="NJ" itemLabel="New Jersey"/>
+        <apex:selectOption itemValue="NM" itemLabel="New Mexico"/>
+        <apex:selectOption itemValue="NY" itemLabel="New York"/>
+        <apex:selectOption itemValue="NC" itemLabel="North Carolina"/>
+        <apex:selectOption itemValue="ND" itemLabel="North Dakota"/>
+        <apex:selectOption itemValue="OH" itemLabel="Ohio"/>
+        <apex:selectOption itemValue="OK" itemLabel="Oklahoma"/>
+        <apex:selectOption itemValue="OR" itemLabel="Oregon"/>
+        <apex:selectOption itemValue="PA" itemLabel="Pennsylvania"/>
+        <apex:selectOption itemValue="RI" itemLabel="Rhode Island"/>
+        <apex:selectOption itemValue="SC" itemLabel="South Carolina"/>
+        <apex:selectOption itemValue="SD" itemLabel="South Dakota"/>
+        <apex:selectOption itemValue="TN" itemLabel="Tennessee"/>
+        <apex:selectOption itemValue="TX" itemLabel="Texas"/>
+        <apex:selectOption itemValue="UT" itemLabel="Utah"/>
+        <apex:selectOption itemValue="VT" itemLabel="Vermont"/>
+        <apex:selectOption itemValue="VA" itemLabel="Virginia"/>
+        <apex:selectOption itemValue="WA" itemLabel="Washington"/>
+        <apex:selectOption itemValue="WV" itemLabel="West Virginia"/>
+        <apex:selectOption itemValue="WI" itemLabel="Wisconsin"/>
+        <apex:selectOption itemValue="WY" itemLabel="Wyoming"/>
+        <apex:selectOption itemValue="DC" itemLabel="Washington DC"/>
+    </apex:selectList>
 </apex:component>

@@ -4,9 +4,9 @@ public with sharing class AddShippingAddressController {
     String customerProfileId {get; set;}
 
     public Contact c {get; set;}
-    public Address shipTo {get; set;}
-    public List<Address> shipToList {get; set;}
-    public String selectedCustomerAddressId {get; set;}
+    public AuthNetAddress shipTo {get; set;}
+    //public List<Address> shipToList {get; set;}
+    //public String selectedCustomerAddressId {get; set;}
     public List<SelectOption> stateOptions {get; public set;}
     
     public AddShippingAddressController() {
@@ -14,54 +14,55 @@ public with sharing class AddShippingAddressController {
 
         customerProfileId = CurrentCustomer.getCustomerProfileId();
     
-        shipTo = new Address();
+        shipTo = new AuthNetAddress();
 
         this.stateOptions = getStateOptions();
        
     }
-    public List<Address> getShipToList() {
+
+    // public List<Address> getShipToList() {
         
-        GetCustomerProfileRequest req = new GetCustomerProfileRequest();
-        req.setCustomerProfileId(customerProfileId);
-        Boolean isClientNull = client==null;
-        if(isClientNull){
-            throw new CheckoutException('AuthorizeDotNetClient must not be null');
-        }
-        GetCustomerProfileResponse resp = (GetCustomerProfileResponse)client.send(req);
-        CustomerProfile profile = resp.getProfile();
-        List<Address> shipToList = profile.getShipToList();
+    //     GetCustomerProfileRequest req = new GetCustomerProfileRequest();
+    //     req.setCustomerProfileId(customerProfileId);
+    //     Boolean isClientNull = client==null;
+    //     if(isClientNull){
+    //         throw new CheckoutException('AuthorizeDotNetClient must not be null');
+    //     }
+    //     GetCustomerProfileResponse resp = (GetCustomerProfileResponse)client.send(req);
+    //     CustomerProfile profile = resp.getProfile();
+    //     List<Address> shipToList = profile.getShipToList();
 
-        return shipToList;
-    }
+    //     return shipToList;
+    // }
 
-    public List<Address> sampleCustomerShipToList(){
-        List<Address> addressList = new List<Address>();
-        Address shipTo1 = new Address('Ralph', 'Williams', '19645 Andrew Ln', 'Reno', 'NV', '89521');
-        Address ShipTo2 = new Address('Sebastian', 'Williams-Wilson', '200 Mountain View Dr.', 'Reno', 'NV', '89511');
-        shipTo2.setCompany('Dog Walks by Dogs');
-        addressList.add(shipTo1);
-        addressList.add(shipTo2);
+    // public List<Address> sampleCustomerShipToList(){
+    //     List<Address> addressList = new List<Address>();
+    //     Address shipTo1 = new Address('Ralph', 'Williams', '19645 Andrew Ln', 'Reno', 'NV', '89521');
+    //     Address ShipTo2 = new Address('Sebastian', 'Williams-Wilson', '200 Mountain View Dr.', 'Reno', 'NV', '89511');
+    //     shipTo2.setCompany('Dog Walks by Dogs');
+    //     addressList.add(shipTo1);
+    //     addressList.add(shipTo2);
 
-        return addressList;
-    }
+    //     return addressList;
+    // }
 
-    public void loadShipToList(Boolean mock) {
+    // public void loadShipToList(Boolean mock) {
        
-        // For testing
-        if(mock) {
-            this.shipToList = sampleCustomerShipToList();
-        }
-        else {
-            this.shipToList = getShipToList();
-        }
+    //     // For testing
+    //     if(mock) {
+    //         this.shipToList = sampleCustomerShipToList();
+    //     }
+    //     else {
+    //         this.shipToList = getShipToList();
+    //     }
         
-        //paymentProfiles = sampleEmptyCustomerPaymentProfileList();
-    }
+    //     //paymentProfiles = sampleEmptyCustomerPaymentProfileList();
+    // }
 
     public Pagereference addShipTo(){
 
         //add avalidation
-        Address newShipTo = shipTo;
+        AuthNetAddress newShipTo = shipTo;
         if(newShipTo.getLastName()!=null){
             System.debug('name is not null');
         }

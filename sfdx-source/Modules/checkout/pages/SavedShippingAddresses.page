@@ -1,7 +1,7 @@
 <apex:page controller="SavedShippingAddressesController">
     <script type='text/javascript'>
         function confirmDelete() {
-        return confirm(‘Are you sure you want to Delete this address’);
+        return confirm("Are you sure you want to delete this saved address?");
         }
         </script>
 <h1>Shipping Addresses</h1>
@@ -35,19 +35,19 @@
                         <br />
                         <span>{!shipTo.customerAddressId}</span>
 
-                        <div class="actions" >
-                            <div style="margin-right:1.5em">
+                        <div class="actions" style= "display:flex;" >
+                            <div style="margin-right:1.5em;">
                                 <apex:commandLink value="Edit" action="{!editThisAddress}">
                                     <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}"/>
                                 </apex:commandLink>
                             </div>
-
-                            <apex:commandLink value="Delete" action="{!deleteThisAddress}">
-                                <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}"/>
-                            </apex:commandLink>
-                            <apex:commandLink value="Test" action="{!editThisAddress}">
-                                <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}"/>
-                            </apex:commandLink>
+                
+                            <div style="margin-right:1.5em;">
+                                <apex:commandLink value="Delete" onClick="confirmDelete()" action="{!deleteThisAddress}">
+                                    <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}"/>
+                                </apex:commandLink>
+                            </div>
+ 
 
                             
                             <!-- 
@@ -67,6 +67,12 @@
                     </div>
                 </apex:repeat>
             </div>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!IF(shipToList.size == 0, true, false)}">
+                <apex:pageBlock>
+                    <div>No saved shipping addresses available. Please add an address.</div>
+                    <apex:commandLink action="{!redirectToAddShippingAddress}" value="Add New Shipping Address" />
+                </apex:pageBlock>
             </apex:outputPanel>
     </apex:form>
 </apex:page>

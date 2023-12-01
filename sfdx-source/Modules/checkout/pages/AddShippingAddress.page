@@ -1,28 +1,16 @@
 <apex:page controller="AddShippingAddressController">
-    <h1>Add a new shipping address</h1>
-
-    
     <apex:form id="shipTo">
-        <apex:pageBlock title="Add Shipping Address">
-            <apex:messages></apex:messages>
-            <apex:pageBlockSection title="Shipping Information" columns="2">
-                <apex:inputText value="{!shipTo.firstName}" id="firstName">First Name: </apex:inputText>
-                <apex:inputText value="{!shipTo.lastName}">Last Name: </apex:inputText>
-                <apex:inputText value="{!shipTo.company}">Company: </apex:inputText>
-                    
-                <apex:inputText value="{!shipTo.address}">Address: </apex:inputText>
-                <apex:inputText value="{!shipTo.city}">City: </apex:inputText>
-                
-                <apex:selectList value="{!shipTo.state}" size="1">State: 
-                    <apex:selectOptions value="{!stateOptions}"/>
-                    <!-- <c:StateDropdown></c:StateDropdown> -->
-                </apex:selectList> 
-                <apex:inputText value="{!shipTo.zip}">Zip: </apex:inputText>
-                <!--apex:inputText value="{!shipTo.country}">Country: </apex:inputText-->
-                <apex:inputText value="{!shipTo.phoneNumber}">Phone Number: </apex:inputText>
-            </apex:pageBlockSection>
-        </apex:pageBlock>
-        <apex:commandButton value="Submit" action="{!addShipTo}" />
-        <apex:commandButton value="Cancel" action="{!redirectToSavedShippingAddresses}"/>
+    <apex:pageBlock title="Add Shipping Address">
+        <apex:messages></apex:messages>
+        <c:AddressForm a="{!shipTo}" title="Enter shipping address"></c:AddressForm>
+
+    </apex:pageBlock>
+    <apex:pageBlock>
+        <apex:pageBlockButtons>
+            <apex:commandButton value="Submit from page" action="{!addShipTo}" />
+            <apex:commandButton value="Cancel" action="{!redirectToSavedShippingAddresses}" />
+    </apex:pageBlockButtons>
+    </apex:pageBlock>
+  
     </apex:form>
 </apex:page>
