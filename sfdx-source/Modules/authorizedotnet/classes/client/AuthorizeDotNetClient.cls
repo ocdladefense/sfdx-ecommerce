@@ -83,7 +83,7 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
         // System.debug(breq.getBody());
         HttpResponse bresp = client.send(breq);
 
-        System.debug(bresp.getBody());
+        //System.debug(bresp.getBody());
         
         String respBodyString = bresp.getBody().replace('\uFEFF', '');
         
@@ -99,10 +99,11 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
             throw new AuthorizeDotNetException('RESPONSE_ERROR: The client could not determine the appropriate type to deserialize the response ('+responseType+')');
         }
 
-        AuthorizeDotNetResponse resp = (AuthorizeDotNetResponse)JSON.deserialize(respBodyString, t);
+        Object forFormat = JSON.deserializeUntyped(respBodyString);
+        String formatted = JSON.serializePretty(forFormat);
+        AuthorizeDotNetResponse resp = (AuthorizeDotNetResponse)JSON.deserialize(formatted, t);
         resp.setBody(respBodyString);
-        System.debug(resp.getBody());
-        
+        //System.debug(resp.getBody());
 
         return resp;
     }

@@ -3,23 +3,19 @@
     <apex:messages />
 
     <apex:form id="shipTo">
-        <apex:pageBlock title="{!title}">
+        <apex:pageBlock>
 
-            <c:AddressForm a="{!shipTo}" title="Enter shipping address"></c:AddressForm>
+            <c:AddressForm a="{!shipTo}" title="{!title}"></c:AddressForm>
 
             <apex:pageBlockSection title="Make this my default shipping address?" columns="2">
-                <apex:inputCheckbox value="{!isDefaultShippingAddress}" label= "Default Shipping Address"> </apex:inputCheckbox>
+                <apex:inputCheckbox value="{!defaultShippingAddress}" label= "Default Shipping Address"> </apex:inputCheckbox>
             </apex:pageBlockSection>
 
-            <apex:pageBlockButtons rendered="{!IF(action=='new', true, false)}">
-                <apex:commandButton value="Add" action="{!doCreateAction}" />
+            <apex:pageBlockButtons>
+                <apex:commandButton rendered="{!IF(action=='new', true, false)}" value="Add" action="{!doCreateAction}" />
+                <apex:commandButton rendered="{!IF(action=='update', true, false)}" value="Update" action="{!doUpdateAction}"/>
                 <apex:commandButton value="Cancel" action="{!cancel}" />
             </apex:pageBlockButtons>
-            <apex:pageBlockButtons rendered="{!IF(action=='update', true, false)}">
-                <apex:commandButton value="{!shipTo.customerAddressId}" action="{!doEditAction}">Update</apex:commandButton>
-                <apex:commandButton value="Cancel" action="{!cancel}" />
-            </apex:pageBlockButtons>
-
 
         </apex:pageBlock>
     </apex:form>

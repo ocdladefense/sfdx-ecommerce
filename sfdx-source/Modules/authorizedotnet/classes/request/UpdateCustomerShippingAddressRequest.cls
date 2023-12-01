@@ -2,9 +2,9 @@ public class UpdateCustomerShippingAddressRequest extends AuthorizeDotNetRequest
     
     private String customerProfileId;
 
-    private Address address;
+    private AuthNetAddress address;
 
-    private Boolean defaultShippingAddress;
+    private Boolean defaultShippingAddress = false;
     
     public UpdateCustomerShippingAddressRequest() {
         super('updateCustomerShippingAddress');
@@ -13,7 +13,7 @@ public class UpdateCustomerShippingAddressRequest extends AuthorizeDotNetRequest
         };
     }
 
-    public UpdateCustomerShippingAddressRequest(Address address) {
+    public UpdateCustomerShippingAddressRequest(AuthNetAddress address) {
       this();
       this.address=address;
     }
@@ -43,7 +43,7 @@ public class UpdateCustomerShippingAddressRequest extends AuthorizeDotNetRequest
         this.customerProfileId = customerProfileId;
     }
 
-    public void setAddress(Address address){
+    public void setAddress(AuthNetAddress address){
         this.address=address;
     }
 
@@ -55,7 +55,7 @@ public class UpdateCustomerShippingAddressRequest extends AuthorizeDotNetRequest
         return this.customerProfileId;
     }
 
-    public Address getAddress(){
+    public AuthNetAddress getAddress(){
         return this.address;
     }
 

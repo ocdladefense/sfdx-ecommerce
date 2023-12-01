@@ -71,13 +71,13 @@ public class JsonPayload {
             //System.debug(key);
             // Test the type of value:
             if(value instanceof AuthorizeDotNetType) {
-                System.debug('found authnet object');
+                // System.debug('found authnet object');
                 this.writeObjectFields(key, (AuthorizeDotNetType)value);  
             } else if(value instanceof IOrderedMap) {
-                System.debug('found IOrderedMap object');
+                // System.debug('found IOrderedMap object');
                 this.writeObjectFields(key, (IOrderedMap)value);  
             } else if(value instanceof Boolean) {
-                System.debug('found boolean');
+                // System.debug('found boolean');
                 if(value == null) continue;
                 this.writeBooleanField(key, (Boolean)value); 
             } else if(value instanceof String) {

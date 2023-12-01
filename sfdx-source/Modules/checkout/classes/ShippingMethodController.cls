@@ -4,15 +4,14 @@ public with sharing class ShippingMethodController {
     AuthorizeDotNetClient client;
 
     String customerProfileId {get; set;}
-    String customerAddressId {get; set;}
 
-    public Contact c {get; set;}
+    //String customerAddressId {get; set;}
+
+    //public Contact c {get; set;}
 
     public AuthNetAddress shipTo {get; set;}
 
-    public Address addy {get;set;}
-
-    public Boolean isDefaultShippingAddress {get; set;}
+    public Boolean defaultShippingAddress {get; set;}
 
     public String title {get; private set;}
 
@@ -20,31 +19,34 @@ public with sharing class ShippingMethodController {
 
     public ShippingMethodController() {
 
-        customerProfileId = CurrentCustomer.getCustomerProfileId();
+        this.customerProfileId = CurrentCustomer.getCustomerProfileId();
 
         Map<String,String> params = ApexPages.currentPage().getParameters();
-        action = params.get('action');
-        System.debug('ShippingMethodController action: ' + action); 
+        this.action = params.get('action');
         
-        // Only provided when editing.
-        customerAddressId = params.get('customerAddressId');
-        System.debug(customerAddressId + 'is passed in');
+         String customerAddressId = params.get('customerAddressId');
         
-		client = new AuthorizeDotNetClient();
+		this.client = new AuthorizeDotNetClient();
+
+        GetCustomerShippingAddressResponse resp;
+
+        if(customerAddressId!=null){
+            resp = doLoadAction(customerAddressId);
+        }
+    
+        this.shipTo = action=='update'? resp.getAddress() : new AuthNetAddress();
+
+        this.title = action=='update'? 'Edit Shipping Address' : 'Add a new shipping address';   
         
-        shipTo = new AuthNetAddress();
-        this.title='Add a new shipping address';
-        if('update' == action) {
-            Address address = doLoadAction(customerAddressId);
-            transferAddress(address);
-            system.debug(shipTo);
-            this.title = 'Edit Shipping Address';
-        }        
+        this.defaultShippingAddress = action=='update'? resp.getDefaultShippingAddress() : false;
+
     }
     
     
-    public Address doLoadAction(String customerAddressId) {
+    public GetCustomerShippingAddressResponse doLoadAction(String customerAddressId) {
+        system.debug('DO LOAD ACTION');
         GetCustomerShippingAddressRequest req = new GetCustomerShippingAddressRequest();
+        
         req.setCustomerAddressId(customerAddressId);
         req.setCustomerProfileId(customerProfileId);
 
@@ -54,11 +56,39 @@ public with sharing class ShippingMethodController {
         }
         
         GetCustomerShippingAddressResponse resp = (GetCustomerShippingAddressResponse)client.send(req);
+        
+        System.debug('incoming get response');
         System.debug(resp.getBody());
-        return resp.getAddress();
+
+        return resp;
     }
     
  
+    
+    public Pagereference doUpdateAction() {
+        
+        //shipTo.setCustomerAddressId(customerAddressId);
+        UpdateCustomerShippingAddressRequest req = new UpdateCustomerShippingAddressRequest (shipTo);
+        req.setCustomerProfileId(customerProfileId);
+        req.setDefaultShippingAddress(defaultShippingAddress);
+        
+        System.debug(req.getBody());
+
+        UpdateCustomerShippingAddressResponse resp = (UpdateCustomerShippingAddressResponse)client.send(req);
+        System.debug(resp.success());
+
+        if(resp.success()){
+            return new PageReference('/apex/SavedShippingAddresses');
+        }
+        else{
+            Messages messages = resp.getMessages();
+            Message message = messages.getFirstMessage();
+            System.debug(message.getText());
+            ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'Unable to update this address. ' + message.getText()));
+            return null;
+        }
+    }
+
 
 
     // Calls CreateShippingAddress
@@ -73,7 +103,7 @@ public with sharing class ShippingMethodController {
         //create request has authnetaddress right now
         CreateCustomerShippingAddressRequest req = new CreateCustomerShippingAddressRequest(shipTo);
         req.setCustomerProfileId(customerProfileId);
-        req.setDefaultShippingAddress(isDefaultShippingAddress);
+        req.setDefaultShippingAddress(defaultShippingAddress);
 
         System.debug('Add req.getBody' + req.getBody());
 
@@ -100,32 +130,6 @@ public with sharing class ShippingMethodController {
 
     }
     
-    
-    public Pagereference doEditAction() {
-
-        // if(shipTo.getCustomerAddressId==null){
-        //     shipTo.setCustomerAddressId(customerAddressId);
-        // }
-        shipTo.setCustomerAddressId(customerAddressId);
-        UpdateCustomerShippingAddressRequest req = new UpdateCustomerShippingAddressRequest (shipTo.getAsAddress());
-        req.setCustomerProfileId(customerProfileId);
-        
-        System.debug(req.getBody());
-
-        UpdateCustomerShippingAddressResponse resp = (UpdateCustomerShippingAddressResponse)client.send(req);
-        System.debug(resp.success());
-
-        if(resp.success()){
-            return new PageReference('/apex/SavedShippingAddresses');
-        }
-        else{
-            Messages messages = resp.getMessages();
-            Message message = messages.getFirstMessage();
-            System.debug(message.getText());
-            ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'Unable to update this address. ' + message.getText()));
-            return null;
-        }
-    }
 
     
     
@@ -133,34 +137,34 @@ public with sharing class ShippingMethodController {
         return new PageReference('/apex/SavedShippingAddresses');
     }
 
-    public void transferAddress(Address addy) {
-        shipTo = new AuthNetAddress();
-        if(addy.getFirstName()!=null){
-            shipTo.setFirstName(addy.getFirstName());
-        }
-        if(addy.getLastName()!=null){
-            shipTo.setLastName(addy.getLastName());
-        }
-        if(addy.getAddress()!=null){
-            shipTo.setAddress(addy.getAddress());
-        }
-        if(addy.getCity()!=null){
-            shipTo.setCity(addy.getCity());
-        }
-        if(addy.getState()!=null){
-            shipTo.setState(addy.getState());
-        }
-        if(addy.getZip()!=null){
-            shipTo.setZip(addy.getZip());
-        }
-        if(addy.getCountry()!=null){
-            shipTo.setCountry(addy.getCountry());
-        }
-        if(addy.getPhoneNumber()!=null){
-            shipTo.setPhoneNumber(addy.getPhoneNumber());
-        }
-        if(addy.getCompany()!=null){
-            shipTo.setCompany(addy.getCompany());
-        }
-    }
+    // public void transferAddress(Address addy) {
+    //     shipTo = new AuthNetAddress();
+    //     if(addy.getFirstName()!=null){
+    //         shipTo.setFirstName(addy.getFirstName());
+    //     }
+    //     if(addy.getLastName()!=null){
+    //         shipTo.setLastName(addy.getLastName());
+    //     }
+    //     if(addy.getAddress()!=null){
+    //         shipTo.setAddress(addy.getAddress());
+    //     }
+    //     if(addy.getCity()!=null){
+    //         shipTo.setCity(addy.getCity());
+    //     }
+    //     if(addy.getState()!=null){
+    //         shipTo.setState(addy.getState());
+    //     }
+    //     if(addy.getZip()!=null){
+    //         shipTo.setZip(addy.getZip());
+    //     }
+    //     if(addy.getCountry()!=null){
+    //         shipTo.setCountry(addy.getCountry());
+    //     }
+    //     if(addy.getPhoneNumber()!=null){
+    //         shipTo.setPhoneNumber(addy.getPhoneNumber());
+    //     }
+    //     if(addy.getCompany()!=null){
+    //         shipTo.setCompany(addy.getCompany());
+    //     }
+    // }
 }

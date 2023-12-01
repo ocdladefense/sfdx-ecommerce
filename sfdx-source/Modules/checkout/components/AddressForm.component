@@ -5,6 +5,7 @@
     <apex:pageBlockSection title="{!title}" columns="1">
         <apex:inputText value="{!a.firstName}" label="First Name"></apex:inputText>
         <apex:inputText value="{!a.lastName}" label="Last Name"></apex:inputText>
+        <apex:inputText value="{!a.company}" label="Company"></apex:inputText>
         <apex:inputText value="{!a.address}" label="Address"> </apex:inputText>
         <apex:inputText value="{!a.city}" label="City"> </apex:inputText>
         <apex:inputText value="{!a.state}" label="State"> </apex:inputText>

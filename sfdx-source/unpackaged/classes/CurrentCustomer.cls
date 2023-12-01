@@ -29,16 +29,16 @@ public class CurrentCustomer {
 
         
     public static String    getCustomerProfileId() {
-       String customerProfileId = ApexPages.currentPage().getParameters().get('customerProfileId');
-       customerProfileId = null == customerProfileId ? '916263569' : customerProfileId;
+       //String customerProfileId = ApexPages.currentPage().getParameters().get('customerProfileId');
+       //customerProfileId = null == customerProfileId ? '916263569' : customerProfileId;
         
-       return customerProfileId;
+       return '916376196';
     }
     
     
     public static Contact getContact() {
         
-        return [SELECT FirstName, LastName, Email FROM Contact WHERE Id = '0037h00000u1YBpAAM'];
+        return [SELECT FirstName, LastName, Email FROM Contact WHERE Id = '0037h00000uAHSHAA4'];
         //customerProfileId = '905372692';//c.AuthorizeDotNetCustomerProfileId__c;
         //paymentProfileId = '915752253';
         
