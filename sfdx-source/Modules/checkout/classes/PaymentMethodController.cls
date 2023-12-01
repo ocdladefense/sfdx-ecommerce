@@ -15,6 +15,8 @@ public class PaymentMethodController {
     public Boolean isDefaultPaymentMethod {get; set;}
 
     public String title {get; private set;}
+
+    public String action {get; private set;}
     
     
     
@@ -22,7 +24,7 @@ public class PaymentMethodController {
     public PaymentMethodController() {
         
         Map<String,String> params = ApexPages.currentPage().getParameters();
-        String action = params.get('action');
+        this.action = params.get('action');
         System.debug('PaymentMethodController action: ' + action); 
         
         // Only provided when editing.
