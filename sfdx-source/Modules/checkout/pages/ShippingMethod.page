@@ -1,0 +1,22 @@
+<apex:page controller="ShippingMethodController">
+
+    <apex:messages />
+
+    <apex:form id="shipTo">
+        <apex:pageBlock title="{!title}">
+
+            <c:AddressForm a="{!shipTo}" title="Enter shipping address"></c:AddressForm>
+
+            <apex:pageBlockSection title="Make this my default shipping address?" columns="2">
+                <apex:inputCheckbox value="{!isDefaultShippingAddress}" label= "Default Shipping Address"> </apex:inputCheckbox>
+            </apex:pageBlockSection>
+
+            <apex:pageBlockButtons>
+                <apex:commandButton value="Add" action="{!doCreateAction}" />
+                <apex:commandButton value="Update" action="{!doEditAction}" />
+                <apex:commandButton value="Cancel" action="{!cancel}" />
+            </apex:pageBlockButtons>
+
+        </apex:pageBlock>
+    </apex:form>
+</apex:page>
