@@ -25,18 +25,28 @@ public class CustomerPaymentProfileTest {
         paymentProfile = new CustomerPaymentProfile(card, address);
     }
 
+    @isTest static void creditCardExpiration() {
+        // Constructor a new and a expired card
+        String userInput = '04/2026';
+        String formattedDate = AuthorizeDotNet.formatDateString(userInput);
+        CreditCard card = new CreditCard('4444222211111111', formattedDate, '123');
+        CreditCard expiredCard = new CreditCard('44', AuthorizeDotNet.formatDateString('04/2001'), '123');
+        
+        // Testing expiration card
+        System.assertEquals(false, card.isExpired());
+        System.assertEquals(true, expiredCard.isExpired());
+    }
+
     @isTest static void creditCardValidation() {
         // Constructor a valid and invalid card
-        CreditCard validCard = new CreditCard('4444222211111111', '04/2026', '123');
-        CreditCard invalidCard = new CreditCard('44','04/2001', '123');
+        String userInput = '04/2026';
+        String formattedDate = AuthorizeDotNet.formatDateString(userInput);
+        CreditCard validCard = new CreditCard('4444222211111111', formattedDate, '123');
+        CreditCard invalidCard = new CreditCard('44', AuthorizeDotNet.formatDateString('04/2001'), '123');
         
-        // Testing valid card
+        // Testing card validation
         System.assertEquals(true, validCard.isValid());
-        System.assertEquals(false, validCard.isExpired());
-
-        //t Testing invalid card
         System.assertEquals(false, invalidCard.isValid());
-        System.assertEquals(true, invalidCard.isExpired());
     }
 
     @isTest static void creditCardGettersAndSetters() {
@@ -113,7 +123,7 @@ public class CustomerPaymentProfileTest {
         CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile();
         Map<String,Object> testMap = new Map<String,Object>();
 
-        // Assert 
+        // Assert variables are null
         System.assertEquals(null, paymentProfile.getPayment());
         System.assertEquals(null, paymentProfile.getBillTo());
 
@@ -126,5 +136,10 @@ public class CustomerPaymentProfileTest {
         paymentProfile.getBillTo();
         paymentProfile.getPayment();
         paymentProfile.getPayment().getCreditCard();
+
+        // Assert setters worked
+        System.assertEquals(address, paymentProfile.getBillTo());
+        //System.assertEquals(payment, paymentProfile.getPayment());
+        System.assertEquals(card, paymentProfile.getPayment().getCreditCard());
     }
 }

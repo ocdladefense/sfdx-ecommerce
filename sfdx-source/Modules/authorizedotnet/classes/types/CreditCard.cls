@@ -12,9 +12,6 @@ public class CreditCard extends AuthorizeDotNetType {
     
     private String cvv;
 
-    
-    
-    
     public CreditCard() {}
 
     public CreditCard(String cardNumber) {
@@ -23,7 +20,9 @@ public class CreditCard extends AuthorizeDotNetType {
     }
 
     public CreditCard(String cardNumber, Date theDate) {
+        this();
         this.cardNumber = cardNumber;
+        //this.expirationDate = formatToValidDate(CreditCard.dateToString(expirationDate));
     }
 
 
@@ -49,30 +48,7 @@ public class CreditCard extends AuthorizeDotNetType {
     
 
     public Boolean isExpired() {
-        return stringToDate() < Date.today();
-    }
-
-    public Date stringToDate() {
-        String exp = this.expirationDate;
-        //List<String> splitExp = exp.split('-'); - old divider, using / now
-        List<String> splitExp = exp.split('/');
-        String year = splitExp[1]; // was index 0
-        String month = splitExp[0]; // was index 1
-        String expDate = month + '/01/' + year;
-        Date realDate = Date.parse(expDate);
-
-        return realDate;
-    }
-
-    public static String dateToString(Date expDate) {
-        Integer year = expDate.year();
-        Integer month = expDate.month();
-        // Format as 'YYYY-MM'
-        //String formattedDate = String.valueOf(year) + '-' + (month < 10 ? '0' + String.valueOf(month) : String.valueOf(month));
-        // New format as MM/YYYY
-        String formattedDate = (month < 10 ? '0' + String.valueOf(month) : String.valueOf(month)) + '/' + String.valueOf(year);
-        return formattedDate;
-
+        return AuthorizeDotNet.stringToDate(this.expirationDate) < Date.today();
     }
 
     public String getType() {
@@ -119,6 +95,9 @@ public class CreditCard extends AuthorizeDotNetType {
 
     public void setExpirationDate (String expirationDate){
         this.expirationDate=expirationDate;
+        // Set this.expMonth and this.expYear
+        // parse from expiration date
+        // assume param format is YYYY-MM
     }
     
     public void setCvv(string cvv) {
