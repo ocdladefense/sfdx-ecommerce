@@ -32,7 +32,7 @@
                 </apex:commandLink>
 
 
-                <apex:commandLink value="Delete" action="{!deletePaymentProfile}">
+                <apex:commandLink value="Delete" onclick="if (!confirmDeletion('{!profile.payment.creditCard.cardNumber}')) return false;" oncomplete="refreshPage();" action="{!deletePaymentProfile}" >
                     <apex:param name="paymentProfileId" value="{!profile.customerPaymentProfileId}"  />
                 </apex:commandLink>
 
@@ -53,6 +53,11 @@
 <script>
 function refreshPage() {
     window.location.reload(true);
+}
+
+function confirmDeletion(cardNumber) {
+    var message = "Are you sure you want to delete the card ending in " + cardNumber.substring(cardNumber.length - 4) + "?";
+    return confirm(message);
 }
 </script>
 </apex:page>

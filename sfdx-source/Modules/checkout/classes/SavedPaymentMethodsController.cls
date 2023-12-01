@@ -82,70 +82,21 @@ public class SavedPaymentMethodsController {
 
 
 
-    public Pagereference deletePaymentProfile() {
-        
+    public void deletePaymentProfile() {
+        Map<String,String> params = ApexPages.currentPage().getParameters();
+        String selectedPaymentProfileId = params.get('paymentProfileId');
+
         DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest();
         req.setCustomerProfileId(customerProfileId);
-        //req.setCustomerPaymentProfileId(selectedPaymentProfileId);
+        req.setCustomerPaymentProfileId(selectedPaymentProfileId);
 
         DeleteCustomerPaymentProfileResponse resp = (DeleteCustomerPaymentProfileResponse)client.send(req);
         
         // Forces a full page reload
-        return new Pagereference(ApexPages.currentPage().getUrl()).setRedirect(true);
+        //return new Pagereference(ApexPages.currentPage().getUrl()).setRedirect(true);
     }
 
-
-    // TODO: can I call a method in EditPaymentMethodController?
-    // TODO: setDefaultPaymentMethod needs to set the selected payment method as default and set all other payment methods to not default
-    //
-    //
     /*
-    // Gives null reference error in JsonPayload
-    public Pagereference setDefaultPaymentProfile() {
-        //editPaymentProfile();
-        CustomerPaymentProfile paymentProfile = getPaymentProfile();
-        billingInfo = paymentProfile.getBillTo();
-        System.debug('SPMController paymentProfile: ' + paymentProfile);
-        paymentProfile.setDefaultPaymentProfile(isDefaultPaymentMethod);
-        System.debug('SPMController paymentProfile.defaultPaymentProfile: ' + paymentProfile.getDefaultPaymentProfile());
-
-
-        UpdateCustomerPaymentProfileRequest req = new UpdateCustomerPaymentProfileRequest(paymentProfile, billingInfo);
-        System.debug('Test');
-        System.debug('SPMController req.getBody: ' + req.getBody());
-        System.debug('Test');
-        UpdateCustomerPaymentProfileResponse resp = (UpdateCustomerPaymentProfileResponse)client.send(req);
-        System.debug('Test');
-        
-        return new Pagereference(ApexPages.currentPage().getUrl()).setRedirect(true);
-    }
-    */
-    
-        /*
-        EditPaymentMethodController con = new EditPaymentMethodController();
-        con.customerProfileId = customerProfileId;
-        con.paymentProfileId = selectedPaymentProfileId;
-        con.isDefaultPaymentMethod = isDefaultPaymentMethod;
-        con.editPaymentProfile();
-		*/
-		
-        /*
-        for(CustomerPaymentProfile paymentProfile : paymentProfiles) {
-            if(paymentProfile.getCustomerPaymentProfileId() == selectedPaymentProfileId) {
-                con.paymentProfileId = selectedPaymentProfileId;
-                con.isDefaultPaymentMethod = isDefaultPaymentMethod; // could just hardcode value here
-            }
-            else {
-                con.paymentProfileId = paymentProfile.getCustomerPaymentProfileId();
-                con.isDefaultPaymentMethod = !isDefaultPaymentMethod;
-            }
-            con.editPaymentProfile();
-        }
-        */
-
-
-    
-
     public CustomerPaymentProfile getPaymentProfile() {
         GetCustomerPaymentProfileRequest req = new GetCustomerPaymentProfileRequest();
         req.setCustomerPaymentProfileId('915683841');
@@ -155,7 +106,7 @@ public class SavedPaymentMethodsController {
         CustomerPaymentProfile paymentProfile = resp.getPaymentProfile();
         return paymentProfile;
     }
-    
+    */
     
     
     public Pagereference redirectToPaymentMethod() {
@@ -172,12 +123,12 @@ public class SavedPaymentMethodsController {
     }
     
 
-
+    /*
     public PageReference redirectToAddPaymentMethod() {
         return new PageReference('/apex/AddPaymentMethod');
     }
 
-    /*
+    
     public PageReference redirectToEditPaymentMethod() {
         Pagereference editPage = new PageReference('/apex/EditPaymentMethod');
         editPage.setRedirect(true);
@@ -187,12 +138,12 @@ public class SavedPaymentMethodsController {
 
         //return new PageReference('/apex/EditPaymentMethod');
     }
-    */
+    
 
     public PageReference redirectToSavedPaymentMethods() {
         return new Pagereference('/apex/SavedPaymentMethods');
     }
-
+    */
     
 
     // Test method
