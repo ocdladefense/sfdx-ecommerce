@@ -3,7 +3,7 @@ public class CreateCustomerShippingAddressRequest extends AuthorizeDotNetRequest
     private String customerProfileId;
 
 
-    private Address address;
+    private AuthNetAddress address;
 
 
     private Boolean defaultShippingAddress = false;
@@ -15,7 +15,7 @@ public class CreateCustomerShippingAddressRequest extends AuthorizeDotNetRequest
         this.fields = new Set<String>{'customerProfileId', 'address', 'defaultShippingAddress'};
     }
 
-    public CreateCustomerShippingAddressRequest(Address address) {
+    public CreateCustomerShippingAddressRequest(AuthNetAddress address) {
         this();
         this.address = address;
     }
@@ -29,7 +29,7 @@ public class CreateCustomerShippingAddressRequest extends AuthorizeDotNetRequest
         this.customerProfileId = customerProfileId;
     }
 
-    public void setAddress(Address address) {
+    public void setAddress(AuthNetAddress address) {
         this.address = address;
     }
 
@@ -41,7 +41,7 @@ public class CreateCustomerShippingAddressRequest extends AuthorizeDotNetRequest
         return this.customerProfileId;
     }
 
-    public Address getAddress() {
+    public AuthNetAddress getAddress() {
         return this.address;
     }
 
@@ -50,6 +50,13 @@ public class CreateCustomerShippingAddressRequest extends AuthorizeDotNetRequest
     }
 
     public override Map<String,Object> toMap() {
+        if(this.defaultShippingAddress==null){
+            this.defaultShippingAddress=false;
+        }
+        if(this.customerProfileId==null){
+            throw new AuthorizeDotNetException('customerProfileId must not be null');
+        }
+        
         Map<String,Object> theMap = new Map<String,Object>();
         theMap.put('address', this.address);
         theMap.put('customerProfileId', this.customerProfileId);

@@ -1,0 +1,18 @@
+<apex:component>
+    <apex:attribute name="a" type="AuthNetAddress" required="true" description="Address of type MyAddress, distinguished from the build-in Salesforce Address class."></apex:attribute>
+    <apex:attribute name="title" type="String" description="The title to be d" default="Enter address" />
+
+    <apex:pageBlockSection title="{!title}" columns="1">
+        <apex:inputText value="{!a.firstName}" label="First Name"></apex:inputText>
+        <apex:inputText value="{!a.lastName}" label="Last Name"></apex:inputText>
+        <apex:inputText value="{!a.company}" label="Company"></apex:inputText>
+        <apex:inputText value="{!a.address}" label="Address"> </apex:inputText>
+        <apex:inputText value="{!a.city}" label="City"> </apex:inputText>
+        <apex:inputText value="{!a.state}" label="State"> </apex:inputText>
+        <apex:inputText value="{!a.zip}" label="Zip"> </apex:inputText>
+        <!-- <apex:inputText value="{!a.country}">Country: </apex:inputText> -->
+        <apex:inputText value="{!a.phoneNumber}" label="Phone Number" html-placeholder="XXX-XXX-XXXX"> </apex:inputText>
+    </apex:pageBlockSection>
+
+
+</apex:component>

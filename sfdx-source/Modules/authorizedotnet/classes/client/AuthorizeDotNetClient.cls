@@ -38,7 +38,7 @@ public class AuthorizeDotNetClient extends HttpClient {
 public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
        
         Http client = new Http();
-
+    
         String requestType = req.getRequestType();
         String responseType = requestType.capitalize()+'Response';
        
@@ -68,7 +68,8 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
         // System.debug(breq.getBody());
         HttpResponse bresp = client.send(breq);
 
-        // System.debug(bresp.getBody());
+        //System.debug(bresp.getBody());
+        
         String respBodyString = bresp.getBody().replace('\uFEFF', '');
         
         

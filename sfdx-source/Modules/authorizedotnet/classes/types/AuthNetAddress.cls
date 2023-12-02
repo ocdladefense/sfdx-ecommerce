@@ -1,4 +1,4 @@
-public class Address extends AuthorizeDotNetType {
+public class AuthNetAddress extends AuthorizeDotNetType {
     private String customerAddressId;
     
     public String firstName {get; set;}
@@ -34,13 +34,13 @@ public class Address extends AuthorizeDotNetType {
 
 
     // Constructors-----------------
-    public Address (){}
+    public AuthNetAddress (){}
 
-    public Address(String firstName, String lastName, String address, String city, String state, String zip) {
+    public AuthNetAddress(String firstName, String lastName, String address, String city, String state, String zip) {
         this(firstName, lastName, address, city, state, zip, DEFAULT_COUNTRY_CODE);
     }
 
-    public Address(String firstName, String lastName, String address, String city, String state, String zip, String country) {
+    public AuthNetAddress(String firstName, String lastName, String address, String city, String state, String zip, String country) {
         
         this.firstName = firstName;
         this.lastName = lastName;
@@ -50,6 +50,16 @@ public class Address extends AuthorizeDotNetType {
         this.zip = zip;
         this.country = country;
         
+    }
+
+    public Address getAsAddress() {
+        return new Address(this.firstName,
+        this.lastName,
+        this.address,
+        this.city,
+        this.state,
+        this.zip,
+        this.country);
     }
   
     
@@ -97,7 +107,7 @@ public class Address extends AuthorizeDotNetType {
         return phoneNumber;
     }
 
-    public String getFaxNumber() {
+    public String getfaxNumber() {
         return faxNumber;
     }
 
@@ -124,11 +134,7 @@ public class Address extends AuthorizeDotNetType {
     public String getCountry() {
         return country;
     }
-
-    public Boolean getDefaultShippingAddress(){
-        return this.defaultShippingAddress!=null && this.defaultShippingAddress==true? true : false;
-    }
-
+  
 
     // Setters------------------------
     public void setCustomerAddressId(string customerAddressId){

@@ -154,6 +154,10 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType{
     public void setCard(CreditCard card) {
         this.payment = new Payment(card);
     }
+    
+    public CreditCard getCard() {
+        return this.payment.getCreditCard();
+    }
 
     public void setDefaultPaymentProfile (Boolean defaultPaymentProfile){
         this.defaultPaymentProfile = defaultPaymentProfile;

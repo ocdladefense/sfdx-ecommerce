@@ -1,31 +1,59 @@
 public class CustomerPaymentProfileList {
-    public CustomerPaymentProfileList() {
 
-    }
-
-    /*
-    public static List<CustomerPaymentProfile> fromMapData(List<Map<String,String>> profiles) {        
+    private List<CustomerPaymentProfile> paymentProfiles;
     
-        // Map<String,Map<String, String>> fetchedCards =  fetchUsersCards(customerProfileId);
-
-        List<CreditCard> savedCards = new List<CreditCard> {};
+    
+    
+    public CustomerPaymentProfileList(List<CustomerPaymentProfile> profiles) {
         
-        for (Map<string,string> card : profiles) {
-            Integer id = Integer.valueOf(card.get('id'));
-            List<String> dateParts = card.get('expirationDate').split('-');
-            Integer year = Integer.valueOf(dateParts[0]);
-            Integer month = Integer.valueOf(dateParts[1]);
-            Date expDate = Date.newInstance(year, month, 1);
-            String cardNum = card.get('cardNumber');
-            String firstName = card.get('firstName');
-            String lastName = card.get('lastName');
+        List<CustomerPaymentProfile> tmp = profiles;
+        
+        
+		List<CustomerPaymentProfile> options = new List<CustomerPaymentProfile>();
+        
+       	List<CustomerPaymentProfile> defaultCardFirst = new List<CustomerPaymentProfile>();
+        
+        for(CustomerPaymentProfile profile : tmp) {
 
-            CreditCard theCard = new CreditCard(cardNum, expDate);
-
-            savedCards.add(theCard);
+            
+            if(profile.getDefaultPaymentProfile()) {
+                defaultCardFirst.add(profile);
+            }
+              
+            else {
+            	
+                options.add(profile);
+            }
         }
-        return savedCards;
-
+        
+        // Effectively appends others *after the default option,
+        // keeping the default first in the list.
+        defaultCardFirst.addAll(options);
+        
+        this.paymentProfiles = defaultCardFirst;
     }
-    */
+    
+    public List<CustomerPaymentProfile> getAsList() {
+        return this.paymentProfiles;
+    }
+    
+    
+    public CustomerPaymentProfile getDefault() {
+        return this.paymentProfiles != null && this.paymentProfiles.size() > 0 ? this.paymentProfiles[0] : null;
+    }
+    
+    public Integer size() {
+        return null == this.paymentProfiles ? 0 : this.paymentProfiles.size();
+    }
+
+    public CustomerPaymentProfile get(String paymentProfileId) {
+        CustomerPaymentProfile matchingPaymentProfile;
+        for(CustomerPaymentProfile paymentProfile : paymentProfiles) {
+            if(paymentProfile.getCustomerPaymentProfileId() == paymentProfileId) {
+                matchingPaymentProfile = paymentProfile;
+            }
+        }
+
+        return matchingPaymentProfile;
+    }
 }

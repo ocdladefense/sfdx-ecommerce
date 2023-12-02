@@ -1,0 +1,81 @@
+<apex:page controller="SavedShippingAddressesController">
+    <script type='text/javascript'>
+        function confirmDelete() {
+        return confirm("Are you sure you want to delete this saved address?");
+        }
+        </script>
+<h1>Shipping Addresses</h1>
+<apex:form id="ShipToForm">
+        <apex:pageBlock >
+                <apex:outputText >
+                    {!c.FirstName & ' ' & c.LastName}
+                </apex:outputText>
+        </apex:pageBlock>
+        <!-- <apex:outputPanel rendered="true"> -->
+            <apex:outputPanel rendered="{!IF(shipToList.size != 0, true, false)}">
+
+            <apex:pageBlock >
+                <apex:commandLink action="{!setShippingMethod}" value="Add New Shipping Address">
+                    <apex:param name="action" value="new"/>
+                </apex:commandLink>
+                
+            </apex:pageBlock>
+
+            <div class="content">
+                <!-- <apex:repeat value="{!shipToList}" var="shipTo" rendered="true"> -->
+                <apex:pageMessages ></apex:pageMessages>
+                <apex:repeat value="{!shipToList}" var="shipTo" rendered="{!IF(shipToList.size != 0, true, false)}">
+                    <div style="margin: 1.5em" class="select">
+                        <span class="card-data">{!shipTo.firstName & ' ' & shipTo.lastName}</span>
+                        <br />
+                        <span class="card-data">{!shipTo.company}</span>
+                        <br />
+                        <span class="card-data">{!shipTo.address}</span>
+                        <br />
+                        <span class="card-data" >{!shipTo.city & ', '& shipTo.state & ' '&  shipTo.zip}</span>
+    
+                        <br />
+                        <span>{!shipTo.customerAddressId}</span>
+
+                        <div class="actions" style= "display:flex;" >
+                            <div style="margin-right:1.5em;">
+                                <apex:commandLink value="Edit" action="{!setShippingMethod}">
+                                    <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}"/>    
+                                    <apex:param name="action" value="update"/>
+                                </apex:commandLink>
+                            </div>
+                
+                            <div style="margin-right:1.5em;">
+                                <apex:commandLink value="Delete" onClick="confirmDelete()" action="{!deleteThisAddress}">
+                                    <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}"/>
+                                </apex:commandLink>
+                            </div>
+ 
+
+                            
+                            <!-- 
+                                method in controller
+                                
+                                onClick={!IF(confirm('Are you sure you want to delete this address?')){!deleteThisAddres();}}
+                                <apex:outputText value="Default shipping address" rendered="{!IF(isDefaultShippingAddress, true, false)}">
+                                <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}" />
+                            </apex:outputText> -->
+                            <!--
+                                getter on indiv address 
+                                <apex:outputText value="Default shipping address" rendered="{!IF(!shipTo.getDefaultShippingAddress, true, false)}">
+                                <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}" />
+                            </apex:outputText> -->
+                            
+                        </div>
+                    </div>
+                </apex:repeat>
+            </div>
+            </apex:outputPanel>
+            <apex:outputPanel rendered="{!IF(shipToList.size == 0, true, false)}">
+                <apex:pageBlock >
+                    <div>No saved shipping addresses available. Please add an address.</div>
+                    <apex:commandLink action="{!redirectToShippingMethod}" value="Add New Shipping Address" />
+                </apex:pageBlock>
+            </apex:outputPanel>
+    </apex:form>
+</apex:page>

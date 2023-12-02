@@ -1,6 +1,7 @@
 public class GetCustomerShippingAddressResponse extends AuthorizeDotNetResponse {
 
-    private Address address;
+    private AuthNetAddress address;
+    private Boolean defaultShippingAddress;
     private List<String> subscriptionIds;
 
     public GetCustomerShippingAddressResponse() {
@@ -11,28 +12,26 @@ public class GetCustomerShippingAddressResponse extends AuthorizeDotNetResponse 
         super(theBody);
     }
 
-    public override void deserialize(){
-        super.deserialize();
-        GetCustomerShippingAddressResponse resp = (GetCustomerShippingAddressResponse)JSON.deserialize(this.getBody(), GetCustomerShippingAddressResponse.class);
-        this.address=resp.address;
-        this.subscriptionIds=resp.subscriptionIds;
-    }
-
-    public Address getAddress(){
+    public AuthNetAddress getAddress(){
         return this.address;
     }
 
+    public Boolean getDefaultShippingAddress(){
+        return this.defaultShippingAddress!=null && this.defaultShippingAddress==true;
+    }
+
     public List<String> getSubscriptionIds(){
+        //possible
         return this.subscriptionIds;
     }
 
-    public void setAddress (Address address){
-        this.address = address;
-    }
+    // public void setAddress (Address address){
+    //     this.address = address;
+    // }
 
-    public void setSubscriptionIds(List<String> subscriptionIds){
-        this.subscriptionIds=subscriptionIds;
-    }
+    // public void setSubscriptionIds(List<String> subscriptionIds){
+    //     this.subscriptionIds=subscriptionIds;
+    // }
 
 
 }

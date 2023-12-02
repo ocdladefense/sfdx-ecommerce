@@ -1,7 +1,54 @@
 @isTest
 public class UpdateCustomerPaymentProfileTest {
 
+    public UpdateCustomerPaymentProfileTest() {
 
+    }
+
+    @isTest static void UpdateCustomerPaymentProfile() {
+        //variables
+        String customerProfileId = '905372692';
+        String paymentProfileId = '915890663';
+
+        Address address = new Address('Sarrah', 'Burgens', '123 NW Monroe Ave', 'Corvallis', 'OR', '97330');
+        CreditCard card = new CreditCard('34222222222222233', '12/2027');
+        Payment payment = new Payment();
+        payment.setCreditCard(card);
+
+        CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile();
+        paymentProfile.setBillTo(address);
+        paymentProfile.setPayment(payment);
+        paymentProfile.setCard(card);
+
+        //request
+        UpdateCustomerPaymentProfileRequest req = new UpdateCustomerPaymentProfileRequest(paymentProfile);
+        req.setCustomerProfileId(customerProfileId);
+        req.setCustomerPaymentProfileId(paymentProfileId);
+        
+        string result = req.getBody();
+
+        System.debug(result);
+
+        // Asserts both IDs are in the request
+        System.Assert(result.contains('customerProfileId'), true);
+        System.Assert(result.contains('customerPaymentProfileId'), true);
+
+        //client or mock
+        AuthorizeDotNetServiceMock mock = new AuthorizeDotNetServiceMock();
+        if (Test.isRunningTest()){
+            Test.setMock(HttpCalloutMock.class, mock);
+        }
+        
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+
+        //response
+        UpdateCustomerPaymentProfileResponse resp = (UpdateCustomerPaymentProfileResponse)client.send(req);
+        
+        Boolean success = resp.success();
+        System.assertEquals(true, success, 'success should return true');
+    }
+
+    // Whoever did this code below, bless your soul because I'm gonna use this for the others
     /*
     @isTest 
     static void testCreditCardConstructors() {

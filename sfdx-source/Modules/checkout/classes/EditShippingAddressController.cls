@@ -1,4 +1,4 @@
-public with sharing class EditShipToAddressController {
+public with sharing class EditShippingAddressController {
     
     AuthorizeDotNetClient client {get; set;}
     
@@ -8,21 +8,25 @@ public with sharing class EditShipToAddressController {
     
     public Address shipTo {get; set;}
     
-    public String selectedCustomerAddressId {get; set;}
+    public String customerAddressId {get; set;}
     
     public List<SelectOption> stateOptions {get; public set;}
     
     
     
-    
-    
-    public EditShipToAddressController() {
+    public EditShippingAddressController() {
+        this.client = new AuthorizeDotNetClient();
 
         customerProfileId = CurrentCustomer.getCustomerProfileId();
-       	this.selectedCustomerAddressId = ApexPages.currentPage().getParameters().get('addressId');
+
+       	this.customerAddressId = ApexPages.currentPage().getParameters().get('customerAddressId');
+
+        if(this.customerAddressId==null){
+            throw new CheckoutException();
+        }
   
 
-        shipTo = loadShipTo(selectedCustomerAddressId);
+        shipTo = loadShipTo(customerAddressId);
 
         this.stateOptions = getStateOptions();
         // Also we need something for dates.
@@ -35,7 +39,7 @@ public with sharing class EditShipToAddressController {
         req.setCustomerProfileId(customerProfileId);
         System.debug(req.getBody());
         GetCustomerShippingAddressResponse resp = (GetCustomerShippingAddressResponse)client.send(req);
-        
+       
         if(resp.success()) {
             System.debug('success is ' + resp.success());
             return resp.getAddress();
@@ -58,26 +62,19 @@ public with sharing class EditShipToAddressController {
         //System.debug(updatedShipTo);
         
         req.setCustomerProfileId(customerProfileId);
-
+        req.setDefaultShippingAddress(shipTo.defaultShippingAddress);
         //System.debug(req.getBody());
 
         req.setAddress(shipTo);
         System.debug(req.getBody());
-        System.debug('XXXX- address id');
-        System.debug(shipTo.getCustomerAddressId());
-        System.debug('XXXX - address keySet...');
-        System.debug(shipTo.keySet());
-        System.debug('XXXX - Update request keys...');
-        System.debug(req.keySet());
-        System.debug('XXXX - req body...');
-        System.debug(req.getBody());
+
         //req.setDefaultShippingAddress(false);
         
         UpdateCustomerShippingAddressResponse resp = (UpdateCustomerShippingAddressResponse)client.send(req);
 
         if(resp.success()) {
             System.debug('success is ' + resp.success());
-            return redirectToViewShipToAddress();
+            return redirectToSavedShippingAddresses();
         }
         else {
             Messages messages = resp.getMessages();
@@ -98,8 +95,8 @@ public with sharing class EditShipToAddressController {
         return shipToSample;
     }
 
-    public PageReference redirectToViewShipToAddress() {
-        return new Pagereference('/apex/ViewShipToAddress');
+    public PageReference redirectToSavedShippingAddresses() {
+        return new Pagereference('/apex/SavedShippingAddresses');
     }
 
 

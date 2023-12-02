@@ -1,0 +1,10 @@
+<apex:component>
+
+    <apex:attribute name="c" description="The Credit Card object." type="CreditCard" required="true"></apex:attribute>
+    <apex:attribute name="title" type="String" description="The title to be displayed" default="Enter address" />
+
+    <apex:pageBlockSection title="{!title} " columns="2">
+        <apex:inputText value="{!c.cardNumber}">Credit Card Number: </apex:inputText>
+        <apex:inputText value="{!c.expirationDate}">Expiration Date: </apex:inputText>
+    </apex:pageBlockSection>
+</apex:component>

@@ -1,8 +1,12 @@
 public class AddressCollection {
 
-    private List<Address> addresses;
+    public List<Address> addresses;
     
-    
+    public Map<String, Object> theMap =new Map<String, Address>();
+
+    public AddressCollection (){
+        this.addresses= new List<Address>();
+    }
     
     public AddressCollection(List<Address> addresses) {
         
@@ -15,7 +19,8 @@ public class AddressCollection {
         
         for(Address addy : tmp) {
 
-            
+            theMap.put(addy.getCustomerAddressId(), addy);
+
             if(addy.isDefault()) {
                 defaultFirst.add(addy);
             }
@@ -45,4 +50,10 @@ public class AddressCollection {
     public Integer size() {
         return null == this.addresses ? 0 : this.addresses.size();
     }
+
+    public Integer getsSize() {
+        return null == this.addresses ? 0 : this.addresses.size();
+    }
+
+
 }

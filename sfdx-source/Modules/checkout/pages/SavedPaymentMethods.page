@@ -1,51 +1,58 @@
 <apex:page controller="SavedPaymentMethodsController">
-    <apex:form id="paymentForm">
-        <apex:pageBlock>
-                <apex:outputText>
-                    {!c.FirstName & ' ' & c.LastName}
-                </apex:outputText>
-        </apex:pageBlock>
-        <apex:outputPanel rendered="{!IF(paymentProfiles.size != 0, true, false)}">
-            <apex:pageBlock>
-                <apex:commandLink action="{!redirectToAddPaymentMethod}" value="Add Payment Method" />
-                
-            </apex:pageBlock>
-            <apex:pageBlock title="Saved Payment Methods">
-                <apex:pageBlockTable value="{!paymentProfiles}" var="profile">
-                    <apex:column headerValue="Name">
-                        <!-- customerPaymentProfileId added for testing -->
-                        {!profile.billTo.firstName & ' ' & profile.billTo.lastName & ' ' & profile.customerPaymentProfileId} 
-                    </apex:column>
-                    <apex:column value="{!profile.payment.creditCard.cardNumber}" headerValue="Card Number" />
-                    <apex:column value="{!profile.payment.creditCard.expirationDate}" headerValue="Expiration Date" />
-                    <apex:column>
-                        <apex:commandLink value="Edit" action="{!redirectToEditPaymentMethod}">
-                            <apex:param name="paymentProfileId" value="{!profile.customerPaymentProfileId}" />
-                        </apex:commandLink>
-                    </apex:column>
-                    <apex:column>
-                        <apex:commandLink value="Delete" action="{!deletePaymentProfile}">
-                            <apex:param name="paymentProfileId" value="{!profile.customerPaymentProfileId}" />
-                        </apex:commandLink>
-                    </apex:column>
-                    <apex:column>
-                        <apex:commandLink value="Set Default" oncomplete="refreshPage();" action="{!setDefaultPaymentProfile}" rendered="{!IF(!profile.defaultPaymentProfile, true, false)}">
-                            <apex:param name="paymentProfileId" value="{!profile.customerPaymentProfileId}" />
-                        </apex:commandLink>
-                        <apex:outputText value="Default payment method" rendered="{!IF(profile.defaultPaymentProfile, true, false)}"/>
-                    </apex:column>
-                </apex:pageBlockTable>
-            </apex:pageBlock>
-        </apex:outputPanel>
-        <apex:outputPanel rendered="{!IF(paymentProfiles.size == 0, true, false)}">
-            <apex:pageBlock>
-                <apex:commandLink action="{!redirectToAddPaymentMethod}" value="Add Payment Method"/>
-            </apex:pageBlock>
-        </apex:outputPanel>
-    </apex:form>
-    <script>
-        function refreshPage() {
-            window.location.reload(true);
-        }
-    </script>
+    
+<apex:form id="paymentForm">
+
+{!c.FirstName & ' ' & c.LastName}
+
+<apex:commandLink action="{!redirectToPaymentMethod}" value="Add Payment Method">
+    <apex:param name="action" value="new" />
+</apex:commandLink>
+
+
+
+<div class="content">
+    <apex:repeat value="{!paymentProfiles}" var="profile" rendered="{!IF(paymentProfiles.size != 0, true, false)}">
+
+
+        <div class="select">
+
+            <span class="card-data">{!profile.billTo.firstName & ' ' & profile.billTo.lastName}</span>
+            <br />
+            <span class="card-data">{!profile.payment.creditCard.cardType} {!profile.payment.creditCard.cardNumber}</span>
+            <span class="card-data">exp. {!profile.payment.creditCard.expirationDate}</span>
+
+            <br />
+
+            <div class="actions">
+
+
+                <apex:commandLink value="Edit" action="{!redirectToPaymentMethod}">
+                    <apex:param name="action" value="update" />
+                    <apex:param name="paymentProfileId" value="{!profile.customerPaymentProfileId}" />
+                </apex:commandLink>
+
+
+                <apex:commandLink value="Delete" action="{!deletePaymentProfile}">
+                    <apex:param name="paymentProfileId" value="{!profile.customerPaymentProfileId}"  />
+                </apex:commandLink>
+
+                <apex:commandLink value="Set Default" oncomplete="refreshPage();" action="{!setDefaultPaymentProfile}" rendered="{!IF(!profile.defaultPaymentProfile, true, false)}">
+                    <apex:param name="paymentProfileId" value="{!profile.customerPaymentProfileId}" />
+                </apex:commandLink>
+
+                <apex:outputText value="Default payment method" rendered="{!IF(profile.defaultPaymentProfile, true, false)}" />
+
+            </div>
+
+        </div>
+    </apex:repeat>
+</div>
+
+
+</apex:form>
+<script>
+function refreshPage() {
+    window.location.reload(true);
+}
+</script>
 </apex:page>
