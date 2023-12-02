@@ -53,6 +53,15 @@ public class Address extends AuthorizeDotNetType {
     }
   
     
+    public AuthNetAddress getAsAuthNetAddress() {
+        return new AuthNetAddress(this.firstName,
+        this.lastName,
+        this.address,
+        this.city,
+        this.state,
+        this.zip,
+        this.country);
+    }
     
     public override String getPrimaryKeyField() {
         return 'customerAddressId';

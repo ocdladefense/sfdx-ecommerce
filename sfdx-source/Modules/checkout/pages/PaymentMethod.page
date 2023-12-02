@@ -14,8 +14,8 @@
             </apex:pageBlockSection>
 
             <apex:pageBlockButtons>
-                <apex:commandButton value="Add" action="{!doCreateAction}" />
-                <apex:commandButton value="Update" action="{!doEditAction}" />
+                <apex:commandButton value="Add" action="{!doCreateAction}" rendered="{!action == 'new'}" />
+                <apex:commandButton value="Update" action="{!doEditAction}" rendered="{!action != 'new'}" />
                 <apex:commandButton value="Cancel" action="{!cancel}" />
             </apex:pageBlockButtons>
 
