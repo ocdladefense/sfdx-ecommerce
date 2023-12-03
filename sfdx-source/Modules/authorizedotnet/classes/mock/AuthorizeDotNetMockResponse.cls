@@ -1,6 +1,6 @@
 
 @isTest
-public class AuthorizeDotNetMockResponse implements HttpCalloutMock {
+public class AuthorizeDotNetMockResponse {
 
     private PaymentGatewayRequestType requestType;
     private final TransactionResponseCode responseCode;
