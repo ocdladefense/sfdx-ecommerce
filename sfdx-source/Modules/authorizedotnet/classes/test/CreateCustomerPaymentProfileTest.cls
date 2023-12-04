@@ -32,7 +32,7 @@ public class CreateCustomerPaymentProfileTest {
         Boolean idPresent = result.contains('customerProfileId');
 
         String msg1 = 'This request should have customerProfileId.';
-        System.assertEquals(true, idPresent, message);
+        System.assertEquals(true, idPresent, msg1);
 
         
 
