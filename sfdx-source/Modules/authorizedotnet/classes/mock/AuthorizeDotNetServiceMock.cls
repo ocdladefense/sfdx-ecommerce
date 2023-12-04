@@ -14,10 +14,12 @@ public class AuthorizeDotNetServiceMock implements HttpCalloutMock {
         String requestType = req.getHeader('X-Request-Type');
 
         System.debug(requestType);
-
-        String responseType = requestType.capitalize()+'MockResponse';
        
- 
+        //Important- shipping address mock response file names are too long 
+        //This ternary is needed to find the correct file type
+        //shipping address tests will fail if this is removed
+       
+        String responseType = requestType.contains('CustomerShippingAddress')? requestType.capitalize()+'MockResp' : requestType.capitalize()+'MockResponse';
 
         System.Type t = Type.forName(responseType);
         if(t == null) {
