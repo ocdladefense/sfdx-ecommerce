@@ -42,6 +42,7 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
         String requestType = req.getRequestType();
         String responseType = requestType.capitalize()+'Response';
        
+        
         // We have to get the body *before we apply other properties.
         // Otherwise, endpoing, method and headers will be serialized.
         // (and we don't want that).

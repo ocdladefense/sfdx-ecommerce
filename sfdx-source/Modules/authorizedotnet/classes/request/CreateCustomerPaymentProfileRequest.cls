@@ -13,7 +13,6 @@ public class CreateCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
     public CreateCustomerPaymentProfileRequest(CustomerPaymentProfile paymentProfile) {
         this();
         this.paymentProfile = paymentProfile;
-        this.requestType = 'createCustomerPaymentProfile';
     }
 
     public void setCustomerProfileId(String customerProfileId) {

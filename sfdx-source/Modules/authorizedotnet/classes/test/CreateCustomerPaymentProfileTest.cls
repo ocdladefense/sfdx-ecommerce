@@ -5,6 +5,12 @@ public class CreateCustomerPaymentProfileTest {
     }
 
     @isTest static void CreateCustomerPaymentProfile() {
+
+        if (Test.isRunningTest()){
+            Test.setMock(HttpCalloutMock.class, new AuthorizeDotNetServiceMock());
+        }
+
+
         //variables
         Address address = new Address('Sebastian', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
         CreditCard card = new CreditCard('4111111111111122','11/2024');
@@ -19,24 +25,24 @@ public class CreateCustomerPaymentProfileTest {
         //request
         CreateCustomerPaymentProfileRequest req = new CreateCustomerPaymentProfileRequest();
         req.setPaymentProfile(paymentProfile);
+        System.assert(req.getRequestType() == 'createCustomerPaymentProfile');
+
         
-        string result = req.getBody();
+        String result = req.getBody();
         Boolean idPresent = result.contains('customerProfileId');
 
-        System.assertEquals(true, idPresent, 'this request should have customerProfileId');
+        String msg1 = 'This request should have customerProfileId.';
+        System.assertEquals(true, idPresent, message);
 
-        //client or mock
-        AuthorizeDotNetServiceMock mock = new AuthorizeDotNetServiceMock();
-        if (Test.isRunningTest()){
-            Test.setMock(HttpCalloutMock.class, mock);
-        }
+        
+
         
         AuthorizeDotNetClient client = new AuthorizeDotNetClient();
 
         //response
         CreateCustomerPaymentProfileResponse resp = (CreateCustomerPaymentProfileResponse)client.send(req);
         
-        Boolean success = resp.success();
-        System.assertEquals(true, success, 'success should return true');
+        String msg2 = 'The response should return a 200 response code.';
+        System.assert(resp.success(), msg2);
     }
 }
