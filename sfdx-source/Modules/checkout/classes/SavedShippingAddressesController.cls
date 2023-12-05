@@ -37,6 +37,8 @@ public with sharing class SavedShippingAddressesController {
         else{
             this.shipToList = mock ? sampleCustomerShipToList() : this.shipToCollection.getAsList();
         }
+
+        this.defaultShippingAddressId = this.getDefaultShippingAddressId();
         
 
     }

@@ -8,7 +8,7 @@
 <apex:form id="ShipToForm">
         <apex:pageBlock >
                 <apex:outputText >
-                    {!c.FirstName & ' ' & c.LastName}
+                    <div>Default shipping address id is {!defaultShippingAddressId}</div>
                 </apex:outputText>
         </apex:pageBlock>
             <apex:outputPanel rendered="{!IF(shipToList.size != 0, true, false)}">
@@ -18,45 +18,48 @@
                     <apex:param name="action" value="new"/>
                 </apex:commandLink>
             </apex:pageBlock>
-
-            <div class="content">
-                <apex:pageMessages ></apex:pageMessages>
-                <apex:repeat value="{!shipToList}" var="shipTo" rendered="{!IF(shipToList.size != 0, true, false)}">
-                    <div style="margin: 1.5em" class="select">
-                        <span class="card-data">{!shipTo.firstName & ' ' & shipTo.lastName}</span>
-                        <br />
-                        <span class="card-data">{!shipTo.company}</span>
-                        <br />
-                        <span class="card-data">{!shipTo.address}</span>
-                        <br />
-                        <span class="card-data" >{!shipTo.city & ', '& shipTo.state & ' '&  shipTo.zip}</span>
+            <apex:pageBlock>
+                <div class="content">
+                    <apex:pageMessages ></apex:pageMessages>
+                    <apex:repeat value="{!shipToList}" var="shipTo" rendered="{!IF(shipToList.size != 0, true, false)}">
+                        
+                        <div style="margin: 1.5em" class="select">
+                            <span class="card-data">{!shipTo.firstName & ' ' & shipTo.lastName}</span>
+                            <br />
+                            <span class="card-data">{!shipTo.company}</span>
+                            <br />
+                            <span class="card-data">{!shipTo.address}</span>
+                            <br />
+                            <span class="card-data" >{!shipTo.city & ', '& shipTo.state & ' '&  shipTo.zip}</span>
+        
+                            <br />
+                            <span>{!shipTo.customerAddressId}</span>
+                            <br />
+                            
+                            
+                            <apex:pageBlockSection columns="1" rendered="{!IF(shipTo.customerAddressId == defaultShippingAddressId, true, false)}">
+                                <apex:outputText  value="" label= "Default Shipping Address"> </apex:outputText>
+                            </apex:pageBlockSection>
     
-                        <br />
-                        <span>{!shipTo.customerAddressId}</span>
-                        <br />
-                        
-                        
-                        <apex:pageBlockSection title="Default shiiping address" columns="1"  rendered="{!IF(shipTo.customerAddressId == defaultShippingAddressId, true, false)}">
-                            <!-- <apex:inputCheckbox value="{!defaultShippingAddress}" label= "Default Shipping Address"> </apex:inputCheckbox> -->
-                        </apex:pageBlockSection>
-
-                        <div class="actions" style= "display:flex;" >
-                            <div style="margin-right:1.5em;">
-                                <apex:commandLink value="Edit" action="{!setShippingMethod}">
-                                    <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}"/>    
-                                    <apex:param name="action" value="update"/>
-                                </apex:commandLink>
-                            </div>
-                
-                            <div style="margin-right:1.5em;">
-                                <apex:commandLink value="Delete" onClick="confirmDelete()" action="{!deleteThisAddress}">
-                                    <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}"/>
-                                </apex:commandLink>
+                            <div class="actions" style= "display:flex;" >
+                                <div style="margin-right:1.5em;">
+                                    <apex:commandButton value="Edit" action="{!setShippingMethod}">
+                                        <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}"/>    
+                                        <apex:param name="action" value="update"/>
+                                    </apex:commandButton>
+                                </div>
+                    
+                                <div style="margin-right:1.5em;">
+                                    <apex:commandButton value="Delete" onClick="confirmDelete()" action="{!deleteThisAddress}">
+                                        <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}"/>
+                                    </apex:commandButton>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </apex:repeat>
-            </div>
+                    </apex:repeat>
+                </div>
+              
+            </apex:pageBlock>
             </apex:outputPanel>
             <apex:outputPanel rendered="{!IF(shipToList.size == 0, true, false)}">
                 <apex:pageBlock >
