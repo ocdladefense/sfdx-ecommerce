@@ -11,9 +11,6 @@ public with sharing class AuthNetAddressCollection {
     }
     //customerProfile
     public AuthNetAddressCollection(List<AuthNetAddress> addresses) {
-        this.addresses=addresses;
-
-        String defaultCustomerShippingAddressId = this.getDefaultShippingAddressId();
         
         List<AuthNetAddress> tmp = addresses;
         
@@ -42,13 +39,45 @@ public with sharing class AuthNetAddressCollection {
         
         this.addresses = defaultFirst;
     }
+
+    public AuthNetAddressCollection(List<AuthNetAddress> addresses, String defaultCustomerAddressId) {
+        
+        List<AuthNetAddress> tmp = addresses;
+        
+        
+		List<AuthNetAddress> options = new List<AuthNetAddress>();
+        
+       	List<AuthNetAddress> defaultFirst = new List<AuthNetAddress>();
+        
+        for(AuthNetAddress addy : tmp) {
+
+            theMap.put(addy.getCustomerAddressId(), addy);
+
+            if(addy.getCustomerAddressId()==defaultCustomerAddressId) {
+                defaultFirst.add(addy);
+            }
+              
+            else {
+            	
+                options.add(addy);
+            }
+        }
+        
+        // Effectively appends others *after the default option,
+        // keeping the default first in the list.
+        defaultFirst.addAll(options);
+        
+        this.addresses = defaultFirst;
+    }
     
     public List<AuthNetAddress> getAsList() {
 
     
         return null ==this.addresses? new List<AuthNetAddress>() : this.addresses;
     }
-    
+    public Map<String, Object> getAsMap(){
+        return null ==this.theMap? new Map<String, Object>() : this.theMap;
+    }
     
     public AuthNetAddress getDefault() {
         return this.size() > 0 ? this.addresses[0] : null;

@@ -134,9 +134,16 @@ public class AuthNetAddress extends AuthorizeDotNetType {
     public String getCountry() {
         return country;
     }
-  
+
+    public Boolean getDefaultShippingAddress(){
+        return this.isDefault();
+    }
 
     // Setters------------------------
+
+    public void setDefaultShippingAddress(Boolean defaultShippingAddress){
+        this.defaultShippingAddress = defaultShippingAddress;
+    }
     public void setCustomerAddressId(string customerAddressId){
         this.customerAddressId = customerAddressId;
     }

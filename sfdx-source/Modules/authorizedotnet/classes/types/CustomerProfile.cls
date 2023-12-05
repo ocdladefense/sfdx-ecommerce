@@ -132,10 +132,6 @@ public class CustomerProfile extends AuthorizeDotNetType {
     }
 
 
-    //return authnetaddresscollection
-    public AuthNetAddressCollection getShipToCollection(){
-        return null;
-    }
     //return paymentprofile 
     public CustomerPaymentProfileCollection getPaymentProfileCollection(){
         return null;
@@ -183,11 +179,26 @@ public class CustomerProfile extends AuthorizeDotNetType {
             GetCustomerShippingAddressResponse resp = (GetCustomerShippingAddressResponse)client.send(req);
 
             if(resp.success() && resp.getDefaultShippingAddress()){
+                //set it as well?
+                //address.setDefaultShipToAddress(true);
                 return address.getCustomerAddressId();
-
             }
         }
         //not found
+        return null;
+    }
+
+    public AuthNetAddress getDefaultShippingAddress() {
+        
+        String defaultCustomerAddressId = this.getDefaultShippingAddressId();
+           
+
+        for(AuthNetAddress address : this.shipToList) {
+            if(address.getCustomerAddressId()==defaultCustomerAddressId) {
+                return address;
+            }
+        }
+
         return null;
     }
 }
