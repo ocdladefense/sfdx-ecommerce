@@ -6,7 +6,7 @@ public class ShippingAddressTest {
 
     @isTest static void createCustomerShippingAddressDefaultConstructor(){
         //request is connected?
-        Address address = new Address('M.', 'Williams', '1000 10th Ave', 'Eugene', 'OR', '97401');
+        AuthNetAddress address = new AuthNetAddress('M.', 'Williams', '1000 10th Ave', 'Eugene', 'OR', '97401');
         CreateCustomerShippingAddressRequest req = new CreateCustomerShippingAddressRequest();
         req.setAddress(address);
         req.setCustomerProfileId('1234');
@@ -41,7 +41,7 @@ public class ShippingAddressTest {
 
     @isTest static void createCustomerShippingAddress(){
         //request is connected?
-        Address theAddress = new Address('M.', 'Williams', '1000 10th Ave', 'Eugene', 'OR', '97401');
+        AuthNetAddress theAddress = new AuthNetAddress('M.', 'Williams', '1000 10th Ave', 'Eugene', 'OR', '97401');
         CreateCustomerShippingAddressRequest req = new CreateCustomerShippingAddressRequest(theAddress);
         req.setAddress(theAddress);
         req.setCustomerProfileId('1234');
@@ -85,7 +85,7 @@ public class ShippingAddressTest {
 
     @isTest static void updateCustomerShippingAddress(){
         //request
-        Address newAddress = new Address('J.', 'Berna', '214 NW Monroe Ave', 'Albany', 'OR', '97330');
+        AuthNetAddress newAddress = new AuthNetAddress('J.', 'Berna', '214 NW Monroe Ave', 'Albany', 'OR', '97330');
         newAddress.setCompany('OCDLA');
         newAddress.setfaxNumber('555-555-5555');
         newAddress.setPhoneNumber('556-556-6666');
@@ -120,7 +120,7 @@ public class ShippingAddressTest {
         //request
         UpdateCustomerShippingAddressRequest req = new UpdateCustomerShippingAddressRequest();
         req.setCustomerProfileId('1234');
-        Address newAddress = new Address('J.', 'Berna', '214 NW Monroe Ave', 'Albany', 'OR', '97330');
+        AuthNetAddress newAddress = new AuthNetAddress('J.', 'Berna', '214 NW Monroe Ave', 'Albany', 'OR', '97330');
         newAddress.setCompany('OCDLA');
         newAddress.setCustomerAddressId('2345');
         req.setAddress(newAddress);
@@ -129,7 +129,7 @@ public class ShippingAddressTest {
         req.setDefaultShippingAddress(!currentDefault);
         Assert.areNotEqual(currentDefault, req.getDefaultShippingAddress());
 
-        Address addressFromReq = req.getAddress();
+        AuthNetAddress addressFromReq = req.getAddress();
         System.assert('2345' == addressFromReq.getCustomerAddressId());
 
         System.assertEquals('1234', req.getCustomerProfileId());
@@ -199,7 +199,7 @@ public class ShippingAddressTest {
     @isTest static void deleteCustomerShippingAddressDefaultConstructor(){
         
         //request
-        Address theAddress = new Address('M.', 'Williams', '1000 10th Ave', 'The Moon', 'OR', '97401');
+        AuthNetAddress theAddress = new AuthNetAddress('M.', 'Williams', '1000 10th Ave', 'The Moon', 'OR', '97401');
         theAddress.setCustomerAddressId('3456');
 
         DeleteCustomerShippingAddressRequest req = new DeleteCustomerShippingAddressRequest();
