@@ -13,8 +13,14 @@ public class CustomerProfile extends AuthorizeDotNetType {
     public String email;
 
     public List<AuthNetAddress> shipToList;
+
+    //collection or list
     
     public CustomerProfile() {}
+
+    public CustomerProfile (String customerProfileId){
+        this.customerProfileId = customerProfileId;
+    }
 
     /*
     public CustomerProfile(CustomerPaymentProfile paymentprofile) {
@@ -122,6 +128,66 @@ public class CustomerProfile extends AuthorizeDotNetType {
             }
         }
 
+        return null;
+    }
+
+
+    //return authnetaddresscollection
+    public AuthNetAddressCollection getShipToCollection(){
+        return null;
+    }
+    //return paymentprofile 
+    public CustomerPaymentProfileCollection getPaymentProfileCollection(){
+        return null;
+    }
+
+    public AuthNetAddressCollection getShipToCollection(String customerProfileId) {
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+        //take shipToList and send it
+        GetCustomerProfileRequest req = new GetCustomerProfileRequest();
+        req.setCustomerProfileId(customerProfileId);
+        //AuthorizeDotNetClient tempClient = new AuthorizeDotNetClient();
+        Boolean isClientNull = client==null;
+        if(isClientNull){
+            throw new CheckoutException('AuthorizeDotNetClient must not be null');
+        }
+        GetCustomerProfileResponse resp = (GetCustomerProfileResponse) client.send(req);
+        CustomerProfile profile = resp.getProfile();
+        if(profile.getShipToList()==null){
+            // ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'No saved addresses found. Please add an address.'));
+            // return new Pagereference('/apex/AddShippingAddress');
+            return null;
+
+        }
+        AuthNetAddressCollection collection = new AuthNetAddressCollection(profile.getShipToList());
+
+        return collection;
+    }
+
+    public string getDefaultShippingAddressId(){
+
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+
+        for (AuthNetAddress address : this.shipToList)
+        {
+            GetCustomerShippingAddressRequest req = new GetCustomerShippingAddressRequest();
+        
+            req.setCustomerAddressId(address.getCustomerAddressId());
+            req.setCustomerProfileId(customerProfileId);
+    
+            Boolean isClientNull = client==null;
+            if(isClientNull){
+                throw new CheckoutException('AuthorizeDotNetClient must not be null');
+            }
+            
+            GetCustomerShippingAddressResponse resp = (GetCustomerShippingAddressResponse)client.send(req);
+
+            if(resp.success() && resp.getDefaultShippingAddress()){
+                return address.getCustomerAddressId();
+
+            }
+        }
+        //not found
         return null;
     }
 }

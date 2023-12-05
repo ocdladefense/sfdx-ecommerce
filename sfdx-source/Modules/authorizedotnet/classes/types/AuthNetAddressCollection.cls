@@ -2,8 +2,6 @@ public with sharing class AuthNetAddressCollection {
     
 
     public List<AuthNetAddress> addresses;
-
-    public List<AuthNetAddress> authNetAddresses;
     
     public Map<String, Object> theMap =new Map<String, AuthNetAddress>();
 
@@ -11,8 +9,11 @@ public with sharing class AuthNetAddressCollection {
 
         this.addresses= new List<AuthNetAddress>();
     }
-    
+    //customerProfile
     public AuthNetAddressCollection(List<AuthNetAddress> addresses) {
+        this.addresses=addresses;
+
+        String defaultCustomerShippingAddressId = this.getDefaultShippingAddressId();
         
         List<AuthNetAddress> tmp = addresses;
         
@@ -43,7 +44,9 @@ public with sharing class AuthNetAddressCollection {
     }
     
     public List<AuthNetAddress> getAsList() {
-        return this.addresses;
+
+    
+        return null ==this.addresses? new List<AuthNetAddress>() : this.addresses;
     }
     
     
