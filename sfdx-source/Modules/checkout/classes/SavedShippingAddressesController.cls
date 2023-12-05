@@ -7,11 +7,13 @@ public with sharing class SavedShippingAddressesController {
 
     public Contact c {get; set;}
     
-    public List<Address> shipToList {get; set;}
+    public List<AuthNetAddress> shipToList {get; set;}
 
-    public AddressCollection shipToCollection {get; set;}
+    public AuthNetAddressCollection shipToCollection {get; set;}
     
     public String customerAddressId {get; set;}
+
+    public String defaultShippingAddressId {get; set;}
     
     private static final Boolean mock = False;
     
@@ -27,10 +29,10 @@ public with sharing class SavedShippingAddressesController {
         this.shipToCollection = getShipToCollection(customerProfileId);
 
         if(this.shipToCollection==null){
-            this.shipToCollection= new AddressCollection();
+            this.shipToCollection= new AuthNetAddressCollection();
             system.debug('no list');
             ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'Address list is ' + this.shipToCollection.getAsList().size()));
-            this.shipToList =new List<Address>();
+            this.shipToList =new List<AuthNetAddress>();
         }
         else{
             this.shipToList = mock ? sampleCustomerShipToList() : this.shipToCollection.getAsList();
@@ -112,7 +114,7 @@ public with sharing class SavedShippingAddressesController {
 
     }
 
-    public AddressCollection getShipToCollection(String customerProfileId) {
+    public AuthNetAddressCollection getShipToCollection(String customerProfileId) {
         
         GetCustomerProfileRequest req = new GetCustomerProfileRequest();
         req.setCustomerProfileId(customerProfileId);
@@ -129,14 +131,14 @@ public with sharing class SavedShippingAddressesController {
             return null;
 
         }
-        AddressCollection collection = new AddressCollection(profile.getShipToList());
+        AuthNetAddressCollection collection = new AuthNetAddressCollection(profile.getShipToList());
 
         return collection;
     }
-    public static List<Address> sampleCustomerShipToList() {
-        List<Address> addressList = new List<Address>();
-        Address shipTo1 = new Address('Ralph', 'Williams', '19645 Andrew Ln', 'Reno', 'NV', '89521');
-        Address ShipTo2 = new Address('Sebastian', 'Williams-Wilson', '200 Mountain View Dr.', 'Reno', 'NV', '89511');
+    public static List<AuthNetAddress> sampleCustomerShipToList() {
+        List<AuthNetAddress> addressList = new List<AuthNetAddress>();
+        AuthNetAddress shipTo1 = new AuthNetAddress('Ralph', 'Williams', '19645 Andrew Ln', 'Reno', 'NV', '89521');
+        AuthNetAddress ShipTo2 = new AuthNetAddress('Sebastian', 'Williams-Wilson', '200 Mountain View Dr.', 'Reno', 'NV', '89511');
         shipTo2.setCompany('Dog Walks by Dogs');
         addressList.add(shipTo1);
         addressList.add(shipTo2);
@@ -153,7 +155,33 @@ public with sharing class SavedShippingAddressesController {
         String defaultAddressId = shipToCollection.getDefault().getCustomerAddressId();
         return defaultAddressId == customerAddressId? true : false;
     }
-  
+    
+    public string getDefaultShippingAddressId(){
+
+        String defaultShippingAddressId;
+
+        for (AuthNetAddress address : shipToList)
+        {
+            GetCustomerShippingAddressRequest req = new GetCustomerShippingAddressRequest();
+        
+            req.setCustomerAddressId(address.getCustomerAddressId());
+            req.setCustomerProfileId(customerProfileId);
+    
+            Boolean isClientNull = client==null;
+            if(isClientNull){
+                throw new CheckoutException('AuthorizeDotNetClient must not be null');
+            }
+            
+            GetCustomerShippingAddressResponse resp = (GetCustomerShippingAddressResponse)client.send(req);
+
+            if(resp.success() && resp.getDefaultShippingAddress()){
+                defaultShippingAddressId = address.getCustomerAddressId();
+                break;
+            }
+        }
+        //not found
+        return defaultShippingAddressId;
+    }
     public PageReference redirectToAddShippingAddress() {
         return new PageReference('/apex/AddShippingAddress');
     }

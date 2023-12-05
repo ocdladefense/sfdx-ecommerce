@@ -12,7 +12,7 @@ public class CustomerProfile extends AuthorizeDotNetType {
 
     public String email;
 
-    public List<Address> shipToList;
+    public List<AuthNetAddress> shipToList;
     
     public CustomerProfile() {}
 
@@ -107,11 +107,11 @@ public class CustomerProfile extends AuthorizeDotNetType {
         this.paymentProfiles.add(paymentProfile);
     }
 
-    public List<Address> getShipToList(){
+    public List<AuthNetAddress> getShipToList(){
         return this.shipToList;
     }
 
-    public void setShipToList(List<Address> shipToList) {
+    public void setShipToList(List<AuthNetAddress> shipToList) {
         this.shipToList = shipToList;
     }
 
