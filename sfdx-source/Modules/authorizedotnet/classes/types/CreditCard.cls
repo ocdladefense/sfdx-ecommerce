@@ -22,7 +22,7 @@ public class CreditCard extends AuthorizeDotNetType {
     public CreditCard(String cardNumber, Date theDate) {
         this();
         this.cardNumber = cardNumber;
-        //this.expirationDate = formatToValidDate(CreditCard.dateToString(expirationDate));
+        this.expirationDate = AuthorizeDotNet.formatDateString(AuthorizeDotNet.dateToString(theDate));
     }
 
 
