@@ -6,7 +6,7 @@ public virtual class HttpClient {
 
 
     public HttpClient() {
-
+        endpoints = new Map<String,String>();
     }
 
     public HttpResponseMessage send(HttpRequestMessage r) {

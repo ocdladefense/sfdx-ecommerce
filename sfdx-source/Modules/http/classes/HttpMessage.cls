@@ -41,7 +41,7 @@ public virtual class HttpMessage {
         }
 
         if('application/json' == contentType) {
-            return JSON.deserialize(this.body, Map<String,String>.class);
+            return JSON.deserializeUntyped(this.body);
         }
         
         return this.body;

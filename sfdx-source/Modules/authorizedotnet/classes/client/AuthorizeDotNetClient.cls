@@ -1,36 +1,12 @@
 public class AuthorizeDotNetClient extends HttpClient {
-      	
-    //can be used in production and testing
     
 	private static final Integer CALLOUT_TIMEOUT = 60000;
     
-    private static final String endpoint = 'ccAuthorize';
     
-    private static final String protocol = 'https'; 
     
-    public static final String GATEWAY_SANDBOX_URL = 'membertest.ocdla.org';
+    public AuthorizeDotNetClient() {}
     
-    public static final String GATEWAY_PRODUCTION_URL = 'members.ocdla.org';
 
-
-    private String url;
-    
-    
-    
-    public AuthorizeDotNetClient() {
-        
-    }
-    
-    //copied to be like QuickBooksClient as private instance method
-    //class would not deploy without value
-    private String getAccessToken() {
-        return 'foobar';
-    }
-    
-    public AuthorizeDotNetClient(String url) {
-        this.url = url;
-    }
-    
 
 
 
@@ -55,8 +31,8 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
         breq.setEndpoint('https://apitest.authorize.net/xml/v1/request.api');
         breq.setMethod('POST');
         breq.setHeader('Content-Type', 'application/json');
-        breq.setHeader('X-Response-Type', responseType);
         breq.setHeader('X-Request-Type', requestType);
+        breq.setHeader('X-Response-Type', responseType);
         breq.setBody(reqBody);
         
         if(null != req.getHeaders()) {
@@ -100,19 +76,12 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
     
 
 
-    public String getEndpoint(){
-        return endPoint;
-    }
-    
-    public String getProtocol(){
-        return protocol;
-    }
-    
+    /*
     public static String getDomain(){
         Organization org = [SELECT Id, InstanceName, IsSandbox FROM Organization WHERE Id = :UserInfo.getOrganizationId()];
         
         return org.IsSandbox ? GATEWAY_SANDBOX_URL  : GATEWAY_PRODUCTION_URL;
     }
-
+    */
 
 }

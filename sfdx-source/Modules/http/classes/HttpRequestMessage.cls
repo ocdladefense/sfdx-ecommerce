@@ -3,19 +3,20 @@ public virtual class HttpRequestMessage extends HttpMessage {
 
     protected String endpoint;
 
-    protected String method;// = 'GET';
+    protected String method = 'GET';
 
     protected Map<String,String> params;
 
 
     public HttpRequestMessage() {
         super();
+        params = new Map<String,String>();
     }
 
     public void setBody(Map<String,String> body) {
         String contentType = this.headers.get('Content-Type');
         
-        if(null == contentType || contentType == 'application/javascript') {
+        if(null == contentType || contentType == 'application/json') {
             this.body = JSON.serialize(body);
         }
         else if('application/x-www-form-urlencoded' == contentType) {
