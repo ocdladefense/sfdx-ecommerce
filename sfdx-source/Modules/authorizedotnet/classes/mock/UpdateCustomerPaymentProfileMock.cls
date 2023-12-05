@@ -1,5 +1,5 @@
-public class UpdateCustomerPaymentProfileMockResponse extends AuthorizeDotNetResponse implements IMockResponse {
-    public UpdateCustomerPaymentProfileMockResponse() {
+public class UpdateCustomerPaymentProfileMock extends AuthorizeDotNetResponse implements IMockResponse {
+    public UpdateCustomerPaymentProfileMock() {
 
     }
 

@@ -1,5 +1,5 @@
-public with sharing class GetCustomerProfileMockResponse extends AuthorizeDotNetResponse implements IMockResponse {
-    public GetCustomerProfileMockResponse() {
+public class GetCustomerProfileMock extends AuthorizeDotNetResponse implements IMockResponse {
+    public GetCustomerProfileMock() {
 
     }
 

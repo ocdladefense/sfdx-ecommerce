@@ -1,5 +1,5 @@
-public class CreateCustomerPaymentProfileMockResponse extends AuthorizeDotNetResponse implements IMockResponse {
-    public CreateCustomerPaymentProfileMockResponse() {
+public class CreateCustomerPaymentProfileMock extends AuthorizeDotNetResponse implements IMockResponse {
+    public CreateCustomerPaymentProfileMock() {
         // Setup all of your mock data here.
     }
 

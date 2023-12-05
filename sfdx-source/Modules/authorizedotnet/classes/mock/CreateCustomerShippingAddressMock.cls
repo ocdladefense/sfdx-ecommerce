@@ -1,5 +1,5 @@
-public with sharing class CreateCustomerShippingAddressMockResp extends AuthorizeDotNetResponse implements IMockResponse{
-    public CreateCustomerShippingAddressMockResp() {
+public class CreateCustomerShippingAddressMock extends AuthorizeDotNetResponse implements IMockResponse{
+    public CreateCustomerShippingAddressMock() {
 
     }
 

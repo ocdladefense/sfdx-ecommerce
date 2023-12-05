@@ -13,7 +13,7 @@ public class AuthorizeDotNetServiceMock implements HttpCalloutMock {
         
         String requestType = req.getHeader('X-Request-Type');
         System.debug(requestType);
-        String responseType = requestType.capitalize()+'MockResponse';
+        String responseType = requestType.capitalize()+'Mock';
        
  
 
