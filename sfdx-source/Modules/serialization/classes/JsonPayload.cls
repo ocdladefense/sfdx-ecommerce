@@ -116,10 +116,13 @@ public class JsonPayload {
 
 
     public void writeStringField(String fieldName, String fieldValue) {
+        if(null == fieldValue || null == fieldName) {
+            throw new JsonPayloadException('Error when writing string field: '+fieldName);
+        }
         gen.writeStringField(fieldName, fieldValue);
     }
 
-    public void writeNumberField(String fieldName, INteger fieldValue) {
+    public void writeNumberField(String fieldName, Integer fieldValue) {
         gen.writeNumberField(fieldName, fieldValue);
     }
 

@@ -64,7 +64,7 @@ public virtual class AuthorizeDotNetType implements IOrderedMap {
     }
 
     public virtual Map<String,Object> toMap() {
-        String theJson = JSON.serialize(this);
+        String theJson = this.data.values().size() > 0 ? JSON.serialize(this.data) : JSON.serialize(this);
         // deserialize address String into Map<String, Object>
         return (Map<String, Object>)JSON.deserializeUntyped(theJson);
     }
