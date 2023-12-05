@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ApexTestSuite xmlns="http://soap.sforce.com/2006/04/metadata">
+    <testClassName>CreateCustomerPaymentProfileTest</testClassName>
+    <testClassName>CustomerPaymentProfileTest</testClassName>
+    <testClassName>CustomerProfileTest</testClassName>
+    <testClassName>DeleteCustomerPaymentProfileTest</testClassName>
+    <testClassName>GetCustomerPaymentProfileTest</testClassName>
+    <testClassName>ShippingAddressTest</testClassName>
+    <testClassName>UpdateCustomerPaymentProfileTest</testClassName>
+</ApexTestSuite>

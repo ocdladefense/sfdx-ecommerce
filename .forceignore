@@ -146,3 +146,6 @@ sfdx-source/Core/packages/core/vendor/fon
 
 
 **/aura/**
+
+sfdx-source/unpackaged
+sfdx-source/untracked
