@@ -4,13 +4,13 @@ public class CreditCard extends AuthorizeDotNetType {
     
     private String expirationDate;
     
-    private String unmaskedExpirationDate; // not used any more?
+    private String unmaskedExpirationDate;
     
     //public String cardType {public get{ return getType(); }}
 
     private String cardType;
     
-    private Boolean dateIsMasked; // not used any more?
+    private Boolean dateIsMasked;
     
     private String cvv;
 
@@ -77,8 +77,7 @@ public class CreditCard extends AuthorizeDotNetType {
 
     }
 
-    // Authorize.net sets the card type when payment method is stored on their server.
-    // This method is not needed unless it has another use.
+    
     public String getType() {
 
         if(null == cardNumber) {
