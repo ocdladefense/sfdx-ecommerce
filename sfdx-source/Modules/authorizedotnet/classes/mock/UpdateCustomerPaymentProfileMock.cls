@@ -1,3 +1,4 @@
+@isTest
 public class UpdateCustomerPaymentProfileMock extends AuthorizeDotNetResponse implements IMockResponse {
     public UpdateCustomerPaymentProfileMock() {
 

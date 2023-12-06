@@ -1,3 +1,4 @@
+@isTest
 public class DeleteCustomerPaymentProfileMock extends AuthorizeDotNetResponse implements IMockResponse{
     
     private boolean isErrorTest;
