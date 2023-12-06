@@ -120,8 +120,22 @@ public class CustomerPaymentProfileTest {
         Address address = new Address('Sebastian', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
         CreditCard card = new CreditCard('4111111111111122','11/2024');
         Payment payment = new Payment(card);
+
+        CreditCard cardForMap = new CreditCard('4111111111115555','05/2028');
+        Payment payForMap = new Payment(cardForMap);
+        Address addrForMap = new Address('Map', 'Mapperton', '365 Map Rd', 'New Map', 'Map-opolis', '78542');
+
         CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile();
-        Map<String,Object> testMap = new Map<String,Object>();
+        Map<String,Object> cardMap = payForMap.toMap();
+        Map<String,Object> addrMap = new Map<String,Object> {
+            'firstName' => 'Map',
+            'lastName' => 'Mapperton',
+            'address' => '365 Map Rd',
+            'city' => 'New Map',
+            'state' => 'Map-opolis',
+            'zip' => '78542',
+            'country' => 'US'
+        };
 
         // Assert variables are null
         System.assertEquals(null, paymentProfile.getPayment());
@@ -139,7 +153,13 @@ public class CustomerPaymentProfileTest {
 
         // Assert setters worked
         System.assertEquals(address, paymentProfile.getBillTo());
-        //System.assertEquals(payment, paymentProfile.getPayment());
         System.assertEquals(card, paymentProfile.getPayment().getCreditCard());
+
+        // Tests FromMap methods
+        card = CustomerPaymentProfile.newCardFromPaymentMap(cardMap);
+        address = CustomerPaymentProfile.newAddressFromMap(addrMap);
+        
+        System.assertEquals(cardForMap, card);
+        System.assertEquals(addrForMap, address);
     }
 }
