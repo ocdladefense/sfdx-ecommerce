@@ -5,17 +5,13 @@ public with sharing class ShippingMethodController {
 
     String customerProfileId {get; set;}
 
-    //String customerAddressId {get; set;}
-
-    //public Contact c {get; set;}
-
     public AuthNetAddress shipTo {get; set;}
 
     public Boolean defaultShippingAddress {get; set;}
 
     public String title {get; private set;}
 
-    public string action{get; set;}
+    public String action{get; set;}
 
     public ShippingMethodController() {
 
@@ -24,12 +20,12 @@ public with sharing class ShippingMethodController {
         Map<String,String> params = ApexPages.currentPage().getParameters();
         this.action = params.get('action');
         
-         String customerAddressId = params.get('customerAddressId');
+        String customerAddressId = params.get('customerAddressId');
         
 		this.client = new AuthorizeDotNetClient();
 
         GetCustomerShippingAddressResponse resp;
-
+        
         if(customerAddressId!=null){
             resp = doLoadAction(customerAddressId);
         }
@@ -70,6 +66,7 @@ public with sharing class ShippingMethodController {
         //shipTo.setCustomerAddressId(customerAddressId);
         UpdateCustomerShippingAddressRequest req = new UpdateCustomerShippingAddressRequest (shipTo);
         req.setCustomerProfileId(customerProfileId);
+        system.debug(defaultShippingAddress);        
         req.setDefaultShippingAddress(defaultShippingAddress);
         
         System.debug(req.getBody());

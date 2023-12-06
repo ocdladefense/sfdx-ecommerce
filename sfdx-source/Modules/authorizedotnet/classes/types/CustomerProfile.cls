@@ -137,68 +137,74 @@ public class CustomerProfile extends AuthorizeDotNetType {
         return null;
     }
 
-    public AuthNetAddressCollection getShipToCollection(String customerProfileId) {
+    public AuthNetAddressCollection getShipToCollection() {
+      
+        if(this.shipToList == null){
+            throw new AuthorizeDotNetException ('shipToList must not be null');
+        }
+        if(this.shipToList.size()>0){
+            System.debug('about to find default');
+            AuthNetAddress theDefaultAddress = this.getDefaultShippingAddressFromList();
+            if(theDefaultAddress == null){
+                System.debug('no default address found');
+            }
+            else{
+                system.debug('about to set default address boolean in shipToList');
+                for (AuthNetAddress address : this.shipToList){
+                    if(address.getCustomerAddressId()==theDefaultAddress.getCustomerAddressId())
+                    {
+                        System.debug('setting');
+                        address.setDefaultShippingAddress(true);
+                    }
+                }
+            }
+            
+        }
+
+
+        AuthNetAddressCollection collection = this.shipToList!=null? new AuthNetAddressCollection(this.shipToList): null;
+        System.debug(collection.size() + 'addresses in collection');
+        return collection;
+
+        //should this method also call requestDefaultShippingAddress?
+    }
+
+    public AuthNetAddress getDefaultShippingAddressFromList(){
+        System.debug('about to iterate');
         AuthorizeDotNetClient client = new AuthorizeDotNetClient();
-        //take shipToList and send it
-        GetCustomerProfileRequest req = new GetCustomerProfileRequest();
-        req.setCustomerProfileId(customerProfileId);
-        //AuthorizeDotNetClient tempClient = new AuthorizeDotNetClient();
+
         Boolean isClientNull = client==null;
         if(isClientNull){
             throw new CheckoutException('AuthorizeDotNetClient must not be null');
         }
-        GetCustomerProfileResponse resp = (GetCustomerProfileResponse) client.send(req);
-        CustomerProfile profile = resp.getProfile();
-        if(profile.getShipToList()==null){
-            // ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'No saved addresses found. Please add an address.'));
-            // return new Pagereference('/apex/AddShippingAddress');
-            return null;
-
+        
+        if (this.shipToList.size()==0){
+            System.debug('nothing in list');
         }
-        AuthNetAddressCollection collection = new AuthNetAddressCollection(profile.getShipToList());
-
-        return collection;
-    }
-
-    public string getDefaultShippingAddressId(){
-
-        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
-
+        else{
+            System.debug('something in list');
+        }
         for (AuthNetAddress address : this.shipToList)
         {
-            GetCustomerShippingAddressRequest req = new GetCustomerShippingAddressRequest();
-        
-            req.setCustomerAddressId(address.getCustomerAddressId());
-            req.setCustomerProfileId(customerProfileId);
-    
-            Boolean isClientNull = client==null;
-            if(isClientNull){
-                throw new CheckoutException('AuthorizeDotNetClient must not be null');
-            }
-            
-            GetCustomerShippingAddressResponse resp = (GetCustomerShippingAddressResponse)client.send(req);
+            System.debug('requesting '+ address.getCustomerAddressId());
 
-            if(resp.success() && resp.getDefaultShippingAddress()){
+            GetCustomerShippingAddressRequest req = new GetCustomerShippingAddressRequest();
+            
+            req.setCustomerAddressId(address.getCustomerAddressId());
+
+            req.setCustomerProfileId(customerProfileId);
+
+            GetCustomerShippingAddressResponse resp = (GetCustomerShippingAddressResponse)client.send(req);
+            System.debug(address.getFirstName() + ' is default? ' + resp.getDefaultShippingAddress());
+            if(resp.getDefaultShippingAddress()){
                 //set it as well?
-                //address.setDefaultShipToAddress(true);
-                return address.getCustomerAddressId();
+                System.debug('DEFAULT FOUND');
+                return address;
             }
         }
         //not found
         return null;
     }
 
-    public AuthNetAddress getDefaultShippingAddress() {
-        
-        String defaultCustomerAddressId = this.getDefaultShippingAddressId();
-           
 
-        for(AuthNetAddress address : this.shipToList) {
-            if(address.getCustomerAddressId()==defaultCustomerAddressId) {
-                return address;
-            }
-        }
-
-        return null;
-    }
 }

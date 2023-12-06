@@ -43,16 +43,16 @@
     
                             <div class="actions" style= "display:flex;" >
                                 <div style="margin-right:1.5em;">
-                                    <apex:commandButton value="Edit" action="{!setShippingMethod}">
+                                    <apex:commandLink value="Edit" action="{!setShippingMethod}">
                                         <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}"/>    
                                         <apex:param name="action" value="update"/>
-                                    </apex:commandButton>
+                                    </apex:commandLink>
                                 </div>
                     
                                 <div style="margin-right:1.5em;">
-                                    <apex:commandButton value="Delete" onClick="confirmDelete()" action="{!deleteThisAddress}">
+                                    <apex:commandLink value="Delete" onClick="confirmDelete()" action="{!deleteThisAddress}">
                                         <apex:param name="customerAddressId" value="{!shipTo.customerAddressId}"/>
-                                    </apex:commandButton>
+                                    </apex:commandLink>
                                 </div>
                             </div>
                         </div>
