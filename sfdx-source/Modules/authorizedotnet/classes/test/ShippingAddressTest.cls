@@ -1,10 +1,9 @@
 @isTest
 public class ShippingAddressTest {
-    public ShippingAddressTest() {
 
-    }
 
-    @isTest static void createCustomerShippingAddressDefaultConstructor(){
+    @isTest
+    private static void createCustomerShippingAddressDefaultConstructor(){
         //request is connected?
         AuthNetAddress address = new AuthNetAddress('M.', 'Williams', '1000 10th Ave', 'Eugene', 'OR', '97401');
         CreateCustomerShippingAddressRequest req = new CreateCustomerShippingAddressRequest();
@@ -20,7 +19,7 @@ public class ShippingAddressTest {
         AuthorizeDotNetServiceMock mock = new AuthorizeDotNetServiceMock();
         if (Test.isRunningTest()){
             Test.setMock(HttpCalloutMock.class, mock);
-        }
+        }  
 
         AuthorizeDotNetClient client = new AuthorizeDotNetClient();
 
@@ -39,7 +38,8 @@ public class ShippingAddressTest {
         System.assertEquals(codeFromResult, messageList[0].getCode());
     }
 
-    @isTest static void createCustomerShippingAddress(){
+    @isTest
+    private static void createCustomerShippingAddress(){
         //request is connected?
         AuthNetAddress theAddress = new AuthNetAddress('M.', 'Williams', '1000 10th Ave', 'Eugene', 'OR', '97401');
         CreateCustomerShippingAddressRequest req = new CreateCustomerShippingAddressRequest(theAddress);
@@ -83,7 +83,8 @@ public class ShippingAddressTest {
 
 
 
-    @isTest static void updateCustomerShippingAddress(){
+    @isTest
+    private static void updateCustomerShippingAddress(){
         //request
         AuthNetAddress newAddress = new AuthNetAddress('J.', 'Berna', '214 NW Monroe Ave', 'Albany', 'OR', '97330');
         newAddress.setCompany('OCDLA');
@@ -116,7 +117,8 @@ public class ShippingAddressTest {
 
     }
 
-    @isTest static void updateCustomerShippingAddressDefaultConstructor(){
+    @isTest
+    private static void updateCustomerShippingAddressDefaultConstructor(){
         //request
         UpdateCustomerShippingAddressRequest req = new UpdateCustomerShippingAddressRequest();
         req.setCustomerProfileId('1234');
@@ -157,7 +159,8 @@ public class ShippingAddressTest {
 
     }
 
-    @isTest static void deleteCustomerShippingAddress(){
+    @isTest
+    private static void deleteCustomerShippingAddress(){
         String customerAddressId= '916542102';
         String customerProfileId='916376196';
         //request
@@ -196,7 +199,10 @@ public class ShippingAddressTest {
         List<Message> messageList = messages.getMessage();
         System.assertEquals(codeFromResult, messageList[0].getCode());
     }
-    @isTest static void deleteCustomerShippingAddressDefaultConstructor(){
+
+
+    @isTest
+    private static void deleteCustomerShippingAddressDefaultConstructor(){
         
         //request
         AuthNetAddress theAddress = new AuthNetAddress('M.', 'Williams', '1000 10th Ave', 'The Moon', 'OR', '97401');
@@ -223,7 +229,9 @@ public class ShippingAddressTest {
         System.assertEquals(true, success, 'success should return true');
     }
 
-    @isTest static void deserializeDeleteCustomerShippingAddressResponse(){
+
+    @isTest
+    private static void deserializeDeleteCustomerShippingAddressResponse(){
         String result = '{"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}' ;
         DeleteCustomerShippingAddressResponse shipResp = new DeleteCustomerShippingAddressResponse(result);
         shipResp.deserialize();
@@ -238,7 +246,10 @@ public class ShippingAddressTest {
         System.assertEquals(true, success2, 'success should return true');
 
     }
-    @isTest static void getCustomerShippingAddress(){
+
+
+    @isTest
+    private static void getCustomerShippingAddress(){
         //request
         String customerprofileId='1234';
         String customerAddressId='2345';
@@ -275,7 +286,10 @@ public class ShippingAddressTest {
         System.assertEquals(true, success, 'success should return true');
 
     }
-    @isTest static void deserializeGetCustomerShippingAddressResponse(){
+
+
+    @isTest
+    private static void deserializeGetCustomerShippingAddressResponse(){
 
         String getResult = '{"address":{"customerAddressId":"37457091","firstName":"China","lastName":"Bayles","company":"Thyme for Tea","address":"12 Main Street","city":"Pecan Springs","state":"TX","zip":"44628","country":"US"},"subscriptionIds":["3078184"],"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}' ;
         GetCustomerShippingAddressResponse shipResp = new GetCustomerShippingAddressResponse(getResult);
@@ -294,7 +308,8 @@ public class ShippingAddressTest {
     }
 
 
-    @isTest static void deserializeCreateCustomerShippingAddressResponse(){
+    @isTest
+    private static void deserializeCreateCustomerShippingAddressResponse(){
         //set body through constructor
         //included for code coverage on CreateCustomerShippingAddressResponse
         String result = '{"customerAddressId":"126406","messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}' ;
@@ -330,7 +345,8 @@ public class ShippingAddressTest {
         
     }
 
-    @isTest static void deserializeUpdateCustomerShippingAddressResponse(){
+    @isTest
+    private static void deserializeUpdateCustomerShippingAddressResponse(){
         String result = '{"messages":{"resultCode":"Ok","message":[{"code":"I00001","text":"Successful."}]}}' ;
         UpdateCustomerShippingAddressResponse shipResp = new UpdateCustomerShippingAddressResponse(result);
         shipResp.deserialize();
@@ -347,7 +363,9 @@ public class ShippingAddressTest {
     }
 
 
-    @isTest static void messagesAndMessageConstructors(){
+
+    @isTest
+    private static void messagesAndMessageConstructors(){
         Message message = new Message();
         message.setCode('I00001');
         message.setText('successful message');
@@ -363,8 +381,6 @@ public class ShippingAddressTest {
 
         messages.setResultCode('Ok');
         System.assertEquals('Ok', messages.getResultCode());
-
-
-    }
+    }  
 
 }

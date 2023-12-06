@@ -57,11 +57,8 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
             t = Type.forName('AuthorizeDotNetResponse');
         }
 
-        Object forFormat = JSON.deserializeUntyped(respBodyString);
-        String formatted = JSON.serializePretty(forFormat);
-
-        AuthorizeDotNetResponse resp = (AuthorizeDotNetResponse)JSON.deserialize(formatted, t);
-        resp.setBody(formatted);
+        AuthorizeDotNetResponse resp = (AuthorizeDotNetResponse)JSON.deserialize(respBodyString, t);
+        resp.setBody(respBodyString);
         
 
         return resp;

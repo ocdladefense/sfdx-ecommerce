@@ -7,11 +7,11 @@ public with sharing class SavedShippingAddressesController {
 
     public Contact c {get; set;}
     
-    public List<Address> shipToList {get; set;}
+    public List<AuthNetAddress> shipToList {get; set;}
 
-    public AddressCollection shipToCollection {get; set;}
-    
     public String customerAddressId {get; set;}
+
+    public String defaultShippingAddressId {get; set;}
     
     private static final Boolean mock = False;
     
@@ -21,29 +21,51 @@ public with sharing class SavedShippingAddressesController {
            
         this.client = new AuthorizeDotNetClient();
      
-
-        customerProfileId = CurrentCustomer.getCustomerProfileId();
-
-        this.shipToCollection = getShipToCollection(customerProfileId);
-
-        if(this.shipToCollection==null){
-            this.shipToCollection= new AddressCollection();
-            system.debug('no list');
-            ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'Address list is ' + this.shipToCollection.getAsList().size()));
-            this.shipToList =new List<Address>();
-        }
-        else{
-            this.shipToList = mock ? sampleCustomerShipToList() : this.shipToCollection.getAsList();
-        }
+        this.customerProfileId = CurrentCustomer.getCustomerProfileId();
         
+        // CustomerProfile theProfile = new CustomerProfile(customerProfileId);
+
+        GetCustomerProfileRequest req = new GetCustomerProfileRequest();
+        req.setCustomerProfileId(this.customerProfileId);
+        GetCustomerProfileResponse resp = (GetCustomerProfileResponse) client.send(req);
+        
+        CustomerProfile theProfile = this.loadCustomerProfile();
+
+        if(theProfile==null){
+            throw new CheckoutException ('customer profile must not be null');
+        }
+
+        //method will send getCustomerProfileRequest to get list of shipping addresses 
+        //THEN it will iterate through the list calling getCustomerShippingAddressRequest(s) to find the default shipping address
+        //then it will construct the address collection
+        AuthNetAddressCollection theCollection = theProfile.getShipToCollection();
+
+        //use collection's getDefault method to get the default
+        AuthNetAddress theAddress = theCollection.getDefault();
+
+        System.debug(theAddress);
+        this.defaultShippingAddressId = theAddress.getCustomerAddressId();
+
+        this.shipToList = theCollection.getAsList();   
+
+        system.debug('default is '+ defaultShippingAddressId);
 
     }
+
+    public CustomerProfile loadCustomerProfile(){
+        GetCustomerProfileRequest req = new GetCustomerProfileRequest();
+        req.setCustomerProfileId(this.customerProfileId);
+        GetCustomerProfileResponse resp = (GetCustomerProfileResponse) client.send(req);
+        
+        return resp.success()? resp.getProfile() : null;
+    }
+    
+
     public PageReference setShippingMethod(){
         Map<String,String> params = ApexPages.currentPage().getParameters();
         String action = params.get('action');
         String customerAddressId = params.get('customerAddressId');
-        System.debug(customerAddressId);
-
+      
         System.debug('action = ' + action + ' id = '+ customerAddressId);
 
         Pagereference ShippingMethodPage = new PageReference('/apex/ShippingMethod');
@@ -111,61 +133,10 @@ public with sharing class SavedShippingAddressesController {
 
 
     }
-
-    public AddressCollection getShipToCollection(String customerProfileId) {
-        
-        GetCustomerProfileRequest req = new GetCustomerProfileRequest();
-        req.setCustomerProfileId(customerProfileId);
-        //AuthorizeDotNetClient tempClient = new AuthorizeDotNetClient();
-        Boolean isClientNull = client==null;
-        if(isClientNull){
-            throw new CheckoutException('AuthorizeDotNetClient must not be null');
-        }
-        GetCustomerProfileResponse resp = (GetCustomerProfileResponse) this.client.send(req);
-        CustomerProfile profile = resp.getProfile();
-        if(profile.getShipToList()==null){
-            // ApexPages.addmessage(new ApexPages.message(ApexPages.severity.WARNING,'No saved addresses found. Please add an address.'));
-            // return new Pagereference('/apex/AddShippingAddress');
-            return null;
-
-        }
-        AddressCollection collection = new AddressCollection(profile.getShipToList());
-
-        return collection;
-    }
-    public static List<Address> sampleCustomerShipToList() {
-        List<Address> addressList = new List<Address>();
-        Address shipTo1 = new Address('Ralph', 'Williams', '19645 Andrew Ln', 'Reno', 'NV', '89521');
-        Address ShipTo2 = new Address('Sebastian', 'Williams-Wilson', '200 Mountain View Dr.', 'Reno', 'NV', '89511');
-        shipTo2.setCompany('Dog Walks by Dogs');
-        addressList.add(shipTo1);
-        addressList.add(shipTo2);
-
-        return addressList;
-    }
     
-    public Boolean setDefaultShipToAddress(){
-        return null;
-    }
-    public Boolean isDefaultShippingAddress() {
-        string customerAddressId = Apexpages.currentPage().getParameters().get('customerAddressId');
-
-        String defaultAddressId = shipToCollection.getDefault().getCustomerAddressId();
-        return defaultAddressId == customerAddressId? true : false;
-    }
-  
-    public PageReference redirectToAddShippingAddress() {
-        return new PageReference('/apex/AddShippingAddress');
-    }
-
     public PageReference redirectToShippingMethod() {
         return new PageReference('/apex/ShippingMethod');
     }
-
-    public PageReference redirectToEditShippingAddress() {
-        return new PageReference('/apex/EditShippingAddress');
-    }
-
 
     public PageReference redirectToSavedShippingAddresses() {
         return new Pagereference('/apex/SavedShippingAddresses');

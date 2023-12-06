@@ -41,10 +41,6 @@
         {
           "package": "LibSerialization",
           "versionNumber": "0.1.0.LATEST"
-        },
-        {
-          "package": "EcommercePayment",
-          "versionNumber": "0.1.0.LATEST"
         }
       ]
     },

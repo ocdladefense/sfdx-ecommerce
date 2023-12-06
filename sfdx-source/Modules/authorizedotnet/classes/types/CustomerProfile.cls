@@ -12,9 +12,15 @@ public class CustomerProfile extends AuthorizeDotNetType {
 
     public String email;
 
-    public List<Address> shipToList;
+    public List<AuthNetAddress> shipToList;
+
+    //collection or list
     
     public CustomerProfile() {}
+
+    public CustomerProfile (String customerProfileId){
+        this.customerProfileId = customerProfileId;
+    }
 
     /*
     public CustomerProfile(CustomerPaymentProfile paymentprofile) {
@@ -107,11 +113,11 @@ public class CustomerProfile extends AuthorizeDotNetType {
         this.paymentProfiles.add(paymentProfile);
     }
 
-    public List<Address> getShipToList(){
+    public List<AuthNetAddress> getShipToList(){
         return this.shipToList;
     }
 
-    public void setShipToList(List<Address> shipToList) {
+    public void setShipToList(List<AuthNetAddress> shipToList) {
         this.shipToList = shipToList;
     }
 
@@ -124,4 +130,81 @@ public class CustomerProfile extends AuthorizeDotNetType {
 
         return null;
     }
+
+
+    //return paymentprofile 
+    public CustomerPaymentProfileCollection getPaymentProfileCollection(){
+        return null;
+    }
+
+    public AuthNetAddressCollection getShipToCollection() {
+      
+        if(this.shipToList == null){
+            throw new AuthorizeDotNetException ('shipToList must not be null');
+        }
+        if(this.shipToList.size()>0){
+            System.debug('about to find default');
+            AuthNetAddress theDefaultAddress = this.getDefaultShippingAddressFromList();
+            if(theDefaultAddress == null){
+                System.debug('no default address found');
+            }
+            else{
+                system.debug('about to set default address boolean in shipToList');
+                for (AuthNetAddress address : this.shipToList){
+                    if(address.getCustomerAddressId()==theDefaultAddress.getCustomerAddressId())
+                    {
+                        System.debug('setting');
+                        address.setDefaultShippingAddress(true);
+                    }
+                }
+            }
+            
+        }
+
+
+        AuthNetAddressCollection collection = this.shipToList!=null? new AuthNetAddressCollection(this.shipToList): null;
+        System.debug(collection.size() + 'addresses in collection');
+        return collection;
+
+        //should this method also call requestDefaultShippingAddress?
+    }
+
+    public AuthNetAddress getDefaultShippingAddressFromList(){
+        System.debug('about to iterate');
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+
+        Boolean isClientNull = client==null;
+        if(isClientNull){
+            throw new AuthorizeDotNetTypeException('AuthorizeDotNetClient must not be null');
+        }
+        
+        if (this.shipToList.size()==0){
+            System.debug('nothing in list');
+        }
+        else{
+            System.debug('something in list');
+        }
+        for (AuthNetAddress address : this.shipToList)
+        {
+            System.debug('requesting '+ address.getCustomerAddressId());
+
+            GetCustomerShippingAddressRequest req = new GetCustomerShippingAddressRequest();
+            
+            req.setCustomerAddressId(address.getCustomerAddressId());
+
+            req.setCustomerProfileId(customerProfileId);
+
+            GetCustomerShippingAddressResponse resp = (GetCustomerShippingAddressResponse)client.send(req);
+            System.debug(address.getFirstName() + ' is default? ' + resp.getDefaultShippingAddress());
+            if(resp.getDefaultShippingAddress()){
+                //set it as well?
+                System.debug('DEFAULT FOUND');
+                return address;
+            }
+        }
+        //not found
+        return null;
+    }
+
+
 }

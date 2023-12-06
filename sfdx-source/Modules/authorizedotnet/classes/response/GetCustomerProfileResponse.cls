@@ -11,6 +11,7 @@ public class GetCustomerProfileResponse extends AuthorizeDotNetResponse
     }
 
     public override void deserialize(){
+        System.debug('in override deserialize');
         super.deserialize();
        GetCustomerProfileResponse tempResp =  (GetCustomerProfileResponse)JSON.deserialize(this.getBody(), GetCustomerProfileResponse.class);
        this.profile = tempResp.getProfile();
