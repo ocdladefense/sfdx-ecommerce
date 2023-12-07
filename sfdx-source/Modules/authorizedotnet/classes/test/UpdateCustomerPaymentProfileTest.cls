@@ -5,7 +5,7 @@ public class UpdateCustomerPaymentProfileTest {
 
     }
 
-    @isTest static void UpdateCustomerPaymentProfile() {
+    @isTest static void updateCustomerPaymentProfile() {
         //variables
         String customerProfileId = '905372692';
         String paymentProfileId = '915890663';
@@ -46,6 +46,16 @@ public class UpdateCustomerPaymentProfileTest {
         
         Boolean success = resp.success();
         System.assertEquals(true, success, 'success should return true');
+        
+        String validResp = resp.getValidationResponse();
+        
+        System.assertNotEquals(null, validResp);
+        // Testing response methods
+        UpdateCustomerPaymentProfileResponse respBlank = new UpdateCustomerPaymentProfileResponse();
+        resp.deserialize();
+
+        // Assert constructor works
+        System.assertNotEquals(null, respBlank);
     }
 
     // Whoever did this code below, bless your soul because I'm gonna use this for the others
