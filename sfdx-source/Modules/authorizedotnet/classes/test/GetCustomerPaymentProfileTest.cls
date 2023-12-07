@@ -70,30 +70,23 @@ public class GetCustomerPaymentProfileTest {
         
 
         //response
-        GetCustomerPaymentProfileResponse resp = (GetCustomerPaymentProfileResponse)client.send(req);
+        GetCustomerPaymentProfileResponse resp = new GetCustomerPaymentProfileResponse();
+        resp = (GetCustomerPaymentProfileResponse)client.send(req);
         
         System.debug('resp.getBody(): ' + resp.getBody());
         
         CustomerPaymentProfile thePaymentProfile = resp.getPaymentProfile();
-        Address theBillTo = resp.getBillTo();
-        CreditCard theCard = resp.getCreditCard();
 
         System.debug('paymentProfileId' + thePaymentProfile.getCustomerPaymentProfileId());
         System.debug('paymentProfile' + thePaymentProfile);
-        System.debug('response: ' + resp);
-        System.debug('card: ' + theCard);
-        System.debug('billTo: ' + theBillTo);
-        //System.debug('firstName: ' + theBillTo.getFirstName());
-        //System.debug('cardNumber: ' + theCard.getCardNumber());
+        //System.debug('response: ' + resp);
+
         Boolean success = resp.success();
         System.debug('success is : '+ success);
         
-        //System.assertEquals(true, success, 'success should return true');
+        System.assertEquals(true, success, 'success should return true');
         //System.assert(resp.isDefault() == false);
-        //System.assertEquals('527262', resp.getCustomerProfileId());
-        //System.assertEquals('87', resp.getCustomerPaymentProfileId());
-        //System.assertEquals('John', billTo.getFirstName());
-        //System.assertEquals('XXXX1111', theCard.getCardNumber());
+
     }
 
     /*

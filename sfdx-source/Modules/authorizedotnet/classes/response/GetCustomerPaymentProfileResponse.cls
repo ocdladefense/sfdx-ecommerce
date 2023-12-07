@@ -1,16 +1,11 @@
 public class GetCustomerPaymentProfileResponse extends AuthorizeDotNetResponse {
     
     //Map<String,Object> tmp = new Map<String,Object>();
-    private Boolean defaultPaymentProfile;
-    private String customerProfileId;
-    private String customerPaymentProfileId;
-    private String originalNetworkTransId;
-    // Required for Discover, Diners Club, JCB, and China Union Pay transactions
-    private Decimal originalAuthAmount;
+    //private Boolean defaultPaymentProfile;
     private CustomerPaymentProfile paymentProfile;
 
     // Optional
-    private String refId;
+    //private String refId;
 
 
     public GetCustomerPaymentProfileResponse() {
@@ -68,30 +63,15 @@ public class GetCustomerPaymentProfileResponse extends AuthorizeDotNetResponse {
 
         return payProfList;
     }
-    */
+    
     public Boolean isDefault() {
         return this.defaultPaymentProfile != null ? this.defaultPaymentProfile : false;
-    }
-
-    public String getCustomerProfileId() {
-        return this.customerProfileId;
-    }
-
-    public String getCustomerPaymentProfileId() {
-        return this.customerPaymentProfileId;
-    }
-
-    public String getOriginalNetworkTransId() {
-        return this.originalNetworkTransId;
-    }
-
-    public Decimal getOriginalAuthAmount() {
-        return this.originalAuthAmount;
     }
 
     public String getRefId() {
         return this.refId;
     }
+    */
 
     public CustomerPaymentProfile getPaymentProfile() {
         return this.paymentProfile;
