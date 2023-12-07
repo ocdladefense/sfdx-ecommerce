@@ -150,10 +150,14 @@ public class CustomerPaymentProfileTest {
         paymentProfile.getBillTo();
         paymentProfile.getPayment();
         paymentProfile.getPayment().getCreditCard();
+        paymentProfile.addField('testFieldBlank');
+        paymentProfile.put('testFieldInt', 1);
+        String getFromType = (String)paymentProfile.get('customerPaymentProfileId');
 
         // Assert setters worked
         System.assertEquals(address, paymentProfile.getBillTo());
         System.assertEquals(card, paymentProfile.getPayment().getCreditCard());
+        System.assertEquals(paymentProfile.getCustomerPaymentProfileId(), getFromType);
 
         // Tests FromMap methods
         card = CustomerPaymentProfile.newCardFromPaymentMap(cardMap);
