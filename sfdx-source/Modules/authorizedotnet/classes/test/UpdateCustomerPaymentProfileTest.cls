@@ -24,6 +24,7 @@ public class UpdateCustomerPaymentProfileTest {
         UpdateCustomerPaymentProfileRequest req = new UpdateCustomerPaymentProfileRequest(paymentProfile);
         req.setCustomerProfileId(customerProfileId);
         req.setCustomerPaymentProfileId(paymentProfileId);
+        req.setIsDefault(true);
         
         string result = req.getBody();
 
@@ -50,7 +51,13 @@ public class UpdateCustomerPaymentProfileTest {
         String validResp = resp.getValidationResponse();
         
         System.assertNotEquals(null, validResp);
-        // Testing response methods
+        // Testing request constructors
+        req = new UpdateCustomerPaymentProfileRequest(paymentProfile);
+        req = new UpdateCustomerPaymentProfileRequest(paymentProfile, card);
+        req = new UpdateCustomerPaymentProfileRequest(paymentProfile, address);
+        req = new UpdateCustomerPaymentProfileRequest(paymentProfile, address, card);
+
+        // Testing Response constructors
         UpdateCustomerPaymentProfileResponse respBlank = new UpdateCustomerPaymentProfileResponse();
         resp.deserialize();
 
