@@ -37,7 +37,7 @@ public class CustomerProfile extends AuthorizeDotNetType {
 
     public override Set<String> keySet() {
         return new Set<String> {
-            'merchantCustomerId', 'description', 'email', 'paymentProfiles','customerProfileId', 'shipToList', 'singelAddress'
+            'merchantCustomerId', 'description', 'email', 'paymentProfiles','customerProfileId', 'shipToList', 'singleAddress'
         };
     }
     public void setSingleAddress(AuthNetAddress address){

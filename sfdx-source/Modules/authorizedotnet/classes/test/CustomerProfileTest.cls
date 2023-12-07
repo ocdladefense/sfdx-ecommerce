@@ -94,16 +94,20 @@ public class CustomerProfileTest {
         profile.setPaymentProfiles(paymentProfiles);
         profile.setEmail('mara@mara.org');
     
-
+        AuthNetAddress shipTo = new AuthNetAddress('M.', 'Smythe', '1000 10th Ave', 'Eugene', 'OR', '97401');
+ 
+  //setting test prop singleAddress 
+    profile.setSingleAddress(shipTo);
+    
        
         CreateCustomerProfileRequest req = new CreateCustomerProfileRequest(profile);
         req.setCustomerProfile(profile);
     
-        AuthNetAddress shipTo = new AuthNetAddress('M.', 'Smythe', '1000 10th Ave', 'Eugene', 'OR', '97401');
         List<AuthNetAddress> shipToList = new List<AuthNetAddress>();
         shipToList.add(shipTo);
         req.setShipToList(shipToList);
-    
+
+      
         String result = req.getBody();
         System.debug(result);
 
