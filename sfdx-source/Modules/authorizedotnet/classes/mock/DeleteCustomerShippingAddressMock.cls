@@ -1,3 +1,4 @@
+@isTest
 public class DeleteCustomerShippingAddressMock extends AuthorizeDotNetResponse implements IMockResponse{
     public DeleteCustomerShippingAddressMock() {
 

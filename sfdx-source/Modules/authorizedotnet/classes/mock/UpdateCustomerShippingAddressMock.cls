@@ -1,3 +1,4 @@
+@isTest
 public class UpdateCustomerShippingAddressMock extends AuthorizeDotNetResponse implements IMockResponse{
     public UpdateCustomerShippingAddressMock() {
 
