@@ -16,6 +16,13 @@ public class DeleteCustomerPaymentProfileTest {
         DeleteCustomerPaymentProfileRequest req = new DeleteCustomerPaymentProfileRequest();
         req.setCustomerProfileId(customerProfileId);
         req.setCustomerPaymentProfileId(paymentProfileId);
+        // Testing getters
+        String custProfId = req.getCustomerProfileId();
+        String custPayProfId = req.getCustomerPaymentProfileId();
+
+        // Asserting getetrs work
+        System.assertEquals(customerProfileId, custProfId);
+        System.assertEquals(paymentProfileId, custPayProfId);
 
         string result = req.getBody();
         // Asserts both IDs are in the request
@@ -40,7 +47,7 @@ public class DeleteCustomerPaymentProfileTest {
         
         System.assertEquals(true, success, 'success should return true');
 
-        // Testing response methods
+        // Testing response constructor
         DeleteCustomerPaymentProfileResponse respDefault = new DeleteCustomerPaymentProfileResponse();
         DeleteCustomerPaymentProfileResponse respWithBody = new DeleteCustomerPaymentProfileResponse(resp.getBody());
         respWithBody.deserialize();
