@@ -72,44 +72,31 @@ public class GetCustomerPaymentProfileTest {
         //response
         GetCustomerPaymentProfileResponse resp = new GetCustomerPaymentProfileResponse();
         resp = (GetCustomerPaymentProfileResponse)client.send(req);
-        
-        System.debug('resp.getBody(): ' + resp.getBody());
-        
+               
         CustomerPaymentProfile thePaymentProfile = resp.getPaymentProfile();
 
-        System.debug('paymentProfileId' + thePaymentProfile.getCustomerPaymentProfileId());
-        System.debug('paymentProfile' + thePaymentProfile);
-        //System.debug('response: ' + resp);
-
         Boolean success = resp.success();
-        System.debug('success is : '+ success);
         
         System.assertEquals(true, success, 'success should return true');
-        //System.assert(resp.isDefault() == false);
+        System.assertEquals('87', thePaymentProfile.getCustomerPaymentProfileId());
 
     }
 
-    /*
     @isTest 
     static void getCustomerPaymentProfileWithIssuerInfoTest(){
         //request
-        String customerProfileId = '905372692';
-        String paymentProfileId = '915890663';
+        String customerProfileId = '527262';
+        String paymentProfileId = '87';
+        Boolean includeIssuerInfo = true;
 
         CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile();
         paymentProfile.setCustomerPaymentProfileId(paymentProfileId);
-
-        // request built with default constructor
-        GetCustomerPaymentProfileRequest req = new GetCustomerPaymentProfileRequest();
-        req.setCustomerProfileId(customerProfileId);
-        req.setCustomerPaymentProfileId(paymentProfileId);
-
+        
         // request built with constructor that includes a CustomerPaymentProfile object
-        GetCustomerPaymentProfileRequest reqWithProfile = new GetCustomerPaymentProfileRequest(paymentProfile);
+        GetCustomerPaymentProfileRequest req = new GetCustomerPaymentProfileRequest(paymentProfile, includeIssuerInfo);
         req.setCustomerProfileId(customerProfileId);
 
         string result = req.getBody();
-        Boolean idPresent = result.contains('customerProfileId');
 
         //client or mock
         AuthorizeDotNetServiceMock mock = new AuthorizeDotNetServiceMock();
@@ -124,10 +111,10 @@ public class GetCustomerPaymentProfileTest {
         
         System.debug(resp.getBody());
         
+        CustomerPaymentProfile thePaymentProfile = resp.getPaymentProfile();
         Boolean success = resp.success();
-        System.debug('success is : '+ success);
         
         System.assertEquals(true, success, 'success should return true');
+        System.assertEquals('87', thePaymentProfile.getCustomerPaymentProfileId());
     }
-    */   
 }

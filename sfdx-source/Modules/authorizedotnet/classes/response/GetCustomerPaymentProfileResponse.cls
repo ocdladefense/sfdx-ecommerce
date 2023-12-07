@@ -63,7 +63,9 @@ public class GetCustomerPaymentProfileResponse extends AuthorizeDotNetResponse {
 
         return payProfList;
     }
+    */
     
+    /*
     public Boolean isDefault() {
         return this.defaultPaymentProfile != null ? this.defaultPaymentProfile : false;
     }
