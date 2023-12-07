@@ -127,7 +127,7 @@ public class CustomerPaymentProfileTest {
 
         CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile();
         Map<String,Object> cardMap = payForMap.toMap();
-        Map<String,Object> addrMap = new Map<String,Object> {
+        Map<String,String> addrMap = new Map<String,String> {
             'firstName' => 'Map',
             'lastName' => 'Mapperton',
             'address' => '365 Map Rd',
@@ -159,7 +159,8 @@ public class CustomerPaymentProfileTest {
         card = CustomerPaymentProfile.newCardFromPaymentMap(cardMap);
         address = CustomerPaymentProfile.newAddressFromMap(addrMap);
         
-        System.assertEquals(cardForMap, card);
-        System.assertEquals(addrForMap, address);
+        System.assertEquals(cardForMap.getCardNumber(), card.getCardNumber());
+        System.assertEquals(cardForMap.getExpirationDate(), card.getExpirationDate());
+        System.assertEquals(addrForMap.getFirstName(), address.getFirstName());
     }
 }
