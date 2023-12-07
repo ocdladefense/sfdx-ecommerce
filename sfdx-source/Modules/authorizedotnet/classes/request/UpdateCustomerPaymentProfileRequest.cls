@@ -24,7 +24,7 @@ public class UpdateCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
         this.paymentProfile = profile;
     }
     // Overloaded constructor for if only the Address is changed
-    public UpdateCustomerPaymentProfileRequest(CustomerPaymentProfile profile, Address newAddress) {
+    public UpdateCustomerPaymentProfileRequest(CustomerPaymentProfile profile, AuthNetAddress newAddress) {
         this();
         this.customerProfileId = DEFAULT_PROFILE_ID;
         this.paymentProfile = profile;
@@ -39,7 +39,7 @@ public class UpdateCustomerPaymentProfileRequest extends AuthorizeDotNetRequest 
     }
 
     // Overloaded constructor for if both Address and CreditCard are changed
-    public UpdateCustomerPaymentProfileRequest(CustomerPaymentProfile profile, Address newAddress, CreditCard newCard) {
+    public UpdateCustomerPaymentProfileRequest(CustomerPaymentProfile profile, AuthNetAddress newAddress, CreditCard newCard) {
         this();
         this.customerProfileId = DEFAULT_PROFILE_ID;
         this.paymentProfile = profile;

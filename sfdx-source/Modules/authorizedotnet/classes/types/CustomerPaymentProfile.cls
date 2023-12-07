@@ -10,7 +10,7 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType{
 
     private String customerType;
 
-    public Address billTo {public get; private set;}
+    public AuthNetAddress billTo {public get; private set;}
 
     private Boolean defaultPaymentProfile;
 
@@ -18,14 +18,16 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType{
     
     public String cardType {public get { return this.payment.getCreditCard().getType();} private set;}
     
-    
+    private static final String CUSTOMER_TYPE_INDIVIDUAL = 'individual';
+    private static final String CUSTOMER_TYPE_BUSINESS = 'business';
+ 
 
     public CustomerPaymentProfile() {
         super();
     }
 
 
-    public CustomerPaymentProfile(CreditCard card, Address billTo) {
+    public CustomerPaymentProfile(CreditCard card, AuthNetAddress billTo) {
         this();
         this.billTo = billTo;
         this.payment = new Payment(card);
@@ -47,6 +49,8 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType{
 
 
     public override Map<String,Object> toMap() {
+        System.debug('CALLING TO MAP on payment profile itself');
+
 
         Map<String,Object> tmp = new Map<String,Object>();
         tmp.put('payment', this.payment);
@@ -92,22 +96,22 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType{
         return card;
     }
 
-    public static Address newAddressFromMap(Map<String, Object> billTo){
-        Map<String, String> theAddress = (Map<String, String>)billTo;
-        String firstName = theAddress.get('firstName');
-        String lastName = theAddress.get('lastName');
-        String phoneNumber = theAddress.get('phoneNumber');
-        String address = theAddress.get('address');
-        String city = theAddress.get('city');
-        String state = theAddress.get('state');
-        String zip = theAddress.get('zip');
-        String country = theAddress.get('country');
+    public static AuthNetAddress newAuthNetAddressFromMap(Map<String, Object> billTo){
+        Map<String, String> theAuthNetAddress = (Map<String, String>)billTo;
+        String firstName = theAuthNetAddress.get('firstName');
+        String lastName = theAuthNetAddress.get('lastName');
+        String phoneNumber = theAuthNetAddress.get('phoneNumber');
+        String theAddress = theAuthNetAddress.get('AuthNetAddress');
+        String city = theAuthNetAddress.get('city');
+        String state = theAuthNetAddress.get('state');
+        String zip = theAuthNetAddress.get('zip');
+        String country = theAuthNetAddress.get('country');
         
         //check for nulls?
-        Address newAdress = new Address();
+        AuthNetAddress newAdress = new AuthNetAddress();
         newAdress.setFirstName(firstName);
         newAdress.setLastName(lastName);
-        newAdress.setAddress(address);
+        newAdress.setAddress(theAddress);
         newAdress.setCity(city);
         newAdress.setState(state);
         newAdress.setZip(zip);
@@ -127,7 +131,7 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType{
         return customerPaymentProfileId;
     }
 
-    public Address getBillTo() {
+    public AuthNetAddress getBillTo() {
         return billTo;
     }
 
@@ -143,7 +147,7 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType{
         this.customerPaymentProfileId = customerPaymentProfileId;
     }
 
-    public void setBillTo(Address billTo) {
+    public void setBillTo(AuthNetAddress billTo) {
         this.billTo = billTo;
     }
 
@@ -165,5 +169,14 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType{
 
     public void setDefault() {
         setDefaultPaymentProfile(true);
+    }
+
+    public void setCustomerType (String customerType){
+        if(customerType == CUSTOMER_TYPE_INDIVIDUAL  ||  customerType == CUSTOMER_TYPE_BUSINESS){
+            this.customerType = customerType;
+        }
+        else {
+            throw new AuthorizeDotNetException ('CustomerType must be individual or business.');
+        }
     }
 }

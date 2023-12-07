@@ -34,12 +34,13 @@ public class JsonPayload {
        
 
         if(primaryKeyFieldName != null) {
-            System.debug(primaryKeyFieldName + 'is: '+ primaryKeyValue);
+            System.debug(primaryKeyFieldName + ' is: '+ primaryKeyValue);
         }
-        if(primaryKeyValue == null) {
+        if(primaryKeyValue == null && primaryKeyFieldName != null) {
             obj.ignoreField(primaryKeyFieldName);
+            system.debug('ignored field ' + primaryKeyFieldName);
         }
-
+        System.debug('leaving suthnet writeObjectfields');
         writeObjectFields(fieldName, (IOrderedMap)obj);
     }
 
@@ -50,6 +51,7 @@ public class JsonPayload {
         
         if(null != fieldName) {
             gen.writeFieldName(fieldName);
+            System.debug('JSON object ' + fieldName);
             gen.writeStartObject();
         }
         // iterate through the map calling gen.writeStringField() if value or if not value call gen.writeNullField()
@@ -71,10 +73,10 @@ public class JsonPayload {
             //System.debug(key);
             // Test the type of value:
             if(value instanceof AuthorizeDotNetType) {
-                // System.debug('found authnet object');
+                System.debug('found authnet object for '+ key);
                 this.writeObjectFields(key, (AuthorizeDotNetType)value);  
             } else if(value instanceof IOrderedMap) {
-                // System.debug('found IOrderedMap object');
+                System.debug('found IOrderedMap object for ' + key);
                 this.writeObjectFields(key, (IOrderedMap)value);  
             } else if(value instanceof Boolean) {
                 // System.debug('found boolean');

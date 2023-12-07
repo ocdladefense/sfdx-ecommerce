@@ -20,11 +20,6 @@ public class CreateCustomerShippingAddressRequest extends AuthorizeDotNetRequest
         this.address = address;
     }
 
-
-
-
-
-
     public void setCustomerProfileId(String customerProfileId) {
         this.customerProfileId = customerProfileId;
     }

@@ -1,11 +1,12 @@
 public class CreateCustomerProfileRequest extends AuthorizeDotNetRequest{
-    private CustomerProfile profile;
-    private List<Address> shipToList;
-    private String validationMode = 'testMode';
+    public CustomerProfile profile;
+
+    public List<AuthNetAddress> shipToList;
+    
+    public String validationMode = 'testMode';
 
     public CreateCustomerProfileRequest() {
         super('createCustomerProfile');
-        this.shipToList = new List<Address>();
         this.fields = new Set<String>{'profile', 'shipToList', 'validationMode'};
     }
 
@@ -14,18 +15,12 @@ public class CreateCustomerProfileRequest extends AuthorizeDotNetRequest{
         this.profile= profile;
     }
 
+    //some classses have keyset some don't
     public override Set<String> keySet() {
         return new Set<String>{'profile', 'shipToList','validationMode'};
     }
 
-    public override Map<String,Object> toMap() {
-        Map<String,Object> tmp = new Map<String,Object>();
-        tmp.put('profile', this.profile);
-        tmp.put('shipToList', this.shipToList);
-        tmp.put('validationMode', this.validationMode);
 
-        return tmp;
-    }
     public CustomerProfile getCustomerProfile(){
         return this.profile;
     }
@@ -34,7 +29,10 @@ public class CreateCustomerProfileRequest extends AuthorizeDotNetRequest{
         return this.validationMode;
     }
 
-    public List<Address> getShipToList(){
+    public List<AuthNetAddress> getShipToList(){
+        if(this.shipToList==null){
+            this.shipToList = new List<AuthNetAddress>();
+        }
         return this.shipToList;
     }
 
@@ -46,15 +44,28 @@ public class CreateCustomerProfileRequest extends AuthorizeDotNetRequest{
         this.validationMode = validationMode;
     }
 
-    public void setShipToList (List<Address> shipToList){
+    public void setShipToList (List<AuthNetAddress> shipToList){
         this.shipToList = shipToList;
     }
 
-    public void addToShipToList (Address address){
+    public void addToShipToList (AuthNetAddress address){
         if(this.shipToList ==null){
-            this.shipToList = new List<Address>();
+            this.shipToList = new List<AuthNetAddress>();
         }
         this.shipToList.add(address);
+    }
+
+    public override Map<String,Object> toMap() {
+        System.debug('CALLING TO MAP on create profile request');
+        Map<String,Object> tmp = new Map<String,Object>();
+        tmp.put('profile', this.profile);
+        if(this.shipToList!= null)
+        {
+            tmp.put('shipToList', this.shipToList);
+        }
+        tmp.put('validationMode', this.validationMode);
+
+        return tmp;
     }
 
 }

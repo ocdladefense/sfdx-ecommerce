@@ -6,9 +6,9 @@ public with sharing class Scratch {
         billTo.setCompany('LCC');
         CreditCard card = new CreditCard('4111111111111111', '12-2024');
 
-        CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile(card, billTo);
+        CustomerPaymentProfile theDefaultPayment = new CustomerPaymentProfile(card, billTo);
         //System.debug(paymentProfile);
-        CustomerProfile profile = new CustomerProfile(paymentProfile);
+        CustomerProfile profile = new CustomerProfile(theDefaultPayment);
         profile.setEmail('mara@mara.org');
     
 
