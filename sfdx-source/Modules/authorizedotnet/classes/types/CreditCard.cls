@@ -6,7 +6,9 @@ public class CreditCard extends AuthorizeDotNetType {
     
     private String unmaskedExpirationDate;
     
-    public String cardType {public get{ return getType(); }}
+    //public String cardType {public get{ return getType(); }}
+
+    private String cardType;
     
     private Boolean dateIsMasked;
     
@@ -51,6 +53,7 @@ public class CreditCard extends AuthorizeDotNetType {
         return AuthorizeDotNet.stringToDate(this.expirationDate) < Date.today();
     }
 
+    
     public String getType() {
 
         if(null == cardNumber) {
@@ -72,6 +75,7 @@ public class CreditCard extends AuthorizeDotNetType {
             return 'Unknown';
         }
     }
+    
 
     public Boolean isValid() {
         return this.cardNumber.length() == 16 && this.getType()!='Unknown';
@@ -89,6 +93,10 @@ public class CreditCard extends AuthorizeDotNetType {
         return this.cvv;
     }
 
+    public String getCardType() {
+        return this.cardType;
+    }
+
     public void setCardNumber(String cardNumber) {
         this.cardNumber = cardNumber;
     }
@@ -102,6 +110,10 @@ public class CreditCard extends AuthorizeDotNetType {
     
     public void setCvv(string cvv) {
         this.cvv = cvv;
+    }
+
+    public void setCardType(String cardType) {
+        this.cardType = cardType;
     }
 
     public override Map<String,Object> toMap() {

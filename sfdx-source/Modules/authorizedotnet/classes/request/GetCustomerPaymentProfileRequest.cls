@@ -1,6 +1,7 @@
 public class GetCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
     public String customerProfileId;
     public String customerPaymentProfileId;
+    private Boolean unmaskExpirationDate = true;
     public Boolean includeIssuerInfo;
     public String DEFAULT_PROFILE_ID = '905372692';
 
@@ -9,7 +10,7 @@ public class GetCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
     }
 
     public override Set<String> keySet() {
-        return new Set<String>{'customerProfileId', 'customerPaymentProfileId'};
+        return new Set<String>{'customerProfileId', 'customerPaymentProfileId', 'unmaskExpirationDate'};
     }
 
     public override String getPrimaryKeyField() {
@@ -50,5 +51,12 @@ public class GetCustomerPaymentProfileRequest extends AuthorizeDotNetRequest {
         this.customerPaymentProfileId = customerPaymentProfileId;
     }
 
+    public Boolean getUnmaskExpirationDate(){
+        return this.unmaskExpirationDate;
+    }
+
+    public void setUnmaskExpirationDate(Boolean unmaskExpirationDate){
+        this.unmaskExpirationDate=unmaskExpirationDate;
+    }
 
 }
