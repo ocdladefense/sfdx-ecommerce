@@ -1,5 +1,5 @@
-public with sharing class DeleteCustomerProfileMockResponse {
-    public DeleteCustomerProfileMockResponse() {
+public class UpdateCustomerProfileMock extends AuthorizeDotNetResponse implements IMockResponse {
+    public UpdateCustomerProfileMock() {
 
     }
 

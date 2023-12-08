@@ -11,10 +11,10 @@ public class CustomerPaymentProfileTest {
         card = new CreditCard('4444222211111111', '04/2026');
         card = new CreditCard('4444222211111111', '04/2026', '123');
 
-        // Testing Address constructors
-        Address address = new Address();
-        address = new Address('Sebastian', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
-        address = new Address('Sebastian', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330', 'US');
+        // Testing AuthNetAddress constructors
+        AuthNetAddress address = new AuthNetAddress();
+        address = new AuthNetAddress('Sebastian', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
+        address = new AuthNetAddress('Sebastian', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330', 'US');
 
         // Testing Payment constructors
         Payment payment = new Payment();
@@ -70,7 +70,7 @@ public class CustomerPaymentProfileTest {
 
     @isTest static void addressGettersAndSetters() {
         // All variables for the setters and comparing getters
-        Address address = new Address();
+        AuthNetAddress address = new AuthNetAddress();
         String pKeyName = 'customerAddressId';
         String pKeyValue = '12345';
         String fName = 'Sebastian';
@@ -117,13 +117,13 @@ public class CustomerPaymentProfileTest {
 
     @isTest static void paymentProfileGettersAndSetters() {
         // Initiailizing variables
-        Address address = new Address('Sebastian', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
+        AuthNetAddress address = new AuthNetAddress('Sebastian', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
         CreditCard card = new CreditCard('4111111111111122','11/2024');
         Payment payment = new Payment(card);
 
         CreditCard cardForMap = new CreditCard('4111111111115555','05/2028');
         Payment payForMap = new Payment(cardForMap);
-        Address addrForMap = new Address('Map', 'Mapperton', '365 Map Rd', 'New Map', 'Map-opolis', '78542');
+        AuthNetAddress addrForMap = new AuthNetAddress('Map', 'Mapperton', '365 Map Rd', 'New Map', 'Map-opolis', '78542');
 
         CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile();
         Map<String,Object> cardMap = payForMap.toMap();
@@ -161,7 +161,7 @@ public class CustomerPaymentProfileTest {
 
         // Tests FromMap methods
         card = CustomerPaymentProfile.newCardFromPaymentMap(cardMap);
-        address = CustomerPaymentProfile.newAddressFromMap(addrMap);
+        address = CustomerPaymentProfile.newAuthNetAddressFromMap(addrMap);
         
         System.assertEquals(cardForMap.getCardNumber(), card.getCardNumber());
         System.assertEquals(cardForMap.getExpirationDate(), card.getExpirationDate());
