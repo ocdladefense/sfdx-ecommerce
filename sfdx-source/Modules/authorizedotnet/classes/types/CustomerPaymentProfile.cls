@@ -82,17 +82,16 @@ public class CustomerPaymentProfile extends AuthorizeDotNetType{
 
 
     public static CreditCard newCardFromPaymentMap(Map<String, Object> payment){
-        Map<String, Object> theCard = (Map<String, Object>)payment.get('creditCard');
+        Map<String, Object> theCard = ((CreditCard)payment.get('creditCard')).toMap();
         String cardNumber = (String) theCard.get('cardNumber');
-       
-        CreditCard card = new CreditCard(cardNumber);
-        
         String expirationDate = (String)theCard.get('expirationDate');
-        card.setExpirationDate(expirationDate);
+       
+        CreditCard card = new CreditCard(cardNumber, expirationDate);
+        
         return card;
     }
 
-    public static Address newAddressFromMap(Map<String, Object> billTo){
+    public static Address newAddressFromMap(Map<String, String> billTo){
         Map<String, String> theAddress = (Map<String, String>)billTo;
         String firstName = theAddress.get('firstName');
         String lastName = theAddress.get('lastName');

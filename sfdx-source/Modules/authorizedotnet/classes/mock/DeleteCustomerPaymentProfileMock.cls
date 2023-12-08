@@ -1,8 +1,9 @@
-public class DeleteCustomerPaymentProfileMockResponse extends AuthorizeDotNetResponse implements IMockResponse{
+@isTest
+public class DeleteCustomerPaymentProfileMock extends AuthorizeDotNetResponse implements IMockResponse{
     
     private boolean isErrorTest;
 
-    public DeleteCustomerPaymentProfileMockResponse() {
+    public DeleteCustomerPaymentProfileMock() {
         super();
     }
 

@@ -1,3 +1,4 @@
+@isTest
 public class AuthorizeDotNetServiceMock implements HttpCalloutMock {
     
 
@@ -14,6 +15,10 @@ public class AuthorizeDotNetServiceMock implements HttpCalloutMock {
         String requestType = req.getHeader('X-Request-Type');
 
         System.debug(requestType);
+<<<<<<< HEAD
+=======
+        String responseType = requestType.capitalize()+'Mock';
+>>>>>>> payment-profile-unit-tests
        
         //Important- shipping address mock response file names are too long 
         //This ternary is needed to find the correct file type

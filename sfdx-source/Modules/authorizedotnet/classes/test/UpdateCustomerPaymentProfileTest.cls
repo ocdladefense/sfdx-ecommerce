@@ -5,7 +5,7 @@ public class UpdateCustomerPaymentProfileTest {
 
     }
 
-    @isTest static void UpdateCustomerPaymentProfile() {
+    @isTest static void updateCustomerPaymentProfile() {
         //variables
         String customerProfileId = '905372692';
         String paymentProfileId = '915890663';
@@ -24,6 +24,7 @@ public class UpdateCustomerPaymentProfileTest {
         UpdateCustomerPaymentProfileRequest req = new UpdateCustomerPaymentProfileRequest(paymentProfile);
         req.setCustomerProfileId(customerProfileId);
         req.setCustomerPaymentProfileId(paymentProfileId);
+        req.setIsDefault(true);
         
         string result = req.getBody();
 
@@ -46,6 +47,22 @@ public class UpdateCustomerPaymentProfileTest {
         
         Boolean success = resp.success();
         System.assertEquals(true, success, 'success should return true');
+        
+        String validResp = resp.getValidationResponse();
+        
+        System.assertNotEquals(null, validResp);
+        // Testing request constructors
+        req = new UpdateCustomerPaymentProfileRequest(paymentProfile);
+        req = new UpdateCustomerPaymentProfileRequest(paymentProfile, card);
+        req = new UpdateCustomerPaymentProfileRequest(paymentProfile, address);
+        req = new UpdateCustomerPaymentProfileRequest(paymentProfile, address, card);
+
+        // Testing Response constructors
+        UpdateCustomerPaymentProfileResponse respBlank = new UpdateCustomerPaymentProfileResponse();
+        resp.deserialize();
+
+        // Assert constructor works
+        System.assertNotEquals(null, respBlank);
     }
 
     // Whoever did this code below, bless your soul because I'm gonna use this for the others

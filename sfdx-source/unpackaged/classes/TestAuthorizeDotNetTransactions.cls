@@ -22,7 +22,7 @@ public class TestAuthorizeDotNetTransactions {
          
         Test.startTest();
         // Set mock callout class 
-        Test.setMock(HttpCalloutMock.class, new AuthorizeDotNetMockResponse(TransactionResponseCode.SUCCESS));
+        Test.setMock(HttpCalloutMock.class, new AuthorizeDotNetMock(TransactionResponseCode.SUCCESS));
         
         Map<String,String> billto = new Map<String,String>{
             'BillingFirstName' => 'Jane',
@@ -66,7 +66,7 @@ public class TestAuthorizeDotNetTransactions {
          
         Test.startTest();
         // Set mock callout class 
-        Test.setMock(HttpCalloutMock.class, new AuthorizeDotNetMockResponse(TransactionResponseCode.SUCCESS));
+        Test.setMock(HttpCalloutMock.class, new AuthorizeDotNetMock(TransactionResponseCode.SUCCESS));
         
         Map<String,String> billto = new Map<String,String>{
             'BillingFirstName' => 'Jane',

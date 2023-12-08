@@ -41,7 +41,7 @@ public class CustomerProfileTest {
 
     @isTest static void getCustomerProfileRequestBody(){
         String customerProfileId='916263569';
-         Boolean unmaskExpirationDate = true;
+        Boolean unmaskExpirationDate = true;
 
         GetCustomerProfileRequest req = new GetCustomerProfileRequest();
         req.setCustomerProfileId(customerProfileId);
@@ -54,5 +54,22 @@ public class CustomerProfileTest {
         System.assertEquals(req.getCustomerProfileId(), req.getCustomerProfileId());
         System.assertEquals(true, req.getUnmaskExpirationDate());
 
+    }
+
+    @isTest static void getCustomerProfileResponseConstructors() {
+        // Setup variables for the constructors
+        String customerProfileId='916263569';
+        Boolean unmaskExpirationDate = true;
+        GetCustomerProfileRequest req = new GetCustomerProfileRequest(customerProfileId);
+        req.setUnmaskExpirationDate(unmaskExpirationDate);
+        string result = req.getBody();
+
+        // Constructors for response
+        GetCustomerProfileResponse respDefault = new GetCustomerProfileResponse();
+        GetCustomerProfileResponse respFromBody = new GetCustomerProfileResponse(result);
+
+        // Assertions
+        System.assertNotEquals(null, respDefault);
+        System.assertNotEquals(null, respFromBody);
     }
 }
