@@ -1,5 +1,5 @@
-public with sharing class DeleteCustomerProfileMockResponse {
-    public DeleteCustomerProfileMockResponse() {
+public with sharing class UpdateCustomerProfileMock {
+    public UpdateCustomerProfileMock() {
 
     }
 
