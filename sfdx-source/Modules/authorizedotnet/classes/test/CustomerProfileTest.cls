@@ -39,14 +39,6 @@ public class CustomerProfileTest {
 
     }
 
-    @isTest staticVoid createCustomerProfileWithPaymentProfiles(){
-        CreditCard card = new CreditCard('4111111111111122','11/2024');
-        Payment payment = new Payment();
-        payment.setCreditCard(card);
-
-        PaymentProfiles paymentProfiles = new PaymentProfiles(payment);
-    }
-
     @isTest static void getCustomerProfileRequestBody(){
         String customerProfileId='916263569';
         Boolean unmaskExpirationDate = true;
@@ -88,34 +80,29 @@ public class CustomerProfileTest {
        
     }
 
-    @isTest
-    static void CreateCustomerProfileNewCustomerProfile(){
-        //new class made in order to create correct JSON body when calling getBody on request
-        //current JSON payload class cannot parse Lists of AuthorizeDotNetType objects
-        AuthNetAddress billTo = new AuthNetAddress('Mel', 'Smythe', '1325 West 18th Ave', 'Eugene', 'OR', '97402');
-        billTo.setCompany('LCC');
-        CreditCard card = new CreditCard('4111111111111111', '12-2026');
-
+    @isTest static void CreateCustomerprofileRequestConstructors(){
+        AuthNetAddress billTo = new AuthNetAddress('Mel', 'Smythe-Bananas', '1325 West 18th Ave', 'Eugene', 'OR', '97402');
+        billTo.setCompany('LCC Art Department');
+        CreditCard card = new CreditCard('4111111111111111', '05-2026');
         Payment thePayment = new Payment(card);
-        CustomerPaymentProfile theDefaultPayment = new CustomerPaymentProfile();
-        theDefaultPayment.setPayment(thePayment);
-        theDefaultPayment.setDefault();
-    
-        NewCustomerProfile profile = new NewCustomerProfile();
-        profile.setPaymentProfiles(theDefaultPayment);
-        profile.setEmail('mara@mara.org');
 
-        AuthNetAddress shipTo = new AuthNetAddress('M.', 'Smythe', '1000 10th Ave', 'Eugene', 'OR', '97401');
-        
-        
-    
-       
-        CreateCustomerProfileRequest req = new CreateCustomerProfileRequest(profile);
-        req.setCustomerProfile(profile);
-        //req.setShipToList(shipTo);
+        CreateCustomerProfileRequest req = new CreateCustomerProfileRequest(card, billTo);
+        CreateCustomerProfileRequest req2 = new CreateCustomerProfileRequest(card);
+        CreateCustomerProfileRequest req3 = new CreateCustomerProfileRequest();
+
+        req.setEmail('mSmyth@lcctest.org');
         
         String result = req.getBody();
         System.debug(result);
+        System.AssertEquals(true, result.contains('billTo'));
+        System.AssertEquals(false, result.contains('customerType'));
+
+        req2.setDescription('new profile');
+        req2.setCustomerType('individual');
+        String result2 = req2.getBody();
+        System.debug(result2);
+        System.AssertEquals(false, result2.contains('billTo'));
+        System.AssertEquals(true, result2.contains('customerType'));
 
         AuthorizeDotNetClient client = new AuthorizeDotNetClient();
         CreateCustomerProfileResponse resp = (CreateCustomerProfileResponse)client.send(req);
@@ -124,91 +111,11 @@ public class CustomerProfileTest {
         System.debug('success is '+ resp.success());
         System.debug('customerProfileId from response is ' + resp.getCustomerProfileId());
 
-        //916648613
-        //was able to create this profile by using NewCustomerProfile and removing shipToList from the CreateCustomerProfileRequest fields and keyset
-        
-    }
-    
-    @isTest
-    static void CreateCustomerProfileWithLists(){
-        AuthNetAddress billTo = new AuthNetAddress('Mel', 'Smythe', '1325 West 18th Ave', 'Eugene', 'OR', '97402');
-        billTo.setCompany('LCC');
-        CreditCard card = new CreditCard('4111111111111111', '12-2026');
-
-        CustomerPaymentProfile theDefaultPayment = new CustomerPaymentProfile();
-        theDefaultPayment.setCard(card);
-        theDefaultPayment.setDefault();
-
-        List<CustomerPaymentProfile> paymentProfiles = new List<CustomerPaymentProfile>();
-        paymentProfiles.add(theDefaultpayment);
-
-        CustomerProfile profile = new CustomerProfile();
-        profile.setPaymentProfiles(paymentProfiles);
-        profile.setEmail('mara@mara.org');
-    
-        AuthNetAddress shipTo = new AuthNetAddress('M.', 'Smythe', '1000 10th Ave', 'Eugene', 'OR', '97401');
- 
-  //setting test prop singleAddress 
-    profile.setSingleAddress(shipTo);
-    
-       
-        CreateCustomerProfileRequest req = new CreateCustomerProfileRequest(profile);
-        req.setCustomerProfile(profile);
-    
-        List<AuthNetAddress> shipToList = new List<AuthNetAddress>();
-        shipToList.add(shipTo);
-        req.setShipToList(shipToList);
-
-      
-        String result = req.getBody();
-        System.debug(result);
-
-        System.AssertEquals(false, result.contains('primaryKeyField'), 'should not contain fields not specified in field list');
-
-        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
-        CreateCustomerProfileResponse resp = (CreateCustomerProfileResponse)client.send(req);
-        System.debug (resp.getBody());
-
-        System.debug('success is '+ resp.success());
-        System.debug('customerProfileId from response is ' + resp.getCustomerProfileId());
-
-
-        
-    }
-      
-    @isTest static void createCustomerProfile(){
-        //set up data to send
-        CreditCard theCard = new CreditCard('4111111111111111', '2025-01');
-        AuthNetAddress billTo = new AuthNetAddress('M.', 'Williams', '1000 10th Ave', 'Eugene', 'OR', '97401');
-
-        CustomerPaymentProfile theDefaultPayment = new CustomerPaymentProfile(theCard, billTo);
-        theDefaultPayment.setDefaultPaymentProfile(true);
-        theDefaultPayment.setCustomerType('individual');
-        
-        AuthNetAddress shipto = new AuthNetAddress('M.', 'Williams', '1000 10th Ave', 'Eugene', 'OR', '97401');
-
-        CustomerProfile theProfile = new Customerprofile();
-        theProfile.addToPaymentProfiles(theDefaultPayment);
-        //setting shipTo inside profile
-        theProfile.addToShipToList(shipTo);
-        theProfile.setEmail('mara@testing.org');
-        theProfile.setDescription('testing profile');
-            
-        //make request
-        CreateCustomerProfileRequest req = new CreateCustomerProfileRequest();
-        req.setCustomerProfile(theProfile);
-
-        string result = req.getBody();
-        //System.debug(result);
-        Boolean idPresent = result.contains('customerProfileId');
-        System.assertEquals(false, idPresent, 'this request should not have customerProfileId');
-
-
-        //send request
-
-        //deserialize response
+        //able to create req successfully
 
     }
+
+   
 
     @isTest static void updateCustomerProfile(){
         //set up data to send
