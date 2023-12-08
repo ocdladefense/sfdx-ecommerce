@@ -108,15 +108,21 @@ public class CreateCustomerPaymentProfileTest {
         CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile();
 
         //request
-        CreateCustomerPaymentProfileRequest req = new CreateCustomerPaymentProfileRequest(paymentProfile);
-        req.setCustomerProfileId(customerProfileId);
+        AuthorizeDotNetRequest req = new AuthorizeDotNetRequest('createCustomerPaymentProfile');
+        //req.setCustomerProfileId(customerProfileId);
+        req.put('customerProfileId', customerProfileId);
         System.assert(req.getRequestType() == 'createCustomerPaymentProfile');
+        System.assert(req.get('customerProfileId') == customerProfileId);
 
         //adds the field 'testField' to the request
         req.addField('testField');
         System.debug('req: ' + req);
         System.debug('req: ' + req.keySet());
         System.assert(req.keyset().contains('testField'), 'The request keyset should contain testField');
+
+        req.put('testField', '50');
+        String body = req.getBody();
+        System.assert(req.getBody().contains('testField'));
 
         //adds 'testField as an ignored field'
         req.ignoreField('testField');
@@ -132,6 +138,8 @@ public class CreateCustomerPaymentProfileTest {
         System.assert(!(req.keyset().contains('testField')), 'The request keyset should not contain testField');
   
 
+        System.assert(req.getPrimaryKeyField() == null);
+        System.assert(req.getPrimaryKeyValue() == null);
         
         
     }
