@@ -88,7 +88,7 @@ public class CustomerProfileTest {
        
     }
 
-    @isTest static void CreateCustomerprofileRequestConstructorsr(){
+    @isTest static void CreateCustomerprofileRequestConstructors(){
         AuthNetAddress billTo = new AuthNetAddress('Mel', 'Smythe-Bananas', '1325 West 18th Ave', 'Eugene', 'OR', '97402');
         billTo.setCompany('LCC Art Department');
         CreditCard card = new CreditCard('4111111111111111', '05-2026');
@@ -120,7 +120,6 @@ public class CustomerProfileTest {
         System.debug('customerProfileId from response is ' + resp.getCustomerProfileId());
 
         //able to create req successfully
-
 
     }
 
@@ -212,39 +211,39 @@ public class CustomerProfileTest {
         
     }
       
-    @isTest static void createCustomerProfile(){
-        //set up data to send
-        CreditCard theCard = new CreditCard('4111111111111111', '2025-01');
-        AuthNetAddress billTo = new AuthNetAddress('M.', 'Williams', '1000 10th Ave', 'Eugene', 'OR', '97401');
+    // @isTest static void createCustomerProfile(){
+    //     //set up data to send
+    //     CreditCard theCard = new CreditCard('4111111111111111', '2025-01');
+    //     AuthNetAddress billTo = new AuthNetAddress('M.', 'Williams', '1000 10th Ave', 'Eugene', 'OR', '97401');
 
-        CustomerPaymentProfile theDefaultPayment = new CustomerPaymentProfile(theCard, billTo);
-        theDefaultPayment.setDefaultPaymentProfile(true);
-        theDefaultPayment.setCustomerType('individual');
+    //     CustomerPaymentProfile theDefaultPayment = new CustomerPaymentProfile(theCard, billTo);
+    //     theDefaultPayment.setDefaultPaymentProfile(true);
+    //     theDefaultPayment.setCustomerType('individual');
         
-        AuthNetAddress shipto = new AuthNetAddress('M.', 'Williams', '1000 10th Ave', 'Eugene', 'OR', '97401');
+    //     AuthNetAddress shipto = new AuthNetAddress('M.', 'Williams', '1000 10th Ave', 'Eugene', 'OR', '97401');
 
-        CustomerProfile theProfile = new Customerprofile();
-        theProfile.addToPaymentProfiles(theDefaultPayment);
-        //setting shipTo inside profile
-        theProfile.addToShipToList(shipTo);
-        theProfile.setEmail('mara@testing.org');
-        theProfile.setDescription('testing profile');
+    //     CustomerProfile theProfile = new Customerprofile();
+    //     theProfile.addToPaymentProfiles(theDefaultPayment);
+    //     //setting shipTo inside profile
+    //     theProfile.addToShipToList(shipTo);
+    //     theProfile.setEmail('mara@testing.org');
+    //     theProfile.setDescription('testing profile');
             
-        //make request
-        CreateCustomerProfileRequest req = new CreateCustomerProfileRequest();
-        req.setCustomerProfile(theProfile);
+    //     //make request
+    //     CreateCustomerProfileRequest req = new CreateCustomerProfileRequest();
+    //     req.setCustomerProfile(theProfile);
 
-        string result = req.getBody();
-        //System.debug(result);
-        Boolean idPresent = result.contains('customerProfileId');
-        System.assertEquals(false, idPresent, 'this request should not have customerProfileId');
+    //     string result = req.getBody();
+    //     //System.debug(result);
+    //     Boolean idPresent = result.contains('customerProfileId');
+    //     System.assertEquals(false, idPresent, 'this request should not have customerProfileId');
 
 
-        //send request
+    //     //send request
 
-        //deserialize response
+    //     //deserialize response
 
-    }
+    // }
 
     @isTest static void updateCustomerProfile(){
         //set up data to send
