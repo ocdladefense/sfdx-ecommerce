@@ -14,20 +14,18 @@ public class CustomerProfile extends AuthorizeDotNetType {
 
     public List<AuthNetAddress> shipToList;
 
-    //collection or list
+    public AuthNetAddress singleAddress;
+
     
-    public CustomerProfile() {}
+    public CustomerProfile() {
+        super();
+    }
 
     public CustomerProfile (String customerProfileId){
+        this();
         this.customerProfileId = customerProfileId;
     }
 
-    /*
-    public CustomerProfile(CustomerPaymentProfile paymentprofile) {
-        this.paymentProfiles = new List<CustomerPaymentProfile>();
-        this.paymentProfiles.add(paymentprofile);
-    }
-    */
 
     public override String getPrimaryKeyField() {
         return 'customerProfileId';
@@ -39,11 +37,17 @@ public class CustomerProfile extends AuthorizeDotNetType {
 
     public override Set<String> keySet() {
         return new Set<String> {
-            'merchantCustomerId', 'description', 'email', 'paymentProfiles','customerProfileId', 'shipToList'
+            'merchantCustomerId', 'description', 'email', 'paymentProfiles','customerProfileId', 'shipToList', 'singleAddress'
         };
     }
-
+    public void setSingleAddress(AuthNetAddress address){
+        this.singleAddress = address;
+    }
+    public AuthNetAddress getSingleAddress(AuthNetAddress address){
+        return this.singleAddress;
+    }
     public override Map<String,Object> toMap() {
+        System.debug('CALLING TO MAP on profile itself');
         Map<String,Object> tmp = new Map<String,Object>();
         tmp.put('merchantCustomerId', this.merchantCustomerId );
         tmp.put('description', this.description);
@@ -51,6 +55,12 @@ public class CustomerProfile extends AuthorizeDotNetType {
         tmp.put('paymentProfiles', this.paymentProfiles);
         tmp.put('customerProfileId', this.customerProfileId);
         tmp.put('shipToList', this.shipToList);
+        tmp.put('singleAddress', this.singleAddress);
+    
+        if(this.shipToList == null){
+            this.ignoreField('shipToList');
+        }
+        
     
         return tmp;
     }
@@ -106,13 +116,6 @@ public class CustomerProfile extends AuthorizeDotNetType {
         this.paymentProfiles = paymentProfiles;
     }
 
-    public void addToPaymentProfiles(CustomerPaymentProfile paymentProfile){
-        if(this.paymentProfiles == null){
-            this.paymentProfiles = new List<CustomerPaymentProfile>();
-        }
-        this.paymentProfiles.add(paymentProfile);
-    }
-
     public List<AuthNetAddress> getShipToList(){
         return this.shipToList;
     }
@@ -132,11 +135,27 @@ public class CustomerProfile extends AuthorizeDotNetType {
     }
 
 
+    //methods to add a single object to a list on the profile
+
+    public void addToPaymentProfiles(CustomerPaymentProfile paymentProfile){
+        if(this.paymentProfiles == null){
+            this.paymentProfiles = new List<CustomerPaymentProfile>();
+        }
+        this.paymentProfiles.add(paymentProfile);
+    }
+    public void addToShipToList(AuthNetAddress theAddress){
+        if(this.shipToList == null){
+            this.shipToList = new List<AuthNetAddress>();
+        }
+        this.shipToList.add(theAddress);
+    }
+    
     //return paymentprofile 
     public CustomerPaymentProfileCollection getPaymentProfileCollection(){
         return null;
     }
 
+    //methods used by controller to find default shipping address
     public AuthNetAddressCollection getShipToCollection() {
       
         if(this.shipToList == null){

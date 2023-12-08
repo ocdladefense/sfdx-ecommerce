@@ -12,7 +12,7 @@ public class CreateCustomerPaymentProfileTest {
 
 
         //variables
-        Address address = new Address('Sebastian', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
+        AuthNetAddress address= new AuthNetAddress('Sebastian', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
         CreditCard card = new CreditCard('4111111111111122','11/2024');
         Payment payment = new Payment();
         payment.setCreditCard(card);
@@ -29,6 +29,7 @@ public class CreateCustomerPaymentProfileTest {
 
         
         String result = req.getBody();
+        system.debug(result);
         Boolean idPresent = result.contains('customerProfileId');
 
         String msg1 = 'This request should have customerProfileId.';

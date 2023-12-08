@@ -12,7 +12,7 @@ public class ShippingAddressTest {
         
         string result = req.getBody();
         Boolean idPresent = result.contains('customerAddressId');
-
+        System.debug(result);
         System.assertEquals(false, idPresent, 'this request should not have customerAddressId');
 
         //client or mock
