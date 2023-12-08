@@ -57,7 +57,7 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
         this.messages = messages;
     }
 
-    //-------------End new metho                                                    ds
+    //-------------End new methods
 
 
     public Boolean success(){
@@ -71,28 +71,6 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
         String value = (String)theMap.get(key);
         return value;
     }
-
-    public Boolean getBooleanValue(String key){
-        Map<String, Object> theMap = (Map<String, Object>)JSON.deserializeUntyped(this.getBody());
-        Boolean value = (Boolean)theMap.get(key);
-        return value;
-    }
-
-    public Object getObject(String key){
-        Map<String, Object> theMap = (Map<String, Object>)JSON.deserializeUntyped(this.getBody());
-        Object value = theMap.get(key);
-        return value;
-    }
-
-    public static AuthorizeDotNetResponse newFromRequestType(String requestType) {
-
-        String typeName = requestType + 'Response'; // e.g., CreateCustomerPaymentProfileResponse
-        // String respMockName = req.requestType + 'MockResponse'; //e.g., CreateCustomerPaymentProfileMockResponse
-        System.Type t = Type.forName(typeName);
-        System.debug('the type is '+ typeName);
-        return (AuthorizeDotNetResponse)t.newInstance();
-    }
-
-    
+       
 
 }
