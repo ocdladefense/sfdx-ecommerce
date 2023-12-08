@@ -67,10 +67,6 @@
       "versionDescription": "",
       "dependencies": [
         {
-          "package": "EcommercePayment",
-          "versionNumber": "0.1.0.LATEST"
-        },
-        {
           "package": "AuthorizeDotNetApi",
           "versionNumber": "0.1.0.LATEST"
         }

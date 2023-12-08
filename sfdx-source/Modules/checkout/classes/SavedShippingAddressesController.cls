@@ -61,7 +61,7 @@ public with sharing class SavedShippingAddressesController {
     }
     
 
-    public PageReference setShippingMethod(){
+    public PageReference setShippingMethod() {
         Map<String,String> params = ApexPages.currentPage().getParameters();
         String action = params.get('action');
         String customerAddressId = params.get('customerAddressId');
@@ -83,7 +83,7 @@ public with sharing class SavedShippingAddressesController {
         //when the user clicks edit link
         //set the customerAddressId
         
-        string customerAddressId = Apexpages.currentPage().getParameters().get('customerAddressId');
+        String customerAddressId = Apexpages.currentPage().getParameters().get('customerAddressId');
 
         //able to set a parameter
         if(customerAddressId!=null){
