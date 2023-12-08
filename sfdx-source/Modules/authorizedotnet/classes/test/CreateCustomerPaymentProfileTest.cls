@@ -94,5 +94,45 @@ public class CreateCustomerPaymentProfileTest {
         System.assert(resp.isDefault() == false, 'Should be false since it was not set to true in the request');
     }
     
+    @isTest static void RequestBaseClassTest() {
+        
 
+        if (Test.isRunningTest()){
+            Test.setMock(HttpCalloutMock.class, new AuthorizeDotNetServiceMock());
+        }
+
+
+        //variables
+        String customerProfileId = '527262';
+        
+        CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile();
+
+        //request
+        CreateCustomerPaymentProfileRequest req = new CreateCustomerPaymentProfileRequest(paymentProfile);
+        req.setCustomerProfileId(customerProfileId);
+        System.assert(req.getRequestType() == 'createCustomerPaymentProfile');
+
+        //adds the field 'testField' to the request
+        req.addField('testField');
+        System.debug('req: ' + req);
+        System.debug('req: ' + req.keySet());
+        System.assert(req.keyset().contains('testField'), 'The request keyset should contain testField');
+
+        //adds 'testField as an ignored field'
+        req.ignoreField('testField');
+        System.debug('req: ' + req.keySet());
+        System.debug('req.getBody(): ' + req.getBody());
+        System.assert(!(req.getBody().contains('testField')), 'The request body should not contain testField');
+
+        //sets fields back to the original two entries without 'testField'
+        Set<String> fields = new Set<String> {'customerProfileId', 'paymentProfile'};
+        req.setFields(fields);
+        System.debug('req: ' + req);
+        System.debug('req: ' + req.keySet());
+        System.assert(!(req.keyset().contains('testField')), 'The request keyset should not contain testField');
+  
+
+        
+        
+    }
 }
