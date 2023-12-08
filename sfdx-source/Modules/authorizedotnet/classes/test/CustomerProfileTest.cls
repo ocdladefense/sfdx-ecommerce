@@ -88,6 +88,42 @@ public class CustomerProfileTest {
        
     }
 
+    @isTest static void CreateCustomerprofileRequestConstructorsr(){
+        AuthNetAddress billTo = new AuthNetAddress('Mel', 'Smythe-Bananas', '1325 West 18th Ave', 'Eugene', 'OR', '97402');
+        billTo.setCompany('LCC Art Department');
+        CreditCard card = new CreditCard('4111111111111111', '05-2026');
+        Payment thePayment = new Payment(card);
+
+        CreateCustomerProfileRequest req = new CreateCustomerProfileRequest(card, billTo);
+        CreateCustomerProfileRequest req2 = new CreateCustomerProfileRequest(card);
+        CreateCustomerProfileRequest req3 = new CreateCustomerProfileRequest();
+
+        req.setEmail('mSmyth@lcctest.org');
+        
+        String result = req.getBody();
+        System.debug(result);
+        System.AssertEquals(true, result.contains('billTo'));
+        System.AssertEquals(false, result.contains('customerType'));
+
+        req2.setDescription('new profile');
+        req2.setCustomerType('individual');
+        String result2 = req2.getBody();
+        System.debug(result2);
+        System.AssertEquals(false, result2.contains('billTo'));
+        System.AssertEquals(true, result2.contains('customerType'));
+
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+        CreateCustomerProfileResponse resp = (CreateCustomerProfileResponse)client.send(req);
+        System.debug (resp.getBody());
+
+        System.debug('success is '+ resp.success());
+        System.debug('customerProfileId from response is ' + resp.getCustomerProfileId());
+
+        //able to create req successfully
+
+
+    }
+
     @isTest
     static void CreateCustomerProfileNewCustomerProfile(){
         //new class made in order to create correct JSON body when calling getBody on request
@@ -126,7 +162,7 @@ public class CustomerProfileTest {
 
         //916648613
         //was able to create this profile by using NewCustomerProfile and removing shipToList from the CreateCustomerProfileRequest fields and keyset
-        
+
     }
     
     @isTest
