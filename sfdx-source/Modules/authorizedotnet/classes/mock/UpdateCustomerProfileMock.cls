@@ -1,4 +1,4 @@
-public with sharing class UpdateCustomerProfileMock {
+public class UpdateCustomerProfileMock extends AuthorizeDotNetResponse implements IMockResponse {
     public UpdateCustomerProfileMock() {
 
     }

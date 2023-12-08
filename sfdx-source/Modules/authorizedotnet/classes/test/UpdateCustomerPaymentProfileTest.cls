@@ -10,7 +10,7 @@ public class UpdateCustomerPaymentProfileTest {
         String customerProfileId = '905372692';
         String paymentProfileId = '915890663';
 
-        Address address = new Address('Sarrah', 'Burgens', '123 NW Monroe Ave', 'Corvallis', 'OR', '97330');
+        AuthNetAddress address = new AuthNetAddress('Sarrah', 'Burgens', '123 NW Monroe Ave', 'Corvallis', 'OR', '97330');
         CreditCard card = new CreditCard('34222222222222233', '12/2027');
         Payment payment = new Payment();
         payment.setCreditCard(card);

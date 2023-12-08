@@ -16,7 +16,7 @@ public class GetCustomerPaymentProfileMock extends AuthorizeDotNetResponse imple
 
         // Constructs the paymentProfile string
         CreditCard creditCard = new CreditCard('XXXX1111', 'XXXX');
-        Address billTo = new Address('John', 'Doe', '123 Main St.', 'Bellevue', 'WA', '98004');
+        AuthNetAddress billTo = new AuthNetAddress('John', 'Doe', '123 Main St.', 'Bellevue', 'WA', '98004');
         CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile(creditCard, billTo);
 
         // Constructs the message list

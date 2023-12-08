@@ -38,7 +38,7 @@ public class DeleteCustomerPaymentProfileMock extends AuthorizeDotNetResponse im
         String customerProfileId= '905372692';
         String customerPaymentProfileId ='905264262';
         CreditCard card = new CreditCard('123456789022', Date.newInstance(2026, 8, 1));
-        Address billToAddress = new Address('mara', 'williams', 'blah 123', 'eugene', 'oregon', '97454');
+        AuthNetAddress billToAddress = new AuthNetAddress('mara', 'williams', 'blah 123', 'eugene', 'oregon', '97454');
         CustomerPaymentProfile profile = new CustomerPaymentProfile(card, billToAddress);
         profile.setCustomerPaymentProfileId(customerPaymentProfileId);
         return profile;
@@ -50,14 +50,14 @@ public class DeleteCustomerPaymentProfileMock extends AuthorizeDotNetResponse im
         String customerProfileId= '905372692';
         String customerPaymentProfileId ='905264262';
         CreditCard card = new CreditCard('123456789022', Date.newInstance(2026, 8, 1));
-        Address billToAddress = new Address('mara', 'williams', 'blah 123', 'eugene', 'oregon', '97454');
+        AuthNetAddress billToAddress = new AuthNetAddress('mara', 'williams', 'blah 123', 'eugene', 'oregon', '97454');
         CustomerPaymentProfile profile = new CustomerPaymentProfile(card, billToAddress);
         profile.setCustomerPaymentProfileId(customerPaymentProfileId);
 
         //default valid Visa card
         String customerPaymentProfileId2 = '905264263';
         CreditCard card2 = new CreditCard('4444111144441111', Date.newInstance(2025, 11, 1));
-        Address billToAddress2 = new Address('mara', 'williams', 'blah 123', 'eugene', 'oregon', '97454');
+        AuthNetAddress billToAddress2 = new AuthNetAddress('mara', 'williams', 'blah 123', 'eugene', 'oregon', '97454');
         CustomerPaymentProfile profile2 = new CustomerPaymentProfile(card, billToAddress);
         profile2.setCustomerPaymentProfileId(customerPaymentProfileId2);
         profile2.setDefaultPaymentProfile(true);
@@ -65,7 +65,7 @@ public class DeleteCustomerPaymentProfileMock extends AuthorizeDotNetResponse im
         //valid Mastercard card
         String customerPaymentProfileId3 ='905264264';
         CreditCard card3 = new CreditCard('5555111144441111', Date.newInstance(2027, 2, 1));
-        Address billToAddress3 = new Address('mara', 'morgan', 'blah 123', 'eugene', 'oregon', '97454');
+        AuthNetAddress billToAddress3 = new AuthNetAddress('mara', 'morgan', 'blah 123', 'eugene', 'oregon', '97454');
         CustomerPaymentProfile profile3 = new CustomerPaymentProfile(card, billToAddress);
         profile3.setCustomerPaymentProfileId(customerPaymentProfileId3);
         profile3.setDefaultPaymentProfile(false);
@@ -74,7 +74,7 @@ public class DeleteCustomerPaymentProfileMock extends AuthorizeDotNetResponse im
 
         String customerPaymentProfileId4 = '905264265';
         CreditCard card4 = new CreditCard('5544111155559999', Date.newInstance(2023, 6, 1));
-        Address billToAddress4 = new Address('Mara', 'Williams', 'office park 123', 'Eugene', 'OR', '97402');
+        AuthNetAddress billToAddress4 = new AuthNetAddress('Mara', 'Williams', 'office park 123', 'Eugene', 'OR', '97402');
         CustomerPaymentProfile profile4 = new CustomerPaymentProfile(card, billToAddress);
         profile3.setCustomerPaymentProfileId(customerPaymentProfileId3);
         profile3.setDefaultPaymentProfile(false);
