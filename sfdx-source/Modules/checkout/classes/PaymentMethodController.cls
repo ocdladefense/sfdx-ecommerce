@@ -51,8 +51,8 @@ public class PaymentMethodController {
             paymentProfile = new CustomerPaymentProfile();
         } else {
             paymentProfile = doLoadAction(paymentProfileId);
-        	Address addy = paymentProfile.getBillTo();
-            billTo = addy.getAsAuthNetAddress();
+        	AuthNetAddress addy = paymentProfile.getBillTo();
+            // billTo = addy.getAsAuthNetAddress();
             System.debug('PaymentMethodController firstName: ' + addy.getFirstName());
         	cardInfo = paymentProfile.getCard();  
         }
@@ -83,7 +83,7 @@ public class PaymentMethodController {
     
     public Pagereference doCreateAction() {
 
-        paymentProfile = new CustomerPaymentProfile(cardInfo, billTo.getAsAddress());
+        paymentProfile = new CustomerPaymentProfile(cardInfo, billTo);
         paymentProfile.setDefaultPaymentProfile(isDefaultPaymentMethod);
 
         CreateCustomerPaymentProfileRequest req = new CreateCustomerPaymentProfileRequest(paymentProfile);
@@ -103,7 +103,7 @@ public class PaymentMethodController {
 
 
         //Address billToAddress = new Address('Testy', 'Tester', 'blah 123', 'Springfield', 'OR', '97477');
-        UpdateCustomerPaymentProfileRequest req = new UpdateCustomerPaymentProfileRequest(paymentProfile, billTo.getAsAddress());
+        UpdateCustomerPaymentProfileRequest req = new UpdateCustomerPaymentProfileRequest(paymentProfile, billTo);
         System.debug('XXXX- Payment profile id');
         System.debug(paymentProfile.getCustomerPaymentProfileId());
         System.debug('XXXX - Payment profile keySet...');

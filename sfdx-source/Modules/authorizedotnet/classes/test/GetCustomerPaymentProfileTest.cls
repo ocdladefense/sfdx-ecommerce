@@ -52,7 +52,7 @@ public class GetCustomerPaymentProfileTest {
         //default valid Visa card
         String paymentProfileId = '87';
         CreditCard creditCard = new CreditCard('XXXX1111', 'XXXX');
-        Address billTo = new Address('John', 'Doe', '123 Main St.', 'Bellevue', 'WA', '98004');
+        AuthNetAddress billTo = new AuthNetAddress('John', 'Doe', '123 Main St.', 'Bellevue', 'WA', '98004');
         CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile(creditCard, billTo);
         paymentProfile.setCustomerPaymentProfileId(paymentProfileId);
 

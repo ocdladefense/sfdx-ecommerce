@@ -58,7 +58,7 @@ public class CreateCustomerPaymentProfileTest {
 
         //variables
         String customerProfileId = '527262';
-        Address address = new Address('Sebastian', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
+        AuthNetAddress address = new AuthNetAddress('Sebastian', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
         CreditCard card = new CreditCard('4111111111111122','11/2024');
         Payment payment = new Payment();
         payment.setCreditCard(card);

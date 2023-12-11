@@ -4,7 +4,7 @@
 
         {!c.FirstName & ' ' & c.LastName}
 
-        <apex:commandLink action="{!redirectToAddPaymentMethod}" value="Add Payment Method" />
+        <apex:commandLink action="{!redirectToPaymentMethod}" value="Add Payment Method" />
 
 
 
@@ -24,7 +24,7 @@
                     <div class="actions">
 
 
-                        <apex:commandLink value="Edit" action="{!redirectToEditPaymentMethod}">
+                        <apex:commandLink value="Edit" action="{!redirectToPaymentMethod}">
                             <apex:param name="paymentProfileId" value="{!profile.customerPaymentProfileId}" assignTo="{!selectedPaymentProfileId}" />
                         </apex:commandLink>
 

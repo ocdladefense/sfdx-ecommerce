@@ -6,7 +6,7 @@ public class SavedPaymentMethodsController {
 
     public Contact c {get; set;}
 
-    public Address billingInfo {get; set;}
+    public AuthNetAddress billingInfo {get; set;}
 
     public Payment paymentInfo {get; set;}
 
@@ -21,7 +21,7 @@ public class SavedPaymentMethodsController {
  
 
     public SavedPaymentMethodsController() {
-        billingInfo = new Address();
+        billingInfo = new AuthNetAddress();
         paymentInfo = new Payment();
         Boolean useMock = False;
         
@@ -101,7 +101,7 @@ public class SavedPaymentMethodsController {
         //default valid Visa card
         String customerPaymentProfileId2 ='905264263';
         CreditCard card2 = new CreditCard('4444111144441111', '2025-11');
-        Address billToAddress2 = new Address('Testy', 'Tester', 'blah 123', 'Springfield', 'OR', '97477');
+        AuthNetAddress billToAddress2 = new AuthNetAddress('Testy', 'Tester', 'blah 123', 'Springfield', 'OR', '97477');
         CustomerPaymentProfile profile2 = new CustomerPaymentProfile(card2, billToAddress2);
         profile2.setCustomerPaymentProfileId(customerPaymentProfileId2);
         profile2.setDefaultPaymentProfile(true);
@@ -109,7 +109,7 @@ public class SavedPaymentMethodsController {
         //valid Mastercard card
         String customerPaymentProfileId3 ='905264264';
         CreditCard card3 = new CreditCard('5555111144441111', '2027-02');
-        Address billToAddress3 = new Address('Testy', 'Tester', 'blah 123', 'eugene', 'OR', '97477');
+        AuthNetAddress billToAddress3 = new AuthNetAddress('Testy', 'Tester', 'blah 123', 'eugene', 'OR', '97477');
         CustomerPaymentProfile profile3 = new CustomerPaymentProfile(card3, billToAddress3);
         profile3.setCustomerPaymentProfileId(customerPaymentProfileId3);
         profile3.setDefaultPaymentProfile(false);
@@ -118,7 +118,7 @@ public class SavedPaymentMethodsController {
 
         String customerPaymentProfileId4 ='905264265';
         CreditCard card4 = new CreditCard('5544111155559999', '2023-06');
-        Address billToAddress4 = new Address('Testy', 'Tester', 'office park 123', 'Eugene', 'OR', '97454');
+        AuthNetAddress billToAddress4 = new AuthNetAddress('Testy', 'Tester', 'office park 123', 'Eugene', 'OR', '97454');
         CustomerPaymentProfile profile4 = new CustomerPaymentProfile(card4, billToAddress4);
         profile3.setCustomerPaymentProfileId(customerPaymentProfileId3);
         profile3.setDefaultPaymentProfile(false);

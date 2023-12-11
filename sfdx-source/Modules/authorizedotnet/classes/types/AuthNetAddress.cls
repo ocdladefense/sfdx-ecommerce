@@ -52,15 +52,7 @@ public class AuthNetAddress extends AuthorizeDotNetType {
         
     }
 
-    public Address getAsAddress() {
-        return new Address(this.firstName,
-        this.lastName,
-        this.address,
-        this.city,
-        this.state,
-        this.zip,
-        this.country);
-    }
+
   
     
     
@@ -189,8 +181,5 @@ public class AuthNetAddress extends AuthorizeDotNetType {
         this.company = company;
     }
 
-    public override String toString() {
-        return firstName + ' ' + lastName + ', ' + address;
-    }
     
 }

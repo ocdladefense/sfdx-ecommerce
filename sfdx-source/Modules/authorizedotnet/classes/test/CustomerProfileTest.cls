@@ -56,7 +56,9 @@ public class CustomerProfileTest {
         System.assertEquals(true, req.getUnmaskExpirationDate());
 
     }
-    public void createCustomerPaymentProfileRequestBodyForRef(){
+
+    @isTest
+    private static void createCustomerPaymentProfileRequestBodyForRef(){
                //variables
         AuthNetAddress address= new AuthNetAddress('Sebastian', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
         CreditCard card = new CreditCard('4111111111111122','11/2024');
@@ -81,6 +83,13 @@ public class CustomerProfileTest {
     }
 
     @isTest static void CreateCustomerprofileRequestConstructors(){
+
+        AuthorizeDotNetServiceMock mock = new AuthorizeDotNetServiceMock();
+        if (Test.isRunningTest()){
+            Test.setMock(HttpCalloutMock.class, mock);
+        }
+
+
         AuthNetAddress billTo = new AuthNetAddress('Mel', 'Smythe-Bananas', '1325 West 18th Ave', 'Eugene', 'OR', '97402');
         billTo.setCompany('LCC Art Department');
         CreditCard card = new CreditCard('4111111111111111', '05-2026');
