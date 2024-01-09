@@ -73,12 +73,6 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
     
 
 
-    /*
-    public static String getDomain(){
-        Organization org = [SELECT Id, InstanceName, IsSandbox FROM Organization WHERE Id = :UserInfo.getOrganizationId()];
-        
-        return org.IsSandbox ? GATEWAY_SANDBOX_URL  : GATEWAY_PRODUCTION_URL;
-    }
-    */
+
 
 }

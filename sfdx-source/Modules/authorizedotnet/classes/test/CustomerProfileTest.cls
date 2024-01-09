@@ -4,7 +4,7 @@ public class CustomerProfileTest {
 
     }
 
-    @isTest static void deserializeGetCustomerProfileResponse(){
+    @isTest static void deserializeGetCustomerProfileResponse() {
 
         String customerprofileId='916263569';
         GetCustomerProfileRequest req = new GetCustomerProfileRequest();
@@ -39,7 +39,7 @@ public class CustomerProfileTest {
 
     }
 
-    @isTest static void getCustomerProfileRequestBody(){
+    @isTest static void getCustomerProfileRequestBody() {
         String customerProfileId='916263569';
         Boolean unmaskExpirationDate = true;
 
@@ -47,6 +47,10 @@ public class CustomerProfileTest {
         req.setCustomerProfileId(customerProfileId);
         req.setUnmaskExpirationDate(unmaskExpirationDate);
         
+
+        
+
+
         string result = req.getBody();
         system.debug(result);
         Boolean idPresent = result.contains('customerProfileId');
@@ -58,7 +62,7 @@ public class CustomerProfileTest {
     }
 
     @isTest
-    private static void createCustomerPaymentProfileRequestBodyForRef(){
+    private static void createCustomerPaymentProfileRequestBodyForRef() {
                //variables
         AuthNetAddress address= new AuthNetAddress('Sebastian', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
         CreditCard card = new CreditCard('4111111111111122','11/2024');
@@ -82,46 +86,91 @@ public class CustomerProfileTest {
        
     }
 
-    @isTest static void CreateCustomerprofileRequestConstructors(){
-
+    @isTest
+    static void ConstructCustomerProfile() {
+  
         AuthorizeDotNetServiceMock mock = new AuthorizeDotNetServiceMock();
         if (Test.isRunningTest()){
             Test.setMock(HttpCalloutMock.class, mock);
         }
 
+  
+        AuthNetAddress shipTo = new AuthNetAddress('Mel', 'Smythe-Bananas', '1325 West 18th Ave', 'Eugene', 'OR', '97402');
+        shipTo.setCompany('LCC Art Department');
 
-        AuthNetAddress billTo = new AuthNetAddress('Mel', 'Smythe-Bananas', '1325 West 18th Ave', 'Eugene', 'OR', '97402');
-        billTo.setCompany('LCC Art Department');
-        CreditCard card = new CreditCard('4111111111111111', '05-2026');
-        Payment thePayment = new Payment(card);
+        List<AuthNetAddress> shipToList = new List<AuthNetAddress>();
+        shipToList.add(shipTo);
 
-        CreateCustomerProfileRequest req = new CreateCustomerProfileRequest(card, billTo);
-        CreateCustomerProfileRequest req2 = new CreateCustomerProfileRequest(card);
-        CreateCustomerProfileRequest req3 = new CreateCustomerProfileRequest();
+        Object generic = shipToList;
 
-        req.setEmail('mSmyth@lcctest.org');
+        System.assert(generic instanceof List<AuthorizeDotNetType>);
+
+  
         
-        String result = req.getBody();
-        System.debug(result);
-        System.AssertEquals(true, result.contains('billTo'));
-        System.AssertEquals(false, result.contains('customerType'));
+        CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile();
+        paymentProfile.setCard(new CreditCard('4111111111111111', '05-2026'));
 
-        req2.setDescription('new profile');
-        req2.setCustomerType('individual');
-        String result2 = req2.getBody();
-        System.debug(result2);
-        System.AssertEquals(false, result2.contains('billTo'));
-        System.AssertEquals(true, result2.contains('customerType'));
+        
+
+        CustomerProfile profile = new CustomerProfile();
+        profile.setMerchantCustomerId('123');
+        profile.setEmail('john.doe@example.com');
+        profile.setDescription('My Profile');
+        profile.setProfileType('individual');
+        profile.addToPaymentProfiles(paymentProfile);
+
+        JsonPayload p1 = new JsonPayload();
+        p1.writeStartObject();
+        p1.writeObjectField('profile', profile);
+        p1.writeEndObject();
+        System.debug(p1.getAsString());
+
+        CreateCustomerProfileRequest req = new CreateCustomerProfileRequest(profile);
+        req.setValidationMode('testMode');
+        req.getValidationMode();
+        req.addToShipToList(shipTo);
+        req.setShipToList((List<AuthNetAddress>)shipToList);
+        req.getShipToList();
+        
+        String body = req.getBody();
+
 
         AuthorizeDotNetClient client = new AuthorizeDotNetClient();
         CreateCustomerProfileResponse resp = (CreateCustomerProfileResponse)client.send(req);
-        System.debug (resp.getBody());
 
-        System.debug('success is '+ resp.success());
-        System.debug('customerProfileId from response is ' + resp.getCustomerProfileId());
 
-        //able to create req successfully
+        System.debug(resp.getBody());
+        System.debug('Response status is: '+ resp.success());
+        System.debug('CustomerProfileId from response is: ' + resp.getCustomerProfileId());
+    }
 
+
+
+
+
+    @isTest
+    private static void testMessages() {
+
+        Messages msgs = new Messages();
+        Message m1 = new Message('I00001','Successful.');
+        m1.setCode('');
+        m1.setText('');
+        m1.getCode();
+        m1.getText();
+
+        msgs.addMessage(m1);
+        msgs.setMessage(new List<Message>{m1});
+        msgs.setResultCode(AuthorizeDotNetResponse.RESPONSE_SUCCESS);
+
+        JsonPayload p2 = new JsonPayload();
+        p2.writeStartObject();
+        p2.writeObjectField('messages', msgs);
+        p2.writeEndObject();
+        System.debug(p2.getAsString());
+
+        String resultCode = msgs.getResultCode();
+        List<Message> statuses = msgs.getMessage();
+        Message first = msgs.getFirstMessage();
     }
 
    

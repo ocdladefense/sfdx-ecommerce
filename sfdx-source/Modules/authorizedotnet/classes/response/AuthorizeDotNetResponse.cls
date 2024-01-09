@@ -7,22 +7,19 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
     public final static String RESPONSE_FAILURE = 'Error';
 
 
-    public AuthorizeDotNetResponse() {
-    }
+
+
+    public AuthorizeDotNetResponse() {}
+
 
     public AuthorizeDotNetResponse(String theBody) {
         this.body = theBody;
-        //could we call deserialize here? the string always needs to be in a more readable format
-        //this.deserialize();
     }
 
-    public virtual override String getBody(){
-        //return this.deserialize();
+
+    public virtual override String getBody() {
         return this.body;
     }
-    // public override void setBody(String body) {
-    //     this.body = body;
-    // }
 
 
     public virtual void deserialize() {
@@ -46,29 +43,28 @@ public virtual class AuthorizeDotNetResponse extends HttpResponseMessage{
             System.debug('messages getter is ' + this.getMessages());
             
         }
-
     } 
 
-    public Messages getMessages(){
+
+    public Messages getMessages() {
         return this.messages;
     }
 
-    public void setMessages(Messages messages){
+
+    public void setMessages(Messages messages) {
         this.messages = messages;
     }
 
-    //-------------End new methods
 
-
-    public Boolean success(){
+    public Boolean success() {
         return this.messages.getResultCode() == AuthorizeDotNetResponse.RESPONSE_SUCCESS;
     }
 
-    //generic ways to access a value that is at the same level as messages
 
-    public String getStringValue(String key){
+    public String getStringValue(String key) {
         Map<String, Object> theMap = (Map<String, Object>)JSON.deserializeUntyped(this.getBody());
         String value = (String)theMap.get(key);
+
         return value;
     }
        

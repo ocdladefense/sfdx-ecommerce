@@ -1,25 +1,41 @@
 public class CustomerProfile extends AuthorizeDotNetType {
 
-    public List<CustomerPaymentProfile> paymentProfiles;
-
-    public String profileType;
+    
 
     public String customerProfileId;
 
     public String merchantCustomerId;
 
+    public String profileType = 'individual';
+
     public String description;
 
     public String email;
 
+    public List<CustomerPaymentProfile> paymentProfiles;
+
     public List<AuthNetAddress> shipToList;
 
-    public AuthNetAddress singleAddress;
+    private static final String CUSTOMER_TYPE_INDIVIDUAL = 'individual';
 
+    private static final String CUSTOMER_TYPE_BUSINESS = 'business';
     
+
+
+    public void setCustomerType(String profileType){
+        if(profileType == CUSTOMER_TYPE_INDIVIDUAL  ||  profileType == CUSTOMER_TYPE_BUSINESS){
+            this.profileType = profileType;
+        }
+        else {
+            throw new AuthorizeDotNetException ('profileType must be individual or business.');
+        }
+    }
+
+
     public CustomerProfile() {
         super();
     }
+
 
     public CustomerProfile (String customerProfileId){
         this();
@@ -31,23 +47,23 @@ public class CustomerProfile extends AuthorizeDotNetType {
         return 'customerProfileId';
     }
 
+
     public override String getPrimaryKeyValue() {
         return this.customerProfileId;
     }
 
+
     public override Set<String> keySet() {
         return new Set<String> {
-            'merchantCustomerId', 'description', 'email', 'paymentProfiles','customerProfileId', 'shipToList', 'singleAddress'
+            'merchantCustomerId', 'description', 'email', 'paymentProfiles', 'customerProfileId', 'shipToList'
         };
     }
-    public void setSingleAddress(AuthNetAddress address){
-        this.singleAddress = address;
-    }
-    public AuthNetAddress getSingleAddress(AuthNetAddress address){
-        return this.singleAddress;
-    }
+
+
+
+
     public override Map<String,Object> toMap() {
-        System.debug('CALLING TO MAP on profile itself');
+
         Map<String,Object> tmp = new Map<String,Object>();
         tmp.put('merchantCustomerId', this.merchantCustomerId );
         tmp.put('description', this.description);
@@ -55,35 +71,44 @@ public class CustomerProfile extends AuthorizeDotNetType {
         tmp.put('paymentProfiles', this.paymentProfiles);
         tmp.put('customerProfileId', this.customerProfileId);
         tmp.put('shipToList', this.shipToList);
-        tmp.put('singleAddress', this.singleAddress);
     
-        if(this.shipToList == null){
+        if(this.shipToList == null) {
             this.ignoreField('shipToList');
+        }
+
+        if(this.paymentProfiles == null) {
+            this.ignoreField('paymentProfiles');
         }
         
     
         return tmp;
     }
 
+
     public String getProfileType(){
         return this.profileType;
     }
+
 
     public String getCustomerProfileId(){
         return this.customerProfileId;
     }
 
+
     public String getMerchantCustomerId(){
         return this.merchantCustomerId;
     }
+
 
     public String getEmail(){
         return this.email;
     }
 
+
     public String getDescription(){
         return this.description;
     }
+
 
     public List<CustomerPaymentProfile> getPaymentProfiles(){
         if(this.paymentProfiles == null){
@@ -92,37 +117,46 @@ public class CustomerProfile extends AuthorizeDotNetType {
         return this.paymentProfiles;
     }
     
+
     public void setProfileType(String profileType) {
         this.profileType = profileType;
     }
+
 
     public void setCustomerProfileId(String customerProfileId) {
         this.customerProfileId = customerProfileId;
     }
     
+
     public void setMerchantCustomerId(String merchantCustomerId) {
         this.merchantCustomerId = merchantCustomerId;
     }
+
 
     public void setEmail(String email) {
         this.email = email;
     }
 
+
     public void setDescription(String description) {
         this.description = description;
     }
+
 
     public void setPaymentProfiles(List<CustomerPaymentProfile> paymentProfiles) {
         this.paymentProfiles = paymentProfiles;
     }
 
+
     public List<AuthNetAddress> getShipToList(){
         return this.shipToList;
     }
 
+
     public void setShipToList(List<AuthNetAddress> shipToList) {
         this.shipToList = shipToList;
     }
+
 
     public CustomerPaymentProfile getDefaultPaymentProfile() {
         for(CustomerPaymentProfile paymentProfile : this.paymentProfiles) {
@@ -143,6 +177,8 @@ public class CustomerProfile extends AuthorizeDotNetType {
         }
         this.paymentProfiles.add(paymentProfile);
     }
+
+
     public void addToShipToList(AuthNetAddress theAddress){
         if(this.shipToList == null){
             this.shipToList = new List<AuthNetAddress>();
@@ -150,10 +186,12 @@ public class CustomerProfile extends AuthorizeDotNetType {
         this.shipToList.add(theAddress);
     }
     
+
     //return paymentprofile 
     public CustomerPaymentProfileCollection getPaymentProfileCollection(){
         return null;
     }
+
 
     //methods used by controller to find default shipping address
     public AuthNetAddressCollection getShipToCollection() {
@@ -187,6 +225,7 @@ public class CustomerProfile extends AuthorizeDotNetType {
 
         //should this method also call requestDefaultShippingAddress?
     }
+
 
     public AuthNetAddress getDefaultShippingAddressFromList(){
         System.debug('about to iterate');

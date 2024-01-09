@@ -1,8 +1,11 @@
-public class Message extends AuthorizeDotNetType{
+public class Message extends AuthorizeDotNetType {
 
     protected String code;
 
     protected String text;
+
+
+
 
 
     public Message() {
@@ -12,19 +15,29 @@ public class Message extends AuthorizeDotNetType{
     }
 
 
-    public String getCode (){
+    public Message(String code, String text) {
+        this();
+        this.code = code;
+        this.text = text;
+    }
+
+
+    public String getCode () {
         return this.code;
     }
 
-    public String getText (){
+
+    public String getText () {
         return this.text;
     }
 
-    public void setCode(String code){
+
+    public void setCode(String code) {
         this.code = code;
     }
 
-    public void setText(String text){
+
+    public void setText(String text) {
         this.text = text;
     }
 

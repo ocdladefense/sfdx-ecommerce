@@ -75,7 +75,17 @@ public class JsonPayload {
 
             //System.debug(key);
             // Test the type of value:
-            if(value instanceof AuthorizeDotNetType) {
+            if(value instanceof List<AuthorizeDotNetType>) {
+                this.gen.writeFieldName(key);
+                this.gen.writeStartArray();
+                for(AuthorizeDotNetType elem : (List<AuthorizeDotNetType>)value) {
+                    this.gen.writeStartObject();
+                    this.writeObjectFields(null, elem);
+                    this.gen.writeEndObject();
+                }
+                this.gen.writeEndArray();
+            }
+            else if(value instanceof AuthorizeDotNetType) {
                 System.debug('found authnet object for '+ key);
                 this.writeObjectFields(key, (AuthorizeDotNetType)value);  
             } else if(value instanceof IOrderedMap) {

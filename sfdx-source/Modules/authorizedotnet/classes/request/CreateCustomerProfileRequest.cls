@@ -1,56 +1,38 @@
 public class CreateCustomerProfileRequest extends AuthorizeDotNetRequest{
-    //public CustomerProfile profile;
-
-    //public NewCustomerProfile profile;
-    //has no profile member
-    //instead has the members that would go into a profile
-    //public List<AuthNetAddress> shipToList;
+    
+    public CustomerProfile profile;
 
     public String validationMode = 'testMode';
-    //what about shipping
 
-    //inside of profile
-    //public String profileType;
-
-    public String customerProfileId;
-
-    public String merchantCustomerId;
-
-    public String description;
-
-    public String email;
+    // Either guest or regular. Defaults to regular.
+    public String profileType;
 
     //inside of paymentProfiles
-    public AuthNetAddress billTo;
+    public List<AuthNetAddress> shipToList;
 
-    public Payment payment;
 
-    public String customerType;
-
-    private static final String CUSTOMER_TYPE_INDIVIDUAL = 'individual';
-    private static final String CUSTOMER_TYPE_BUSINESS = 'business';
  
+
+
+
     public CreateCustomerProfileRequest() {
         super('createCustomerProfile');
-        this.fields = new Set<String>{'profile', 'validationMode'};
     }
 
-    public CreateCustomerProfileRequest(CreditCard card, AuthNetAddress billTo) {
+
+    public CreateCustomerProfileRequest(CustomerProfile profile) {
         this();
-        this.payment = new Payment(card);
-        this.billTo = billTo;
-       
+        this.profile = profile;
     }
-    public CreateCustomerProfileRequest(CreditCard card) {
-        this();
-        this.payment = new Payment(card);
-    }
+
+
+
 
 
     //some classses have keyset some don't
     public override Set<String> keySet() {
         // return new Set<String>{'profile', 'shipToList','validationMode'};
-        return new Set<String>{'profile', 'validationMode'};
+        return new Set<String>{'profile'};//, 'validationMode'};
     }
 
 
@@ -58,110 +40,52 @@ public class CreateCustomerProfileRequest extends AuthorizeDotNetRequest{
         return this.validationMode;
     }
 
-    public String getMerchantCustomerId(){
-        return this.merchantCustomerId;
-    }
-
-    public String getEmail(){
-        return this.email;
-    }
-
-    public String getDescription(){
-        return this.description;
-    }
-
-    public AuthNetAddress getBillTo() {
-        return billTo;
-    }
-
-    public Payment getPayment() {
-        return payment;
-    }
-    public String getCardNumber(){
-        return this.payment!=null? this.payment.getCreditCard().getCardNumber(): null;
-    }
-
-    public String getExpirationDate(){
-        return this.payment!=null? this.payment.getCreditCard().getExpirationDate(): null;
-    }
-
-
-    public void setMerchantCustomerId(String merchantCustomerId) {
-        this.merchantCustomerId = merchantCustomerId;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public void setBillTo(AuthNetAddress billTo) {
-        this.billTo = billTo;
-    }
-
-    public void setPayment(Payment payment) {
-        this.payment = payment;
-    }
-
-    public void setCard(CreditCard card) {
-        this.payment = new Payment(card);
-    }
-    
-    public CreditCard getCard() {
-        return this.payment.getCreditCard();
-    }
-
-
-    // public List<AuthNetAddress> getShipToList(){
-    //     if(this.shipToList==null){
-    //         this.shipToList = new List<AuthNetAddress>();
-    //     }
-    //     return this.shipToList;
-    // }
-    // public AuthNetAddress getShipToList(){
-    //     return this.shipToList;
-    // }
 
     public void setValidationMode(String validationMode){
         this.validationMode = validationMode;
     }
 
-    public void setCustomerType (String customerType){
-        if(customerType == CUSTOMER_TYPE_INDIVIDUAL  ||  customerType == CUSTOMER_TYPE_BUSINESS){
-            this.customerType = customerType;
-        }
-        else {
-            throw new AuthorizeDotNetException ('CustomerType must be individual or business.');
-        }
+
+
+    public List<AuthNetAddress> getShipToList(){
+        return this.shipToList;
     }
 
-    // public void setShipToList (List<AuthNetAddress> shipToList){
-    //     this.shipToList = shipToList;
-    // }
-    // public void setShipToList (AuthNetAddress shipToList){
-    //     this.shipToList = shipToList;
-    // }
+
+    public void setShipToList(List<AuthNetAddress> shipToList) {
+        this.shipToList = shipToList;
+    }
+
+
+    public void addToShipToList(AuthNetAddress theAddress){
+        if(this.shipToList == null){
+            this.shipToList = new List<AuthNetAddress>();
+        }
+        this.shipToList.add(theAddress);
+    }
 
    
 
+    public override Map<String,Object> toMap() {
+
+        return new Map<String,Object>{'profile' => this.profile};
+    }
+    /*
     public override Map<String,Object> toMap() {
         System.debug('CALLING TO MAP on create profile request');
         Map<String,Object> tmp = new Map<String,Object>();
 
 
         Map<String, Object> tmpPaymentProfiles = new Map <String, Object> {
-            'billTo'=> this.billTo,
+            'billTo' => this.billTo,
             'customerType' => this.customerType, 
             'payment' => this.payment};
 
         Map<String, Object> tmpProfile = new Map <String, Object> {
-            'merchantCustomerId'=> this.merchantCustomerId,
+            'merchantCustomerId' => this.merchantCustomerId,
             'description' => this.description, 
             'email' => this.email,
-            'paymentProfiles' =>tmpPaymentProfiles
+            'paymentProfiles' => tmpPaymentProfiles
         };
 
         tmp.put('profile',tmpProfile);
@@ -170,7 +94,9 @@ public class CreateCustomerProfileRequest extends AuthorizeDotNetRequest{
         
         return tmp;
     }
+*/
 
+/*
     public override String getBody(){
         JSONGenerator gen = JSON.createGenerator(true);
 
@@ -250,5 +176,5 @@ public class CreateCustomerProfileRequest extends AuthorizeDotNetRequest{
 
         return gen.getAsString();
     }
-
+*/
 }
