@@ -16,18 +16,18 @@ public class CustomerProfile extends AuthorizeDotNetType {
 
     public List<AuthNetAddress> shipToList;
 
-    private static final String CUSTOMER_TYPE_INDIVIDUAL = 'individual';
+    public static final String CUSTOMER_TYPE_INDIVIDUAL = 'individual';
 
-    private static final String CUSTOMER_TYPE_BUSINESS = 'business';
+    public static final String CUSTOMER_TYPE_BUSINESS = 'business';
     
 
 
-    public void setCustomerType(String profileType){
+    public void setCustomerType(String profileType) {
         if(profileType == CUSTOMER_TYPE_INDIVIDUAL  ||  profileType == CUSTOMER_TYPE_BUSINESS){
             this.profileType = profileType;
         }
         else {
-            throw new AuthorizeDotNetException ('profileType must be individual or business.');
+            throw new AuthorizeDotNetException ('ProfileType must be individual or business.');
         }
     }
 
@@ -37,7 +37,7 @@ public class CustomerProfile extends AuthorizeDotNetType {
     }
 
 
-    public CustomerProfile (String customerProfileId){
+    public CustomerProfile(String customerProfileId){
         this();
         this.customerProfileId = customerProfileId;
     }
@@ -85,32 +85,32 @@ public class CustomerProfile extends AuthorizeDotNetType {
     }
 
 
-    public String getProfileType(){
+    public String getProfileType() {
         return this.profileType;
     }
 
 
-    public String getCustomerProfileId(){
+    public String getCustomerProfileId() {
         return this.customerProfileId;
     }
 
 
-    public String getMerchantCustomerId(){
+    public String getMerchantCustomerId() {
         return this.merchantCustomerId;
     }
 
 
-    public String getEmail(){
+    public String getEmail() {
         return this.email;
     }
 
 
-    public String getDescription(){
+    public String getDescription() {
         return this.description;
     }
 
 
-    public List<CustomerPaymentProfile> getPaymentProfiles(){
+    public List<CustomerPaymentProfile> getPaymentProfiles() {
         if(this.paymentProfiles == null){
             this.paymentProfiles = new List<CustomerPaymentProfile>();
         }
@@ -148,7 +148,7 @@ public class CustomerProfile extends AuthorizeDotNetType {
     }
 
 
-    public List<AuthNetAddress> getShipToList(){
+    public List<AuthNetAddress> getShipToList() {
         return this.shipToList;
     }
 
@@ -179,7 +179,7 @@ public class CustomerProfile extends AuthorizeDotNetType {
     }
 
 
-    public void addToShipToList(AuthNetAddress theAddress){
+    public void addToShipToList(AuthNetAddress theAddress) {
         if(this.shipToList == null){
             this.shipToList = new List<AuthNetAddress>();
         }
@@ -187,80 +187,60 @@ public class CustomerProfile extends AuthorizeDotNetType {
     }
     
 
-    //return paymentprofile 
-    public CustomerPaymentProfileCollection getPaymentProfileCollection(){
+    // @TODO - not implemented.
+    public CustomerPaymentProfileCollection getPaymentProfileCollection() {
         return null;
     }
 
 
-    //methods used by controller to find default shipping address
+    // Collection is a wrapper class for us to do things like get the default shipping address.
     public AuthNetAddressCollection getShipToCollection() {
       
-        if(this.shipToList == null){
-            throw new AuthorizeDotNetException ('shipToList must not be null');
-        }
-        if(this.shipToList.size()>0){
-            System.debug('about to find default');
-            AuthNetAddress theDefaultAddress = this.getDefaultShippingAddressFromList();
-            if(theDefaultAddress == null){
-                System.debug('no default address found');
-            }
-            else{
-                system.debug('about to set default address boolean in shipToList');
-                for (AuthNetAddress address : this.shipToList){
-                    if(address.getCustomerAddressId()==theDefaultAddress.getCustomerAddressId())
-                    {
-                        System.debug('setting');
-                        address.setDefaultShippingAddress(true);
-                    }
-                }
-            }
-            
+        if(this.shipToList == null || this.shipToList.size() < 1) {
+            return new AuthNetAddressCollection();
         }
 
+        AuthNetAddress theDefaultAddress = this.getDefaultShippingAddressFromList();
 
-        AuthNetAddressCollection collection = this.shipToList!=null? new AuthNetAddressCollection(this.shipToList): null;
-        System.debug(collection.size() + 'addresses in collection');
-        return collection;
+        for(AuthNetAddress address : this.shipToList) {
+            if(address.getCustomerAddressId() == theDefaultAddress.getCustomerAddressId())
+            {
+                address.setDefaultShippingAddress(true);
+            }
+        }
 
-        //should this method also call requestDefaultShippingAddress?
+		// Null/empty list was handled above.  Here we assume we have at least one address to deal with.
+        return new AuthNetAddressCollection(this.shipToList);
     }
 
+    
 
-    public AuthNetAddress getDefaultShippingAddressFromList(){
-        System.debug('about to iterate');
+    public AuthNetAddress getDefaultShippingAddressFromList() {
+     
         AuthorizeDotNetClient client = new AuthorizeDotNetClient();
 
-        Boolean isClientNull = client==null;
-        if(isClientNull){
-            throw new AuthorizeDotNetTypeException('AuthorizeDotNetClient must not be null');
-        }
+  
         
-        if (this.shipToList.size()==0){
-            System.debug('nothing in list');
+        if(null == this.shipToList || this.shipToList.size() < 1) {
+            return null;
         }
-        else{
-            System.debug('something in list');
-        }
-        for (AuthNetAddress address : this.shipToList)
+
+        for(AuthNetAddress address : this.shipToList)
         {
             System.debug('requesting '+ address.getCustomerAddressId());
 
             GetCustomerShippingAddressRequest req = new GetCustomerShippingAddressRequest();
-            
             req.setCustomerAddressId(address.getCustomerAddressId());
-
-            req.setCustomerProfileId(customerProfileId);
+            req.setCustomerProfileId(this.customerProfileId);
 
             GetCustomerShippingAddressResponse resp = (GetCustomerShippingAddressResponse)client.send(req);
             System.debug(address.getFirstName() + ' is default? ' + resp.getDefaultShippingAddress());
-            if(resp.getDefaultShippingAddress()){
-                //set it as well?
-                System.debug('DEFAULT FOUND');
+
+            if(resp.getDefaultShippingAddress()) {
                 return address;
             }
         }
-        //not found
+
         return null;
     }
 

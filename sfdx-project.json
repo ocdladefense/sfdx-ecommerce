@@ -14,23 +14,15 @@
       "path": "sfdx-source/Modules/serialization",
       "package": "LibSerialization",
       "versionName": "ver 0.1",
-      "versionNumber": "0.1.0.NEXT",
-      "default": false,
-      "versionDescription": ""
-    },
-    {
-      "path": "sfdx-source/Modules/payment",
-      "package": "EcommercePayment",
-      "versionName": "ver 0.1",
-      "versionNumber": "0.1.0.NEXT",
+      "versionNumber": "0.1.1.NEXT",
       "default": false,
       "versionDescription": ""
     },
     {
       "path": "sfdx-source/Modules/authorizedotnet",
       "package": "AuthorizeDotNetApi",
-      "versionName": "ver 0.1",
-      "versionNumber": "0.1.0.NEXT",
+      "versionName": "Winter '24",
+      "versionNumber": "0.2.3.NEXT",
       "default": false,
       "versionDescription": "",
       "dependencies": [
@@ -40,7 +32,7 @@
         },
         {
           "package": "LibSerialization",
-          "versionNumber": "0.1.0.LATEST"
+          "versionNumber": "0.1.1.LATEST"
         }
       ]
     },
@@ -59,20 +51,6 @@
       ]
     },
     {
-      "path": "sfdx-source/Modules/checkout",
-      "package": "EcommerceCheckout",
-      "versionName": "ver 0.1",
-      "versionNumber": "0.1.0.NEXT",
-      "default": false,
-      "versionDescription": "",
-      "dependencies": [
-        {
-          "package": "AuthorizeDotNetApi",
-          "versionNumber": "0.1.0.LATEST"
-        }
-      ]
-    },
-    {
       "path": "sfdx-source",
       "default": true
     }
@@ -80,23 +58,11 @@
   "sfdcLoginUrl": "https://test.salesforce.com",
   "sourceApiVersion": "58.0",
   "packageAliases": {
-    "OCDLACheckout": "0Ho5b000000PAtkCAG",
-    "EcommercePayment": "0Ho3h000000GmkjCAC",
-    "EcommercePayment@0.1.0-1": "04t3h0000043we4AAA",
-    "EcommercePayment@0.1.0-2": "04t3h0000043we9AAA",
-    "EcommercePayment@0.1.0-3": "04t3h0000043weEAAQ",
-    "EcommercePayment@0.1.0-4": "04t3h0000043weJAAQ",
-    "EcommercePayment@0.1.0-5": "04t3h0000043wfqAAA",
-    "EcommercePayment@0.1.0-6": "04t3h0000043wfvAAA",
-    "EcommercePayment@0.1.0-7": "04t3h0000043wg0AAA",
-    "Http": "0Ho3h000000GmkoCAC",
-    "QuickBooks": "0Ho3h000000GmktCAC",
-    "AuthorizeDotNetApi": "0Ho3h0000008OmJCAU",
-    "LibJson": "0Ho3h0000008OmOCAU",
     "LibSerialization": "0Ho3h0000008OmTCAU",
     "LibSerialization@0.1.0-1": "04t3h000004Vc7dAAC",
     "LibHttp": "0Ho3h0000008OmYCAU",
     "LibHttp@0.1.0-1": "04t3h000004Vc7iAAC",
-    "EcommerceCheckout": "0Ho3h0000008OmdCAE"
+    "AuthorizeDotNetApi": "0Ho3h0000008OmJCAU",
+    "QuickBooks": "0Ho3h000000GmktCAC"
   }
 }

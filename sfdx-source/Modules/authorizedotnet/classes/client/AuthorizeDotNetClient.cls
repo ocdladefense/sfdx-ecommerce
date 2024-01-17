@@ -11,7 +11,7 @@ public class AuthorizeDotNetClient extends HttpClient {
 
 
 
-public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
+	public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
        
         Http client = new Http();
     
@@ -28,7 +28,7 @@ public AuthorizeDotNetResponse send(AuthorizeDotNetRequest req) {
 
 
         HttpRequest breq = new HttpRequest();
-        breq.setEndpoint('https://apitest.authorize.net/xml/v1/request.api');
+        breq.setEndpoint(req.getEndpoint());
         breq.setMethod('POST');
         breq.setHeader('Content-Type', 'application/json');
         breq.setHeader('X-Request-Type', requestType);

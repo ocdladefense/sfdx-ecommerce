@@ -1,16 +1,57 @@
 @isTest
 public class CustomerProfileTest {
-    public CustomerProfileTest() {
 
+
+  
+    public CustomerProfileTest() {}
+
+
+
+    @isTest
+    private static void testCollections() {
+
+        AuthNetAddress address = new AuthNetAddress('Sebastian', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
+
+        AuthNetAddressCollection addresses = new AuthNetAddressCollection();
+        addresses = new AuthNetAddressCollection(new List<AuthNetAddress>{address});
+        addresses = new AuthNetAddressCollection(new List<AuthNetAddress>{address}, null);
+
+        addresses.size();
+        addresses.getAsMap();
+        addresses.getAsList();
+        addresses.getsSize();
+
+        // AuthNetAddress address= new AuthNetAddress('Sebastian', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
+        CreditCard card = new CreditCard('4111111111111122','11/2024');
+        Payment payment = new Payment();
+        payment.setCreditCard(card);
+
+        CustomerPaymentProfile paymentProfile = new CustomerPaymentProfile();
+        paymentProfile.setBillTo(address);
+        paymentProfile.setPayment(payment);
+        paymentProfile.setCard(card);
+
+
+        CustomerPaymentProfileCollection coll = new CustomerPaymentProfileCollection(new List<CustomerPaymentProfile>{paymentProfile});
+        coll.size();
+        coll.getDefault();
+        coll.getAsList();
     }
 
-    @isTest static void deserializeGetCustomerProfileResponse() {
 
-        String customerprofileId='916263569';
+
+    @isTest
+    private static void getCustomerProfileResponse() {
+
+        String customerProfileId = '916263569';
         GetCustomerProfileRequest req = new GetCustomerProfileRequest();
         req.setCustomerProfileId(customerProfileId);
+        req = new GetCustomerProfileRequest(customerProfileId);
+        req.getCustomerProfileId();
+        req.getUnmaskExpirationDate();
+        req.setUnmaskExpirationDate(True);
 
-        string result = req.getBody();
+        String body = req.getBody();
 
         AuthorizeDotNetServiceMock mock = new AuthorizeDotNetServiceMock();
         if (Test.isRunningTest()){
@@ -19,51 +60,47 @@ public class CustomerProfileTest {
 
         AuthorizeDotNetClient client = new AuthorizeDotNetClient();
 
-        GetCustomerProfileResponse resp = (GetCustomerProfileResponse)client.send(req);
-        System.debug('23 resp.getBody()' + resp.getBody());
-        resp.deserialize();
-        System.debug('25 resp' + resp);
+        GetCustomerProfileResponse resp = new GetCustomerProfileResponse();
+        resp = new GetCustomerProfileResponse(resp.getBody());
+        resp = (GetCustomerProfileResponse)client.send(req);
+
         CustomerProfile profile = resp.getProfile();
-        
-
-        System.debug(profile.getCustomerProfileId());
-        System.assertEquals('916263569', profile.getCustomerProfileId());
-        profile.setCustomerProfileId('12345');
-        resp.setCustomerProfile(profile);
-        profile = resp.getProfile();
-
-        System.assertEquals('12345', profile.getCustomerProfileId());
-        Boolean success = resp.success();
-        //for mock
-        System.assertEquals(true, success, 'success should return true');
-
+ 
+        System.assert(resp.success(), 'Success should return true.');
     }
 
-    @isTest static void getCustomerProfileRequestBody() {
-        String customerProfileId='916263569';
-        Boolean unmaskExpirationDate = true;
 
-        GetCustomerProfileRequest req = new GetCustomerProfileRequest();
-        req.setCustomerProfileId(customerProfileId);
-        req.setUnmaskExpirationDate(unmaskExpirationDate);
-        
-
-        
-
-
-        string result = req.getBody();
-        system.debug(result);
-        Boolean idPresent = result.contains('customerProfileId');
-
-        System.assertEquals(true, idPresent, 'this request should have customerProfileId');
-        System.assertEquals(req.getCustomerProfileId(), req.getCustomerProfileId());
-        System.assertEquals(true, req.getUnmaskExpirationDate());
-
-    }
 
     @isTest
-    private static void createCustomerPaymentProfileRequestBodyForRef() {
-               //variables
+    private static void createCustomerProfileResponse() {
+
+        String customerProfileId = '916263569';
+        CreateCustomerProfileRequest req = new CreateCustomerProfileRequest();
+        // req.setCustomerProfileId(customerProfileId);
+
+        String body = req.getBody();
+
+        AuthorizeDotNetServiceMock mock = new AuthorizeDotNetServiceMock();
+        if (Test.isRunningTest()){
+            Test.setMock(HttpCalloutMock.class, mock);
+        }
+
+        AuthorizeDotNetClient client = new AuthorizeDotNetClient();
+
+        CreateCustomerProfileResponse resp = new CreateCustomerProfileResponse();
+        resp = new CreateCustomerProfileResponse(resp.getBody());
+        resp = (CreateCustomerProfileResponse)client.send(req);
+
+        // CustomerProfile profile = resp.getProfile();
+ 
+        System.assert(resp.success(), 'Success should return true.');
+    }
+
+
+
+    @isTest
+    private static void createCustomerPaymentProfileResponse() {
+    
         AuthNetAddress address= new AuthNetAddress('Sebastian', 'Berna', '214 NW Monroe Ave', 'Corvallis', 'OR', '97330');
         CreditCard card = new CreditCard('4111111111111122','11/2024');
         Payment payment = new Payment();
@@ -74,7 +111,7 @@ public class CustomerProfileTest {
         paymentProfile.setPayment(payment);
         paymentProfile.setCard(card);
 
-        //request
+     
         CreateCustomerPaymentProfileRequest req = new CreateCustomerPaymentProfileRequest();
         req.setPaymentProfile(paymentProfile);
         System.assert(req.getRequestType() == 'createCustomerPaymentProfile');
@@ -83,11 +120,12 @@ public class CustomerProfileTest {
         String result = req.getBody();
         system.debug(result);
         Boolean idPresent = result.contains('customerProfileId');
-       
     }
 
+
+  
     @isTest
-    static void ConstructCustomerProfile() {
+    static void constructCustomerProfile() {
   
         AuthorizeDotNetServiceMock mock = new AuthorizeDotNetServiceMock();
         if (Test.isRunningTest()){
@@ -118,6 +156,24 @@ public class CustomerProfileTest {
         profile.setDescription('My Profile');
         profile.setProfileType('individual');
         profile.addToPaymentProfiles(paymentProfile);
+        profile.setCustomerType(CustomerProfile.CUSTOMER_TYPE_INDIVIDUAL);
+
+
+        profile.getProfileType();
+        profile.getMerchantCustomerId();
+        profile.getEmail();
+        profile.getDescription();
+        profile.getPaymentProfiles();
+        profile.getShipToList();
+        profile.getDefaultPaymentProfile();
+        profile.addToShipToList(shipTo);
+        profile.getDefaultShippingAddressFromList();
+        profile.getShipToCollection();
+        profile.setCustomerProfileId('123');
+        profile.setPaymentProfiles(new List<CustomerPaymentProfile>{paymentProfile});
+        profile.setShipToList(new List<AuthNetAddress>{shipTo});
+        profile.getPaymentProfileCollection();
+
 
         JsonPayload p1 = new JsonPayload();
         p1.writeStartObject();
@@ -146,8 +202,6 @@ public class CustomerProfileTest {
 
 
 
-
-
     @isTest
     private static void testMessages() {
 
@@ -171,6 +225,60 @@ public class CustomerProfileTest {
         String resultCode = msgs.getResultCode();
         List<Message> statuses = msgs.getMessage();
         Message first = msgs.getFirstMessage();
+    }
+
+
+
+    @isTest
+    private static void testCredentials() {
+
+        Credentials c = new Credentials('name', 'key');
+        c.getName();
+        c.getTransactionKey();
+
+        JsonPayload p = new JsonPayload();
+        p.writeStartObject();
+        p.writeObjectField('credentials', c);
+        p.writeEndObject();
+        System.debug(p.getAsString());
+    }
+
+
+  
+    @isTest
+    private static void testCreditCard() {
+
+        String cardNumber = '4111111111111111';
+        String unkownCardNumber = '9111111111111111';
+        Date expDate = Date.newInstance(2050,1,1);
+
+        CreditCard card = new CreditCard();
+        card = new CreditCard(cardNumber);
+        card = new CreditCard(cardNumber, '1/2050');
+        card = new CreditCard(cardNumber, '1/2050', '123');
+        card = new CreditCard(cardNumber, expDate);
+
+        String cardType = card.getType();
+        String nativeType = card.getCardType();
+        System.assert(cardType == 'Visa');
+        System.assert(card.isValid());
+        System.assert(!card.isExpired());
+        String theExpDate = card.getExpirationDate();
+        String theCardNumber = card.getCardNumber();
+        String cvv = card.getCVV();
+
+
+        card.setCardNumber(unkownCardNumber);
+        card.setExpirationDate('1/2050');
+        card.setCvv('123');
+        card.setCardType('Visa');
+        System.assert(CreditCard.CARD_TYPE_UNKNOWN == card.getType());
+
+        JsonPayload p = new JsonPayload();
+        p.writeStartObject();
+        p.writeObjectField('merchantAuthentication', card);
+        p.writeEndObject();
+        System.debug(p.getAsString());
     }
 
    

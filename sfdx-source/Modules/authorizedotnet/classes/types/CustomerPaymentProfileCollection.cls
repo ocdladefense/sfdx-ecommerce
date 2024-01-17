@@ -1,9 +1,13 @@
 public class CustomerPaymentProfileCollection {
 
     private List<CustomerPaymentProfile> paymentProfiles;
+
+
     private Map<String, CustomerPaymentProfile> theMap = new Map<String, CustomerPaymentProfile>(); 
     
     
+    
+
     
     public CustomerPaymentProfileCollection(List<CustomerPaymentProfile> profiles) {
         

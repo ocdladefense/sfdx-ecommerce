@@ -2,7 +2,7 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage implement
 
 
 
-    public Credentials merchantAuthentication = new Credentials('6gSVxaYj397','6FR49pDH5Jjum58g');
+    public Credentials merchantAuthentication = Credentials.newFromCustomSettings();
 
     protected String requestType;
 
@@ -29,6 +29,7 @@ public virtual class AuthorizeDotNetRequest extends HttpRequestMessage implement
      */
     public AuthorizeDotNetRequest(String requestType) {
         super();
+        this.setEndpoint(this.merchantAuthentication.getUrl());
         this.method = null;
         this.headers = null;
         this.requestType = requestType;
