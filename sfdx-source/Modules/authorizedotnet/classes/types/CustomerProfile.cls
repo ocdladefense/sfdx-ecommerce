@@ -202,10 +202,12 @@ public class CustomerProfile extends AuthorizeDotNetType {
 
         AuthNetAddress theDefaultAddress = this.getDefaultShippingAddressFromList();
 
-        for(AuthNetAddress address : this.shipToList) {
-            if(address.getCustomerAddressId() == theDefaultAddress.getCustomerAddressId())
-            {
-                address.setDefaultShippingAddress(true);
+        if(null != theDefaultAddress) {
+            for(AuthNetAddress address : this.shipToList) {
+                if(address.getCustomerAddressId() == theDefaultAddress.getCustomerAddressId())
+                {
+                    address.setDefaultShippingAddress(true);
+                }
             }
         }
 

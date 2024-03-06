@@ -126,7 +126,7 @@ public class CustomerProfileTest {
   
     @isTest
     static void constructCustomerProfile() {
-  
+    
         AuthorizeDotNetServiceMock mock = new AuthorizeDotNetServiceMock();
         if (Test.isRunningTest()){
             Test.setMock(HttpCalloutMock.class, mock);
